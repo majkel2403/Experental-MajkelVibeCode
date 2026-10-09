@@ -10,6 +10,8 @@ Centralne repozytorium **niezależnych eksperymentów i prototypów**. Każdy pr
 
 | [jev](./jev/) | JEV Desk — interaktywny demonstracyjny panel tradingowy | Otwórz [gotowy HTML](./jev/dist/jev.html) lub uruchom `node jev/build.mjs` |
 
+| [agentspace](./agentspace/) | Hermes/Jarvis Neural Workflow — interaktywna wizualizacja pracy agentów | [README](./agentspace/README.md) |
+
 ## Zasady dodawania nowych projektów
 
 1. **Osobny podfolder** dla każdego projektu, np. `nazwa-projektu/`.
@@ -32,6 +34,11 @@ Experental-MajkelVibeCode/
 │   ├── build.mjs
 │   ├── src/
 │   └── dist/
+├── agentspace/
+│   ├── README.md
+│   ├── packages/
+│   ├── server/
+│   └── web/
 ├── kolejny-projekt/
 │   ├── README.md
 │   └── ...
