@@ -19,6 +19,8 @@ Centralne repozytorium **niezależnych eksperymentów i prototypów**. Każdy pr
 
 **O migawkach Jarvisa:** foldery wyżej są pełnymi, niezmienionymi kopiami wskazanych gałęzi. Zawierają także pliki wspólne z dawnym `Jarvis-/main` — to świadomy wybór zapewniający zachowanie wszystkich oryginalnych plików, a nie wyodrębnienie minimalnego modułu. Każda migawka jest odrębna od sąsiednich folderów.
 
+| [jarvis-cinematic-engine](./jarvis-cinematic-engine/) | Pełna migawka `experiment/cinematic-engine` — szkic aplikacji Cinematic Engine | [Plan](./jarvis-cinematic-engine/docs/superpowers/plans/2026-10-08-cinematic-engine.md) |
+
 ## Zasady dodawania nowych projektów
 
 1. **Osobny podfolder** dla każdego projektu, np. `nazwa-projektu/`.
@@ -52,6 +54,7 @@ Experental-MajkelVibeCode/
 ├── jarvis-cinematic-engine-spec/   # Dokumentacja Cinematic Engine
 ├── jarvis-graph-3d/                # Graf 3D
 ├── quantum-tree-ai-standalone/     # Wersja źródłowa Quantum Tree
+├── jarvis-cinematic-engine/        # Migawka gałęzi Cinematic Engine
 ├── kolejny-projekt/
 │   ├── README.md
 │   └── ...
