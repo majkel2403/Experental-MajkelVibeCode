@@ -7,9 +7,7 @@ Centralne repozytorium **niezależnych eksperymentów i prototypów**. Każdy pr
 | Projekt | Opis | Uruchamianie |
 |---|---|---|
 | [quantum-tree-ai](./quantum-tree-ai/) | Interaktywna wizualizacja drzewa decyzji 3D | Otwórz [index.html](./quantum-tree-ai/index.html) w przeglądarce |
-
 | [jev](./jev/) | JEV Desk — interaktywny demonstracyjny panel tradingowy | Otwórz [gotowy HTML](./jev/dist/jev.html) lub uruchom `node jev/build.mjs` |
-
 | [agentspace](./agentspace/) | Hermes/Jarvis Neural Workflow — interaktywna wizualizacja pracy agentów | [README](./agentspace/README.md) |
 
 ## Zasady dodawania nowych projektów
