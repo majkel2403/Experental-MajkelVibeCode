@@ -1,0 +1,32 @@
+name: Jarvis Graph 3D validation
+
+on:
+  push:
+    branches:
+      - feat/jarvis-graph-3d
+    paths:
+      - 'graph-3d/**'
+      - '.github/workflows/graph-3d-validation.yml'
+  workflow_dispatch:
+
+jobs:
+  graph-3d:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: graph-3d
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@v4
+      - name: Configure Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install isolated app dependencies
+        run: npm install --no-audit --no-fund
+      - name: Unit tests
+        run: npm test
+      - name: TypeScript
+        run: npm run typecheck
+      - name: Production build
+        run: npm run build

@@ -1,0 +1,7 @@
+{
+ "_opis": "Allow-lista statycznych zasad CSS (tests/unit/css-lint.test.js, tools/css-lint.js lintStatic). Zapadka jak css-anim-allowlist.json: nowe wystąpienie pada, wpis już nieistniejący też (lista tylko maleje). Dodatkowo polityka w teście: backdrop-filter tylko .topbar/.dock, filter:drop-shadow tylko elementy ekranu startowego (.boot-frame, .reactor), will-change zabronione w statycznym CSS (JS ustawia je na czas gestu).",
+ "entries": [
+  {"file":"css/jarvis.css","kind":"backdrop-filter","where":".topbar","count":1,"reason":"pasek górny: rozmycie tła pod statycznym paskiem; nad nim nie ma animowanego tła w osobnej warstwie (plan §4.3, wyjątek)"},
+  {"file":"css/jarvis.css","kind":"backdrop-filter","where":".dock","count":1,"reason":"dok: rozmycie tła pod statycznym dokiem; wyjątek planu §4.3, własna warstwa i tak istnieje (transform centrujący)"}
+ ]
+}

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#050817">
+  <meta name="description" content="Quantum Tree AI — interaktywna wizualizacja 3D przepływu decyzji i symulowanych wyników.">
+  <title>Quantum Tree AI — Neural Flow Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main id="scene" aria-label="Interaktywny trójwymiarowy graf decyzji">
+    <div id="canvas-container"></div>
+    <div class="ambient ambient-a" aria-hidden="true"></div>
+    <div class="ambient ambient-b" aria-hidden="true"></div>
+    <div class="corner-mark top-left" aria-hidden="true">NEURAL FLOW <span>// 001</span></div>
+    <div class="corner-mark bottom-right" aria-hidden="true">QUANTUM TREE LAB <span>v1.0</span></div>
+    <div class="scene-status"><span class="live-dot" id="live-dot"></span><span id="scene-status">GOTOWY DO SYMULACJI</span></div>
+    <div class="hint" id="scene-hint">Przeciągnij, aby obrócić · Przewiń, aby przybliżyć</div>
+    <div class="tooltip" id="node-tooltip" role="status" aria-live="polite" hidden></div>
+  </main>
+
+  <section class="perf" aria-label="Wydajność grafiki">
+    <div><span>FPS</span><strong id="fps-counter">—</strong></div>
+    <div><span>NODES</span><strong id="node-count">63</strong></div>
+    <div><span>DRAW</span><strong id="draw-calls">—</strong></div>
+  </section>
+
+  <aside class="panel" id="main-panel" aria-label="Sterowanie Quantum Tree">
+    <button class="sheet-toggle" id="sheet-toggle" type="button" aria-expanded="false" aria-controls="panel-content" aria-label="Rozwiń panel sterowania"><span class="handle"></span></button>
+    <div class="panel-inner" id="panel-content">
+      <div class="brand-row">
+        <div><p class="eyebrow">SYSTEM / AI VISUALIZATION</p><h1>QUANTUM<span> TREE</span></h1><p class="tagline">NEURAL DECISION NETWORK <span class="version">/ BETA</span></p></div>
+        <div class="brand-icon" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+      <div class="mode-notice"><span class="warning-dot"></span><span>TRYB DEMONSTRACYJNY — WYNIKI SĄ LOSOWĄ SYMULACJĄ, NIE TRANSAKCJAMI</span></div>
+
+      <div class="quick-stats">
+        <div><small>SIM P&amp;L</small><strong id="header-pnl" class="profit">+$0.00</strong></div>
+        <div><small>WIN RATE</small><strong id="header-winrate" class="yellow">0%</strong></div>
+        <div><small>IN FLIGHT</small><strong id="header-packets" class="pink">0</strong></div>
+      </div>
+
+      <p class="section-label">01 / TRYB SIECI</p>
+      <div class="mode-grid" role="group" aria-label="Wybierz tryb">
+        <button class="mode-btn active" id="btn-explore" data-phase="explore" type="button" aria-pressed="true"><span>◈</span> EXPLORE</button>
+        <button class="mode-btn purple" id="btn-learn" data-phase="learn" type="button" aria-pressed="false"><span>✧</span> LEARN</button>
+        <button class="mode-btn green" id="btn-trade" data-phase="trade" type="button" aria-pressed="false"><span>⌁</span> TRADE</button>
+      </div>
+      <p class="phase-caption" id="phase-description">Eksploruj losowe ścieżki przez sieć.</p>
+
+      <p class="section-label">02 / STEROWANIE</p>
+      <div class="action-grid">
+        <button type="button" class="action-btn start" id="btn-play">▶ START</button>
+        <button type="button" class="action-btn" id="btn-pause" disabled>Ⅱ PAUZA</button>
+        <button type="button" class="action-btn reset" id="btn-reset" aria-label="Wyczyść statystyki i pakiety">↺ RESET</button>
+      </div>
+
+      <div class="control-row"><label for="speed-slider">PRĘDKOŚĆ PRZEPŁYWU</label><output id="speed-val" for="speed-slider">1.0×</output></div>
+      <input type="range" id="speed-slider" min="0.1" max="5" step="0.1" value="1">
+      <div class="scale-markers"><span>0.1×</span><span>5.0×</span></div>
+
+      <div class="control-row"><label for="complexity-slider">ZŁOŻONOŚĆ SIECI</label><output id="complexity-val" for="complexity-slider">6 WARSTW</output></div>
+      <input type="range" id="complexity-slider" min="3" max="7" step="1" value="6">
+      <div class="scale-markers"><span>3 WARSTWY</span><span>7 WARSTW</span></div>
+
+      <div class="layer-heading"><p class="section-label">03 / ARCHITEKTURA</p><span id="total-connections">62 LINKS</span></div>
+      <div class="layers" id="layers-viz" aria-label="Liczba węzłów w poszczególnych warstwach"></div>
+
+      <div class="details-grid">
+        <div><small>PRZEPUSTOWOŚĆ</small><strong id="stat-throughput">0 /s</strong></div>
+        <div><small>SKUTECZNOŚĆ</small><strong id="stat-efficiency">0%</strong></div>
+      </div>
+      <div class="footer"><span>● WEBGL / THREE.JS</span><button id="btn-camera" type="button">↗ RESET WIDOKU</button></div>
+    </div>
+  </aside>
+
+  <div id="webgl-error" class="webgl-error" role="alert" hidden>Nie udało się uruchomić grafiki WebGL. Sprawdź, czy przeglądarka obsługuje WebGL oraz czy masz dostęp do CDN Three.js.</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/Pass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+  <script src="./app.js" defer></script>
+</body>
+</html>

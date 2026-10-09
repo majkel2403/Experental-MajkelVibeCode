@@ -1,0 +1,6 @@
+name: obsidian-brain
+version: 1.0.0
+description: "Drugi mózg Michała (sejf Obsidian Documents\\hermes) na start każdej rozmowy: gdy rozmowa nie ma jeszcze wstawki, dokleja do wiadomości CRITICAL_FACTS.md, hot.md, ostatnie wpisy log.md i listę notatek w skrzynce ForAI (skrócone, < 10 000 znaków). Crony i subagenci są pomijani. Tylko odczyt sejfu."
+author: Jarvis OS (repo Desktop\jarvis-\hermes\plugins\obsidian-brain)
+provides_hooks:
+  - pre_llm_call

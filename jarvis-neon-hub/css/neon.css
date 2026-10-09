@@ -1,0 +1,257 @@
+/* =========================================================
+   JARVIS OS — język neonu (Faza 4 planu „Neon Holo-Glass”)
+   Ładowany po jarvis.css. Zasady (plan §4): statyczny, wielowarstwowy glow (≤ 3 warstwy box-shadow/text-shadow), obrysy 1 px,
+   narożniki-nawiasy jak w kartach HUD; rusza się wyłącznie transform/opacity (bez box-shadow/filter/background-position w animacjach,
+   bez will-change, bez backdrop-filter i filter). Zdobienia obowiązują przy tapecie neon (#app[data-wall=neon]); funkcje informacyjne
+   (toasty wg rodzaju, zgoda, ikony) działają przy każdej tapecie — klasyczny wygląd (photo + jarvis) zostaje bez zdobień.
+   Kolor stanu agenta: --glow-state (js/fx-director.js); poziomy off/tool (.lowfx) i prezentacja = statyczny neon bez ruchu.
+   ========================================================= */
+
+/* ---------- cyfry LED: DSEG7 Classic (SIL OFL 1.1, assets/fonts/DSEG-LICENSE.txt; © 2020 keshikan); podzbiór: spacja - . 0-9 : (pyftsubset, ~0,9 KB) ---------- */
+@font-face{font-family:'DSEG7';font-style:normal;font-weight:400;font-display:swap;src:url(../assets/fonts/dseg7-classic.woff2) format('woff2');unicode-range:U+0020,U+002D-002E,U+0030-003A}
+
+/* ---------- tokeny (na #app: var(--glow-state) rozwiązuje się tam, gdzie ustawia go fx-director) ---------- */
+#app{
+  --neon-text:0 0 3px rgba(var(--accent-rgb),.9),0 0 10px rgba(var(--accent-rgb),.55),0 0 24px rgba(var(--accent-rgb),.25);
+  --neon-box:0 0 0 1px rgba(var(--accent-rgb),.5),0 0 12px rgba(var(--accent-rgb),.34),0 0 26px rgba(var(--accent-rgb),.16);
+  --neon-state:0 0 0 1px rgba(var(--glow-state),.6),0 0 12px rgba(var(--glow-state),.4),0 0 28px rgba(var(--glow-state),.18);
+  --neon-line:rgba(var(--glow-state),.9);
+  --neon-led:rgba(var(--glow-state),1);
+  --br:var(--accent-rgb);
+  /* narożniki-nawiasy 12 px (jak w kartach HUD) jako warstwy tła: zero dodatkowych elementów; kolor z --br */
+  --neon-brk:linear-gradient(rgba(var(--br),.85),rgba(var(--br),.85)) left 5px top 5px/12px 1.5px no-repeat,linear-gradient(rgba(var(--br),.85),rgba(var(--br),.85)) left 5px top 5px/1.5px 12px no-repeat,linear-gradient(rgba(var(--br),.85),rgba(var(--br),.85)) right 5px top 5px/12px 1.5px no-repeat,linear-gradient(rgba(var(--br),.85),rgba(var(--br),.85)) right 5px top 5px/1.5px 12px no-repeat,linear-gradient(rgba(var(--br),.85),rgba(var(--br),.85)) left 5px bottom 5px/12px 1.5px no-repeat,linear-gradient(rgba(var(--br),.85),rgba(var(--br),.85)) left 5px bottom 5px/1.5px 12px no-repeat,linear-gradient(rgba(var(--br),.85),rgba(var(--br),.85)) right 5px bottom 5px/12px 1.5px no-repeat,linear-gradient(rgba(var(--br),.85),rgba(var(--br),.85)) right 5px bottom 5px/1.5px 12px no-repeat;
+}
+
+/* ---------- tytuły i etykiety: świecący tekst ---------- */
+#app[data-wall=neon] :is(.win-head b,.lp-head b,.dk-title,.brand .name,.core-label,.task-banner b,.pgroup,.dk-mode){text-shadow:var(--neon-text)}
+#app[data-wall=neon] .hc-t b{text-shadow:0 0 8px rgba(var(--tone),.55)}
+
+/* ---------- pasek górny: krawędź LED w kolorze stanu ---------- */
+#app[data-wall=neon] .topbar:after{background:linear-gradient(90deg,transparent,rgba(var(--glow-state),.95) 50%,transparent);box-shadow:0 0 10px rgba(var(--glow-state),.8),0 0 26px rgba(var(--glow-state),.3)}
+#app[data-wall=neon] .mh-seg.on{box-shadow:var(--neon-box);text-shadow:0 0 8px rgba(var(--accent-rgb),.9)}
+#app[data-wall=neon] .top-btn.on,#app[data-wall=neon] .top-btn:hover{box-shadow:var(--neon-box)}
+#app[data-wall=neon] .ts.busy em{text-shadow:var(--neon-text)}
+
+/* ---------- okna: aktywne = krawędź LED w kolorze stanu, nieaktywne stonowane ---------- */
+#app[data-wall=neon] .window{--br:var(--accent-rgb);border-color:rgba(var(--accent-rgb),.2);background:var(--neon-brk),linear-gradient(170deg,rgba(9,18,46,.965),rgba(4,9,26,.98))}
+#app[data-wall=neon] .window:not(.focused) .win-head b{color:#b4c8e2;text-shadow:none}   /* nieaktywne okno stonowane kolorem, nie opacity (bez nowej warstwy) */
+#app[data-wall=neon] .window.focused{--br:var(--glow-state);border-color:rgba(var(--glow-state),.78);box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 24px rgba(var(--glow-state),.26),inset 0 0 0 1px rgba(var(--glow-state),.18)}
+#app[data-wall=neon] .window.focused:after{background:linear-gradient(90deg,transparent,rgba(var(--glow-state),1),transparent);box-shadow:0 0 12px rgba(var(--glow-state),.9),0 0 30px rgba(var(--glow-state),.35)}
+#app[data-wall=neon] .window.focused .win-head{border-bottom-color:rgba(var(--glow-state),.3)}
+#app[data-wall=neon] .window.pinned{box-shadow:0 0 0 1px rgba(var(--accent-rgb),.55),0 18px 50px rgba(0,0,0,.55),0 0 20px rgba(var(--accent-rgb),.2)}
+
+/* ---------- dok i ikony: obrys 1 px + poświata kafli ---------- */
+#app[data-wall=neon] .dock{border-color:rgba(var(--glow-state),.5);box-shadow:0 18px 50px rgba(0,0,0,.5),0 0 30px rgba(var(--glow-state),.2),inset 0 1px 0 rgba(255,255,255,.08)}
+#app[data-wall=neon] .dock:after{background:linear-gradient(90deg,transparent,rgba(var(--glow-state),1),transparent);box-shadow:0 0 12px rgba(var(--glow-state),.85),0 0 28px rgba(var(--glow-state),.3)}
+#app[data-wall=neon] :is(.dock button .tile,.desktop-icon .tile){box-shadow:inset 0 0 0 1px rgba(255,255,255,.24),0 0 10px rgba(var(--accent-rgb),.4),0 4px 10px rgba(0,0,0,.42)}
+#app[data-wall=neon] :is(.dock button:hover .tile,.desktop-icon:hover .tile){box-shadow:inset 0 0 0 1px rgba(255,255,255,.34),0 0 16px rgba(var(--accent-rgb),.75),0 0 30px rgba(var(--accent-rgb),.3)}
+#app[data-wall=neon] .dock button.running:after{box-shadow:0 0 6px var(--accent),0 0 14px rgba(var(--accent-rgb),.6)}
+#app[data-wall=neon] .dock button.plain:hover{box-shadow:var(--neon-box)}
+
+/* ---------- pasek zadania, chipy, telemetria, panele ---------- */
+#app[data-wall=neon] .task-banner{border-color:rgba(var(--glow-state),.6);box-shadow:0 10px 30px rgba(0,0,0,.4),0 0 18px rgba(var(--glow-state),.3),inset 0 0 0 1px rgba(var(--glow-state),.1)}
+#app[data-wall=neon] :is(.chat-panel,.log-panel){background:var(--neon-brk),linear-gradient(180deg,rgba(10,18,52,.965),rgba(5,10,32,.985));border-color:rgba(var(--glow-state),.5)}
+#app[data-wall=neon] .notif-panel{background:var(--neon-brk),linear-gradient(180deg,rgba(10,18,52,.92),rgba(5,10,32,.96));border-color:rgba(var(--glow-state),.5)}
+#app[data-wall=neon] :is(.chat-panel,.log-panel):before{background:linear-gradient(90deg,transparent,rgba(var(--glow-state),.95),transparent);box-shadow:0 0 10px rgba(var(--glow-state),.8)}
+#app[data-wall=neon] .palette{background:var(--neon-brk),linear-gradient(170deg,rgba(8,16,40,.97),rgba(4,9,24,.98));border-color:rgba(var(--accent-rgb),.6);box-shadow:0 30px 90px rgba(0,0,0,.65),0 0 36px rgba(var(--accent-rgb),.28),inset 0 0 0 1px rgba(var(--accent-rgb),.1)}
+#app[data-wall=neon] .pitem.sel{background:rgba(var(--accent-rgb),.14);box-shadow:inset 2px 0 0 var(--accent),inset 0 0 18px rgba(var(--accent-rgb),.1)}
+#app[data-wall=neon] .pitem .pi{box-shadow:0 0 8px rgba(var(--accent-rgb),.25)}
+#app[data-wall=neon] .btn.primary{color:#03101c;font-weight:600;text-shadow:none;box-shadow:0 0 14px rgba(var(--accent-rgb),.5),0 0 28px rgba(var(--accent2-rgb),.2)}   /* ciemny tekst: biały na jasnym cyjanie miał < 2:1 */
+#app[data-wall=neon] .btn:hover{box-shadow:0 0 14px rgba(var(--accent-rgb),.35),0 0 26px rgba(var(--accent-rgb),.14)}
+#app[data-wall=neon] .input:focus{box-shadow:0 0 0 1px rgba(var(--accent-rgb),.6),0 0 14px rgba(var(--accent-rgb),.25)}
+#app[data-wall=neon] .set-hit{outline-color:rgba(var(--accent-rgb),.9);box-shadow:0 0 14px rgba(var(--accent-rgb),.4)}
+
+/* ---------- pasek LED pod dokiem: segmenty = realne narzędzia zadania (js/fx-director.js ledSync); tylko opacity/transform ---------- */
+.dock-led{display:none}
+#app[data-wall=neon] .dock-led{position:absolute;z-index:37;left:50%;bottom:5px;transform:translateX(-50%);display:flex;gap:4px;pointer-events:none}
+#app[data-wall=neon] .dock-led i{width:22px;height:3px;border-radius:2px;background:rgb(var(--glow-state));opacity:.13}
+#app[data-wall=neon] .dock-led i[data-s]{opacity:.95;box-shadow:0 0 6px rgba(var(--glow-state),.9),0 0 14px rgba(var(--glow-state),.4)}
+#app[data-wall=neon] .dock-led i[data-s=f]{background:var(--err);box-shadow:0 0 6px rgba(var(--err-rgb),.9),0 0 14px rgba(var(--err-rgb),.4)}
+#app[data-wall=neon] .dock-led i[data-s=r]{animation:ledRun 1s ease-in-out infinite}
+@keyframes ledRun{50%{opacity:.35}}
+#app.present .dock-led,#app.focus .dock-led{display:none}
+@media (max-width:900px){#app[data-wall=neon] .dock-led{display:none}}
+@media (forced-colors:active),(prefers-contrast:more){.dock-led{display:none!important}}
+
+/* ---------- obramowania energii: obracany conic-gradient z maską 2 px (transform:rotate, bez @property) ----------
+   Na jednej aktywnej karcie HUD (.lead, js/hud.js markLead) i fokusowanym oknie; poziom standard+ (bez .lowfx), nie w prezentacji/skupieniu. Brak will-change: nieskończona animacja
+   transform sama dostaje warstwę kompozytora, a bez animacji (display:none) nie ma żadnej. Jasność z --activity (opacity, ≤10 Hz), prędkość z trybu. */
+.hc-en,.win-en{display:none;position:absolute;pointer-events:none;overflow:hidden;border-radius:inherit;padding:2px;container-type:size;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.hc-en{inset:-1px;--ec:var(--tone)}
+.win-en{inset:0;--ec:var(--glow-state)}
+.hc-en:before,.win-en:before{content:"";position:absolute;left:50%;top:50%;width:145cqmax;height:145cqmax;transform:translate(-50%,-50%);background:conic-gradient(transparent 0 58%,rgba(var(--ec),.15) 62%,rgba(var(--ec),.85) 90%,#fff 94%,rgba(var(--ec),.9) 95%,transparent 96%);opacity:calc(.55 + var(--activity) * .45);animation:enSpin var(--en-t,7s) linear infinite}
+#app{--en-t:7s}#app[data-mode=THINKING]{--en-t:5s}#app[data-mode=EXECUTING]{--en-t:3.2s}
+@keyframes enSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+#app[data-wall=neon]:not(.lowfx):not(.present):not(.focus) :is(.hud.show .hc.lead[data-s=active] .hc-en,.window.focused .win-en){display:block}
+/* gest przeciągania/zmiany rozmiaru okna (js/core.js ustawia #app.wdrag): dekoracje animowane w nieskończoność stoją, żeby kompozytor nie robił klatek dla niczego poza oknem;
+   kropki dwukropka zostają widoczne (animation:none), reszta tylko wstrzymana */
+#app.wdrag :is(#tsClock,#clockBig) .c{animation:none!important}
+#app.wdrag :is(.hc-en,.win-en):before,#app.wdrag :is(.dock-led i,.ac-rim,.ac-haz b,.cr,.brand-orb:after,.mh-seg.on:before,.live,.dotr),#app.wdrag .dock[data-task] button[data-app=schedule]:before{animation-play-state:paused!important}
+@media (forced-colors:active),(prefers-contrast:more){.hc-en,.win-en{display:none!important}}
+@media (max-width:900px){.hc:not([data-s=ask]) .hc-en,.win-en{display:none!important}}.window.max .win-en{display:none!important}   /* telefon/tablet i okno zmaksymalizowane: obracana warstwa 145cqmax (940 px) kosztuje 2 warstwy pełnoekranowe + ok. 20 % CPU */
+
+/* ---------- dymki i centrum powiadomień: krawędź LED i ikona wg rodzaju (J.toast(…, kind) / J.notice({kind})); jedna paleta dla .toast i .nt ---------- */
+.toast,.nt{--kc:var(--accent-rgb)}
+:is(.toast,.nt)[data-k=task]{--kc:var(--warn-rgb)}
+:is(.toast,.nt)[data-k=timer]{--kc:var(--accent2-rgb)}
+:is(.toast,.nt)[data-k=market]{--kc:var(--ok-rgb)}
+:is(.toast,.nt):is([data-k=hermes],[data-k=network],[data-k=error]){--kc:var(--err-rgb)}
+.toast{border-color:rgba(var(--kc),.5);box-shadow:inset 3px 0 0 rgb(var(--kc)),0 12px 35px rgba(0,0,0,.45),0 0 22px rgba(var(--kc),.2)}
+.toast i{background:rgb(var(--kc));box-shadow:0 0 8px rgb(var(--kc))}
+.toast i.ti{width:16px;height:16px;display:grid;place-items:center;background:none;box-shadow:none;color:rgb(var(--kc))}
+.toast i.ti svg{width:16px;height:16px}
+.nt[data-k] i{background:rgb(var(--kc));box-shadow:0 0 6px rgba(var(--kc),.85)}
+.nt[data-k].unread{box-shadow:inset 2px 0 0 rgb(var(--kc))}
+
+/* ---------- dioda zadania w doku (bursztyn): task.due / task.overdue → #dock[data-task] (js/fx-director.js); animuje się tylko opacity pseudo-elementu ---------- */
+.dock button[data-app=schedule]:before{content:"";position:absolute;top:3px;right:12px;width:9px;height:9px;border-radius:50%;background:var(--warn);border:1.5px solid rgba(6,12,36,.9);box-shadow:0 0 8px rgba(var(--warn-rgb),.9);opacity:0;pointer-events:none;z-index:1}
+.dock[data-task] button[data-app=schedule]:before{opacity:1}
+.dock[data-task=overdue] button[data-app=schedule]:before{animation:ledRun 1s ease-in-out infinite}
+.dock[data-task=due] button[data-app=schedule]:before{animation:ledRun 1.8s ease-in-out infinite}
+#app.present .dock[data-task] button[data-app=schedule]:before{opacity:0;animation:none}   /* prezentacja: bez diody zadania (spec 09 §7) */
+
+/* ---------- alert kursu: neonowy puls karty monety (market-alert), obok flash-up/flash-down ceny; opacity pseudo-elementu ---------- */
+.coin:after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;box-shadow:inset 0 0 0 1.5px rgb(var(--ok-rgb)),inset 0 0 22px rgba(var(--ok-rgb),.4)}
+.coin[data-alert=down]:after{box-shadow:inset 0 0 0 1.5px rgb(var(--err-rgb)),inset 0 0 22px rgba(var(--err-rgb),.4)}
+.coin.alert:after{animation:coinAlert .8s ease-in-out 2}
+@keyframes coinAlert{0%,100%{opacity:0}35%{opacity:1}}
+
+/* ---------- ikony SVG zamiast symboli z czcionek systemowych (currentColor; rozmiary tu, kolor dziedziczony) ---------- */
+.task-stop svg{width:11px;height:11px;vertical-align:-1.5px}
+.pc-chev svg{width:14px;height:14px;display:block}
+.lp-glyph svg,.lp-btn svg{width:15px;height:15px;display:block}
+.hc-r svg{width:13px;height:13px;vertical-align:-2px}
+.wxi{width:1em;height:1em;stroke-width:1.6;color:#bfeaff;flex:none}
+.weather-ico{display:grid;place-items:center;width:30px;height:30px;font-size:30px;text-shadow:none}
+#app[data-wall=neon] .weather-ico{color:var(--accent)}#app[data-wall=neon] .weather-ico .wxi{color:var(--accent)}
+.wx-big{font-size:54px}.wx-big .wxi{width:54px;height:54px;color:var(--accent)}
+.wx-day .i{display:grid;place-items:center;font-size:22px}.wx-day .i .wxi{width:24px;height:24px;color:var(--accent)}
+.wx-hours i{display:grid;place-items:center;font-style:normal;font-size:18px}.wx-hours i .wxi{width:20px;height:20px;color:var(--accent)}
+
+/* ---------- cyfry LED: zegar, liczniki TOOLS/FPS, telemetria, minutnik/stoper (J.led w js/core.js) ----------
+   „ghost segments”: pod cyframi nieaktywne segmenty (8) w bardzo niskim α (data-g); dwukropek zegara miga co sekundę tylko w standard+ (opacity). */
+#app[data-wall=neon] .led{position:relative;display:inline-block;font-family:'DSEG7',var(--mono);font-weight:400;font-style:normal;letter-spacing:.07em;color:rgb(var(--accent-rgb));text-shadow:0 0 6px rgba(var(--accent-rgb),.75),0 0 16px rgba(var(--accent-rgb),.3)}
+#app[data-wall=neon] .led[data-g]:before{content:attr(data-g);content:attr(data-g) / "";position:absolute;left:0;top:0;color:rgb(var(--accent-rgb));opacity:.09;text-shadow:none;pointer-events:none}
+#app[data-wall=neon] .ts.clock em.led{font-size:13px;color:#e8fbff;text-shadow:0 0 6px rgba(var(--accent-rgb),.9),0 0 16px rgba(var(--accent-rgb),.4)}
+#app[data-wall=neon] .ts em.led{font-size:12px;max-width:none}
+#app[data-wall=neon] #clockBig.led{font-size:19px;letter-spacing:.09em}
+#app[data-wall=neon] .dk b.led{font-size:12.5px;color:rgb(var(--accent-rgb))}
+#app[data-wall=neon] .timer-disp.led{font-size:44px;letter-spacing:.06em}
+#app[data-wall=neon] .timer-ring .timer-disp.led{font-size:28px}
+#app:not(.lowfx) :is(#tsClock,#clockBig) .c{animation:ledBlink 1s steps(1,end) infinite}
+@keyframes ledBlink{50%{opacity:.12}}
+@media (forced-colors:active){#app .led:before{display:none}}
+
+/* ---------- układ: karty HUD pod otwartym panelem czatu/logu zwijają się do ikony (js/hud.js fitCard → .mini); treść zostaje dostępna dla czytników ---------- */
+.hc.mini{grid-template-columns:34px;padding:10px 10px 10px}
+.hc.mini .hc-t{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.hc.mini :is(.hc-r,.hc-bar,.hc-wave){display:none}
+/* dymki: lewy górny obszar między paskiem a kartami (wolne miejsce; środek zajmuje karta „Model AI”, prawy róg Process Log) */
+.toasts{top:104px;left:128px;transform:none;align-items:flex-start;max-width:max(220px,calc(50% - 250px))}
+.toast{max-width:100%}
+@media (max-height:820px){.toasts{left:196px;max-width:max(220px,calc(50% - 330px))}}   /* niski ekran: pasek ikon zawija się do drugiej kolumny (do ~180 px), a karta „Model AI” jest bliżej */
+@media (max-width:900px){.toasts{left:50%;transform:translateX(-50%);align-items:center;max-width:calc(100% - 24px)}}
+@media (max-width:640px){.toasts{top:auto;bottom:150px}}
+
+/* ---------- APPROVAL: jedyny stan wymagający uwagi — oddychający bursztyn na rimie ekranu, karcie „Zakończenie” (ask) i chipie pytania; tylko opacity ---------- */
+@keyframes askRim{50%{opacity:.45}}
+@keyframes askRing{50%{opacity:.4}}
+#app[data-mode=APPROVAL_REQUIRED]:not(.lowfx) .vignette:before{animation:askRim 2.2s ease-in-out infinite}
+.hud.show .hc[data-s=ask]{box-shadow:0 8px 26px rgba(0,0,0,.42),0 0 26px rgba(var(--warn-rgb),.4),inset 0 0 22px rgba(var(--warn-rgb),.14)}
+.hc[data-s=ask] .hc-en{display:block;--ec:var(--warn-rgb)}
+.hc[data-s=ask] .hc-en:before{left:0;top:0;width:100%;height:100%;transform:none;background:rgb(var(--ec));opacity:.95;animation:askRing 2.2s ease-in-out infinite}
+.ask-chip.show{box-shadow:0 16px 44px rgba(0,0,0,.5),0 0 38px rgba(var(--warn-rgb),.38),inset 0 0 0 1px rgba(var(--warn-rgb),.45)}
+
+/* ---------- Faza 5A: efekty kinowe z realnych zdarzeń (js/fx-director.js; klasy na #app żyją < 1 s, tylko transform/opacity) ---------- */
+/* aberracja chromatyczna poza tapetą GL (na GL robi to shader): drgnięcie Orba i marki paska, 200 ms */
+@keyframes fxCa{0%{transform:translateX(0)}25%{transform:translateX(-4px)}55%{transform:translateX(3px)}100%{transform:translateX(0)}}
+#app.fx-ca:not(.gl-on) #orbCanvas,#app.fx-ca:not(.gl-on) .topbar .brand{animation:fxCa .2s steps(4,end) both}
+/* skan sukcesu: zielona linia przecina ekran ~600 ms (#app:before istnieje tylko na czas klasy); błysk linii topbara (.topbar:before) 700 ms */
+@keyframes fxScan{from{transform:translateY(0);opacity:1}to{transform:translateY(100vh);opacity:.25}}
+#app.fx-scan:before{content:"";position:absolute;left:0;right:0;top:0;height:3px;z-index:var(--z-menu);pointer-events:none;background:linear-gradient(90deg,transparent,rgba(var(--ok-rgb),.95) 50%,transparent);box-shadow:0 0 14px rgba(var(--ok-rgb),.8);animation:fxScan .6s cubic-bezier(.4,0,.6,1) both}
+@keyframes fxTb{from{opacity:1;transform:scaleX(.15)}55%{opacity:1;transform:scaleX(1)}to{opacity:0;transform:scaleX(1)}}
+#app.fx-tb .topbar:before{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;pointer-events:none;background:linear-gradient(90deg,transparent,rgb(var(--ok-rgb)) 50%,transparent);box-shadow:0 0 12px rgba(var(--ok-rgb),.9);animation:fxTb .7s ease-out both}
+@media (forced-colors:active),(prefers-contrast:more){#app:before,.topbar:before{display:none!important}}
+
+/* prośba o zgodę: pasy ostrzegawcze na górnej i dolnej krawędzi chipa (statyczne; w cinema przesuwane transformem), oddychający rim, pierścień odliczania do realnego limitu (timeout_ms) */
+.ac-haz{position:absolute;left:16px;right:16px;height:4px;overflow:hidden;border-radius:2px;pointer-events:none;opacity:.9}   /* chip ma overflow:hidden — pasy i pierścień leżą wewnątrz krawędzi */
+.ac-haz.t{top:0}.ac-haz.b{bottom:0}
+.ac-haz b{position:absolute;left:0;top:0;height:100%;width:calc(100% + 34px);background:repeating-linear-gradient(135deg,#ffb020 0 6px,#1a1200 6px 12px)}
+@keyframes acHaz{to{transform:translateX(-16.97px)}}
+#app[data-fx=cinema] .ac-haz b{animation:acHaz 1s linear infinite}
+.ac-rim{position:absolute;inset:-1px;border:1px solid rgba(var(--warn-rgb),.9);border-radius:inherit;pointer-events:none;opacity:.5}
+#app:not(.lowfx) .ac-rim{animation:askBreath 2.2s ease-in-out infinite}
+.ac-ring{position:absolute;left:8px;top:8px;width:26px;height:26px;pointer-events:none}
+.ac-ring i{position:absolute;left:50%;top:50%;width:1.6px;height:5px;margin:-2.5px 0 0 -.8px;border-radius:1px;background:var(--warn);transform:rotate(var(--a)) translateY(-10px);transition:opacity .25s}
+.ac-ring i.off{opacity:.15}
+
+/* NO LINK (fx-director nlSync, tylko realna i trwała utrata łączności): cienka bursztynowa linia pod paskiem, mała etykieta obok paska ikon i miganie diody sieci — bez przyciemniania sceny i okien */
+#fxNoLink{position:absolute;left:0;right:0;top:52px;height:24px;z-index:11;pointer-events:none;opacity:0;transition:opacity .6s ease}
+#fxNoLink.on{opacity:1}
+#fxNoLink b{position:absolute;left:112px;top:8px;font:600 10px/1 var(--mono);letter-spacing:.3em;color:var(--warn);text-shadow:0 0 8px rgba(var(--warn-rgb),.7)}
+#fxNoLink .nl-bar{position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(var(--warn-rgb),.85) 30%,rgba(var(--warn-rgb),.85) 70%,transparent);box-shadow:0 0 8px rgba(var(--warn-rgb),.6)}
+@keyframes nlBlink{50%{opacity:.25}}
+#app[data-nolink] #btnNet{color:var(--err);animation:nlBlink 1s steps(2,jump-none) infinite}
+@media (forced-colors:active),(prefers-contrast:more){#fxNoLink{display:none}}
+.ask-chip.ringed .ac-q{padding:0 26px}
+.ask-chip:not(.risk){--warn-rgb:var(--accent-rgb);--warn:var(--accent)}.ask-chip:not(.risk) .ac-haz{display:none}   /* zwykłe pytania (przewodnik, dwuznaczność, „kontynuować?”): spokojny akcent; pasy ostrzegawcze tylko przy zgodzie na ryzykowne działanie */   /* pierścień w lewym górnym rogu nie zasłania treści pytania (symetrycznie, żeby tekst został wyśrodkowany) */
+
+/* Hologramowe okna (cinema, Faza 5B): otwarcie ~400 ms = skan od góry (clip-path odsłania okno z góry w dół), szum RGB ~120 ms (drżenie translateX w pierwszych 30%) i błysk górnej krawędzi (:after rozjaśnia się i rozszerza);
+   zamknięcie zwija okno do linii. Jeden element, tylko transform/opacity/clip-path, bez filter/blur. Klasa .holo nadawana przy tworzeniu okna na poziomie cinema (wm.open) — spadek poziomu nie powtarza animacji.
+   Poziom off: zasada #app[data-fx=off] * zeruje animacje (asercja e2e: animation-name none), tool: skrócone do .15 s */
+@keyframes winHolo{0%{opacity:0;clip-path:inset(0 0 100% 0);transform:translateX(-3px) scaleY(.985)}9%{opacity:.9;transform:translateX(3px) scaleY(.99)}18%{transform:translateX(-2px)}30%{opacity:1;clip-path:inset(0 0 55% 0);transform:none}100%{opacity:1;clip-path:inset(0)}}
+@keyframes holoEdge{0%{opacity:0;transform:scaleX(.4)}28%{opacity:1;transform:scaleX(1.5)}100%{transform:none}}
+@keyframes winHoloOut{0%{opacity:1;clip-path:inset(0)}55%{opacity:1;clip-path:inset(48.5% 0 48.5% 0);transform:none}85%{opacity:1;clip-path:inset(49.6% 0 49.6% 0);transform:none}100%{opacity:0;clip-path:inset(49.6% 0 49.6% 0);transform:scaleX(.25)}}
+.window.holo:not(.closing):not(.minimizing){animation:winHolo .4s cubic-bezier(.2,.8,.3,1)}
+.window.holo:not(.closing):not(.minimizing):after{animation:holoEdge .4s ease-out}
+#app[data-fx=cinema]:not(.present):not(.focus) .window.closing{animation:winHoloOut .28s ease-in forwards}
+@media (forced-colors:active),(prefers-contrast:more){.window.holo:not(.closing):not(.minimizing){animation:winIn .38s ease}.window.holo:after{animation:none!important}}
+
+/* Equalizer mikrofonu (js/fx-cinema.js): jeden mały canvas nad dokiem, powstaje tylko przy LISTENING z realnym analyserem; tilt kart HUD: perspektywa na #hud tylko na czas ruchu */
+#eqBars{position:absolute;left:50%;bottom:92px;transform:translateX(-50%);width:640px;max-width:70%;height:24px;z-index:36;pointer-events:none}
+#hud.tilt{perspective:900px}
+@media (max-width:900px),(forced-colors:active),(prefers-contrast:more){#eqBars{display:none}}
+
+/* ---------- Faza 6: power-up ekranu startowego i wjazd pulpitu (tylko transform/opacity; main.js ustawia #boot[data-fx] i #app.enter) ---------- */
+@keyframes puGridV{from{transform:scaleY(0);opacity:0}}
+@keyframes puGridH{from{transform:scaleX(0);opacity:0}}
+@keyframes puCorner{from{opacity:0;transform:scale(2.4)}}
+@keyframes puLine{from{opacity:0;transform:scaleX(0)}}
+@keyframes puReactor{from{opacity:0;transform:scale(.6)}}
+@keyframes puCore{from{opacity:0;transform:scale(.15)}}
+@keyframes puFade{from{opacity:0}}
+@keyframes chipOn{0%{opacity:1;transform:scale(1.18)}30%{opacity:.3}60%{opacity:1;transform:none}}
+/* pełna wersja: standard/cinema (i do chwili, gdy main.js ustawi poziom); off/tool = tylko obroty pierścieni, bez rysowania siatki i narożników */
+#boot:not([data-fx=off]):not([data-fx=tool]) .gv{animation:puGridV .9s .05s cubic-bezier(.2,.7,.2,1) backwards}
+#boot:not([data-fx=off]):not([data-fx=tool]) .gh{animation:puGridH .9s .15s cubic-bezier(.2,.7,.2,1) backwards}
+#boot:not([data-fx=off]):not([data-fx=tool]) .boot-frame i{animation:puCorner .5s .45s cubic-bezier(.2,.8,.2,1) backwards}
+#boot:not([data-fx=off]):not([data-fx=tool]) .boot-line{animation:puLine .85s .7s cubic-bezier(.3,.7,.2,1) backwards}
+#boot:not([data-fx=off]):not([data-fx=tool]) .reactor{animation:puReactor .8s .6s cubic-bezier(.2,.8,.2,1) backwards}
+#boot:not([data-fx=off]):not([data-fx=tool]) .reactor .rglow{animation:puFade .9s 1s backwards}
+#boot:not([data-fx=off]):not([data-fx=tool]) .reactor .r0{animation:spin 40s linear infinite reverse,puFade .5s .85s backwards}
+#boot:not([data-fx=off]):not([data-fx=tool]) .reactor .r1{animation:spin 10s linear infinite,puFade .5s .95s backwards}
+#boot:not([data-fx=off]):not([data-fx=tool]) .reactor .r2{animation:spin 6s linear infinite reverse,puFade .5s 1.05s backwards}
+#boot:not([data-fx=off]):not([data-fx=tool]) .reactor .r3{animation:spin 3s linear infinite,puFade .5s 1.15s backwards}
+#boot:not([data-fx=off]):not([data-fx=tool]) .reactor .r4{animation:spin 5s linear infinite reverse,puFade .5s 1.25s backwards}
+#boot:not([data-fx=off]):not([data-fx=tool]) .reactor .rcore{animation:puCore .5s 1.1s cubic-bezier(.2,.8,.2,1) backwards,pulse 1.6s 1.6s ease-in-out infinite}
+/* podpis, chipy i „Inicjalizacja systemu” NIE wchodzą z opacity:0 — tekst widoczny od pierwszego malowania daje wczesny FCP (fade 0,95 s opóźniał go o ~1 s) */
+/* off / „ogranicz ruch”: stan końcowy bez ruchu */
+#boot[data-fx=off] *,#boot[data-fx=off] :before{animation:none!important}
+#boot[data-fx=off] .boot-title span{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){#boot *{animation:none!important}#boot .boot-title span{opacity:1;transform:none}#boot,#boot .boot-bar i,#boot .boot-chips i{transition-duration:.01s}}
+@media (max-height:700px){.boot-inner{gap:14px}.reactor{width:170px;height:170px}.reactor .rcore{left:64px;top:64px;width:42px;height:42px}.boot-log{height:78px}}
+/* wjazd pulpitu po wejściu: topbar z góry, dok i panel z dołu, karty HUD ze staggerem 70 ms; animation-fill backwards — w spoczynku transform:none (e2e kolizji HUD, tilt kart) */
+@keyframes enTop{from{opacity:0;transform:translateY(-18px)}}
+@keyframes enDock{from{opacity:0;transform:translate(-50%,22px)}}
+@keyframes enCard{from{opacity:0;transform:translateY(16px)}}
+#app.enter .topbar{animation:enTop .55s .05s cubic-bezier(.2,.8,.2,1) backwards}
+#app.enter .dock{animation:enDock .55s .14s cubic-bezier(.2,.8,.2,1) backwards}
+#app.enter .deck{animation:enCard .55s .2s cubic-bezier(.2,.8,.2,1) backwards}
+#app.enter .hud.show .hc{animation:enCard .5s .26s cubic-bezier(.2,.8,.2,1) backwards}
+#app.enter .hud.show .hc:nth-child(2){animation-delay:.33s}#app.enter .hud.show .hc:nth-child(3){animation-delay:.4s}#app.enter .hud.show .hc:nth-child(4){animation-delay:.47s}#app.enter .hud.show .hc:nth-child(5){animation-delay:.54s}
+#app.enter .hud.show .hc:nth-child(6){animation-delay:.61s}#app.enter .hud.show .hc:nth-child(7){animation-delay:.68s}#app.enter .hud.show .hc:nth-child(n+8){animation-delay:.75s}
+/* forced-colors: okna i panele muszą być NIEPRZEZROCZYSTE — półprzezroczyste gradienty tła (szkło) przy nakładających się oknach i Orbie dają nieczytelną mieszankę.
+   Canvas jako tło + obrys CanvasText (kolory systemowe, wartości narzuca przeglądarka); box-shadow (poświata) znika, bo i tak jest ignorowany lub myli kontrast */
+@media (forced-colors:active){
+  .window,.chat-panel,.log-panel,.hc,.chip,.toast,.ask-chip,.deck{background:Canvas!important;color:CanvasText!important;border:1px solid CanvasText!important;box-shadow:none!important}
+}

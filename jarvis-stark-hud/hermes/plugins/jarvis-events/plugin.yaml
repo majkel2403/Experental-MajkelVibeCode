@@ -1,0 +1,9 @@
+name: jarvis-events
+version: 1.0.0
+description: "Zdarzenia zadań Hermesa (Telegram, cron, CLI) dla pulpitu Jarvis OS: start zadania, narzędzia, wynik → most :8651 → Orb i Process Log. Tylko obserwacja: nic nie dokleja do kontekstu modelu i niczego nie blokuje."
+author: Jarvis OS (repo Desktop\jarvis-\hermes\plugins\jarvis-events)
+provides_hooks:
+  - pre_llm_call
+  - pre_tool_call
+  - post_tool_call
+  - post_llm_call

@@ -1,0 +1,14 @@
+{
+  "name": "Jarvis OS",
+  "short_name": "Jarvis",
+  "description": "Wirtualne środowisko AI w przeglądarce",
+  "lang": "pl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "background_color": "#03060f",
+  "theme_color": "#03060f",
+  "icons": [
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

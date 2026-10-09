@@ -1,0 +1,13 @@
+diff --git a/src/constants.js b/src/constants.js
+index 01574e1..6e07b3f 100644
+--- a/src/constants.js
++++ b/src/constants.js
+@@ -12,7 +12,7 @@
+  *  - always include a `none` option; never ask Jev to count or generate
+  */
+ 
+-export const MODEL = "jev-1.13.0"; // pinned: aliases move on release, thresholds below were tuned on this version
++export const MODEL = process.env.JEV_MODEL || "jev-1.13.0"; // pinned (JEV_MODEL: np. typesafe/jev-1.13 przez OpenRouter): aliases move on release, thresholds below were tuned on this version
+ 
+ export const PRICE_PER_M_INPUT_TOKENS_USD = 0.042; // output tokens are free
+ 

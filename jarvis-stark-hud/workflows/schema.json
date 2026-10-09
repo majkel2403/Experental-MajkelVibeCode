@@ -1,0 +1,106 @@
+{
+  "$comment": "Schemat definicji workflow (workflows/*.yaml). Podzbiór JSON Schema obsługiwany przez tools/schema-lite.js i bridge/workflow_engine.py (validate). ADR 0007.",
+  "type": "object",
+  "required": ["id", "name", "version", "autonomy", "budget", "steps"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,40}$" },
+    "name": { "type": "string", "minLength": 3, "maxLength": 60 },
+    "version": { "type": "integer", "minimum": 1 },
+    "description": { "type": "string", "maxLength": 400 },
+    "autonomy": { "enum": ["L0", "L1", "L2", "L3"] },
+    "budget": {
+      "type": "object",
+      "required": ["minutes", "steps"],
+      "additionalProperties": false,
+      "properties": {
+        "minutes": { "type": "number", "minimum": 1, "maximum": 120 },
+        "steps": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "tokens": { "type": "integer", "minimum": 1000, "maximum": 5000000 }
+      }
+    },
+    "trigger": {
+      "type": "object",
+      "required": ["kind"],
+      "additionalProperties": false,
+      "properties": { "kind": { "enum": ["manual"] } }
+    },
+    "inputs": {
+      "type": "object",
+      "maxProperties": 10,
+      "propertyNames": { "pattern": "^[a-z][a-z0-9_]{0,30}$" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["type"],
+        "additionalProperties": false,
+        "properties": { "type": { "enum": ["string"] }, "description": { "type": "string", "maxLength": 200 }, "required": { "type": "boolean" } }
+      }
+    },
+    "examples": { "type": "array", "maxItems": 10, "items": { "type": "string", "maxLength": 120 } },
+    "report": { "type": "string", "maxLength": 1000 },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "title"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]{0,30}$" },
+          "kind": { "enum": ["hermes", "check", "write_files", "tool", "ask"] },
+          "title": { "type": "string", "minLength": 2, "maxLength": 60 },
+          "effect": { "enum": ["read", "reversible", "irreversible", "external"] },
+          "output": { "type": "string", "pattern": "^[a-z][a-z0-9_]{0,30}$" },
+          "on_fail": { "enum": ["retry", "stop", "continue"] },
+          "retry": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": { "max": { "type": "integer", "minimum": 0, "maximum": 5 }, "change": { "type": "string", "maxLength": 300 } }
+          },
+          "timeout_s": { "type": "integer", "minimum": 10, "maximum": 900 },
+          "prompt": { "type": "string", "maxLength": 6000 },
+          "format": { "enum": ["text", "json"] },
+          "skills": { "type": "array", "maxItems": 5, "items": { "type": "string", "pattern": "^[a-z0-9-]{2,60}$" } },
+          "check": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "json_schema": { "type": "object" },
+              "sections": { "type": "array", "maxItems": 20, "items": { "type": "string", "maxLength": 80 } },
+              "paths_safe": { "type": "string", "maxLength": 60 },
+              "covers": {
+                "type": "object",
+                "required": ["from", "in"],
+                "additionalProperties": false,
+                "properties": { "from": { "type": "string", "maxLength": 60 }, "in": { "type": "string", "maxLength": 60 } }
+              },
+              "files_exist": { "type": "boolean" },
+              "judge": {
+                "type": "object",
+                "required": ["question", "min"],
+                "additionalProperties": false,
+                "properties": { "question": { "type": "string", "maxLength": 300 }, "min": { "type": "number", "minimum": 0, "maximum": 1 } }
+              }
+            }
+          },
+          "root": { "type": "string", "pattern": "^projects/\\{[a-z_.]+\\}$" },
+          "slug_from": { "type": "string", "maxLength": 60 },
+          "files_from": { "type": "string", "maxLength": 60 },
+          "extra_files": {
+            "type": "object",
+            "maxProperties": 10,
+            "additionalProperties": { "type": "string", "maxLength": 4000 }
+          },
+          "git_commit": { "type": "string", "maxLength": 120 },
+          "tool": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,63}$" },
+          "args": { "type": "object" },
+          "optional": { "type": "boolean" },
+          "question": { "type": "string", "maxLength": 300 },
+          "options": { "type": "array", "maxItems": 6, "items": { "type": "string", "maxLength": 60 } },
+          "default": { "type": "string", "maxLength": 60 }
+        }
+      }
+    }
+  }
+}

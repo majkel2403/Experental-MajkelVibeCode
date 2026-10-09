@@ -1,0 +1,39 @@
+[
+ { "prompt": "zrób widget z top 5 tokenów i zmianą 24h",
+   "spec": { "v": 1, "title": "Top 5 krypto", "icon": "market", "size": "M", "tone": "teal",
+     "sources": { "ceny": { "command": "get_crypto_prices", "args": {}, "refresh": 60, "event": "market" } },
+     "blocks": [
+       { "kind": "table", "rows": "$ceny.prices", "limit": 5, "sort": "usd", "desc": true, "columns": [
+         { "label": "Symbol", "field": "symbol" }, { "label": "Cena", "field": "usd", "format": "money", "align": "right" }, { "label": "24h", "field": "change_24h", "format": "delta", "align": "right" } ] },
+       { "kind": "text", "text": "Źródło: {{$ceny.source}}", "size": "sm", "dim": true }
+     ] } },
+ { "prompt": "kartę z checklistą na dziś",
+   "spec": { "v": 1, "title": "Na dziś", "icon": "calendar", "size": "M",
+     "sources": { "zad": { "command": "tasks_list", "args": { "range": "today" }, "event": "tasks" } },
+     "blocks": [
+       { "kind": "progress", "label": "Zrobione", "value": "$zad.ratio", "max": 1 },
+       { "kind": "checklist", "items": "$zad.tasks", "field": "text", "done": "done", "on_check": "tasks_complete" },
+       { "kind": "buttons", "buttons": [ { "label": "Otwórz harmonogram", "command": "open_app", "args": { "app": "schedule" }, "style": "ghost" } ] }
+     ] } },
+ { "prompt": "mini wykres BTC",
+   "spec": { "v": 1, "title": "BTC", "icon": "chart", "size": "S", "tone": "accent",
+     "sources": { "ceny": { "command": "get_crypto_prices", "args": { "symbol": "BTC" }, "refresh": 30, "event": "market" } },
+     "blocks": [
+       { "kind": "kpi", "label": "Bitcoin", "value": "$ceny.prices[0].usd", "delta": "$ceny.prices[0].change_24h", "format": "money", "good": "up" },
+       { "kind": "chart", "chart": "spark", "series": "$ceny.prices[0].spark", "height": 60 }
+     ] } },
+ { "prompt": "widget z pogodą i zadaniami na dziś",
+   "spec": { "v": 1, "title": "Mój dzień", "icon": "weather", "size": "L", "layout": "grid2",
+     "sources": { "pog": { "command": "get_weather", "args": {}, "refresh": 900, "event": "weather" }, "zad": { "command": "tasks_list", "args": { "range": "today" }, "event": "tasks" } },
+     "blocks": [
+       { "kind": "kpi", "label": "{{$pog.city}}", "value": "{{$pog.now.temp}}°C", "delta": "$pog.now.desc", "format": "text" },
+       { "kind": "list", "items": "$zad.tasks", "field": "text", "meta": "time", "limit": 6, "empty": "Brak zadań na dziś" },
+       { "kind": "clock", "format": "both" }
+     ] } },
+ { "prompt": "odliczanie do urlopu 15 października",
+   "spec": { "v": 1, "title": "Urlop", "icon": "flag", "size": "S", "tone": "purple",
+     "blocks": [
+       { "kind": "countdown", "until": "2026-10-15T08:00", "label": "do wyjazdu" },
+       { "kind": "markdown", "text": "**Spakować:** paszport, ładowarki, krem" }
+     ] } }
+]

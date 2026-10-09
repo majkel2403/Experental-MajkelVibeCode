@@ -1,0 +1,53 @@
+name: Testy
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Składnia
+        run: for f in js/*.js sw.js; do node --check "$f"; done
+      - name: Testy jednostkowe (rejestr, silnik lokalny, NLP, zdarzenia, kontekst)
+        run: node --test "tests/unit/*.test.js"
+      - name: Kontrola typów (tsc)
+        run: npm ci --ignore-scripts --no-audit --no-fund && npm run typecheck
+      - name: Wygenerowane pliki są aktualne (bridge/tools.json, docs/spec) — po zmianie poleceń uruchom node bridge/export-tools.js i node tools/gen-spec.js
+        run: |
+          node bridge/export-tools.js
+          node tools/gen-spec.js
+          git diff --exit-code -- bridge/tools.json docs/spec || (echo "Wygenerowane pliki są nieaktualne: uruchom node bridge/export-tools.js oraz node tools/gen-spec.js i zatwierdź zmiany." && exit 1)
+  e2e:
+    runs-on: ubuntu-latest
+    needs: unit
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Playwright (Chromium)
+        run: npm i --no-save playwright@1.56.1 && npx playwright install --with-deps chromium
+      - name: Serwer statyczny
+        run: (python3 -m http.server 8090 >/dev/null 2>&1 &) && sleep 1
+      - name: Test dymny w przeglądarce
+        run: node tests/e2e/smoke.js http://localhost:8090
+      - name: "Tło WebGL (tapeta neon) — (a) domyślne flagi: fallback .bg-fb, (b) SwiftShader i ?glcaveat=0: rysowanie, utrata i odtworzenie kontekstu"
+        run: node tests/e2e/gl.js http://localhost:8090
+  python:
+    # Testy Pythona mostu bez sieci i bez venv Hermesa (integracyjne i clicker — lokalnie: python -m pytest)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Zależności
+        run: python -m pip install --quiet aiohttp pytest pyyaml
+      - name: Testy jednostkowe Pythona (most, agenci, planista, writer)
+        run: python -m pytest -m unit -v

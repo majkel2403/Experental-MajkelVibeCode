@@ -1,0 +1,203 @@
+# Od pomysłu do projektu: pomysł → brief → architektura → struktura plików → szkielet projektu (folder + git) → notatka.
+# Silnik: bridge/workflow_engine.py (ADR 0007). Efekty wyłącznie lokalne i odwracalne (nowy folder w JarvisWorkspace\projects),
+# dlatego domyślnie L3 — bez pytań w trakcie, raport na końcu.
+id: od-pomyslu-do-projektu
+name: Od pomysłu do projektu
+version: 1
+description: Zamienia pomysł w projekt — brief, architekturę z kompromisami, strukturę plików i szkielet projektu w JarvisWorkspace\projects (z git).
+autonomy: L3
+budget: { minutes: 20, steps: 14, tokens: 600000 }
+trigger: { kind: manual }
+inputs:
+  pomysl: { type: string, required: true, description: "pomysł własnymi słowami, np. aplikacja do śledzenia nawyków" }
+examples:
+  - zrób projekt z pomysłu aplikacja do nawyków
+  - od pomysłu do projektu bot do przypomnień
+  - zaprojektuj projekt z pomysłu
+report: |
+  Projekt „{brief.nazwa}” gotowy: {zapis.root} ({zapis.count|n:plik:pliki:plików}, commit {zapis.commit}).
+  Cel: {brief.cel}
+  Następny krok: przejrzyj docs/ARCHITEKTURA.md i STRUKTURA.md, potem poproś o implementację pierwszej funkcji MVP.
+
+steps:
+  - id: brief
+    kind: hermes
+    title: Brief projektu
+    effect: read
+    format: json
+    output: brief
+    skills: [michal-project-preferences]
+    timeout_s: 240
+    retry: { max: 2, change: "Doprecyzuj: konkretny cel jednym zdaniem, odbiorcy, MVP z maks. 7 funkcjami zapisanymi jako czynności użytkownika." }
+    prompt: |
+      Pomysł użytkownika: „{pomysl}”.
+      Zamień go w brief projektu. Uwzględnij preferencje użytkownika (skill michal-project-preferences), ale nie dopisuj funkcji, o które nie prosił.
+      Zwróć WYŁĄCZNIE obiekt JSON:
+      {"nazwa": "krótka nazwa projektu (2–40 znaków)", "cel": "jedno zdanie", "odbiorcy": "kto i w jakiej sytuacji",
+       "mvp": ["funkcja 1", "…" (1–7)], "poza_zakresem": ["…"], "ograniczenia": ["…"], "ryzyka": ["…"],
+       "stos_sugestia": "sugerowany stos technologiczny z jednym zdaniem uzasadnienia"}
+    check:
+      json_schema:
+        type: object
+        required: [nazwa, cel, odbiorcy, mvp, poza_zakresem, ograniczenia, ryzyka, stos_sugestia]
+        properties:
+          nazwa: { type: string, minLength: 2, maxLength: 40 }
+          cel: { type: string, minLength: 10, maxLength: 300 }
+          odbiorcy: { type: string, minLength: 5, maxLength: 300 }
+          mvp: { type: array, minItems: 1, maxItems: 7, items: { type: string, minLength: 3, maxLength: 200 } }
+          poza_zakresem: { type: array, maxItems: 10, items: { type: string, maxLength: 200 } }
+          ograniczenia: { type: array, maxItems: 10, items: { type: string, maxLength: 200 } }
+          ryzyka: { type: array, maxItems: 10, items: { type: string, maxLength: 200 } }
+          stos_sugestia: { type: string, minLength: 3, maxLength: 400 }
+      judge: { question: "Czy ten brief jest konkretny i wykonalny jako MVP (jasny cel, odbiorcy, maks. 7 funkcji opisanych jako czynności)?", min: 0.7 }
+
+  - id: architektura
+    kind: hermes
+    title: Architektura
+    effect: read
+    format: text
+    output: architektura
+    timeout_s: 300
+    retry: { max: 2, change: "Zachowaj dokładnie wymagane nagłówki sekcji i dopisz brakujące kompromisy." }
+    prompt: |
+      Brief projektu (JSON): {brief}
+      Zaprojektuj architekturę MVP. Pisz po polsku, Markdown, konkretnie (bez ogólników). Użyj DOKŁADNIE tych nagłówków:
+      ## Komponenty
+      ## Przepływ danych
+      ## Diagram
+      (diagram ASCII w bloku kodu)
+      ## Stos
+      (wybór technologii; przy każdej: dlaczego)
+      ## Kompromisy
+      (tabela: decyzja | wybrane | alternatywa | dlaczego)
+      ## Ryzyka i do rewizji
+      Zwróć tylko dokument Markdown.
+    check:
+      sections: ["## Komponenty", "## Przepływ danych", "## Diagram", "## Stos", "## Kompromisy", "## Ryzyka i do rewizji"]
+      judge: { question: "Czy ta architektura realizuje funkcje MVP z briefu i ma jawnie opisane kompromisy?", min: 0.7 }
+
+  - id: struktura
+    kind: hermes
+    title: Struktura plików
+    effect: read
+    format: json
+    output: struktura
+    timeout_s: 240
+    retry: { max: 2, change: "Tylko ścieżki względne z ukośnikiem /, bez .., maks. 30 plików, każdy z celem." }
+    prompt: |
+      Brief: {brief}
+      Architektura:
+      {architektura}
+      Zaproponuj strukturę plików szkieletu projektu zgodną z architekturą (kod źródłowy, testy, konfiguracja).
+      NIE wpisuj README.md, STRUKTURA.md, docs/ARCHITEKTURA.md ani docs/adr/ — te powstaną automatycznie.
+      Zwróć WYŁĄCZNIE JSON: {"pliki": [{"path": "src/…", "cel": "po co ten plik"}]} — maks. 30 plików, ścieżki względne z /.
+    check:
+      json_schema:
+        type: object
+        required: [pliki]
+        properties:
+          pliki:
+            type: array
+            minItems: 1
+            maxItems: 30
+            items:
+              type: object
+              required: [path, cel]
+              properties:
+                path: { type: string, minLength: 1, maxLength: 160 }
+                cel: { type: string, minLength: 3, maxLength: 300 }
+      paths_safe: struktura.pliki
+
+  - id: tresc
+    kind: hermes
+    title: Szkielety plików
+    effect: read
+    format: json
+    output: tresc
+    timeout_s: 420
+    retry: { max: 2, change: "Każdy plik ze struktury musi być na liście z niepustą treścią; zwróć poprawny JSON." }
+    prompt: |
+      Architektura:
+      {architektura}
+      Struktura plików (JSON): {struktura}
+      Dla KAŻDEGO pliku ze struktury przygotuj krótki szkielet (3–20 linii): komentarz nagłówkowy z celem pliku (w składni języka pliku),
+      minimalny kod startowy lub konfigurację i znaczniki TODO wskazujące kolejne kroki. Bez pełnej implementacji.
+      Zwróć WYŁĄCZNIE JSON: {"pliki": [{"path": "…", "content": "…"}]}.
+    check:
+      json_schema:
+        type: object
+        required: [pliki]
+        properties:
+          pliki:
+            type: array
+            minItems: 1
+            maxItems: 30
+            items:
+              type: object
+              required: [path, content]
+              properties:
+                path: { type: string, minLength: 1, maxLength: 160 }
+                content: { type: string, minLength: 1, maxLength: 8000 }
+      paths_safe: tresc.pliki
+      covers: { from: struktura.pliki, in: tresc.pliki }
+
+  - id: zapis
+    kind: write_files
+    title: Zapis projektu
+    effect: reversible
+    output: zapis
+    root: projects/{slug}
+    slug_from: brief.nazwa
+    files_from: tresc.pliki
+    extra_files:
+      README.md: |
+        # {brief.nazwa}
+
+        {brief.cel}
+
+        **Dla kogo:** {brief.odbiorcy}
+
+        ## MVP
+        {brief.mvp|list}
+
+        ## Poza zakresem
+        {brief.poza_zakresem|list}
+
+        ## Ograniczenia
+        {brief.ograniczenia|list}
+
+        ## Ryzyka
+        {brief.ryzyka|list}
+
+        Architektura: [docs/ARCHITEKTURA.md](docs/ARCHITEKTURA.md) · Struktura: [STRUKTURA.md](STRUKTURA.md) · Decyzje: [docs/adr](docs/adr/)
+
+        > Szkielet wygenerowany przez workflow „Od pomysłu do projektu” (Jarvis OS) z pomysłu: „{pomysl}”.
+      docs/ARCHITEKTURA.md: |
+        # Architektura — {brief.nazwa}
+
+        {architektura}
+      docs/adr/0001-stos-i-architektura.md: |
+        # ADR 0001 — Stos i architektura MVP
+
+        **Status:** proponowana · **Kontekst:** {brief.cel} Odbiorcy: {brief.odbiorcy}
+
+        **Decyzja:** {brief.stos_sugestia} Szczegóły i kompromisy: [ARCHITEKTURA.md](../ARCHITEKTURA.md).
+
+        **Konsekwencje:** zakres MVP jak w README; ryzyka: {brief.ryzyka|inline}.
+      STRUKTURA.md: |
+        # Struktura projektu — {brief.nazwa}
+
+        {struktura.pliki|files}
+    git_commit: "Szkielet projektu z workflow „Od pomysłu do projektu”"
+    check: { files_exist: true }
+
+  - id: pokaz
+    kind: tool
+    title: Notatka na pulpicie
+    effect: reversible
+    optional: true
+    tool: create_note
+    args:
+      title: "Projekt: {brief.nazwa}"
+      content: "{brief.cel}\n\nFolder: {zapis.root}\nMVP:\n{brief.mvp|list}"
+      show: false

@@ -1,0 +1,5 @@
+{
+ "_opis": "Hash zawartości plików SHELL z sw.js zapisany razem z nazwą CACHE. Aktualizacja: podbij CACHE w sw.js, potem node tools/shell-hash.js --update.",
+ "cache": "jarvis-os-v90",
+ "hash": "ebf2f31b020b6b7689f0c68fcec25dcb8307279664c82e123ae163bb9a4ce92a"
+}

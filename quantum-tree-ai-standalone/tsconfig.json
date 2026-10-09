@@ -1,0 +1,31 @@
+{
+  "//": "Vanilla JS PWA - zero build step. tsconfig sluzy tylko IDE/typecheckerowi.",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+
+    "allowJs": true,
+    "checkJs": false,
+    "noEmit": true,
+
+    "strict": false,
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true
+  },
+  "include": ["js/**/*"],
+  "exclude": ["node_modules", "tests", "bridge", "integrations", "tools", "hermes", "sw.js", "config.local.js", "config.local.example.js"],
+  "typeAcquisition": {
+    "enable": false,
+    "include": [],
+    "exclude": ["node_modules"]
+  }
+}

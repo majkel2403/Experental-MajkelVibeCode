@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<!-- CSP: skrypty wyłącznie z plików strony (żaden wstrzyknięty HTML nie uruchomi kodu); połączenia: ta strona, most i usługi lokalne, HTTPS -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* https: wss://stream.binance.com:9443; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Jarvis OS</title>
+<meta name="description" content="Jarvis OS — wirtualne środowisko AI w przeglądarce: agent głosowy, pulpit HUD, okna, notatki, rynek, pogoda, terminal.">
+<meta name="theme-color" content="#03060f">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/rajdhani-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/jarvis.css">
+<link rel="stylesheet" href="css/neon.css">
+</head>
+<body>
+
+<!-- ============ BOOT ============ -->
+<div id="boot" role="dialog" aria-label="Uruchamianie Jarvis OS">
+  <div class="boot-grid" aria-hidden="true"><i class="gv"></i><i class="gh"></i></div>
+  <div class="boot-line" aria-hidden="true"></div>
+  <div class="boot-frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="boot-inner">
+    <div class="reactor" aria-hidden="true">
+      <i class="rglow"></i>
+      <svg class="rg r0" viewBox="0 0 220 220"><circle cx="110" cy="110" r="106"/></svg>
+      <svg class="rg r1" viewBox="0 0 220 220"><circle class="h" cx="110" cy="110" r="100"/><circle cx="110" cy="110" r="100"/></svg>
+      <svg class="rg r2" viewBox="0 0 220 220"><circle cx="110" cy="110" r="80"/></svg>
+      <svg class="rg r3" viewBox="0 0 220 220"><circle class="h" cx="110" cy="110" r="62"/><circle cx="110" cy="110" r="62"/></svg>
+      <svg class="rg r4" viewBox="0 0 220 220"><circle cx="110" cy="110" r="44"/></svg>
+      <i class="rcore"></i>
+    </div>
+    <div class="boot-title" id="bootTitle"><span style="animation-delay:.30s">J</span><span style="animation-delay:.39s">A</span><span style="animation-delay:.48s">R</span><span style="animation-delay:.57s">V</span><span style="animation-delay:.66s">I</span><span style="animation-delay:.75s">S</span></div>
+    <div class="boot-sub">Virtual AI Environment · v2.1</div>
+    <div class="boot-chips" id="bootChips" aria-hidden="true"><i>Moduły</i><i>Stan</i><i>SW</i><i>Hermes</i><i>Efekty</i><i>Pulpit</i></div>
+    <div class="boot-log" id="bootLog" role="log" aria-label="Przebieg uruchamiania"></div>
+    <div class="boot-bar"><i id="bootBar"></i></div>
+    <div class="boot-meta"><span>Inicjalizacja systemu</span><span id="bootPct">0%</span></div>
+    <button class="boot-enter" id="bootEnter">Kliknij, aby wejść</button>
+  </div>
+</div>
+
+<!-- ============ APLIKACJA ============ -->
+<div class="app" id="app" data-wall="photo">
+  <div class="wallpaper" id="wallpaper"></div>
+  <canvas id="fx"></canvas>
+  <div class="scan"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand"><span class="brand-orb"></span><span class="name">JARVIS</span><span class="ver">OS</span></div>
+    <div class="divider"></div>
+    <div class="mode-hud" id="modeHud" data-mode="IDLE" title="Stan agenta" aria-live="polite">
+      <span class="mh-seg on" data-m="IDLE">Gotowy</span><span class="mh-seg" data-m="LISTENING">Słucham</span><span class="mh-seg" data-m="THINKING">Analiza</span><span class="mh-seg" data-m="EXECUTING">Działanie</span><span class="mh-seg" data-m="COMPLETED">Gotowe</span>
+    </div>
+    <div class="tagline">Twój asystent AI do pracy i życia</div>
+    <div class="top-status" id="topStatus">
+      <span class="ts" id="tsAi" data-s="local" title="Mózg Jarvisa (Hermes)"><i></i><b>Hermes</b><em>—</em></span>
+      <span class="ts hidden" id="tsJev" data-s="unknown" title="Jev (sędzia)"><i></i><b>Jev</b><em>—</em></span>
+      <span class="ts" id="tsTools" title="Wywołania narzędzi"><b>Tools</b><em class="led">0</em></span>
+      <span class="ts hidden" id="tsEco" data-s="down" role="img" aria-label="Obniżono poziom efektów" title="Obniżono poziom efektów"><i></i><b>ECO</b></span>
+      <span class="ts" id="tsFps" title="Klatki na sekundę"><i></i><b>FPS</b><em class="led">--</em></span>
+      <span class="ts clock" id="tsClock" title="Czas systemowy"><em class="led">--:--:--</em></span>
+    </div>
+    <button class="search-pill" id="searchPill" title="Paleta poleceń (Ctrl+K)">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <span class="txt">Szukaj aplikacji i poleceń…</span><kbd>Ctrl K</kbd>
+    </button>
+    <div class="top-actions">
+      <button class="top-btn" id="btnVoice" title="Mów do Jarvisa (Ctrl+Spacja)"></button>
+      <button class="top-btn" id="btnFocus" title="Tryb skupienia"></button>
+      <button class="top-btn hidden" id="btnChat" title="Czat z Jarvisem"></button>
+      <button class="top-btn hidden" id="btnLog" title="Process Log"><span class="badge hidden" id="logBadge">0</span></button>
+      <button class="top-btn" id="btnNotif" title="Powiadomienia (Alt+N)"><span class="badge hidden" id="notifBadge">0</span></button>
+      <button class="avatar" id="btnAvatar" title="Ustawienia">JD</button>
+    </div>
+  </header>
+
+  <div class="workspace chat-closed" id="workspace">
+  <main class="desktop" id="desktop">
+    <canvas id="flowCanvas" aria-hidden="true"></canvas>
+    <div class="icon-rail" id="iconRail"></div>
+    <div class="task-banner" id="task"><span class="live"></span><b>Jarvis</b><span id="taskText">gotowy</span><button class="task-stop plan hidden" id="taskPause" title="Wstrzymaj po bieżącym kroku" aria-label="Wstrzymaj po bieżącym kroku"></button><button class="task-stop plan hidden" id="taskSkip" title="Pomiń następny krok" aria-label="Pomiń następny krok"></button><button class="task-stop hidden" id="taskStop" title="Przerwij zadanie (Esc)" aria-label="Przerwij zadanie"></button></div>
+
+    <section class="center-stage">
+      <div class="core-wrap" id="coreWrap" data-state="idle">
+        <div class="core-rings" aria-hidden="true"><i class="cr cr1"></i><i class="cr cr2"></i><i class="cr cr3"></i></div>
+        <canvas id="orbCanvas"></canvas>
+        <div class="core-glow"></div>
+        <button class="core" id="core" aria-label="Jarvis — kliknij, aby mówić" title="Kliknij, aby mówić · Shift+klik: panel węzłów">
+          <span class="core-inner"><span class="core-label">JARVIS</span></span>
+          <span class="core-state" id="coreState">centrum środowiska</span>
+          <span class="core-hint" id="coreHint"></span>
+        </button>
+      </div>
+    </section>
+    <div class="hud" id="hud" aria-label="Przepływ zadania"></div>
+
+    <div class="result-chip" id="resultChip" inert></div>
+    <div class="ask-chip" id="askChip" data-s="ask" role="dialog" aria-live="assertive" aria-labelledby="askQ" inert></div>
+    <div class="undo-chip" id="undoChip" role="status" aria-live="polite" inert></div>
+
+    <!-- telemetria (dolny lewy róg): pogoda, zegar, realne metryki systemu i agenta -->
+    <section class="deck" id="deck" aria-label="Telemetria">
+      <button class="deck-head" id="deckHead" title="Zwiń / rozwiń telemetrię"><span class="dk-title">Telemetria</span><span class="dk-mode" id="dkMode">GOTOWY</span><span class="dk-chev"></span></button>
+      <div class="sys">
+        <div class="sysline click" id="sysWeather" title="Pogoda"><span class="weather-ico" id="wxIco"><svg class="wxi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18a4.5 4.5 0 1 1 1-8.9A6 6 0 0 1 19.5 11.5 3.3 3.3 0 0 1 19 18z"/></svg></span><div><strong id="wxTemp">--°C</strong><div class="muted" id="wxCity">Wrocław</div></div></div>
+        <span class="sys-sep"></span>
+        <div class="sysline click" id="sysClock" title="Harmonogram"><div><strong id="clockBig" class="led">--:--</strong><div class="muted" id="dateLine"></div></div></div>
+      </div>
+      <div class="deck-body">
+        <div class="dk-spark"><canvas id="dkSpark"></canvas><span class="dk-cap">Aktywność agenta</span><span class="dk-cap r" id="dkAct">0%</span></div>
+        <div class="deck-grid">
+          <div class="dk"><span>FPS</span><b id="dkFps" class="led">--</b></div>
+          <div class="dk"><span>Pamięć</span><b id="dkMem">—</b></div>
+          <div class="dk"><span>Sieć</span><b id="dkNet">—</b></div>
+          <div class="dk"><span>Bateria</span><b id="dkBat">—</b></div>
+          <div class="dk"><span>Zadania</span><b id="dkTasks">0</b></div>
+          <div class="dk"><span>Akcje</span><b id="dkTools" class="led">0</b></div>
+          <div class="dk"><span>Czas</span><b id="dkUp" class="led">0:00</b></div>
+          <div class="dk"><span>Okna</span><b id="dkWin">0</b></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="sysicons">
+      <button class="sysbtn" id="btnSound" title="Dźwięki"></button>
+      <button class="sysbtn" id="btnNet" title="Połączenie"></button>
+      <button class="sysbtn" id="btnFull" title="Pełny ekran"></button>
+    </div>
+
+    <nav class="dock" id="dock" aria-label="Dok"></nav>
+    <div class="dock-led" id="dockLed" aria-hidden="true"></div>
+  </main>
+
+  <button class="panel-chip log-chip" id="logChip" title="Process Log (Alt+2)"><span class="pc-ic" id="logChipIc"></span><b>Process Log</b><i class="pc-dot" id="logChipDot"></i><span class="pc-n" id="logChipN"></span><span class="pc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
+  <button class="panel-chip chat-chip" id="chatChip" title="Czat z Jarvisem (Alt+1)"><span class="pc-ic" id="chatChipIc"></span><b>Czat z Jarvisem</b><i class="pc-dot" id="chatChipDot"></i><span class="pc-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></span></button>
+
+  <aside class="chat-panel" id="chatPanel" aria-label="Czat z Jarvisem"><div class="chat-host" id="chatHost"></div></aside>
+
+  <aside class="log-panel" id="logPanel" aria-label="Process Log"><div class="lp-in">
+    <div class="lp-head"><span class="lp-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 21 12 12 21 3 12z"/><path d="M12 8.5 15.5 12 12 15.5 8.5 12z"/></svg></span><b>Process Log</b><span class="lp-state" id="lpState">bezczynny</span>
+      <button class="lp-btn" id="lpPin" title="Otwieraj automatycznie przy każdym zadaniu"></button>
+      <button class="lp-btn" id="lpClose" title="Zwiń do chipa"></button></div>
+    <div class="lp-tabs"><button data-t="task" class="on">Zadanie</button><button data-t="hist">Historia <em id="lpHistN">0</em></button></div>
+    <div class="lp-task" id="lpTask">
+      <div class="lp-title" id="lpTitle"></div><div class="lp-meta" id="lpMeta"></div>
+      <div class="lp-plan hidden" id="lpPlan"></div>
+      <div class="lp-steps" id="lpSteps"></div>
+      <div class="lp-foot" id="lpFoot"></div>
+    </div>
+    <div class="lp-hist hidden" id="lpHist"></div>
+  </div></aside>
+  </div>
+
+  <aside class="notif-panel" id="notifPanel" aria-label="Powiadomienia">
+    <div class="lp-head"><span class="lp-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2"/></svg></span><b>Powiadomienia</b><button class="lp-btn" id="notifClear" title="Wyczyść" aria-label="Wyczyść powiadomienia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button><button class="lp-btn" id="notifClose" title="Zamknij" aria-label="Zamknij powiadomienia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>
+    <div class="notif-list" id="notifList"></div>
+    <div class="notif-foot">Przypomnienia, minutnik, alerty kursów, sygnały agenta i rutyny trafiają tutaj. <kbd>Alt N</kbd></div>
+  </aside>
+
+  <div class="onboard" id="onboard" role="dialog" aria-label="Pierwsze uruchomienie">
+    <div class="ob-card">
+      <div class="ob-head"><span class="brand-orb"></span><div><b>Witaj w Jarvis OS</b><small>Trzy kroki i środowisko jest Twoje.</small></div></div>
+      <div class="ob-step"><span class="ob-n">1</span><div><b>Głos</b><small>Kliknij, aby przetestować mikrofon i zezwolić przeglądarce na nasłuch.</small></div><button class="btn" id="obMic">Testuj mikrofon</button></div>
+      <div class="ob-step"><span class="ob-n">2</span><div><b>Mózg i sędzia</b><small>Wklej klucz OpenRouter: uruchomi sędziego Jev i Hermesa 4 w chmurze. Albo podłącz lokalny Hermes Agent w Ustawieniach.</small></div><div class="col" style="gap:6px"><input class="input" id="obKey" type="password" placeholder="sk-or-v1-…" style="width:180px" autocomplete="off"><button class="btn ghost sm" id="obHermes">Ustawienia</button></div></div>
+      <div class="ob-step"><span class="ob-n">3</span><div><b>Miasto</b><small>Do pogody i briefingów.</small></div><input class="input" id="obCity" placeholder="Miasto" style="width:150px"></div>
+      <label class="toggle ob-wake"><div>Czuwanie „Jarvis, …”<small>Nasłuch ciągły ze słowem wybudzającym (Chrome / Edge)</small></div><span class="switch"><input type="checkbox" id="obWake"><i></i></span></label>
+      <div class="ob-foot"><button class="btn ghost" id="obSkip">Pomiń</button><button class="btn primary" id="obGo">Zaczynamy</button></div>
+    </div>
+  </div>
+
+  <div class="palette-bg" id="paletteBg">
+    <div class="palette" role="dialog" aria-label="Paleta poleceń">
+      <div class="palette-in">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="paletteInput" placeholder="Wpisz aplikację, polecenie lub zapytaj Jarvisa…" autocomplete="off" spellcheck="false">
+        <kbd>Esc</kbd>
+      </div>
+      <div class="palette-list" id="paletteList"></div>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+</div>
+
+<script defer src="config.local.js"></script>
+<script defer src="js/core.js"></script>
+<script defer src="js/events.js"></script>
+<script defer src="js/store.js"></script>
+<script defer src="js/registry.js"></script>
+<script defer src="js/mcp-tool-schema.js"></script>
+<script defer src="js/undo.js"></script>
+<script defer src="js/jev-policy.js"></script>
+<script defer src="js/process.js"></script>
+<script defer src="js/apps.js"></script>
+<script defer src="js/apps-settings.js"></script>
+<script defer src="js/widgets.js"></script>
+<script defer src="js/chart.js"></script>
+<script defer src="js/widget-spec.js"></script>
+<script defer src="js/commands.js"></script>
+<script defer src="js/search.js"></script>
+<script defer src="js/commands-ext.js"></script>
+<script defer src="js/commands-data.js"></script>
+<script defer src="js/commands-w4.js"></script>
+<script defer src="js/context.js"></script>
+<script defer src="js/judge.js"></script>
+<script defer src="js/jev-flow.js"></script>
+<script defer src="js/agents.js"></script>
+<script defer src="js/workflows.js"></script>
+<script defer src="js/ai.js"></script>
+<script defer src="js/bridge.js"></script>
+<script defer src="js/hud.js"></script>
+<script defer src="js/dash.js"></script>
+<script defer src="js/fx-director.js"></script>
+<script defer src="js/bg-gl.js"></script>
+<script defer src="js/gov.js"></script>
+<script defer src="js/fx-cinema.js"></script>
+<script defer src="js/perf.js"></script>
+<script defer src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+{
+  "name": "jarvis-",
+  "version": "1.0.0",
+  "description": "Wirtualne środowisko AI w przeglądarce — neonowy pulpit HUD sterowany przez agenta Jarvis, głosem lub tekstem. Czysty HTML/CSS/JS, bez builda: wystarczy otworzyć index.html albo wdrożyć na GitHub Pages.",
+  "private": true,
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node --test \"tests/unit/*.test.js\"",
+    "test:e2e": "node tests/e2e/smoke.js",
+    "test:e2e:gl": "node tests/e2e/gl.js",
+    "test:web-agent": "node --test integrations/tests/web-agent.test.mjs",
+    "test:bridge": "python bridge/tests/run_e2e.py",
+    "typecheck": "tsc --noEmit",
+    "perf:shots": "node tools/perf/shots.js",
+    "perf:contrast": "node tools/perf/contrast.js",
+    "perf:contrast-gate": "node tools/perf/contrast.js --states idle,thinking,executing,error,completed --walls photo,aurora,void,neon --min 4.5",
+    "perf:ab": "node tools/perf/ab.js",
+    "perf:vdiff": "node tools/perf/vdiff.js",
+    "shell:hash": "node tools/shell-hash.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/majkel2403/Jarvis-.git"
+  },
+  "keywords": [],
+  "author": "majkel2403",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "bugs": {
+    "url": "https://github.com/majkel2403/Jarvis-/issues"
+  },
+  "homepage": "https://github.com/majkel2403/Jarvis-#readme",
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}
