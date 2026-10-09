@@ -1,0 +1,50 @@
+name: Import remaining Cinematic Engine (one-time)
+on:
+  push:
+    paths:
+      - .github/workflows/import-remaining-cinematic.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Preserve and verify exact branch tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected_commit=2cbc24b3a947cb43196e4bf77bed95838614e803
+          expected_tree=e48d5719d60f030d5c3b677eeca4fb6ec62c40d1
+          folder=jarvis-cinematic-engine
+          git config user.name "GitHub Actions"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-tree HEAD "$folder" | grep -q .; then
+            echo "::error::Destination folder already exists"
+            exit 1
+          fi
+          git fetch --no-tags https://github.com/majkel2403/Jarvis-.git refs/heads/experiment/cinematic-engine
+          actual_commit=$(git rev-parse FETCH_HEAD)
+          if [[ "$actual_commit" != "$expected_commit" ]]; then
+            echo "::error::Source branch moved: $actual_commit"
+            exit 1
+          fi
+          actual_tree=$(git rev-parse "FETCH_HEAD^{tree}")
+          if [[ "$actual_tree" != "$expected_tree" ]]; then
+            echo "::error::Source tree mismatch: $actual_tree"
+            exit 1
+          fi
+          git read-tree --prefix="$folder/" "$actual_tree"
+          new_root=$(git write-tree)
+          dest_tree=$(git ls-tree "$new_root" "$folder" | awk '{print $3}')
+          if [[ "$dest_tree" != "$expected_tree" ]]; then
+            echo "::error::Destination tree differs from source"
+            exit 1
+          fi
+          echo "VERIFIED: $folder tree=$dest_tree"
+          git commit -m "feat(experiments): preserve final Cinematic Engine branch snapshot"
+          git push origin HEAD:main
