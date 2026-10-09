@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#050817">
+  <meta name="description" content="Quantum Tree AI — interaktywna wizualizacja 3D przepływu decyzji i symulowanych wyników.">
+  <title>Quantum Tree AI — Neural Flow Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+
+:root{color-scheme:dark;--bg:#040814;--cyan:#36dbff;--soft:#89b6c9;--muted:#4b708b;--line:rgba(74,208,255,.16);--panel:rgba(5,12,28,.94)}
+*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0}body{background:var(--bg);color:#dff6ff;font-family:'JetBrains Mono',monospace;overflow:hidden;-webkit-font-smoothing:antialiased}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}button:disabled{opacity:.38;cursor:not-allowed}#scene,#canvas-container{position:fixed;inset:0}#scene{overflow:hidden;background:radial-gradient(ellipse at 58% 55%,#0b1830 0,#050b1b 45%,#02040b 100%)}#canvas-container{touch-action:none}#canvas-container canvas{display:block;width:100%;height:100%}.ambient{position:absolute;pointer-events:none;filter:blur(80px);opacity:.24;border-radius:50%}.ambient-a{width:25vw;height:25vw;background:#0a4cb9;left:26%;top:14%}.ambient-b{width:20vw;height:20vw;background:#650c96;right:9%;bottom:8%}.corner-mark{position:absolute;font-size:10px;letter-spacing:.24em;color:#3e6986;pointer-events:none}.corner-mark span{color:#277c91}.top-left{top:26px;left:calc(420px + 3vw)}.bottom-right{right:25px;bottom:24px}.scene-status{position:fixed;right:24px;top:90px;display:flex;align-items:center;gap:10px;color:#82a8c3;font-size:10px;letter-spacing:.11em;pointer-events:none}.live-dot{width:7px;height:7px;background:#38d8fa;border-radius:50%;box-shadow:0 0 14px #38d8fa}.live-dot.running{background:#00ffae;box-shadow:0 0 14px #00ffae;animation:pulse 1.1s infinite}@keyframes pulse{50%{opacity:.35}}.hint{position:fixed;bottom:30px;left:48%;font-size:10px;color:#567d99;pointer-events:none}.tooltip{position:fixed;z-index:8;min-width:140px;padding:10px 13px;background:rgba(5,16,33,.94);border:1px solid #287eaa;border-radius:8px;box-shadow:0 0 35px #00c9ff20;pointer-events:none;font-size:11px;line-height:1.9}.tooltip[hidden],[hidden]{display:none!important}
+.perf{position:fixed;right:20px;top:20px;z-index:4;border:1px solid var(--line);border-radius:9px;padding:9px 12px;background:rgba(4,10,23,.68);backdrop-filter:blur(12px);display:flex;gap:16px;font-size:10px}.perf div{display:flex;gap:7px}.perf span{color:#46748f}.perf strong{color:#80dcec;font-variant-numeric:tabular-nums;font-weight:500}
+.panel{position:fixed;z-index:5;left:20px;top:20px;bottom:20px;width:366px;background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 28px 90px #0008,inset 0 1px #78dbff12;backdrop-filter:blur(26px)}.panel-inner{height:100%;overflow:auto;padding:23px 22px 20px;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#1d5774 transparent}.sheet-toggle{display:none}.brand-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.eyebrow{color:#368ead;font-size:9px;letter-spacing:.22em;margin:0 0 8px}.brand-row h1{font-size:23px;letter-spacing:-.075em;line-height:1.2;color:white;margin:0}.brand-row h1 span{color:var(--cyan)}.tagline{color:#64a4bf;font-size:9px;letter-spacing:.065em;margin:7px 0 0}.version{color:#866abd}.brand-icon{width:41px;height:41px;position:relative;border:1px solid #185472;border-radius:10px;background:linear-gradient(130deg,#0a263e,#071024);transform:rotate(-12deg)}.brand-icon span{position:absolute;border-radius:50%;background:#39dfff;box-shadow:0 0 12px #16d5fa}.brand-icon span:first-child{width:10px;height:10px;left:7px;top:14px}.brand-icon span:nth-child(2){width:7px;height:7px;left:24px;top:8px}.brand-icon span:nth-child(3){width:7px;height:7px;left:24px;top:25px}.mode-notice{border:1px solid rgba(252,195,79,.19);background:rgba(212,138,13,.06);border-radius:7px;padding:9px 10px;font-size:9px;line-height:1.5;color:#e8b96d;display:flex;gap:7px;margin-bottom:16px}.warning-dot{background:#ffc068;border-radius:50%;width:5px;height:5px;margin-top:4px;flex-shrink:0;box-shadow:0 0 8px #ffbd69}.quick-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line);background:#030c1c7f;border-radius:10px;padding:15px 4px;margin-bottom:23px}.quick-stats>div{min-width:0;text-align:center}.quick-stats>div+div{border-left:1px solid var(--line)}.quick-stats small,.details-grid small{display:block;font-size:9px;letter-spacing:.06em;color:#5688a4;margin-bottom:7px}.quick-stats strong{display:block;font-size:16px;letter-spacing:-.06em;font-variant-numeric:tabular-nums}.profit{color:#38efa5}.loss{color:#ff527f}.yellow{color:#f0d47c}.pink{color:#f58dd6}.section-label{font-size:10px;letter-spacing:.14em;color:#6799b6;font-weight:700;margin:0 0 11px}.mode-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.mode-btn,.action-btn{border-radius:8px;background:rgba(16,44,65,.35);border:1px solid #22546e;color:#76c9e2;font-size:10px;font-weight:700;padding:12px 6px;transition:background .15s,border-color .15s,box-shadow .15s,transform .15s}.mode-btn:hover,.action-btn:hover:enabled{background:#11364d;border-color:#34c5f2}.mode-btn:active,.action-btn:active:enabled{transform:scale(.97)}.mode-btn span{font-size:15px}.mode-btn.active{background:#0f3547;border-color:#36cfff;box-shadow:inset 0 0 22px #35d6ff12,0 0 16px #00d4ff19;color:#aaf0ff}.mode-btn.purple{color:#b6a0fa}.mode-btn.purple.active{background:#291b47;border-color:#9274ff}.mode-btn.green{color:#74eabb}.mode-btn.green.active{background:#0d3a35;border-color:#52e4b3}.phase-caption{font-size:10px;color:#507b96;min-height:27px;margin:9px 0 18px;line-height:1.6}.action-grid{display:grid;grid-template-columns:1.3fr 1fr .85fr;gap:8px;margin-bottom:21px}.action-btn.start{background:#10362e;border-color:#208a75;color:#60f3b9}.action-btn.reset{border-color:#74314c;color:#ff89a4}.control-row{display:flex;justify-content:space-between;align-items:center;margin-top:14px;margin-bottom:11px;font-size:10px;gap:8px}.control-row label{color:#6597b3;letter-spacing:.05em}.control-row output{color:#69e3fc;font-weight:700;font-variant-numeric:tabular-nums}input[type=range]{width:100%;height:4px;margin:0;appearance:none;-webkit-appearance:none;background:linear-gradient(90deg,#15c6ef,#18476c);border-radius:3px;cursor:pointer}input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:#65e6ff;border:3px solid #d6f9ff;box-shadow:0 0 15px #32d8fa}input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#65e6ff;border:2px solid #d6f9ff}.scale-markers{display:flex;justify-content:space-between;font-size:9px;color:#446780;margin-top:9px}.layer-heading{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);padding-top:21px;margin-top:22px}.layer-heading span{font-size:9px;color:#4a788f}.layers{border:1px solid #103149;border-radius:10px;padding:10px 12px;margin-bottom:16px;background:#030b1ba3}.layer-item{display:grid;grid-template-columns:9px 24px 34px 1fr;gap:7px;align-items:center;font-size:10px;padding:5px 0}.layer-dot{width:7px;height:7px;border-radius:50%;box-shadow:0 0 11px currentColor}.layer-index{color:#6aa6c7}.layer-nodes{color:#e3f8ff}.layer-name{color:#6889a3}.details-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.details-grid>div{border:1px solid #163d59;background:#091a2d;border-radius:9px;padding:12px}.details-grid strong{color:#a4c7ef;font-size:15px}.footer{display:flex;justify-content:space-between;gap:8px;margin-top:20px;padding-top:14px;border-top:1px solid var(--line);font-size:9px;color:#407890;align-items:center}.footer button{background:transparent;border:none;color:#66aec8;font-size:9px}.footer button:hover{color:#bcf4ff}.webgl-error{position:fixed;z-index:30;left:50%;top:50%;transform:translate(-50%,-50%);width:min(450px,90vw);background:#1d0f22;border:1px solid #f65b80;border-radius:12px;padding:25px;line-height:1.65;text-align:center}
+@media(max-width:768px){.panel{top:auto;left:0;right:0;bottom:0;width:100%;height:min(79dvh,680px);max-height:calc(100dvh - 74px);border-bottom:none;border-radius:21px 21px 0 0;transform:translateY(calc(100% - 112px));transition:transform .32s cubic-bezier(.2,.7,.1,1)}.panel.expanded{transform:translateY(0)}.sheet-toggle{display:block;width:100%;height:24px;border:0;background:transparent;padding:5px;touch-action:manipulation}.handle{display:block;height:4px;width:42px;background:#307a99;border-radius:8px;margin:4px auto}.panel-inner{height:calc(100% - 24px);padding:2px 19px 28px;touch-action:pan-y}.brand-row{margin-bottom:16px}.brand-row h1{font-size:19px}.brand-icon{width:35px;height:35px}.mode-notice{margin-bottom:13px}.quick-stats{margin-bottom:15px;padding:10px 4px}.quick-stats strong{font-size:14px}.corner-mark.top-left{top:23px;left:17px;font-size:9px}.corner-mark.bottom-right{display:none}.scene-status{top:69px;right:17px;font-size:9px}.perf{top:18px;right:12px;padding:7px 8px;gap:10px;font-size:9px}.hint{font-size:9px;bottom:131px;left:0;right:0;text-align:center}.ambient-a{width:90vw;height:90vw;left:15%;top:22%}.ambient-b{width:70vw;height:70vw;left:5%;bottom:30%}}
+@media(max-width:370px){.brand-row h1{font-size:17px}.eyebrow,.tagline{font-size:8px}.quick-stats strong{font-size:13px}.perf{gap:6px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+</style>
+</head>
+<body>
+  <main id="scene" aria-label="Interaktywny trójwymiarowy graf decyzji">
+    <div id="canvas-container"></div>
+    <div class="ambient ambient-a" aria-hidden="true"></div>
+    <div class="ambient ambient-b" aria-hidden="true"></div>
+    <div class="corner-mark top-left" aria-hidden="true">NEURAL FLOW <span>// 001</span></div>
+    <div class="corner-mark bottom-right" aria-hidden="true">QUANTUM TREE LAB <span>v1.0</span></div>
+    <div class="scene-status"><span class="live-dot" id="live-dot"></span><span id="scene-status">GOTOWY DO SYMULACJI</span></div>
+    <div class="hint" id="scene-hint">Przeciągnij, aby obrócić · Przewiń, aby przybliżyć</div>
+    <div class="tooltip" id="node-tooltip" role="status" aria-live="polite" hidden></div>
+  </main>
+
+  <section class="perf" aria-label="Wydajność grafiki">
+    <div><span>FPS</span><strong id="fps-counter">—</strong></div>
+    <div><span>NODES</span><strong id="node-count">63</strong></div>
+    <div><span>DRAW</span><strong id="draw-calls">—</strong></div>
+  </section>
+
+  <aside class="panel" id="main-panel" aria-label="Sterowanie Quantum Tree">
+    <button class="sheet-toggle" id="sheet-toggle" type="button" aria-expanded="false" aria-controls="panel-content" aria-label="Rozwiń panel sterowania"><span class="handle"></span></button>
+    <div class="panel-inner" id="panel-content">
+      <div class="brand-row">
+        <div><p class="eyebrow">SYSTEM / AI VISUALIZATION</p><h1>QUANTUM<span> TREE</span></h1><p class="tagline">NEURAL DECISION NETWORK <span class="version">/ BETA</span></p></div>
+        <div class="brand-icon" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+      <div class="mode-notice"><span class="warning-dot"></span><span>TRYB DEMONSTRACYJNY — WYNIKI SĄ LOSOWĄ SYMULACJĄ, NIE TRANSAKCJAMI</span></div>
+
+      <div class="quick-stats">
+        <div><small>SIM P&amp;L</small><strong id="header-pnl" class="profit">+$0.00</strong></div>
+        <div><small>WIN RATE</small><strong id="header-winrate" class="yellow">0%</strong></div>
+        <div><small>IN FLIGHT</small><strong id="header-packets" class="pink">0</strong></div>
+      </div>
+
+      <p class="section-label">01 / TRYB SIECI</p>
+      <div class="mode-grid" role="group" aria-label="Wybierz tryb">
+        <button class="mode-btn active" id="btn-explore" data-phase="explore" type="button" aria-pressed="true"><span>◈</span> EXPLORE</button>
+        <button class="mode-btn purple" id="btn-learn" data-phase="learn" type="button" aria-pressed="false"><span>✧</span> LEARN</button>
+        <button class="mode-btn green" id="btn-trade" data-phase="trade" type="button" aria-pressed="false"><span>⌁</span> TRADE</button>
+      </div>
+      <p class="phase-caption" id="phase-description">Eksploruj losowe ścieżki przez sieć.</p>
+
+      <p class="section-label">02 / STEROWANIE</p>
+      <div class="action-grid">
+        <button type="button" class="action-btn start" id="btn-play">▶ START</button>
+        <button type="button" class="action-btn" id="btn-pause" disabled>Ⅱ PAUZA</button>
+        <button type="button" class="action-btn reset" id="btn-reset" aria-label="Wyczyść statystyki i pakiety">↺ RESET</button>
+      </div>
+
+      <div class="control-row"><label for="speed-slider">PRĘDKOŚĆ PRZEPŁYWU</label><output id="speed-val" for="speed-slider">1.0×</output></div>
+      <input type="range" id="speed-slider" min="0.1" max="5" step="0.1" value="1">
+      <div class="scale-markers"><span>0.1×</span><span>5.0×</span></div>
+
+      <div class="control-row"><label for="complexity-slider">ZŁOŻONOŚĆ SIECI</label><output id="complexity-val" for="complexity-slider">6 WARSTW</output></div>
+      <input type="range" id="complexity-slider" min="3" max="7" step="1" value="6">
+      <div class="scale-markers"><span>3 WARSTWY</span><span>7 WARSTW</span></div>
+
+      <div class="layer-heading"><p class="section-label">03 / ARCHITEKTURA</p><span id="total-connections">62 LINKS</span></div>
+      <div class="layers" id="layers-viz" aria-label="Liczba węzłów w poszczególnych warstwach"></div>
+
+      <div class="details-grid">
+        <div><small>PRZEPUSTOWOŚĆ</small><strong id="stat-throughput">0 /s</strong></div>
+        <div><small>SKUTECZNOŚĆ</small><strong id="stat-efficiency">0%</strong></div>
+      </div>
+      <div class="footer"><span>● WEBGL / THREE.JS</span><button id="btn-camera" type="button">↗ RESET WIDOKU</button></div>
+    </div>
+  </aside>
+
+  <div id="webgl-error" class="webgl-error" role="alert" hidden>Nie udało się uruchomić grafiki WebGL. Sprawdź, czy przeglądarka obsługuje WebGL oraz czy masz dostęp do CDN Three.js.</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/Pass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+  <script>
+/* Quantum Tree AI — fully local visual simulation; no market or trading APIs. */
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const App = { playing:false, phase:'explore', speed:1, layers:6, packetsMax:matchMedia('(pointer: coarse)').matches ? 65 : 150, pixelRatio:Math.min(devicePixelRatio || 1,matchMedia('(pointer: coarse)').matches ? 1 : 1.7), frame:0, fps:0, lowFpsSeconds:0 };
+  const metrics={pnl:0,wins:0,total:0,completed:0};
+  const palette=[0xffffff,0x00daff,0x2695ff,0x7466ff,0xbc55ff,0xff4dbf,0xff557b];
+  const names=['ROOT','TREND','INDICATOR','RISK','DECISION','EXECUTE','MICRO'];
+  const descriptions={explore:'Eksploruj losowe ścieżki przez sieć.',learn:'Symulowane wzmocnienie odwiedzanych połączeń.',trade:'Pokazuj dodatnie i ujemne wyniki symulacji.'};
+  let scene,camera,renderer,composer,controls,raycaster,mouse,edges,particles;
+  let levels=[],nodes=[],active=[],available=[],lastFrame=performance.now(),spawnTimer=0,statsTimer=0,completedLast=0,fpsFrames=0,fpsTime=0;
+  const dummy = typeof THREE === 'undefined' ? null : new THREE.Object3D();
+  const color = typeof THREE === 'undefined' ? null : new THREE.Color();
+  const clamp=(v,min,max)=>Math.min(max,Math.max(min,v));
+
+  function updateControls(){
+    ['explore','learn','trade'].forEach(phase=>{const button=$('btn-'+phase);const selected=phase===App.phase;button.classList.toggle('active',selected);button.setAttribute('aria-pressed',String(selected));});
+    $('phase-description').textContent=descriptions[App.phase];
+    $('btn-play').disabled=App.playing;
+    $('btn-pause').disabled=!App.playing;
+    $('scene-status').textContent=App.playing?App.phase.toUpperCase()+' / SYMULACJA AKTYWNA':'GOTOWY DO SYMULACJI';
+    $('live-dot').classList.toggle('running',App.playing);
+  }
+  function displayStats(){
+    const pnl=$('header-pnl');pnl.textContent=(metrics.pnl>=0?'+':'−')+'
+</body>
+</html>
++Math.abs(metrics.pnl).toFixed(2);pnl.className=metrics.pnl>=0?'profit':'loss';
+    $('header-winrate').textContent=(metrics.total?Math.round(metrics.wins/metrics.total*100):0)+'%';
+    $('header-packets').textContent=active.length;
+    $('stat-efficiency').textContent=(metrics.total?Math.round(metrics.wins/metrics.total*100):0)+'%';
+  }
+  function disposeObject(mesh){if(!mesh)return;scene.remove(mesh);mesh.geometry?.dispose();const mats=Array.isArray(mesh.material)?mesh.material:[mesh.material];mats.forEach(m=>m?.dispose());}
+  function layoutTree(count){
+    const gap=97,spread=355;
+    for(let level=0;level<count;level++){
+      const number=2**level;const geo=new THREE.SphereGeometry(Math.max(3,8-level*.85),12,10);
+      const mat=new THREE.MeshBasicMaterial({color:palette[level],transparent:true,opacity:.96});
+      const instances=new THREE.InstancedMesh(geo,mat,number);instances.userData.level=level;
+      const scale=level===0?1:1;
+      for(let i=0;i<number;i++){
+        const x=(level-(count-1)/2)*gap;
+        const y=number===1?0:((i/(number-1))-.5)*spread;
+        const z=Math.sin(i*1.73+level*.91)*24 + Math.cos(i*.55+level)*12;
+        const id=(2**level-1)+i;
+        dummy.position.set(x,y,z);dummy.scale.setScalar(scale);dummy.updateMatrix();instances.setMatrixAt(i,dummy.matrix);
+        nodes[id]={id,level,index:i,position:new THREE.Vector3(x,y,z),parent:level?Math.floor((id-1)/2):null,visits:0,profit:0};
+      }
+      instances.instanceMatrix.needsUpdate=true;scene.add(instances);levels.push(instances);
+    }
+    const positions=[],colors=[];
+    nodes.forEach(n=>{if(n.parent===null)return;const p=nodes[n.parent];positions.push(p.position.x,p.position.y,p.position.z,n.position.x,n.position.y,n.position.z);for(let j=0;j<2;j++)colors.push(.04,.66,.91);});
+    const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));
+    edges=new THREE.LineSegments(geometry,new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:.25}));scene.add(edges);
+    const particleGeo=new THREE.SphereGeometry(2.65,7,6);const particleMat=new THREE.MeshBasicMaterial({color:0xffffff});
+    particles=new THREE.InstancedMesh(particleGeo,particleMat,App.packetsMax);particles.instanceMatrix.setUsage(THREE.DynamicDrawUsage);particles.count=0;scene.add(particles);
+  }
+  function renderLayers(){
+    $('layers-viz').replaceChildren(...Array.from({length:App.layers},(_,i)=>{
+      const d=document.createElement('div');d.className='layer-item';
+      const dot=document.createElement('span');dot.className='layer-dot';dot.style.color='#'+palette[i].toString(16).padStart(6,'0');dot.style.background='currentColor';
+      const index=document.createElement('span');index.className='layer-index';index.textContent='L'+i;
+      const amount=document.createElement('strong');amount.className='layer-nodes';amount.textContent=String(2**i);
+      const name=document.createElement('span');name.className='layer-name';name.textContent=names[i];
+      d.append(dot,index,amount,name);return d;
+    }));
+    $('node-count').textContent=nodes.length;$('total-connections').textContent=(nodes.length-1)+' LINKS';
+    $('complexity-val').textContent=App.layers+' WARSTW';
+  }
+  function rebuildTree(count){
+    levels.forEach(disposeObject);disposeObject(edges);disposeObject(particles);levels=[];nodes=[];active=[];available=[];spawnTimer=0;
+    App.layers=count;layoutTree(count);renderLayers();resetStats();
+  }
+  function resetStats(){
+    metrics.pnl=0;metrics.wins=0;metrics.total=0;metrics.completed=0;completedLast=0;
+    active.length=0;available.length=0;spawnTimer=0;
+    nodes.forEach(n=>{n.profit=0;n.visits=0});
+    if(particles)particles.count=0;
+    updateEdgeColors();$('stat-throughput').textContent='0 /s';displayStats();
+  }
+  function updateEdgeColors(){
+    if(!edges)return;
+    const a=edges.geometry.attributes.color;let k=0;
+    nodes.forEach(n=>{if(n.parent===null)return;const avg=n.visits?n.profit/n.visits:0;
+      const rgb=avg>.2?[.07,.96,.62]:avg<-.2?[1,.18,.39]:[.04,.66,.91];
+      for(let i=0;i<2;i++){a.array[k++]=rgb[0];a.array[k++]=rgb[1];a.array[k++]=rgb[2];}
+    });a.needsUpdate=true;
+  }
+  function spawn(){
+    if(active.length>=App.packetsMax)return;
+    const p=available.pop()||{path:[]};p.path.length=0;p.path.push(0);p.segment=0;p.t=0;p.velocity=.44+Math.random()*.40;p.profit=(Math.random()-.48)*105;
+    let cursor=0;
+    for(let level=1;level<App.layers;level++){cursor=cursor*2+1+(Math.random()<.5?0:1);if(cursor>=nodes.length)break;p.path.push(cursor);}
+    active.push(p);
+  }
+  function finish(p){
+    metrics.total++;metrics.completed++;metrics.pnl+=p.profit;if(p.profit>0)metrics.wins++;
+    if(App.phase==='learn'||App.phase==='trade')p.path.forEach(i=>{nodes[i].visits++;nodes[i].profit+=p.profit;});
+  }
+  function movePackets(dt){
+    const step=dt*App.speed;
+    for(let i=active.length-1;i>=0;i--){
+      const p=active[i];p.t+=p.velocity*step;
+      while(p.t>=1){p.t-=1;p.segment++;if(p.segment>=p.path.length-1){finish(p);available.push(active.splice(i,1)[0]);break;}}
+    }
+    for(let i=0;i<active.length;i++){
+      const p=active[i],a=nodes[p.path[p.segment]],b=nodes[p.path[p.segment+1]];
+      if(!a||!b)continue;
+      dummy.position.lerpVectors(a.position,b.position,p.t);dummy.position.z+=Math.sin(p.t*Math.PI)*13;
+      dummy.scale.setScalar(.75+.3*Math.sin(p.t*Math.PI));dummy.updateMatrix();particles.setMatrixAt(i,dummy.matrix);
+      color.setHex(p.profit>=0?0x4cffa8:0xff417d);particles.setColorAt(i,color);
+    }
+    particles.count=active.length;
+    if(particles.count){particles.instanceMatrix.needsUpdate=true;if(particles.instanceColor)particles.instanceColor.needsUpdate=true;}
+    spawnTimer+=step*4.2;
+    while(spawnTimer>=1){spawn();spawnTimer-=1;}
+  }
+  function resetCamera(){
+    const mobile=innerWidth<=768;camera.position.set(mobile?-38:-70,35,mobile?clamp(1500*390/Math.max(320,innerWidth),890,1700):690);
+    camera.lookAt(0,0,0);controls.target.set(0,0,0);controls.update();
+  }
+  function resize(){
+    if(!renderer)return;camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth,innerHeight);composer?.setSize(innerWidth,innerHeight);
+  }
+  function setPhase(phase){App.phase=phase;updateControls();updateEdgeColors();}
+  function hookUI(){
+    document.querySelectorAll('[data-phase]').forEach(b=>b.addEventListener('click',()=>setPhase(b.dataset.phase)));
+    $('btn-play').addEventListener('click',()=>{App.playing=true;updateControls();});
+    $('btn-pause').addEventListener('click',()=>{App.playing=false;updateControls();});
+    $('btn-reset').addEventListener('click',resetStats);
+    $('btn-camera').addEventListener('click',resetCamera);
+    $('speed-slider').addEventListener('input',e=>{App.speed=Number(e.target.value);$('speed-val').textContent=App.speed.toFixed(1)+'×';});
+    $('complexity-slider').addEventListener('change',e=>rebuildTree(Number(e.target.value)));
+    const sheet=$('main-panel'),toggle=$('sheet-toggle');
+    toggle.addEventListener('click',()=>{const expanded=sheet.classList.toggle('expanded');toggle.setAttribute('aria-expanded',String(expanded));toggle.setAttribute('aria-label',expanded?'Zwiń panel sterowania':'Rozwiń panel sterowania');});
+    window.addEventListener('keydown',e=>{if(e.key==='Escape'&&sheet.classList.contains('expanded')){sheet.classList.remove('expanded');toggle.setAttribute('aria-expanded','false');}});
+    let resizer;window.addEventListener('resize',()=>{clearTimeout(resizer);resizer=setTimeout(resize,90);},{passive:true});
+    $('canvas-container').addEventListener('pointermove',onPointer,{passive:true});
+    $('canvas-container').addEventListener('pointerleave',()=>$('node-tooltip').hidden=true);
+  }
+  function onPointer(event){
+    if(event.pointerType==='touch'||App.frame%3!==0)return;
+    const rect=renderer.domElement.getBoundingClientRect();mouse.x=((event.clientX-rect.left)/rect.width)*2-1;mouse.y=-((event.clientY-rect.top)/rect.height)*2+1;
+    raycaster.setFromCamera(mouse,camera);const hits=raycaster.intersectObjects(levels,false);
+    const tip=$('node-tooltip');if(!hits.length){tip.hidden=true;return;}
+    const hit=hits[0],node=nodes[(2**hit.object.userData.level-1)+hit.instanceId];if(!node)return;
+    tip.textContent='L'+node.level+' / '+names[node.level]+' · WĘZEŁ '+node.index+' · PRZEJŚCIA '+node.visits;
+    tip.style.left=Math.min(event.clientX+14,innerWidth-220)+'px';tip.style.top=Math.max(8,event.clientY-48)+'px';tip.hidden=false;
+  }
+  function animate(time){
+    requestAnimationFrame(animate);
+    const dt=clamp((time-lastFrame)/1000,0,.06);lastFrame=time;
+    if(document.hidden)return;
+    App.frame++;
+    if(App.playing){movePackets(dt);edges.material.opacity=.20+.06*Math.sin(time*.001);}
+    if(App.phase==='trade'&&App.playing&&App.frame%40===0)updateEdgeColors();
+    controls.update();
+    if(composer)composer.render();else renderer.render(scene,camera);
+    fpsFrames++;fpsTime+=dt;statsTimer+=dt;
+    if(fpsTime>=.75){App.fps=Math.round(fpsFrames/fpsTime);$('fps-counter').textContent=App.fps;fpsFrames=0;fpsTime=0;
+      if(App.fps<25&&App.playing)App.lowFpsSeconds+=.75;else App.lowFpsSeconds=Math.max(0,App.lowFpsSeconds-1);
+      if(App.lowFpsSeconds>4){App.lowFpsSeconds=0;composer=null;App.pixelRatio=Math.min(App.pixelRatio,1);renderer.setPixelRatio(App.pixelRatio);resize();}
+    }
+    if(statsTimer>=1){$('draw-calls').textContent=renderer.info.render.calls;$('stat-throughput').textContent=(metrics.completed-completedLast)+' /s';completedLast=metrics.completed;statsTimer=0;displayStats();}
+  }
+  function init(){
+    hookUI();updateControls();
+    try{
+      if(typeof THREE==='undefined'||!THREE.OrbitControls)throw new Error('Three.js failed to load');
+      scene=new THREE.Scene();scene.background=new THREE.Color(0x040817);scene.fog=new THREE.FogExp2(0x040817,.00065);
+      camera=new THREE.PerspectiveCamera(53,innerWidth/innerHeight,2,4000);
+      renderer=new THREE.WebGLRenderer({antialias:App.pixelRatio<=1,powerPreference:'high-performance',alpha:false});
+      renderer.setPixelRatio(App.pixelRatio);renderer.setSize(innerWidth,innerHeight);$('canvas-container').appendChild(renderer.domElement);
+      controls=new THREE.OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.055;controls.minDistance=130;controls.maxDistance=2600;controls.autoRotate=true;controls.autoRotateSpeed=.42;
+      raycaster=new THREE.Raycaster();mouse=new THREE.Vector2();
+      if(innerWidth>768&&THREE.EffectComposer&&THREE.UnrealBloomPass){
+        composer=new THREE.EffectComposer(renderer);composer.addPass(new THREE.RenderPass(scene,camera));
+        composer.addPass(new THREE.UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),1.25,.45,.18));
+      }
+      resetCamera();rebuildTree(App.layers);requestAnimationFrame(t=>{lastFrame=t;animate(t);});
+    }catch(error){console.error('WebGL setup failed',error);$('webgl-error').hidden=false;$('scene-status').textContent='WEBGL NIEDOSTĘPNY';}
+  }
+  init();
+})();
+
+</script>
+</body>
+</html>
