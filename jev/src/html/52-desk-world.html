@@ -1,0 +1,88 @@
+<!-- ===== desk-world: the world (globe · global feeds · ticket in flight) + six-agent strip (prefix dkw-) — direct children of .dk-grid ===== -->
+<div class="card dkw-world rv" id="dkw-world" role="region" aria-label="the world: eight venues, one oracle, one book, six agents in orbit (simulated)">
+  <div class="ph dkw-ph">
+    <span class="dkw-pt"><b class="pk">◆</b> <b>the world</b> <i class="dkw-ph-s">— eight simulated venues · one oracle · one book · jev in orbit</i></span>
+    <span class="dkw-stg"><span class="hide-s">sizing the ticket · </span>stage <b id="dkw-stn">01</b>/06 · <b id="dkw-stv">scan</b> · loop #<b id="dkw-loop">14</b></span>
+  </div>
+
+  <div class="dkw-body" id="dkw-body">
+    <canvas class="dkw-cv" id="dkw-cv" aria-hidden="true"></canvas>
+
+    <!-- left: global feeds -->
+    <aside class="dkw-feeds" id="dkw-feeds" aria-label="global feeds">
+      <div class="dkw-ch"><span>global feeds</span><i title="spread across the 8 simulated books"><b id="dkw-disp">0.9</b>bp spread</i></div>
+      <div class="dkw-or">
+        <div class="dkw-orh"><span>oracle · <b>btc-perp</b></span><em class="dkw-orm">mid of 8</em></div>
+        <div class="dkw-orp"><sup>$</sup><b id="dkw-op">84,722</b><u id="dkw-opd">.4</u><span class="dkw-orc up" id="dkw-oc">▲ 0.00%</span></div>
+        <canvas class="dkw-ocv" id="dkw-ocv" aria-hidden="true"></canvas>
+      </div>
+      <ul class="dkw-vl" id="dkw-vl">
+        <li><button type="button" class="dkw-v" data-k="coinbase" style="--vc:#4d8dff;--vc-rgb:77,141,255" aria-label="face the coinbase venue on the globe"><span class="dkw-vn"><b>coinbase</b><i>sfo</i></span><span class="dkw-vp num">84,722.4</span><span class="dkw-vs" aria-hidden="true"></span><span class="dkw-vm"><u>24ms</u> <s>+0.3bp</s></span></button></li>
+        <li><button type="button" class="dkw-v" data-k="kraken" style="--vc:#a66bff;--vc-rgb:166,107,255" aria-label="face the kraken venue on the globe"><span class="dkw-vn"><b>kraken</b><i>nyc</i></span><span class="dkw-vp num">84,722.1</span><span class="dkw-vs" aria-hidden="true"></span><span class="dkw-vm"><u>31ms</u> <s>-0.2bp</s></span></button></li>
+        <li><button type="button" class="dkw-v" data-k="binance" style="--vc:#ffc13d;--vc-rgb:255,193,61" aria-label="face the binance venue on the globe"><span class="dkw-vn"><b>binance</b><i>sgp</i></span><span class="dkw-vp num">84,722.6</span><span class="dkw-vs" aria-hidden="true"></span><span class="dkw-vm"><u>18ms</u> <s>+0.1bp</s></span></button></li>
+        <li><button type="button" class="dkw-v" data-k="okx" style="--vc:#e6e0f0;--vc-rgb:230,224,240" aria-label="face the okx venue on the globe"><span class="dkw-vn"><b>okx</b><i>syd</i></span><span class="dkw-vp num">84,722.3</span><span class="dkw-vs" aria-hidden="true"></span><span class="dkw-vm"><u>42ms</u> <s>-0.1bp</s></span></button></li>
+        <li><button type="button" class="dkw-v" data-k="bybit" style="--vc:#ff8a3d;--vc-rgb:255,138,61" aria-label="face the bybit venue on the globe"><span class="dkw-vn"><b>bybit</b><i>dxb</i></span><span class="dkw-vp num">84,722.7</span><span class="dkw-vs" aria-hidden="true"></span><span class="dkw-vm"><u>36ms</u> <s>+0.2bp</s></span></button></li>
+        <li><button type="button" class="dkw-v" data-k="bitstamp" style="--vc:#2ee6a6;--vc-rgb:46,230,166" aria-label="face the bitstamp venue on the globe"><span class="dkw-vn"><b>bitstamp</b><i>lon</i></span><span class="dkw-vp num">84,721.9</span><span class="dkw-vs" aria-hidden="true"></span><span class="dkw-vm"><u>58ms</u> <s>-0.4bp</s></span></button></li>
+        <li><button type="button" class="dkw-v" data-k="upbit" style="--vc:#3be0ff;--vc-rgb:59,224,255" aria-label="face the upbit venue on the globe"><span class="dkw-vn"><b>upbit</b><i>tyo</i></span><span class="dkw-vp num">84,723.4</span><span class="dkw-vs" aria-hidden="true"></span><span class="dkw-vm"><u>71ms</u> <s>+0.8bp</s></span></button></li>
+        <li><button type="button" class="dkw-v" data-k="deribit" style="--vc:#ff7ab3;--vc-rgb:255,122,179" aria-label="face the deribit venue on the globe"><span class="dkw-vn"><b>deribit</b><i>fra</i></span><span class="dkw-vp num">84,722.5</span><span class="dkw-vs" aria-hidden="true"></span><span class="dkw-vm"><u>27ms</u> <s>0.0bp</s></span></button></li>
+      </ul>
+    </aside>
+
+    <!-- centre: globe stage (canvas lives in .dkw-body so the beams can reach the ticket column) -->
+    <div class="dkw-stage" id="dkw-stage">
+      <div class="dkw-cap" aria-hidden="true"><b>btc-perp</b> · 8 venues · 1 oracle<span class="hide-s"> · 1 book · 6 agents in orbit</span></div>
+      <div class="dkw-grab" id="dkw-grab" role="img" aria-label="a slowly rotating globe with eight venue markers; glowing packets travel along arcs between them and beams run to the ticket in flight. drag to spin it."></div>
+      <button type="button" class="dkw-ob" data-k="spotter" style="--ac-rgb:46,230,166;--ac:#2ee6a6" aria-label="spotter, scans books and venues"><span class="orb green"><i class="e l"></i><i class="e r"></i></span><em>spotter</em></button>
+      <button type="button" class="dkw-ob" data-k="prior" style="--ac-rgb:255,193,61;--ac:#ffc13d" aria-label="prior, prior from history"><span class="orb amber"><i class="e l"></i><i class="e r"></i></span><em>prior</em></button>
+      <button type="button" class="dkw-ob" data-k="edge" style="--ac-rgb:255,46,110;--ac:#ff2e6e" aria-label="edge, fair value versus market"><span class="orb pink"><i class="e l"></i><i class="e r"></i></span><em>edge</em></button>
+      <button type="button" class="dkw-ob" data-k="kelly" style="--ac-rgb:166,107,255;--ac:#a66bff" aria-label="kelly, sizes the ticket"><span class="orb violet"><i class="e l"></i><i class="e r"></i></span><em>kelly</em></button>
+      <button type="button" class="dkw-ob" data-k="taker" style="--ac-rgb:77,141,255;--ac:#4d8dff" aria-label="taker, crosses the spread"><span class="orb blue"><i class="e l"></i><i class="e r"></i></span><em>taker</em></button>
+      <button type="button" class="dkw-ob" data-k="closer" style="--ac-rgb:255,138,61;--ac:#ff8a3d" aria-label="closer, takes profit or stops"><span class="orb orange"><i class="e l"></i><i class="e r"></i></span><em>closer</em></button>
+      <div class="dkw-jv" id="dkw-jv" aria-hidden="true"><span class="orb white"><i class="e l"></i><i class="e r"></i></span><em>jev · answers</em></div>
+      <div class="dkw-lg" aria-hidden="true"><span style="--c:#ffc13d">quote</span><span style="--c:#f4eef6">order</span><span style="--c:#ff7ab3">jev</span><span style="--c:#3be0ff">fill</span></div>
+      <div class="dkw-hint hide-s" aria-hidden="true">drag to spin · click a venue to face it</div>
+    </div>
+
+    <!-- right: ticket in flight -->
+    <aside class="dkw-tix" id="dkw-tix" aria-label="ticket in flight">
+      <div class="dkw-ch"><span>ticket in flight</span><i id="dkw-tid">#0000</i></div>
+      <div class="dkw-tk" id="dkw-tk">
+        <i class="dkw-port" id="dkw-port" aria-hidden="true"></i>
+        <div class="dkw-tk1"><span class="dkw-side" id="dkw-side" data-s="buy">buy</span><b class="dkw-sym" id="dkw-sym">btc-perp</b><em class="dkw-dest" id="dkw-dest">execute</em></div>
+        <div class="dkw-tk2"><span class="dkw-not"><sup>$</sup><b id="dkw-not">5,278</b></span><u id="dkw-edge">+22.4bp edge</u></div>
+        <div class="dkw-kv">
+          <div><label>size</label><b id="dkw-sz">1%</b></div>
+          <div><label>price</label><b id="dkw-px">84,722.4</b></div>
+          <div><label>conf</label><b id="dkw-cf">0.91</b></div>
+        </div>
+        <div class="dkw-rail" id="dkw-rail" style="--q:0;--mc:#2ee6a6" aria-hidden="true">
+          <i class="dkw-rln"></i><i class="dkw-rfl"></i>
+          <i class="dkw-sd" style="--n:0;--ac:#2ee6a6"></i><i class="dkw-sd" style="--n:1;--ac:#ffc13d"></i><i class="dkw-sd" style="--n:2;--ac:#ff2e6e"></i>
+          <i class="dkw-sd" style="--n:3;--ac:#a66bff"></i><i class="dkw-sd" style="--n:4;--ac:#4d8dff"></i><i class="dkw-sd" style="--n:5;--ac:#ff8a3d"></i>
+          <b class="dkw-mk"></b>
+        </div>
+        <div class="dkw-rl" aria-hidden="true"><span>spot</span><span>prior</span><span>edge</span><span>kelly</span><span>taker</span><span>closer</span></div>
+        <div class="dkw-now"><span class="orb green" id="dkw-now-o"><i class="e l"></i><i class="e r"></i></span><span class="dkw-nt"><b id="dkw-now-n">spotter</b><i id="dkw-now-v">scan</i></span><em id="dkw-now-x">8 books</em></div>
+        <div class="dkw-cd"><span>closes in <b id="dkw-cd" class="num">1:44</b></span><i class="dkw-cdb"><i id="dkw-cdf"></i></i></div>
+        <div class="dkw-halt" aria-hidden="true"><b>halted</b><i>kill switch · orders held for review</i></div>
+      </div>
+      <div class="dkw-ag" id="dkw-ag">
+        <button type="button" class="dkw-ar" data-k="spotter" style="--ac:#2ee6a6;--ac-rgb:46,230,166" aria-pressed="false"><span class="orb green"><i class="e l"></i><i class="e r"></i></span><span class="dkw-an"><b>spotter</b><i>scans books and venues</i></span><span class="dkw-av num">SFO</span><span class="dkw-ab"><i></i></span></button>
+        <button type="button" class="dkw-ar" data-k="prior" style="--ac:#ffc13d;--ac-rgb:255,193,61" aria-pressed="false"><span class="orb amber"><i class="e l"></i><i class="e r"></i></span><span class="dkw-an"><b>prior</b><i>prior from history</i></span><span class="dkw-av num">.62</span><span class="dkw-ab"><i></i></span></button>
+        <button type="button" class="dkw-ar" data-k="edge" style="--ac:#ff2e6e;--ac-rgb:255,46,110" aria-pressed="false"><span class="orb pink"><i class="e l"></i><i class="e r"></i></span><span class="dkw-an"><b>edge</b><i>fair value vs market</i></span><span class="dkw-av num">+2.8</span><span class="dkw-ab"><i></i></span></button>
+        <button type="button" class="dkw-ar" data-k="kelly" style="--ac:#a66bff;--ac-rgb:166,107,255" aria-pressed="false"><span class="orb violet"><i class="e l"></i><i class="e r"></i></span><span class="dkw-an"><b>kelly</b><i>sizes the ticket</i></span><span class="dkw-av num">1%</span><span class="dkw-ab"><i></i></span></button>
+        <button type="button" class="dkw-ar" data-k="taker" style="--ac:#4d8dff;--ac-rgb:77,141,255" aria-pressed="false"><span class="orb blue"><i class="e l"></i><i class="e r"></i></span><span class="dkw-an"><b>taker</b><i>crosses the spread</i></span><span class="dkw-av num">0.4bp</span><span class="dkw-ab"><i></i></span></button>
+        <button type="button" class="dkw-ar" data-k="closer" style="--ac:#ff8a3d;--ac-rgb:255,138,61" aria-pressed="false"><span class="orb orange"><i class="e l"></i><i class="e r"></i></span><span class="dkw-an"><b>closer</b><i>takes profit / stops</i></span><span class="dkw-av num">+$37</span><span class="dkw-ab"><i></i></span></button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<div class="dkw-tabs rv" id="dkw-tabs" role="group" aria-label="the six desk agents — pick one to pin it, pick it again to follow the live step" style="--i:1">
+  <button type="button" class="dkw-tab" data-k="spotter" style="--ac:#2ee6a6;--ac-rgb:46,230,166" aria-pressed="false"><span class="orb green"><i class="e l"></i><i class="e r"></i></span><span class="dkw-tn"><i>01 · scan</i><b>spotter</b></span><em class="dkw-ts">idle</em></button>
+  <button type="button" class="dkw-tab" data-k="prior" style="--ac:#ffc13d;--ac-rgb:255,193,61" aria-pressed="false"><span class="orb amber"><i class="e l"></i><i class="e r"></i></span><span class="dkw-tn"><i>02 · research</i><b>prior</b></span><em class="dkw-ts">idle</em></button>
+  <button type="button" class="dkw-tab" data-k="edge" style="--ac:#ff2e6e;--ac-rgb:255,46,110" aria-pressed="false"><span class="orb pink"><i class="e l"></i><i class="e r"></i></span><span class="dkw-tn"><i>03 · price</i><b>edge</b></span><em class="dkw-ts">idle</em></button>
+  <button type="button" class="dkw-tab" data-k="kelly" style="--ac:#a66bff;--ac-rgb:166,107,255" aria-pressed="false"><span class="orb violet"><i class="e l"></i><i class="e r"></i></span><span class="dkw-tn"><i>04 · size</i><b>kelly</b></span><em class="dkw-ts">idle</em></button>
+  <button type="button" class="dkw-tab" data-k="taker" style="--ac:#4d8dff;--ac-rgb:77,141,255" aria-pressed="false"><span class="orb blue"><i class="e l"></i><i class="e r"></i></span><span class="dkw-tn"><i>05 · fill</i><b>taker</b></span><em class="dkw-ts">idle</em></button>
+  <button type="button" class="dkw-tab" data-k="closer" style="--ac:#ff8a3d;--ac-rgb:255,138,61" aria-pressed="false"><span class="orb orange"><i class="e l"></i><i class="e r"></i></span><span class="dkw-tn"><i>06 · close</i><b>closer</b></span><em class="dkw-ts">idle</em></button>
+</div>

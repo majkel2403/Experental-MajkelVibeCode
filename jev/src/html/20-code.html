@@ -1,0 +1,147 @@
+<section class="sec" id="code" aria-label="jev-starter: the plain code around jev - illustrative python and a simulated terminal">
+  <div class="wrap">
+    <div class="sec-head code-head rv">
+      <div class="code-ht">
+        <div class="eb">code acts <i>jev-starter &middot; 4 files</i></div>
+        <h2 class="h2 code-h2">the model <em>answers</em>. plain code decides what is sent.</h2>
+        <p class="lede">hermes wrote the intent, jev answers three typed questions, and a few lines of python hold the floor, the loss cap and the kill switch. hard rules live in code, not in the model. illustrative code &middot; simulated desk &middot; no order ever leaves this page.</p>
+      </div>
+      <div class="code-flow" aria-hidden="true">
+        <div class="code-fn" data-c="orange"><small>hermes</small><b>intent</b></div><i class="code-fw"></i>
+        <div class="code-fn" data-c="pink"><small>jev</small><b>ask()</b></div><i class="code-fw"></i>
+        <div class="code-fn" data-c="yellow"><small>code</small><b>gate()</b></div><i class="code-fw"></i>
+        <div class="code-fn" data-c="green" data-d="execute"><small>queue/</small><b>execute</b></div>
+      </div>
+    </div>
+
+    <div class="code-stage">
+      <i class="code-glow" aria-hidden="true"></i>
+      <div class="code-win card rv" id="code-win">
+        <div class="code-bar">
+          <span class="code-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="code-title"><b>jev-starter</b><span class="hide-s"> &mdash; <span class="code-tab" data-t="desk">desk.py</span> &middot; <span class="code-tab" data-t="state">state.json</span> &middot; <span class="code-tab" data-t="queue">queue</span> &middot; <span class="code-tab" data-t="q">questions.py</span></span><span class="show-s"> &mdash; 4 files</span></span>
+          <canvas class="code-eq" id="code-eq" aria-hidden="true"></canvas>
+        </div>
+
+        <div class="code-grid">
+          <!-- 1 - desk.py : light -->
+          <article class="code-pane code-light" data-k="desk" aria-label="desk.py">
+            <header class="code-ph"><i class="code-pd"></i><b>desk.py</b><span class="code-meta">ln <em class="code-ln-n">1</em> &middot; <em class="code-ts-n">0.0</em> t/s</span></header>
+            <div class="code-view">
+              <div class="code-body" tabindex="0" role="region" aria-label="desk.py source (scroll sideways on small screens)">
+                <div class="code-doc"><pre class="code-src" data-lang="py">import json
+from pathlib import Path
+from uuid import uuid4
+
+import jev
+from questions import QUESTIONS, FLOOR, gate
+
+# hermes wrote the intent. jev answers it. code decides.
+def desk(intent, state):
+    answer = jev.ask(state, questions=QUESTIONS)
+    reduces = answer.choice in ("close", "flatten")
+    ok = answer.confidence &gt;= FLOOR and (answer.risk_ok or reduces)
+    dest = "execute" if ok and gate(answer) else "review"
+    if answer.choice == "hold":
+        dest = "skip"
+
+    folder = Path(__file__).parent / "queue" / dest
+    folder.mkdir(parents=True, exist_ok=True)
+    job = folder / f"{uuid4().hex[:8]}.json"
+    job.write_text(json.dumps(dict(
+        intent=intent, choice=answer.choice,
+        size=answer.size, conf=answer.confidence,
+    )))
+    return job</pre></div>
+              </div>
+              <div class="code-mm" aria-hidden="true"><canvas></canvas><i></i></div>
+            </div>
+          </article>
+
+          <!-- 2 - state.json : hot pink, re-types itself with the latest decision -->
+          <article class="code-pane code-hot" data-k="state" aria-label="state.json">
+            <header class="code-ph"><i class="code-pd"></i><b>state.json</b><span class="code-tag" aria-hidden="true">live</span><span class="code-meta">ln <em class="code-ln-n">1</em> &middot; <em class="code-ts-n">0.0</em> t/s</span></header>
+            <div class="code-view">
+              <div class="code-body" tabindex="0" role="region" aria-label="state.json: the state and the typed answers of the latest simulated decision">
+                <div class="code-doc"><pre class="code-src" data-lang="json">{
+  "id": "b71d44a2",
+  "state": {
+    "symbol": "BTC-PERP",
+    "price": 84722.4,
+    "edge_bps": 22.4,
+    "spread_bps": 1.2,
+    "imbalance": 0.41,
+    "position_pct": 0.5,
+    "daily_pnl": 312,
+    "latency_ms": 41
+  },
+  "answers": {
+    "action": { "choice": "buy", "conf": 0.93 },
+    "size": { "pct": 1, "p": 0.62 },
+    "risk_ok": { "flag": true, "p": 0.96 }
+  },
+  "dest": "execute",
+  "why": "ok",
+  "ms": 3.2
+}</pre></div>
+              </div>
+              <div class="code-mm" aria-hidden="true"><canvas></canvas><i></i></div>
+            </div>
+          </article>
+
+          <!-- 3 - questions.py : light -->
+          <article class="code-pane code-light" data-k="q" aria-label="questions.py">
+            <header class="code-ph"><i class="code-pd"></i><b>questions.py</b><span class="code-meta">ln <em class="code-ln-n">1</em> &middot; <em class="code-ts-n">0.0</em> t/s</span></header>
+            <div class="code-view">
+              <div class="code-body" tabindex="0" role="region" aria-label="questions.py source (scroll sideways on small screens)">
+                <div class="code-doc"><pre class="code-src" data-lang="py"># hard rules live in code, not in the model.
+from pathlib import Path
+from jev import choice, score, flag
+
+QUESTIONS = {
+    "action": choice("buy", "sell", "hold", "close", "flatten"),
+    "size": score(0.5, 1, 2, 4),            # % of capital
+    "risk_ok": flag("spread, latency, loss, feed age"),
+}
+
+FLOOR = 0.85                  # below this a human looks first
+DAILY_LOSS_CAP = 2000         # usd, then the desk stops
+MAX_POSITION = 0.04           # 4% of capital
+KILL_FILE = Path("KILL")      # one file halts the desk
+
+def gate(answer):
+    if KILL_FILE.exists() or answer.daily_pnl &lt;= -DAILY_LOSS_CAP:
+        return False
+    return answer.size / 100 &lt;= MAX_POSITION</pre></div>
+              </div>
+              <div class="code-mm" aria-hidden="true"><canvas></canvas><i></i></div>
+            </div>
+          </article>
+
+          <!-- 4 - zsh : dark terminal, streams the real decisions -->
+          <article class="code-pane code-dark" data-k="zsh" aria-label="zsh terminal">
+            <header class="code-ph"><i class="code-pd"></i><b>zsh &mdash; jev-starter</b><span class="code-tag code-paused" aria-hidden="true" hidden>paused</span><button class="code-run" type="button" aria-label="fire a sample decision (simulated)"><i aria-hidden="true"></i>run</button><span class="code-meta">ln <em class="code-ln-n">1</em> &middot; <em class="code-ts-n">0.0</em> t/s</span></header>
+            <div class="code-view">
+              <div class="code-body code-term" role="log" aria-live="off" aria-label="terminal output: simulated decisions, newest at the bottom">
+                <div class="code-out"></div>
+              </div>
+              <div class="code-mm" aria-hidden="true"><canvas></canvas><i></i></div>
+            </div>
+          </article>
+        </div>
+
+        <div class="code-status" role="group" aria-label="simulated queue counters">
+          <span class="code-st-a"><i class="lamp"></i>jev-starter &middot; python</span>
+          <span class="code-st-b"><span class="hide-s">floor <b id="code-fl">0.85</b> &middot; </span>kill <b id="code-kl">armed</b></span>
+          <span class="code-st-q"><span class="code-st-l">queue/</span>
+            <span class="code-q code-q-x"><i></i>execute <b id="code-n-x">0</b></span>
+            <span class="code-q code-q-r"><i></i>review <b id="code-n-r">0</b></span>
+            <span class="code-q code-q-s"><i></i>skip <b id="code-n-s">0</b></span>
+            <span class="code-qbar" aria-hidden="true"><i class="x"></i><i class="r"></i><i class="s"></i></span>
+          </span>
+        </div>
+        <canvas class="code-fx" id="code-fx" aria-hidden="true"></canvas>
+      </div>
+    </div>
+  </div>
+</section>

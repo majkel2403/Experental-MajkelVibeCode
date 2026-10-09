@@ -1,0 +1,270 @@
+<section class="sec hr" id="hour" aria-labelledby="hr-h2">
+  <i class="hr-bgl" aria-hidden="true"></i>
+  <div class="wrap">
+
+    <header class="sec-head hr-head rv">
+      <div class="eb">03 <i>&middot;</i> the hour</div>
+      <h2 class="h2" id="hr-h2">Three agents. Sixty minutes. <em>One</em> bot allowed to send an order.</h2>
+      <p class="lede">hermes writes the strategy and the risk rules, dots pulls and cleans four years of candles, jev backtests it, caps it and arms it. every number in this section is an illustrative simulation &mdash; no order was sent, nothing here is a result you can bank.</p>
+      <div class="hr-pills" role="list">
+        <span class="pill hr-pill" role="listitem" data-c="orange"><i class="lamp amber"></i>60 min &middot; armed</span>
+        <span class="pill hr-pill" role="listitem" data-c="green">backtest +31%/yr &middot; 17% after costs</span>
+        <span class="pill hr-pill" role="listitem" data-c="gray">illustrative</span>
+      </div>
+    </header>
+
+    <div class="hr-grid">
+
+      <!-- ============ A · THE BUILD ============ -->
+      <article class="card hr-p hr-a rv" id="hr-a" data-c="orange" aria-labelledby="hr-a-t">
+        <i class="hr-edge" aria-hidden="true"></i>
+        <div class="hr-ph"><span class="hr-tag">the build</span><span class="hr-ps">3 agents &middot; 60 minutes &middot; 1 bot</span><span class="hr-badge" data-c="yellow">$0.90 / run</span></div>
+        <h3 class="hr-t" id="hr-a-t">Hermes writes the rules, <b class="hr-cb">Dots</b> feeds the data, and <b class="hr-cp">Jev</b> is the only one that can send an order</h3>
+        <p class="hr-note"><span data-c="yellow">top: the three heads and what passes between them</span><span class="hide-s">bottom: four years of candles replayed, with the entries and their stops</span></p>
+
+        <div class="hr-stage" id="hr-stage" role="group" aria-label="Diagram: Hermes passes the rules to Dots, Dots passes the features to Jev, Jev arms the bot or sends it back to the rules. Simulated.">
+          <canvas class="hr-cv" id="hr-arc" aria-hidden="true"></canvas>
+          <div class="hr-trio">
+
+            <div class="hr-ag" data-k="hermes" data-c="orange">
+              <div class="hr-av hr-av-px" id="hr-av0">
+                <svg class="hr-robot" viewBox="0 0 14 13" shape-rendering="crispEdges" aria-hidden="true" focusable="false">
+                  <path fill="#b34a0c" d="M6 1h2v1H6zM2 2h10v1H2zM1 3h1v8H1zM12 3h1v8h-1zM2 11h10v1H2zM4 12h2v1H4zM8 12h2v1H8z"/>
+                  <path fill="#ff8a3d" d="M2 3h10v8H2z"/>
+                  <path fill="#ffc79a" d="M3 4h3v1H3zM3 5h1v1H3z"/>
+                  <path fill="#e8681c" d="M11 4h1v6h-1zM10 10h1v1h-1zM2 10h8v1H2z"/>
+                  <path fill="#5a2208" d="M4 9h6v1H4z"/>
+                  <path fill="#ffd23d" d="M0 5h1v4H0zM13 5h1v4h-1z"/>
+                  <rect x="6" y="0" width="2" height="1" fill="#ff8a3d"/>
+                  <rect class="hr-ant" x="6" y="0" width="2" height="1" fill="#fff1b8"/>
+                  <rect class="hr-eye" x="4" y="6" width="2" height="2" fill="#14080a"/>
+                  <rect class="hr-eye" x="8" y="6" width="2" height="2" fill="#14080a"/>
+                </svg>
+              </div>
+              <b class="hr-an">HERMES</b>
+              <span class="hr-al">writes the strategy and the risk rules</span>
+              <span class="hr-as">hermes agent &middot; strategy.yaml</span>
+            </div>
+
+            <div class="hr-ag" data-k="dots" data-c="blue">
+              <div class="hr-av" id="hr-av1"><span class="orb blue"><i class="e l"></i><i class="e r"></i></span></div>
+              <b class="hr-an">DOTS</b>
+              <span class="hr-al">pulls and cleans four years of data</span>
+              <span class="hr-as">the data side</span>
+            </div>
+
+            <div class="hr-ag" data-k="jev" data-c="pink" id="hr-jev">
+              <div class="hr-av" id="hr-av2"><span class="orb pink" id="hr-jev-orb"><i class="e l"></i><i class="e r"></i></span></div>
+              <b class="hr-an">JEV</b>
+              <span class="hr-al">backtests, caps and arms it</span>
+              <span class="hr-as">the gate &middot; cap &middot; kill switch &middot; orders</span>
+              <span class="hr-last" id="hr-last" data-d="skip" aria-live="off"><i></i><span id="hr-last-t">last answer &middot; waiting</span></span>
+            </div>
+
+          </div>
+          <span class="hr-lbl" id="hr-l1" data-c="yellow">the rules</span>
+          <span class="hr-lbl" id="hr-l2" data-c="blue">the features</span>
+          <span class="hr-lbl hr-lbl-r" id="hr-l3" data-c="pink">armed &mdash; or back to the rules</span>
+        </div>
+
+        <div class="hr-lower">
+          <div class="hr-tapebox">
+            <div class="hr-cap"><span>four years of candles, replayed in the backtest</span><i class="hr-leg"><b class="up">&#9650;</b> entry <b class="dn">&#9660;</b> exit <s></s> the stop</i></div>
+            <div class="hr-tape"><canvas id="hr-tape" role="img" aria-label="Simulated candle replay with entries, exits and dashed stop lines scrolling slowly"></canvas></div>
+          </div>
+          <div class="hr-rules" role="group" aria-label="Hard rules, held by code">
+            <div class="hr-chip"><span>daily loss cap</span><b id="hr-r-loss">$2,000</b></div>
+            <div class="hr-chip"><span>max position</span><b id="hr-r-pos">4%</b></div>
+            <button class="hr-chip hr-kill" id="hr-kill" type="button" aria-pressed="false" title="Live: mirrors the kill switch in the header. Click to throw / release it."><span>kill switch</span><b id="hr-kill-t"><i></i>armed</b></button>
+            <p class="hr-cap2">jev holds all three</p>
+          </div>
+        </div>
+
+        <div class="hr-stats hr-st4" id="hr-a-stats">
+          <div><b id="hr-s-time" data-to="480">08:00</b><span>to armed</span></div>
+          <div><b id="hr-s-trades" data-to="1840">1,840</b><span>backtested trades</span></div>
+          <div><b id="hr-s-year" data-to="31">31%</b><span>backtest, a year <em>(illustrative)</em></span></div>
+          <div><b class="hot" id="hr-s-cost" data-to="0.9">$0.90</b><span>the llm side</span></div>
+        </div>
+        <p class="hr-foot">the cap, the stop and the kill switch were written before the first order, not after the first loss</p>
+        <span class="hr-fig" aria-hidden="true">FIG.1</span>
+      </article>
+
+      <!-- ============ B · THE HOUR ============ -->
+      <article class="card hr-p hr-b rv" id="hr-b" data-c="yellow" aria-labelledby="hr-b-t">
+        <i class="hr-edge" aria-hidden="true"></i>
+        <canvas class="hr-burst" id="hr-burst" aria-hidden="true"></canvas>
+        <div class="hr-ph"><span class="hr-tag">the hour</span><span class="hr-ps">six phases &middot; sixty minutes</span><span class="hr-badge" id="hr-b-badge" data-c="yellow">60:00</span></div>
+        <h3 class="hr-t" id="hr-b-t">Six switches, one after another &mdash; and only the last one lets it send an order</h3>
+        <p class="hr-note"><span data-c="yellow">each switch flips at its own minute &middot; the lamp is the proof &middot; tap one to flip it yourself</span></p>
+
+        <div class="hr-hour" id="hr-hour">
+          <div class="hr-ringbox">
+            <svg class="hr-ring" id="hr-ring" viewBox="0 0 220 220" aria-hidden="true" focusable="false">
+              <defs>
+                <linearGradient id="hr-rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd773"/><stop offset="1" stop-color="#ff9b2e"/></linearGradient>
+                <radialGradient id="hr-rh"><stop offset="0" stop-color="#fff" stop-opacity="1"/><stop offset=".25" stop-color="#ffd773" stop-opacity=".9"/><stop offset="1" stop-color="#ffb02e" stop-opacity="0"/></radialGradient>
+              </defs>
+              <g id="hr-ticks"></g>
+              <circle cx="110" cy="110" r="84" fill="rgba(255,193,61,.035)" stroke="rgba(255,255,255,.07)" stroke-width="8"/>
+              <circle cx="110" cy="110" r="84" fill="none" stroke="rgba(255,193,61,.18)" stroke-width="14" stroke-linecap="round" id="hr-rglow" transform="rotate(-90 110 110)" stroke-dasharray="528 528" stroke-dashoffset="0"/>
+              <circle cx="110" cy="110" r="84" fill="none" stroke="url(#hr-rg)" stroke-width="7" stroke-linecap="round" id="hr-rprog" transform="rotate(-90 110 110)" stroke-dasharray="528 528" stroke-dashoffset="0"/>
+              <g id="hr-rhead"><circle cx="110" cy="26" r="15" fill="url(#hr-rh)"/><circle cx="110" cy="26" r="3.4" fill="#fff"/></g>
+            </svg>
+            <div class="hr-clockbox">
+              <b class="hr-clock num" id="hr-clock">60:00</b>
+              <i id="hr-clock-l">minutes to armed</i>
+            </div>
+          </div>
+
+          <ul class="hr-sws" id="hr-sws">
+            <li><button type="button" class="hr-sw on" data-i="0" data-c="orange" aria-pressed="true"><b>strategy spec</b><i>00-08</i><span class="tg"></span><em>on</em><u><s></s></u></button></li>
+            <li><button type="button" class="hr-sw on" data-i="1" data-c="blue" aria-pressed="true"><b>data + features</b><i>06-26</i><span class="tg"></span><em>on</em><u><s></s></u></button></li>
+            <li><button type="button" class="hr-sw on" data-i="2" data-c="yellow" aria-pressed="true"><b>the bot code</b><i>24-41</i><span class="tg"></span><em>on</em><u><s></s></u></button></li>
+            <li><button type="button" class="hr-sw on" data-i="3" data-c="green" aria-pressed="true"><b>backtest 4 years</b><i>41-52</i><span class="tg"></span><em>on</em><u><s></s></u></button></li>
+            <li><button type="button" class="hr-sw on" data-i="4" data-c="cyan" aria-pressed="true"><b>paper trade</b><i>52-58</i><span class="tg"></span><em>on</em><u><s></s></u></button></li>
+            <li><button type="button" class="hr-sw on" data-i="5" data-c="pink" aria-pressed="true"><b>caps + kill switch</b><i>58-60</i><span class="tg"></span><em>on</em><u><s></s></u></button></li>
+          </ul>
+        </div>
+
+
+        <div class="hr-gantt" id="hr-gantt" aria-hidden="true">
+          <div class="hr-g-rows" id="hr-g-rows">
+            <i class="hr-g-r" data-c="orange" style="--s:0;--e:8"><s></s></i>
+            <i class="hr-g-r" data-c="blue" style="--s:6;--e:26"><s></s></i>
+            <i class="hr-g-r" data-c="yellow" style="--s:24;--e:41"><s></s></i>
+            <i class="hr-g-r" data-c="green" style="--s:41;--e:52"><s></s></i>
+            <i class="hr-g-r" data-c="cyan" style="--s:52;--e:58"><s></s></i>
+            <i class="hr-g-r" data-c="pink" style="--s:58;--e:60"><s></s></i>
+            <b class="hr-g-ph" id="hr-g-ph"></b>
+          </div>
+          <div class="hr-g-axis"><span>00</span><span>15</span><span>30</span><span>45</span><span>60 min</span></div>
+        </div>
+
+        <div class="hr-arm" id="hr-arm" data-s="armed" aria-live="off">
+          <div class="hr-arm-w"><span id="hr-arm-wt">waiting on six switches</span><i class="hr-cells" aria-hidden="true"><s></s><s></s><s></s><s></s><s></s><s></s></i></div>
+          <div class="hr-arm-a"><b id="hr-arm-b">ARMED</b><span id="hr-arm-s">gate open at floor 0.85 &middot; loss cap on &middot; kill switch live</span></div>
+        </div>
+        <p class="hr-foot">six switches, six decisions &middot; the data feed, the venue and the server are not in the $0.90</p>
+        <span class="hr-fig" aria-hidden="true">FIG.2</span>
+      </article>
+
+      <!-- ============ C · THE BACKTEST ============ -->
+      <article class="card hr-p hr-c rv" id="hr-c" data-c="blue" aria-labelledby="hr-c-t">
+        <i class="hr-edge" aria-hidden="true"></i>
+        <div class="hr-hd">
+          <div class="hr-ph"><span class="hr-tag">the backtest</span><span class="hr-ps">1,840 trades on history</span><span class="hr-badge" data-c="cyan">31% / yr</span></div>
+          <h3 class="hr-t" id="hr-c-t">Every trade in the backtest, one bar each &mdash; and the running total riding above them</h3>
+          <p class="hr-note"><span data-c="blue">up is a win, down is a loss &middot; the red block is the drawdown</span></p>
+        </div>
+
+        <div class="hr-bt" id="hr-bt">
+          <div class="hr-bt-h"><span>1,840 trades, one after another</span><i>four years &middot; simulated</i></div>
+          <div class="hr-bt-cv" id="hr-btbox">
+            <canvas id="hr-btc" role="img" aria-label="Simulated backtest: 1,840 trades as thin up and down bars with the running total above and a red 22 percent drawdown block"></canvas>
+            <div class="hr-bt-tip" id="hr-bt-tip" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <div class="hr-stats hr-st4" id="hr-c-stats">
+          <div><b class="up" data-to="58" data-f="pct">58%</b><span>green</span></div>
+          <div><b class="hr-amb" data-to="31" data-f="pct">31%</b><span>a year</span></div>
+          <div><b class="dn" data-to="-22" data-f="pct">-22%</b><span>worst</span></div>
+          <div><b data-to="1840" data-f="int">1,840</b><span>trades</span></div>
+        </div>
+        <p class="hr-strip">every bar here was filled at a price the simulator chose</p>
+        <p class="hr-foot">the running total is the backtest &middot; the bars are what it is actually made of</p>
+        <span class="hr-fig" aria-hidden="true">FIG.3</span>
+      </article>
+
+      <!-- ============ D · THE ARITHMETIC ============ -->
+      <article class="card hr-p hr-d rv" id="hr-d" data-c="violet" aria-labelledby="hr-d-t">
+        <i class="hr-edge" aria-hidden="true"></i>
+        <div class="hr-ph"><span class="hr-tag">the arithmetic</span><span class="hr-ps">$1,200,000 a year</span><span class="hr-badge" id="hr-d-badge" data-c="violet">$3.87M</span></div>
+        <h3 class="hr-t" id="hr-d-t">Turn the needle down from 480% to 5% and watch what the capital has to be</h3>
+        <p class="hr-note"><span data-c="violet" id="hr-d-note">the red end of the dial is the returns nobody delivers</span></p>
+
+        <div class="hr-gx">
+          <div class="hr-gauge" id="hr-gauge">
+            <svg id="hr-gsvg" viewBox="0 0 320 250" role="img" aria-label="Gauge: return per year on a log scale from 5 percent to 480 percent" focusable="false">
+              <defs>
+                <radialGradient id="hr-gtip"><stop offset="0" stop-color="#fff"/><stop offset=".3" stop-color="#ff7ab3" stop-opacity=".95"/><stop offset="1" stop-color="#ff2e6e" stop-opacity="0"/></radialGradient>
+                <radialGradient id="hr-gbg" cx=".5" cy=".56" r=".6"><stop offset="0" stop-color="#a66bff" stop-opacity=".22"/><stop offset="1" stop-color="#a66bff" stop-opacity="0"/></radialGradient>
+              </defs>
+              <circle cx="160" cy="140" r="150" fill="url(#hr-gbg)"/>
+              <g id="hr-gtrack"></g>
+              <g id="hr-glit"></g>
+              <g id="hr-gticks"></g>
+              <g id="hr-gneedle">
+                <line x1="160" y1="140" x2="160" y2="58" stroke="rgba(255,46,110,.35)" stroke-width="7" stroke-linecap="round"/>
+                <line x1="160" y1="140" x2="160" y2="58" stroke="#ff7ab3" stroke-width="2.6" stroke-linecap="round"/>
+                <circle cx="160" cy="46" r="17" fill="url(#hr-gtip)"/>
+                <circle cx="160" cy="46" r="4.4" fill="#fff"/>
+              </g>
+              <circle cx="160" cy="140" r="13" fill="#0a0610" stroke="#ff2e6e" stroke-width="3"/>
+              <circle cx="160" cy="140" r="4.5" fill="#ff7ab3"/>
+              <text id="hr-gtag" x="160" y="178" class="hr-gtag" text-anchor="middle">31%</text>
+            </svg>
+            <div class="hr-knob" id="hr-knob" aria-hidden="true"></div>
+          </div>
+
+          <div class="hr-read">
+            <span class="hr-rl">what the bot delivers, a year</span>
+            <b class="hr-ret serif" id="hr-ret">31%</b>
+            <span class="hr-rl">so the capital you must already have</span>
+            <b class="hr-capv serif num" id="hr-capv">$3.87M</b>
+            <p class="hr-verdict" id="hr-verdict">what the backtest promised, before the bill</p>
+            <p class="hr-small"><span>with $25,000 that is</span> <b id="hr-small">$646</b> <span>a month</span></p>
+          </div>
+        </div>
+
+        <div class="hr-ctl">
+          <label class="hr-rng"><span class="sr-only">return per year, log scale</span><input type="range" id="hr-range" min="0" max="1000" step="1" value="400" aria-valuetext="31% a year"></label>
+          <div class="hr-pre" role="group" aria-label="Presets">
+            <button type="button" data-r="17" class="hr-pb">17%</button>
+            <button type="button" data-r="31" class="hr-pb">31%</button>
+            <button type="button" data-r="100" class="hr-pb">100%</button>
+          </div>
+        </div>
+        <p class="hr-eq">$100,000 a month is $1,200,000 a year &middot; divide it by the return</p>
+        <p class="hr-key">the $100k a month is a property of the capital, not of the bot</p>
+        <p class="hr-foot">no bot turns $25,000 into $100,000 a month &mdash; whoever says otherwise is selling you the bot</p>
+        <span class="hr-fig" aria-hidden="true">FIG.4</span>
+      </article>
+
+      <!-- ============ E · THE HONEST PART ============ -->
+      <article class="card hr-p hr-e rv" id="hr-e" data-c="red" aria-labelledby="hr-e-t">
+        <i class="hr-edge" aria-hidden="true"></i>
+        <div class="hr-ph"><span class="hr-tag">the honest part</span><span class="hr-ps">31% on paper, 17% in life</span><span class="hr-badge" data-c="red">read this one</span></div>
+        <h3 class="hr-t" id="hr-e-t">Two columns from one strategy &mdash; and everything between them falls into the venue</h3>
+        <p class="hr-note"><span data-c="red">the red bin fills with what never reaches your account</span></p>
+
+        <div class="hr-ec" id="hr-ec">
+          <canvas class="hr-leak" id="hr-leak" aria-hidden="true"></canvas>
+          <div class="hr-col hr-col-a">
+            <div class="hr-barbox"><div class="hr-bar hr-bar-g" id="hr-bar-a"><b>&times;2.9</b></div></div>
+            <span class="hr-bl">what the backtest promised</span>
+          </div>
+          <div class="hr-mtxt">
+            <p class="hr-edge-t"><b>0.19%</b> was the edge</p>
+            <p class="hr-edge-t"><b class="dn">0.07%</b> of it is the bill</p>
+            <p class="hr-edge-s">fees &middot; spread &middot; slippage</p>
+          </div>
+          <div class="hr-bin" id="hr-bin"><span>the venue</span><b>&times;1.0</b><em>never reached you</em><i aria-hidden="true"></i></div>
+          <div class="hr-col hr-col-b">
+            <div class="hr-barbox"><div class="hr-ghost" id="hr-ghost" aria-hidden="true"></div><div class="hr-bar hr-bar-a" id="hr-bar-b"><b>&times;1.9</b></div></div>
+            <span class="hr-bl">what reaches you</span>
+          </div>
+        </div>
+
+        <div class="hr-warn" role="note">
+          <p><i>&times;</i> not one live dollar has traded &middot; sixty minutes proved it runs</p>
+          <p><i>&times;</i> four years of history is one market, and the stop is a line in a file</p>
+        </div>
+        <p class="hr-foot">sixty minutes proved the bot runs &middot; it proved nothing about whether it earns</p>
+        <span class="hr-fig" aria-hidden="true">FIG.5</span>
+      </article>
+
+    </div>
+  </div>
+</section>

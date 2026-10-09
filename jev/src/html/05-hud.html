@@ -1,0 +1,17 @@
+<header class="hud" id="hud">
+  <a class="logo" href="#hero" aria-label="JEV home"><b>J</b><span class="hide-s">JEV</span></a>
+  <div class="mets" tabindex="-1">
+    <div class="m hide-xs"><label>Model</label><b>jev-1.13.0</b></div>
+    <div class="m hide-s"><label>Agent</label><b>hermes</b></div>
+    <div class="m"><label>Decisions</label><b id="mDec" class="hot num">1,892</b></div>
+    <div class="m"><label>Cost</label><b id="mCost" class="num">$0.046</b></div>
+    <div class="m"><label>Median</label><b id="mMed" class="num">3.2 ms</b></div>
+    <div class="m hide-s"><label>Floor</label><b id="mFloor" class="num">0.85</b></div>
+  </div>
+  <nav class="nav" aria-label="Sections">
+    <a href="#hero"><i>01</i> decides</a><a href="#builds"><i>02</i> builds</a><a href="#hour"><i>03</i> hour</a><a href="#desk"><i>04</i> desk</a><a href="#lab"><i>05</i> lab</a>
+  </nav>
+  <button class="kill" id="killBtn" type="button" aria-pressed="false" aria-label="Kill switch" title="Kill switch: every order goes to human review, holds still skip"><i></i><span id="killTxt">ARMED</span></button>
+  <i class="hud-scan" aria-hidden="true"></i>
+</header>
+<main id="main">

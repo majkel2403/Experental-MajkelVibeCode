@@ -1,0 +1,81 @@
+<!-- ===== desk-top: status ticker · swarm p&l · the tape (prefix dkt-) — direct children of .dk-grid ===== -->
+<div class="card dkt-bar rv" id="dkt-bar" role="region" aria-label="desk status">
+  <i class="dkt-scan" aria-hidden="true"></i>
+  <div class="dkt-top">
+    <div class="dkt-wm">
+      <span class="lamp" aria-hidden="true"></span>
+      <div class="dkt-wt"><b class="glitch" data-text="JEV DESK">JEV DESK</b><i>six agents · one book · btc-perp</i></div>
+    </div>
+    <div class="dkt-pu hide-s" title="decisions over the last 60 s — green executed, amber to review, grey skipped">
+      <label>handoff pulse · 60 s</label><canvas id="dkt-pu" aria-hidden="true"></canvas>
+    </div>
+    <div class="dkt-kvs hide-s">
+      <div><label>desk nav</label><b id="dkt-nav" class="num">$527.8k</b></div>
+      <div><label>session p&amp;l</label><b id="dkt-spl" class="num">+$0</b></div>
+      <div><label>floor</label><b id="dkt-flr" class="num">0.85</b></div>
+    </div>
+    <div class="dkt-clk"><b id="dkt-clock" class="num">00:00:00</b><i>utc</i><span class="pill dkt-sim hide-s">simulated</span></div>
+  </div>
+  <div class="dkt-mq" role="marquee" aria-label="live desk status, simulated">
+    <div class="dkt-mt" id="dkt-mt">
+      <div class="dkt-ms" id="dkt-ms">
+        <span class="dkt-c" data-c="green"><i class="dkt-dt"></i>six agents <b>live</b></span>
+        <span class="dkt-c" id="dkt-ch-hold" style="--cc:#a66bff;--cc-rgb:166,107,255"><i class="dkt-dt"></i>holder <b data-k="holder">kelly</b></span>
+        <span class="dkt-c" data-c="cyan">handoffs/min <b data-k="hand">102</b></span>
+        <span class="dkt-c" data-c="blue">model fair <b data-k="fair">84,731</b> vs market <b data-k="mkt">84,722</b></span>
+        <span class="dkt-c" data-c="green" data-ck="edge">edge <b data-k="edge">+2.8bps</b></span>
+        <span class="dkt-c" data-c="yellow">open <b data-k="open">4</b> tickets</span>
+        <span class="dkt-c" data-c="violet">human input: approvals only <b data-k="wait">2 waiting</b></span>
+        <span class="dkt-c" data-c="pink">spent while you watch <b data-k="spent">$0.046</b></span>
+        <span class="dkt-c" data-c="gray" data-ck="last">last ticket <b data-k="last">buy btc 1% .91 · execute</b></span>
+        <span class="dkt-c" data-c="green" data-ck="pnl">swarm p&amp;l <b data-k="pnl">+$0</b></span>
+        <span class="dkt-c" data-c="orange">floor <b data-k="floor">0.85</b></span>
+        <span class="dkt-c" data-c="green" data-ck="kill">kill switch <b data-k="kill">armed</b></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card span-4 dkt-pnl rv" id="dkt-pnl" style="--i:1">
+  <div class="ph"><span><b class="pk">◆</b> <b>swarm p&amp;l</b> <i class="dkt-ph-s hide-s">— one book · balance history</i></span><span class="dkt-run">running <b id="dkt-run">+$0</b></span></div>
+  <div class="dkt-pin">
+    <div class="dkt-acct"><span class="lamp" aria-hidden="true"></span><b>desk-01</b><span>· simulated</span><span class="pill dkt-live" id="dkt-live">live</span></div>
+    <div class="dkt-big" id="dkt-big">
+      <div class="dkt-num" aria-hidden="true"><sup>$</sup><span id="dkt-bal">527,759</span></div>
+      <span class="sr-only" id="dkt-bal-sr">swarm balance 527,759 dollars, simulated</span>
+    </div>
+    <div class="dkt-r2">
+      <span class="dkt-dp"><i id="dkt-dar">▲</i><b id="dkt-dv">+$0</b><u id="dkt-dpc">+0.00%</u></span>
+      <span class="dkt-sub" id="dkt-sub">vs open $526,880 · settled by code</span>
+    </div>
+    <div class="dkt-pcw"><canvas id="dkt-pc" aria-hidden="true"></canvas></div>
+    <canvas id="dkt-wl" class="dkt-wl" aria-hidden="true"></canvas>
+    <div class="dkt-pbs">
+      <div class="dkt-pb"><span>result</span><div class="dkt-pbar" id="dkt-pb1"><i style="--c:var(--green);--w:55%"></i><i style="--c:var(--red);--w:45%"></i></div><b id="dkt-pv1">55% up · 45% down</b></div>
+      <div class="dkt-pb"><span>route</span><div class="dkt-pbar" id="dkt-pb2"><i style="--c:var(--green);--w:38%"></i><i style="--c:var(--amber);--w:24%"></i><i style="--c:#7d7590;--w:38%"></i></div><b id="dkt-pv2">38 go · 24 rev · 38 skip</b></div>
+      <div class="dkt-pb"><span>size</span><div class="dkt-pbar" id="dkt-pb3"><i style="--c:#cdaaff;--w:31%"></i><i style="--c:#b07dff;--w:36%"></i><i style="--c:#8f50ff;--w:22%"></i><i style="--c:#6a2dd9;--w:11%"></i></div><b id="dkt-pv3">.5 · 1 · 2 · 4 %</b></div>
+    </div>
+    <div class="dkt-stats">
+      <div title="lifetime desk figures (simulated), not this session"><label>tickets</label><b id="dkt-s-tix" class="num">14,882</b></div>
+      <div><label>win rate</label><b id="dkt-s-win" class="num">55.0%</b><i class="dkt-ring" id="dkt-ring" style="--p:55" aria-hidden="true"></i></div>
+      <div><label>avg edge</label><b id="dkt-s-edge" class="num">+1.78bp</b></div>
+      <div><label>max dd</label><b id="dkt-s-dd" class="num">0.40%</b></div>
+    </div>
+  </div>
+</div>
+
+<div class="card span-8 dkt-tape rv" id="dkt-tape" style="--i:2">
+  <div class="ph"><span><b class="pk">◆</b> <b>the tape</b> <i class="dkt-ph-s hide-s">— btc 1m · vwap ±1σ bands · volume · live order book</i></span><span class="dkt-sig hide-s">hi <b id="dkt-hi" class="num">—</b> · lo <b id="dkt-lo" class="num">—</b> · vol <b id="dkt-vol" class="num">—</b></span></div>
+  <div class="dkt-th">
+    <div class="dkt-px"><span class="dkt-pxv"><sup>$</sup><b id="dkt-px">84,722</b><em id="dkt-px-d">.4</em></span><span class="dkt-pxp" id="dkt-pxp"><i>▲</i><b id="dkt-pxc">+0.00%</b></span></div>
+    <div class="dkt-chips" role="group" aria-label="chart layers">
+      <span class="dkt-chip dkt-st" data-c="pink">btc-perp</span>
+      <span class="dkt-chip dkt-st" data-c="gray">1m</span>
+      <button type="button" class="dkt-chip on" data-c="yellow" data-l="vwap" aria-pressed="true">vwap</button>
+      <button type="button" class="dkt-chip on" data-c="violet" data-l="bands" aria-pressed="true">bands</button>
+      <button type="button" class="dkt-chip on" data-c="green" data-l="book" aria-pressed="true">live book</button>
+    </div>
+  </div>
+  <div class="dkt-tc" id="dkt-tc"><canvas id="dkt-cv" aria-label="simulated btc-perp candles with vwap bands, volume and a live order book"></canvas><i class="dkt-sweep" aria-hidden="true"></i></div>
+  <div class="dkt-lg"><span><i class="dkt-g up">▲</i> buy fired</span><span><i class="dkt-g dn">▼</i> sell fired</span><span><i class="dkt-g am">◆</i> close / flatten</span><span><i class="dkt-g vi">▬</i> vwap ±1σ</span><span class="dkt-lgx">1 candle = 1 sim-minute · 6 s live · feed is simulated</span></div>
+</div>

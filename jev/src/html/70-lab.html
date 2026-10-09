@@ -1,0 +1,173 @@
+<section class="sec lab" id="lab" aria-labelledby="lab-h2">
+  <i class="lab-bgl" aria-hidden="true"></i>
+  <div class="wrap">
+
+    <header class="sec-head lab-head rv">
+      <div class="eb">05 <i>&middot;</i> the lab</div>
+      <h2 class="h2" id="lab-h2">Put a market in front of <em>Jev</em></h2>
+      <p class="lede">move the sliders, throw the kill switch, drag the floor &mdash; the whole page listens</p>
+      <div class="lab-pills" role="list">
+        <span class="pill lab-pill" role="listitem"><i class="lamp pink"></i>live engine</span>
+        <span class="pill lab-pill" role="listitem">simulated inputs</span>
+        <span class="pill lab-pill" role="listitem">no orders sent</span>
+      </div>
+    </header>
+
+    <div class="lab-grid">
+
+      <div class="lab-left">
+
+        <!-- ================= STATE : controls ================= -->
+        <aside class="card lab-ctl rv" id="lab-ctl" data-c="pink" aria-labelledby="lab-ctl-t">
+          <i class="lab-edge" aria-hidden="true"></i>
+          <div class="lab-ph"><span class="lab-tag" id="lab-ctl-t">state</span><span class="lab-ps">nine inputs &middot; one simulated market</span><span class="lab-bdg"><i class="lamp pink"></i>sandbox</span></div>
+
+          <div class="lab-sub"><span>scenario</span><i></i></div>
+          <div class="lab-presets" id="lab-presets" role="group" aria-label="scenario presets">
+            <button class="lab-sc" type="button" aria-pressed="false" data-p="trend">trend</button>
+            <button class="lab-sc" type="button" aria-pressed="false" data-p="mean-revert">mean-revert</button>
+            <button class="lab-sc" type="button" aria-pressed="false" data-p="wide book">wide book</button>
+            <button class="lab-sc" type="button" aria-pressed="false" data-p="stale feed">stale feed</button>
+            <button class="lab-sc" type="button" aria-pressed="false" data-p="reversal">reversal</button>
+            <button class="lab-sc" type="button" aria-pressed="false" data-p="stress">stress</button>
+            <button class="lab-sc lab-sc-r" type="button" aria-pressed="false" data-p="random">random</button>
+          </div>
+
+          <div class="lab-sub"><span>inputs</span><i></i><em><u class="lab-dzk"></u>red band trips risk_ok</em></div>
+          <div class="lab-sliders" id="lab-sliders"></div>
+
+          <div class="lab-lower">
+            <div class="lab-lw">
+              <div class="lab-sub"><span>decide</span><i></i></div>
+              <div class="lab-act">
+                <div class="lab-magw" id="lab-magw">
+                  <button class="lab-go" id="lab-go" type="button" aria-describedby="lab-go-h">
+                    <span class="lab-go-t">decide</span>
+                    <svg class="lab-go-i" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 2.5v11l10-5.5z" fill="currentColor"/></svg>
+                  </button>
+                </div>
+                <button class="lab-sw lab-auto on" id="lab-auto" type="button" role="switch" aria-checked="true" data-c="pink">
+                  <i class="tg"></i><span class="lab-sw-t"><b>auto</b><small id="lab-go-h">re-decide on every input</small></span>
+                </button>
+              </div>
+            </div>
+
+            <div class="lab-lw">
+              <div class="lab-sub"><span>hard rules</span><i></i><em>held by code, not the model</em></div>
+              <div class="lab-rules">
+                <div class="lab-floorrow" id="lab-floorrow"></div>
+                <button class="lab-sw lab-kill" id="lab-kill" type="button" role="switch" aria-checked="false" data-c="red">
+                  <i class="tg"></i><span class="lab-sw-t"><b>kill switch</b><small id="lab-kill-s">armed &middot; orders flow</small></span>
+                </button>
+                <div class="lab-caps"><span>daily loss cap <b>$2,000</b></span><span>max position <b>4%</b></span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lab-mini" id="lab-mini" data-d="execute" aria-hidden="true">
+            <b class="lab-mi-a" id="lab-mi-a">buy</b><span class="lab-mi-s" id="lab-mi-s">1%</span><span class="lab-mi-c" id="lab-mi-c">0.93</span><i class="lab-mi-d" id="lab-mi-d">execute</i>
+          </div>
+        </aside>
+
+        <!-- ================= tape ================= -->
+        <section class="card lab-tape rv" id="lab-tape" data-c="gray" aria-labelledby="lab-tape-t">
+          <div class="lab-ph"><span class="lab-tag" id="lab-tape-t">tape</span><span class="lab-ps">last 5 lab decisions &middot; newest first</span></div>
+          <div class="lab-tpw"><ol class="lab-tp" id="lab-tp"></ol></div>
+        </section>
+
+      </div>
+
+      <!-- ================= PIPELINE ================= -->
+      <div class="lab-pipe" id="lab-pipe">
+        <canvas class="lab-fx" id="lab-fx0" aria-hidden="true"></canvas>
+        <canvas class="lab-fx" id="lab-fx1" aria-hidden="true"></canvas>
+
+        <div class="lab-pph rv">
+          <span class="lab-tag">pipeline</span>
+          <span class="lab-ps hide-s">state &rarr; encode &rarr; typed questions &rarr; gate &rarr; code</span>
+          <span class="lab-stat" id="lab-stat"><i class="lamp"></i><b id="lab-stat-t">ready</b></span>
+          <i class="lab-prog" aria-hidden="true"><u id="lab-prog"></u></i>
+        </div>
+
+        <!-- 01 encode -->
+        <section class="card lab-st lab-s1 rv" id="lab-s1" data-c="blue" aria-labelledby="lab-s1-t">
+          <header class="lab-sh"><span class="lab-n">01</span><h3 id="lab-s1-t">encode</h3><span class="lab-sd hide-s">numbers &rarr; features</span><span class="lab-sb" id="lab-s1-b">9 &rarr; 10</span></header>
+          <div class="lab-fts" id="lab-fts"></div>
+        </section>
+
+        <!-- 02 typed questions -->
+        <section class="card lab-st lab-s2 rv" id="lab-s2" data-c="pink" aria-labelledby="lab-s2-t">
+          <header class="lab-sh"><span class="lab-n">02</span><h3 id="lab-s2-t">typed questions</h3><span class="lab-sd hide-s">choice &middot; score &middot; flag</span><span class="lab-sb" id="lab-ms">2.9 ms</span></header>
+          <div class="lab-qs">
+
+            <article class="lab-q lab-qa" id="lab-qa" aria-label="which action?">
+              <h4><b>which action?</b><i>choice</i></h4>
+              <div class="lab-qa-b">
+                <ul class="lab-pb" id="lab-pb"></ul>
+                <div class="lab-ring" id="lab-ring" role="img" aria-label="confidence"><div class="lab-ring-in"><b id="lab-conf">0.93</b><small>conf</small></div></div>
+              </div>
+              <p class="lab-pick">&rarr; <b id="lab-pick">buy</b></p>
+            </article>
+
+            <article class="lab-q lab-qb" id="lab-qb" aria-label="how much?">
+              <h4><b>how much?</b><i>score</i></h4>
+              <div class="lab-sz" id="lab-sz"></div>
+              <p class="lab-pick" id="lab-pick-s">&rarr; <b>1%</b> of capital</p>
+            </article>
+
+            <article class="lab-q lab-qc" id="lab-qc" aria-label="risk ok?">
+              <h4><b>risk ok?</b><i>flag</i></h4>
+              <div class="lab-gauge">
+                <svg class="lab-gsvg" viewBox="0 0 120 70" aria-hidden="true" focusable="false">
+                  <defs><linearGradient id="lab-gg" gradientUnits="userSpaceOnUse" x1="12" y1="0" x2="108" y2="0"><stop offset="0" stop-color="#ff4d5e"/><stop offset=".5" stop-color="#ffc13d"/><stop offset="1" stop-color="#2ee6a6"/></linearGradient></defs>
+                  <path class="lab-gtr" d="M12 62A48 48 0 0 1 108 62" pathLength="100"/>
+                  <path class="lab-gva" id="lab-gva" d="M12 62A48 48 0 0 1 108 62" pathLength="100"/>
+                  <path class="lab-gtk" d="M7 62h9M22.5 24.5l6.4 6.4M60 9v9M97.5 24.5l-6.4 6.4M113 62h-9"/>
+                  <g class="lab-gnd" id="lab-gnd"><path d="M60 62V22"/><circle cx="60" cy="62" r="4.5"/></g>
+                </svg>
+                <div class="lab-gauge-c"><b id="lab-yn">YES</b><small id="lab-yp">p 0.62</small></div>
+              </div>
+              <ul class="lab-ck" id="lab-ck"></ul>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- 03 the gate -->
+        <section class="card lab-st lab-s3 rv" id="lab-s3" data-c="orange" aria-labelledby="lab-s3-t">
+          <header class="lab-sh"><span class="lab-n">03</span><h3 id="lab-s3-t">the gate</h3><span class="lab-sd hide-s">below the floor goes to a human</span><span class="lab-sb" id="lab-verdict">PASS</span></header>
+          <div class="lab-gate">
+            <div class="lab-gt" id="lab-gt">
+              <i class="lab-gt-lo"></i><i class="lab-gt-hi"></i><i class="lab-gt-tail" id="lab-gt-tail"></i><i class="lab-gt-hz"></i>
+              <i class="lab-gt-k" style="--x:.25"></i><i class="lab-gt-k" style="--x:.5"></i><i class="lab-gt-k" style="--x:.75"></i>
+              <div class="lab-cf" id="lab-cf"><i class="lab-cf-o"></i><b id="lab-cf-v">0.93</b></div>
+              <button class="lab-fl" id="lab-fl" type="button" role="slider" aria-label="confidence floor, drag or use arrow keys" aria-valuemin="0.5" aria-valuemax="0.99" aria-valuenow="0.85" aria-valuetext="floor 0.85"><span class="lab-fl-t">floor <b id="lab-fl-v">0.85</b></span></button>
+            </div>
+            <div class="lab-gx" aria-hidden="true"><span style="--x:0">0</span><span style="--x:.25">.25</span><span style="--x:.5">.5</span><span style="--x:.75">.75</span><span style="--x:1">1</span></div>
+            <p class="lab-why" id="lab-why">reason <b>ok</b> &rarr; execute</p>
+          </div>
+        </section>
+
+        <!-- 04 code acts -->
+        <section class="card lab-st lab-s4 rv" id="lab-s4" data-c="green" aria-labelledby="lab-s4-t">
+          <header class="lab-sh"><span class="lab-n">04</span><h3 id="lab-s4-t">code acts</h3><span class="lab-sd hide-s">plain code &middot; no model in the loop</span><span class="lab-sb" id="lab-s4-b">handoff</span></header>
+          <div class="lab-acts">
+            <figure class="lab-jsw">
+              <figcaption><i></i><i></i><i></i><span>handoff.json</span></figcaption>
+              <pre class="lab-js" id="lab-js" aria-label="typed handoff from jev to code"></pre>
+            </figure>
+            <div class="lab-tree" id="lab-tree" role="group" aria-label="queue directory"></div>
+            <div class="lab-dest" id="lab-dest" data-c="green" aria-live="off">
+              <i class="lab-dest-r" aria-hidden="true"></i>
+              <b class="lab-dest-t glitch" id="lab-dest-t" data-text="EXECUTE">EXECUTE</b>
+              <small id="lab-dest-s">order &rarr; venue</small>
+            </div>
+          </div>
+          <p class="lab-codeline">code, not the model, sends the order</p>
+        </section>
+
+      </div>
+    </div>
+    <div class="sr-only" id="lab-sr" aria-live="polite"></div>
+  </div>
+</section>

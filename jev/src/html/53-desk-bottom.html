@@ -1,0 +1,69 @@
+<!-- ===== desk-bottom: bayesian update · activity log · drift vs noise (prefix dkb-) — three direct children of .dk-grid ===== -->
+<div class="card span-4 dkb-card dkb-bayes rv" id="dkb-bayes" style="--i:3" role="region" aria-label="bayesian update, simulated">
+  <div class="ph">
+    <span class="dkb-t"><b class="pk">◆</b> <b>bayesian update</b> <i class="dkb-ph-s">— prior × book → posterior</i></span>
+    <span class="dkb-hn">n=<b id="dkb-bn" class="num">1,204</b> updates</span>
+  </div>
+  <div class="dkb-bh">
+    <div class="dkb-big" id="dkb-bp">
+      <label>P(up 5m)</label>
+      <div class="dkb-bv"><span id="dkb-bv" class="num">62.7</span><small>%</small></div>
+    </div>
+    <div class="dkb-rg" id="dkb-rg" title="how much the posterior listens to the book vs the prior (precision weights)"><b id="dkb-rgv" class="num">72</b><i>% book</i></div>
+    <div class="dkb-kv">
+      <div><label>vs coin flip</label><b id="dkb-bk1" class="num">+12.7pp</b></div>
+      <div><label>vs prior</label><b id="dkb-bk2" class="num">+8.6pp</b></div>
+    </div>
+  </div>
+  <div class="dkb-cvw" id="dkb-bw">
+    <canvas id="dkb-bs" aria-hidden="true"></canvas>
+    <canvas id="dkb-bc" title="move along the axis to read P(up above x)" role="img" aria-label="three density curves: a prior in amber, the book likelihood in blue and the posterior in green, re-centred on every decision; simulated"></canvas>
+  </div>
+  <div class="dkb-lg">
+    <div class="dkb-lgi" style="--lc:#ffc13d"><b><i></i>prior</b><span>μ <u id="dkb-pm">54.0</u></span><span>σ <u id="dkb-ps">9.5</u></span></div>
+    <div class="dkb-lgi" style="--lc:#6aa3ff"><b><i></i>book</b><span>μ <u id="dkb-lm">67.6</u></span><span>σ <u id="dkb-ls">7.2</u></span></div>
+    <div class="dkb-lgi" style="--lc:#2ee6a6"><b><i></i>posterior</b><span>μ <u id="dkb-om">62.7</u></span><span>σ <u id="dkb-os">5.7</u></span></div>
+  </div>
+</div>
+
+<div class="card span-4 dkb-card dkb-log rv" id="dkb-log" style="--i:4" role="region" aria-label="activity log, simulated">
+  <div class="ph">
+    <span class="dkb-t"><b class="pk">◆</b> <b>activity log</b> <i class="dkb-ph-s">— six agents · every step</i></span>
+    <span class="dkb-hn dkb-hl">
+      <button type="button" class="dkb-live" id="dkb-live" aria-pressed="false" title="the log pauses while the pointer is over it · tap to hold or resume"><i class="lamp" aria-hidden="true"></i><span id="dkb-lv">live</span></button>
+      <span><b id="dkb-cnt" class="num">39</b> resolved</span>
+    </span>
+  </div>
+  <div class="dkb-chips" id="dkb-chips" role="group" aria-label="mute or unmute an agent"></div>
+  <div class="dkb-rw">
+    <div class="dkb-rows" id="dkb-rows"><ol class="dkb-rl" id="dkb-rl" role="log" aria-live="off" aria-label="newest step first"></ol></div>
+  </div>
+</div>
+
+<div class="card span-4 dkb-card dkb-drift rv" id="dkb-drift" style="--i:5" role="region" aria-label="drift versus noise, simulated">
+  <div class="ph">
+    <span class="dkb-t"><b class="pk">◆</b> <b>drift vs noise</b> <i class="dkb-ph-s">— law of large numbers</i></span>
+    <span class="dkb-hn"><span class="dkb-halt">halted</span><b id="dkb-dn" class="num">140</b> paths</span>
+  </div>
+  <div class="dkb-bh dkb-dh">
+    <div class="dkb-big dkb-cap">
+      <label>P(profit) · n=<span id="dkb-tr">44</span></label>
+      <div class="dkb-bv"><span id="dkb-pp" class="num">91.4</span><small>%</small></div>
+    </div>
+    <div class="dkb-kv">
+      <div><label>drift / step</label><b class="num dkb-vi">+0.80bp</b></div>
+      <div><label>noise σ / step</label><b class="num dkb-or">8.6bp</b></div>
+    </div>
+  </div>
+  <div class="dkb-cvw" id="dkb-dw">
+    <canvas id="dkb-ds" aria-hidden="true"></canvas>
+    <canvas id="dkb-dp" data-dpr="1.5" aria-hidden="true"></canvas>
+    <canvas id="dkb-dq" data-dpr="1.5" aria-hidden="true"></canvas>
+    <canvas id="dkb-do" title="move up and down to read how many paths sit above a level" role="img" aria-label="one hundred and forty simulated random-walk equity curves with a small positive drift fanning out left to right, with a live histogram of their values on the right edge"></canvas>
+  </div>
+  <div class="dkb-df">
+    <span class="dkb-gr" aria-hidden="true"><i>loss</i><u></u><i>profit</i></span>
+    <span class="dkb-lk"><em class="dkb-kd" aria-hidden="true"></em>drift<em class="dkb-kn" aria-hidden="true"></em>±2σ noise</span>
+    <span class="dkb-pool">pooled <b id="dkb-pool" class="num">91.6%</b> over <b id="dkb-runs" class="num">1 run</b></span>
+  </div>
+</div>
