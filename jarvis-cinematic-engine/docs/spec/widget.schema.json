@@ -1,0 +1,54 @@
+{
+  "$comment": "Opis widgetu budowanego z opisu (widget_build). Szczegóły: docs/spec/05-widgety.md. Podzbiór JSON Schema sprawdzany przez tools/schema-lite.js. Zasada: ŻADNEGO dowolnego HTML ani JavaScriptu — tylko bloki z listy, dane tylko z poleceń rejestru poziomu A3, przyciski tylko jako polecenia rejestru.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["v", "title", "blocks"],
+  "properties": {
+    "v": { "const": 1 },
+    "title": { "type": "string", "minLength": 1, "maxLength": 60 },
+    "icon": { "type": "string", "enum": ["star", "notes", "list", "bolt", "market", "weather", "calendar", "timer", "chart", "globe", "brain", "db", "doc", "flag", "shield"] },
+    "size": { "type": "string", "enum": ["S", "M", "L", "XL"] },
+    "layout": { "type": "string", "enum": ["stack", "grid2", "grid3"] },
+    "tone": { "type": "string", "enum": ["accent", "blue", "purple", "teal", "green", "warn"] },
+    "sources": {
+      "type": "object",
+      "maxProperties": 4,
+      "propertyNames": { "pattern": "^[a-z][a-z0-9_]{0,19}$" },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["command"],
+        "properties": {
+          "command": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,40}$" },
+          "args": { "type": "object" },
+          "refresh": { "type": "number", "minimum": 0, "maximum": 86400 },
+          "event": { "type": "string", "enum": ["tasks", "notes", "market", "weather", "timer", "memory", "wm", "settings"] }
+        }
+      }
+    },
+    "blocks": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "required": ["kind"],
+        "oneOf": [
+          { "additionalProperties": false, "required": ["kind", "text"], "properties": { "kind": { "const": "text" }, "text": { "type": "string", "maxLength": 2000 }, "size": { "type": "string", "enum": ["sm", "md", "lg"] }, "dim": { "type": "boolean" } } },
+          { "additionalProperties": false, "required": ["kind", "text"], "properties": { "kind": { "const": "markdown" }, "text": { "type": "string", "maxLength": 4000 } } },
+          { "additionalProperties": false, "required": ["kind", "label", "value"], "properties": { "kind": { "const": "kpi" }, "label": { "type": "string", "maxLength": 40 }, "value": { "type": "string", "maxLength": 80 }, "delta": { "type": "string", "maxLength": 80 }, "format": { "type": "string", "enum": ["number", "money", "percent", "time", "text"] }, "good": { "type": "string", "enum": ["up", "down"] } } },
+          { "additionalProperties": false, "required": ["kind", "columns", "rows"], "properties": { "kind": { "const": "table" }, "columns": { "type": "array", "minItems": 1, "maxItems": 6, "items": { "type": "object", "additionalProperties": false, "required": ["label", "field"], "properties": { "label": { "type": "string", "maxLength": 24 }, "field": { "type": "string", "maxLength": 40 }, "format": { "type": "string", "enum": ["number", "money", "percent", "time", "text", "delta"] }, "align": { "type": "string", "enum": ["left", "right"] } } } }, "rows": { "type": "string", "maxLength": 80 }, "limit": { "type": "number", "minimum": 1, "maximum": 50 }, "sort": { "type": "string", "maxLength": 40 }, "desc": { "type": "boolean" } } },
+          { "additionalProperties": false, "required": ["kind", "items"], "properties": { "kind": { "const": "list" }, "items": { "type": "string", "maxLength": 80 }, "field": { "type": "string", "maxLength": 40 }, "meta": { "type": "string", "maxLength": 40 }, "limit": { "type": "number", "minimum": 1, "maximum": 50 }, "empty": { "type": "string", "maxLength": 80 } } },
+          { "additionalProperties": false, "required": ["kind"], "properties": { "kind": { "const": "checklist" }, "items": { "type": "string", "maxLength": 80 }, "static": { "type": "array", "maxItems": 50, "items": { "type": "string", "maxLength": 120 } }, "field": { "type": "string", "maxLength": 40 }, "done": { "type": "string", "maxLength": 40 }, "on_check": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,40}$" } } },
+          { "additionalProperties": false, "required": ["kind", "series"], "properties": { "kind": { "const": "chart" }, "chart": { "type": "string", "enum": ["line", "area", "bar", "spark"] }, "series": { "type": "string", "maxLength": 80 }, "x": { "type": "string", "maxLength": 40 }, "y": { "type": "string", "maxLength": 40 }, "label": { "type": "string", "maxLength": 40 }, "height": { "type": "number", "minimum": 40, "maximum": 240 } } },
+          { "additionalProperties": false, "required": ["kind", "text"], "properties": { "kind": { "const": "badge" }, "text": { "type": "string", "maxLength": 40 }, "tone": { "type": "string", "enum": ["ok", "warn", "err", "info"] } } },
+          { "additionalProperties": false, "required": ["kind", "value"], "properties": { "kind": { "const": "progress" }, "label": { "type": "string", "maxLength": 40 }, "value": { "type": "string", "maxLength": 80 }, "max": { "type": "number", "minimum": 1 } } },
+          { "additionalProperties": false, "required": ["kind"], "properties": { "kind": { "const": "clock" }, "format": { "type": "string", "enum": ["time", "date", "both"] } } },
+          { "additionalProperties": false, "required": ["kind", "until"], "properties": { "kind": { "const": "countdown" }, "until": { "type": "string", "maxLength": 80 }, "label": { "type": "string", "maxLength": 40 } } },
+          { "additionalProperties": false, "required": ["kind"], "properties": { "kind": { "const": "divider" } } },
+          { "additionalProperties": false, "required": ["kind", "buttons"], "properties": { "kind": { "const": "buttons" }, "buttons": { "type": "array", "minItems": 1, "maxItems": 4, "items": { "type": "object", "additionalProperties": false, "required": ["label", "command"], "properties": { "label": { "type": "string", "maxLength": 24 }, "command": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,40}$" }, "args": { "type": "object" }, "style": { "type": "string", "enum": ["primary", "ghost", "danger"] } } } } } }
+        ]
+      }
+    }
+  }
+}

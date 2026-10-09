@@ -1,0 +1,47 @@
+name: Jev — test kontraktowy i sonda
+
+# Nocny test: czy usługa Jev (OpenRouter /systemone) dalej odpowiada w oczekiwanym kształcie.
+# Wymaga sekretu OPENROUTER_API_KEY (Settings → Secrets and variables → Actions). Bez sekretu zadanie kończy się bez błędu.
+# Ręcznie (Actions → Run workflow) można uruchomić pełną sondę: pomiar trafności na ≥ 400 zdaniach, raport jako artefakt.
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'contract = tylko kształt odpowiedzi; probe = pełny pomiar (ok. 0,05 USD); e1 / e3 = eksperymenty'
+        default: contract
+        type: choice
+        options: [contract, probe, e1, e3]
+
+jobs:
+  jev:
+    runs-on: ubuntu-latest
+    env:
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Sprawdź, czy jest klucz
+        id: key
+        run: |
+          if [ -z "$OPENROUTER_API_KEY" ]; then echo "present=no" >> "$GITHUB_OUTPUT"; echo "Brak sekretu OPENROUTER_API_KEY — pomijam."; else echo "present=yes" >> "$GITHUB_OUTPUT"; fi
+      - name: Test kontraktowy
+        if: steps.key.outputs.present == 'yes' && (github.event_name == 'schedule' || inputs.mode == 'contract')
+        run: node tests/jev-probe.js --contract
+      - name: Sonda
+        if: steps.key.outputs.present == 'yes' && github.event_name == 'workflow_dispatch' && inputs.mode != 'contract'
+        run: |
+          case "${{ inputs.mode }}" in
+            e1) node tests/jev-probe.js --e1 ;;
+            e3) node tests/jev-probe.js --e3 ;;
+            *)  node tests/jev-probe.js ;;
+          esac
+      - name: Raport jako artefakt
+        if: always() && steps.key.outputs.present == 'yes' && github.event_name == 'workflow_dispatch' && inputs.mode != 'contract'
+        uses: actions/upload-artifact@v4
+        with:
+          name: jev-raport
+          path: tests/reports/
+          if-no-files-found: ignore

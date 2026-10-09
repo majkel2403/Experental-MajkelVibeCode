@@ -1,0 +1,2 @@
+# Łatki muszą zostać bajt w bajt (git apply): bez zamiany końców linii
+*.patch -text
