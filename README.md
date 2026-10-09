@@ -8,6 +8,8 @@ Centralne repozytorium **niezależnych eksperymentów i prototypów**. Każdy pr
 |---|---|---|
 | [quantum-tree-ai](./quantum-tree-ai/) | Interaktywna wizualizacja drzewa decyzji 3D | Otwórz [index.html](./quantum-tree-ai/index.html) w przeglądarce |
 
+| [jev](./jev/) | JEV Desk — interaktywny demonstracyjny panel tradingowy | Otwórz [gotowy HTML](./jev/dist/jev.html) lub uruchom `node jev/build.mjs` |
+
 ## Zasady dodawania nowych projektów
 
 1. **Osobny podfolder** dla każdego projektu, np. `nazwa-projektu/`.
@@ -25,6 +27,11 @@ Experental-MajkelVibeCode/
 ├── quantum-tree-ai/
 │   ├── README.md
 │   └── index.html
+├── jev/
+│   ├── README.md
+│   ├── build.mjs
+│   ├── src/
+│   └── dist/
 ├── kolejny-projekt/
 │   ├── README.md
 │   └── ...
