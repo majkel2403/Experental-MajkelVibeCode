@@ -1,0 +1,27 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - name: Motion report (growth, camera, avatars, framing)
+        run: npm run motion
+      - name: Demo runs are up to date with demo/make-demo.mjs
+        run: npm run demo:build && git diff --exit-code demo/runs
+      - name: Artifact boards are up to date with the core
+        run: |
+          node artifact/build-app.mjs
+          node artifact/gourcify-main.mjs
+          node artifact/check-board.mjs artifact/project/Hermes.dc.html --quiet
+          node artifact/check-board.mjs artifact/project/HermesMobile.dc.html --quiet
+          node artifact/check-board.mjs artifact/project/Main.dc.html --quiet
+          git diff --exit-code artifact/project

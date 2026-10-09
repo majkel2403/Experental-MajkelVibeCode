@@ -1,0 +1,894 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>Katalog specjalistów</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Instrument+Sans:wght@400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0B1020}
+a{color:inherit;text-decoration:none}
+a:hover{background:#161F3D}
+:focus-visible{outline:2px solid #F2C14E;outline-offset:2px}
+@keyframes hermesPulse{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.12);opacity:0}}
+.hermes-pulse{transform-box:fill-box;transform-origin:center;animation:hermesPulse 2.2s ease-out infinite}
+@media (prefers-reduced-motion: reduce){.hermes-pulse{animation:none;opacity:0}}
+</style>
+</helmet>
+
+<div style="background-color:#0B1020;background-image:linear-gradient(#151D3A 1px,transparent 1px),linear-gradient(90deg,#151D3A 1px,transparent 1px);background-size:32px 32px;color:#E8ECF8;font-family:'Instrument Sans','Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.5;overflow-x:hidden">
+
+  <!-- ============ 1. NAGŁÓWEK ============ -->
+  <header style="min-height:570px;box-sizing:border-box">
+    <div style="max-width:1360px;margin:0 auto;padding:36px clamp(20px,4vw,56px) 64px;box-sizing:border-box">
+
+      <div style="display:flex;margin-bottom:32px">
+        <a href="Main.dc.html" title="Wróć do centrum dowodzenia" style="display:inline-flex;align-items:center;gap:12px;min-height:56px;box-sizing:border-box;padding:7px 14px 7px 10px;margin-left:-10px;border-radius:6px">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#A3AED0" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg>
+          <svg viewBox="0 0 32 32" width="34" height="34" fill="none" stroke="#F2C14E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="16" cy="16" r="5"/><path d="M11 15C8 14.5 5.5 12.8 3.5 9.5"/><path d="M11 18C8.5 18.2 6 17.5 4 15.5"/><path d="M21 15C24 14.5 26.5 12.8 28.5 9.5"/><path d="M21 18C23.5 18.2 26 17.5 28 15.5"/><path d="M16 21v7"/></svg>
+          <span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+            <span style="font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:22px;line-height:24px;letter-spacing:-0.01em;color:#E8ECF8">Hermes</span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Centrum dowodzenia</span>
+          </span>
+        </a>
+      </div>
+
+      <div aria-hidden="true" style="display:flex;align-items:center;height:56px">
+        <div style="position:relative;z-index:2;flex:none;width:56px;height:56px;box-sizing:border-box;border-radius:50%;border:2px solid #F2C14E;background:#0B1020;display:flex;align-items:center;justify-content:center">
+          <div style="width:44px;height:44px;box-sizing:border-box;border-radius:50%;border:1px solid rgba(242,193,78,.45);display:flex;align-items:center;justify-content:center">
+            <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="#F2C14E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="16" r="5"/><path d="M11 15C8 14.5 5.5 12.8 3.5 9.5"/><path d="M11 18C8.5 18.2 6 17.5 4 15.5"/><path d="M21 15C24 14.5 26.5 12.8 28.5 9.5"/><path d="M21 18C23.5 18.2 26 17.5 28 15.5"/><path d="M16 21v7"/></svg>
+          </div>
+        </div>
+        <div style="position:relative;flex:1 1 auto;min-width:0;height:56px;margin-left:-2px">
+          <div style="position:absolute;left:0;right:5px;top:14px;height:3px;background:#4FA3FF"></div>
+          <div style="position:absolute;left:0;right:calc(6% + 5px);top:22px;height:3px;background:#FF9A3D"></div>
+          <div style="position:absolute;left:0;right:calc(12% + 5px);top:30px;height:3px;background:#34D3BE"></div>
+          <div style="position:absolute;left:0;right:calc(18% + 5px);top:38px;height:3px;background:#C4A7FF"></div>
+          <div style="position:absolute;right:0;top:10px;width:11px;height:11px;box-sizing:border-box;border-radius:50%;border:2px solid #4FA3FF;background:#0B1020"></div>
+          <div style="position:absolute;right:6%;top:18px;width:11px;height:11px;box-sizing:border-box;border-radius:50%;border:2px solid #FF9A3D;background:#0B1020"></div>
+          <div style="position:absolute;right:12%;top:26px;width:11px;height:11px;box-sizing:border-box;border-radius:50%;border:2px solid #34D3BE;background:#0B1020"></div>
+          <div style="position:absolute;right:18%;top:34px;width:11px;height:11px;box-sizing:border-box;border-radius:50%;border:2px solid #C4A7FF;background:#0B1020"></div>
+          <div style="position:absolute;left:16%;top:8px;width:12px;height:40px;box-sizing:border-box;border:2px solid #E8ECF8;border-radius:999px;background:#0B1020"></div>
+          <div style="position:absolute;left:46%;top:8px;width:12px;height:40px;box-sizing:border-box;border:2px solid #E8ECF8;border-radius:999px;background:#0B1020"></div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:40px 64px;margin-top:72px">
+        <div style="flex:999 1 560px;min-width:0">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="flex:none;width:24px;height:2px;background:#F2C14E"></span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Hermes · 12 ról · 4 linie</span>
+          </div>
+          <h1 style="margin:18px 0 0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:800;font-size:clamp(38px,5vw,68px);line-height:1.02;letter-spacing:-0.01em;color:#E8ECF8">Katalog specjalistów</h1>
+          <p style="margin:28px 0 0;max-width:640px;font-size:19px;line-height:29px;color:#E8ECF8">Hermes nie ma stałego zespołu: do każdego zadania dobiera role z tego katalogu, ale tylko takie, które mają powód, by w nim być. Gdy żadna nie pasuje, definiuje nową.</p>
+        </div>
+        <nav aria-label="Linie katalogu" style="flex:1 1 320px;min-width:0;max-width:440px">
+          <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0;margin-bottom:12px">Linie w katalogu</div>
+          <a href="#linia-r" style="display:flex;align-items:center;gap:14px;min-height:48px;box-sizing:border-box;padding:10px 12px;border-top:1px solid #232C4E">
+            <span style="flex:none;width:28px;height:28px;border-radius:7px;background:#4FA3FF;color:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:800;font-size:15px;line-height:1">R</span>
+            <span style="flex:1 1 auto;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:18px;line-height:24px;color:#E8ECF8">Badania</span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">2 role</span>
+          </a>
+          <a href="#linia-c" style="display:flex;align-items:center;gap:14px;min-height:48px;box-sizing:border-box;padding:10px 12px;border-top:1px solid #232C4E">
+            <span style="flex:none;width:28px;height:28px;border-radius:7px;background:#FF9A3D;color:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:800;font-size:15px;line-height:1">C</span>
+            <span style="flex:1 1 auto;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:18px;line-height:24px;color:#E8ECF8">Tworzenie</span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">6 ról</span>
+          </a>
+          <a href="#linia-q" style="display:flex;align-items:center;gap:14px;min-height:48px;box-sizing:border-box;padding:10px 12px;border-top:1px solid #232C4E">
+            <span style="flex:none;width:28px;height:28px;border-radius:7px;background:#34D3BE;color:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:800;font-size:15px;line-height:1">Q</span>
+            <span style="flex:1 1 auto;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:18px;line-height:24px;color:#E8ECF8">Jakość</span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">3 role</span>
+          </a>
+          <a href="#linia-d" style="display:flex;align-items:center;gap:14px;min-height:48px;box-sizing:border-box;padding:10px 12px;border-top:1px solid #232C4E;border-bottom:1px solid #232C4E">
+            <span style="flex:none;width:28px;height:28px;border-radius:7px;background:#C4A7FF;color:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:800;font-size:15px;line-height:1">D</span>
+            <span style="flex:1 1 auto;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:18px;line-height:24px;color:#E8ECF8">Dostawa</span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">1 rola</span>
+          </a>
+        </nav>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ============ 2. JAK HERMES DOBIERA ZESPÓŁ ============ -->
+  <section id="procedura" style="border-top:1px solid #232C4E;min-height:560px;box-sizing:border-box">
+    <div style="max-width:1360px;margin:0 auto;padding:72px clamp(20px,4vw,56px) 80px;box-sizing:border-box">
+
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 64px;min-height:96px">
+        <div style="flex:1 1 420px;min-width:0">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="flex:none;width:24px;height:2px;background:#F2C14E"></span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Procedura doboru</span>
+          </div>
+          <h2 style="margin:14px 0 0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:clamp(30px,3.2vw,42px);line-height:1.1;letter-spacing:-0.01em;color:#E8ECF8">Jak Hermes dobiera zespół</h2>
+        </div>
+        <p style="margin:0;flex:0 1 460px;min-width:0;font-size:15px;line-height:22px;color:#A3AED0">Zanim jakikolwiek agent zacznie pracę, Hermes przechodzi cztery kroki. Każdy kończy się decyzją, którą da się uzasadnić.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:44px 0;margin-top:56px">
+
+        <div style="min-width:0">
+          <div style="display:flex;align-items:center">
+            <div style="flex:none;width:48px;height:48px;box-sizing:border-box;border-radius:50%;border:2px solid #F2C14E;background:#0B1020;display:flex;align-items:center;justify-content:center">
+              <div style="width:38px;height:38px;box-sizing:border-box;border-radius:50%;border:1px solid rgba(242,193,78,.45);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:18px;line-height:1;color:#F2C14E">1</div>
+            </div>
+            <div style="flex:1 1 auto;height:2px;background:rgba(242,193,78,.5)"></div>
+          </div>
+          <h3 style="margin:20px 0 0;padding-right:28px;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Analiza zadania</h3>
+          <p style="margin:10px 0 0;padding-right:28px;font-size:15px;line-height:22px;color:#A3AED0">Hermes rozbija zadanie na <span style="color:#E8ECF8">cel, ograniczenia, kryteria sukcesu i ryzyka</span>. Dopiero ten opis, a nie sam temat, decyduje o dalszym doborze.</p>
+        </div>
+
+        <div style="min-width:0">
+          <div style="display:flex;align-items:center">
+            <div style="flex:none;width:48px;height:48px;box-sizing:border-box;border-radius:50%;border:2px solid #F2C14E;background:#0B1020;display:flex;align-items:center;justify-content:center">
+              <div style="width:38px;height:38px;box-sizing:border-box;border-radius:50%;border:1px solid rgba(242,193,78,.45);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:18px;line-height:1;color:#F2C14E">2</div>
+            </div>
+            <div style="flex:1 1 auto;height:2px;background:rgba(242,193,78,.5)"></div>
+          </div>
+          <h3 style="margin:20px 0 0;padding-right:28px;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Dobór ról</h3>
+          <p style="margin:10px 0 0;padding-right:28px;font-size:15px;line-height:22px;color:#A3AED0">Do zespołu trafia tylko rola, która ma <span style="color:#E8ECF8">powód</span>: część zadania, której nikt inny nie pokryje. Bez powodu nie ma roli.</p>
+        </div>
+
+        <div style="min-width:0">
+          <div style="display:flex;align-items:center">
+            <div style="flex:none;width:48px;height:48px;box-sizing:border-box;border-radius:50%;border:2px solid #F2C14E;background:#0B1020;display:flex;align-items:center;justify-content:center">
+              <div style="width:38px;height:38px;box-sizing:border-box;border-radius:50%;border:1px solid rgba(242,193,78,.45);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:18px;line-height:1;color:#F2C14E">3</div>
+            </div>
+            <div style="flex:1 1 auto;height:2px;background:rgba(242,193,78,.5)"></div>
+          </div>
+          <h3 style="margin:20px 0 0;padding-right:28px;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Dobór modelu</h3>
+          <p style="margin:10px 0 0;padding-right:28px;font-size:15px;line-height:22px;color:#A3AED0">Poziom rozumowania odpowiada trudności roli: <span style="color:#E8ECF8">głęboki</span> dla decyzji i krytyki, <span style="color:#E8ECF8">zrównoważony</span> dla większości pracy, <span style="color:#E8ECF8">szybki</span> dla zadań powtarzalnych.</p>
+        </div>
+
+        <div style="min-width:0">
+          <div style="display:flex;align-items:center">
+            <div style="flex:none;width:48px;height:48px;box-sizing:border-box;border-radius:50%;border:2px solid #F2C14E;background:#0B1020;display:flex;align-items:center;justify-content:center">
+              <div style="width:38px;height:38px;box-sizing:border-box;border-radius:50%;border:1px solid rgba(242,193,78,.45);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:18px;line-height:1;color:#F2C14E">4</div>
+            </div>
+            <div style="flex:1 1 auto;height:2px;background:rgba(242,193,78,.5)"></div>
+            <div style="flex:none;width:2px;height:24px;background:#F2C14E"></div>
+          </div>
+          <h3 style="margin:20px 0 0;padding-right:28px;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Plan współpracy</h3>
+          <p style="margin:10px 0 0;padding-right:28px;font-size:15px;line-height:22px;color:#A3AED0">Hermes ustala, <span style="color:#E8ECF8">kto komu przekazuje wynik</span> i gdzie działa pętla krytyki: uwagi recenzenta, poprawka autora, akceptacja.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. KATALOG ============ -->
+  <section id="katalog" style="border-top:1px solid #232C4E;min-height:3200px;box-sizing:border-box">
+    <div style="max-width:1360px;margin:0 auto;padding:72px clamp(20px,4vw,56px) 88px;box-sizing:border-box">
+
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 64px;min-height:96px;margin-bottom:56px">
+        <div style="flex:1 1 420px;min-width:0">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="flex:none;width:24px;height:2px;background:#F2C14E"></span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Katalog</span>
+          </div>
+          <h2 style="margin:14px 0 0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:clamp(30px,3.2vw,42px);line-height:1.1;letter-spacing:-0.01em;color:#E8ECF8">Dwanaście ról, cztery linie</h2>
+        </div>
+        <p style="margin:0;flex:0 1 460px;min-width:0;font-size:15px;line-height:22px;color:#A3AED0">Linia to strumień pracy, a nie dział. Wpis czytaj jak kartę stacji: co robi rola, kiedy Hermes ją wybiera, czym pracuje i komu oddaje wynik. W przebiegu rola dostaje nazwę dopasowaną do zadania, np. Analityk opinii jako wariant Badacza rynku lub Analityka danych.</p>
+      </div>
+
+      <!-- ---- Linia R: Badania ---- -->
+      <div id="linia-r" style="scroll-margin-top:24px">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;min-height:58px;box-sizing:border-box;padding:4px 20px 4px 4px;background:#111831;border:1px solid #232C4E;border-radius:10px">
+          <div style="flex:none;width:48px;height:48px;border-radius:8px;background:#4FA3FF;color:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:800;font-size:26px;line-height:1">R</div>
+          <h3 style="margin:0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:26px;line-height:30px;letter-spacing:-0.01em;color:#E8ECF8">Badania</h3>
+          <p style="margin:0;flex:1 1 280px;min-width:0;font-size:14px;line-height:21px;color:#A3AED0">Dostarcza faktów i liczb, na których opiera się reszta zespołu.</p>
+          <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0;white-space:nowrap">2 role</span>
+        </div>
+
+        <!-- R1 -->
+        <div style="display:flex;gap:20px;margin-left:5px;min-height:204px;box-sizing:border-box">
+          <div style="position:relative;flex:0 0 48px;width:48px">
+            <div style="position:absolute;left:23px;top:0;width:2px;height:60px;background:#4FA3FF"></div>
+            <div style="position:absolute;left:23px;top:60px;bottom:0;width:2px;background:#4FA3FF"></div>
+            <div style="position:absolute;left:0;top:36px;width:48px;height:48px;box-sizing:border-box;border-radius:50%;border:2px solid #4FA3FF;background:#0B1020;display:flex;align-items:center;justify-content:center">
+              <div style="width:36px;height:36px;border-radius:50%;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:16px;line-height:1;color:#4FA3FF">B</div>
+            </div>
+          </div>
+          <div style="flex:1 1 auto;min-width:0;box-sizing:border-box;padding:26px 0 30px;border-top:1px solid transparent;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:18px 28px;align-items:start">
+            <div>
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;font-weight:500;line-height:16px;letter-spacing:.06em;color:#4FA3FF">R1</div>
+              <h4 style="margin:4px 0 0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Badacz rynku</h4>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Zbiera fakty o rynku, konkurencji i odbiorcach, a ustalenia oddziela od hipotez.</p>
+            </div>
+            <div style="border-top:1px solid rgba(242,193,78,.6);padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#F2C14E">Hermes wybiera, gdy:</div>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#E8ECF8">zadanie zależy od faktów o rynku, konkurencji lub odbiorcach, których nie ma w jego treści.</p>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Narzędzia</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">wyszukiwanie</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">notatki ze źródeł</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">zestawienia</span>
+              </div>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px;display:flex;flex-direction:column;gap:14px">
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Domyślny poziom rozumowania</div>
+                <div style="display:flex;align-items:center;gap:10px;min-height:24px;margin-top:6px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 19v-4" stroke="#E8ECF8"/><path d="M12 19v-8" stroke="#E8ECF8"/><path d="M18 19V6" stroke="#34406B"/></svg>Zrównoważony</div>
+              </div>
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Zwykle przekazuje do:</div>
+                <div style="display:flex;flex-direction:column;gap:2px;margin-top:6px">
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #4FA3FF;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#4FA3FF">A</span>Analityk danych</div>
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #FF9A3D;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#FF9A3D">S</span>Strateg produktu</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- R2 -->
+        <div style="display:flex;gap:20px;margin-left:5px;min-height:204px;box-sizing:border-box">
+          <div style="position:relative;flex:0 0 48px;width:48px">
+            <div style="position:absolute;left:23px;top:0;width:2px;height:60px;background:#4FA3FF"></div>
+            <div style="position:absolute;left:0;top:36px;width:48px;height:48px;box-sizing:border-box;border-radius:50%;border:2px solid #4FA3FF;background:#0B1020;display:flex;align-items:center;justify-content:center">
+              <div style="width:36px;height:36px;border-radius:50%;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:16px;line-height:1;color:#4FA3FF">A</div>
+            </div>
+          </div>
+          <div style="flex:1 1 auto;min-width:0;box-sizing:border-box;padding:26px 0 30px;border-top:1px solid #232C4E;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:18px 28px;align-items:start">
+            <div>
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;font-weight:500;line-height:16px;letter-spacing:.06em;color:#4FA3FF">R2</div>
+              <h4 style="margin:4px 0 0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Analityk danych</h4>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Liczy i porównuje dane; podaje wynik razem z założeniami i niepewnością.</p>
+            </div>
+            <div style="border-top:1px solid rgba(242,193,78,.6);padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#F2C14E">Hermes wybiera, gdy:</div>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#E8ECF8">w zadaniu są liczby, tabele lub metryki albo teza wymaga policzalnego dowodu.</p>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Narzędzia</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">arkusze</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">wykresy</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">statystyka</span>
+              </div>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px;display:flex;flex-direction:column;gap:14px">
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Domyślny poziom rozumowania</div>
+                <div style="display:flex;align-items:center;gap:10px;min-height:24px;margin-top:6px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 19v-4" stroke="#E8ECF8"/><path d="M12 19v-8" stroke="#E8ECF8"/><path d="M18 19V6" stroke="#34406B"/></svg>Zrównoważony</div>
+              </div>
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Zwykle przekazuje do:</div>
+                <div style="display:flex;flex-direction:column;gap:2px;margin-top:6px">
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #FF9A3D;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#FF9A3D">S</span>Strateg produktu</div>
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #C4A7FF;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#C4A7FF">R</span>Redaktor-integrator</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---- Linia C: Tworzenie ---- -->
+      <div id="linia-c" style="scroll-margin-top:24px;margin-top:56px">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;min-height:58px;box-sizing:border-box;padding:4px 20px 4px 4px;background:#111831;border:1px solid #232C4E;border-radius:10px">
+          <div style="flex:none;width:48px;height:48px;border-radius:8px;background:#FF9A3D;color:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:800;font-size:26px;line-height:1">C</div>
+          <h3 style="margin:0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:26px;line-height:30px;letter-spacing:-0.01em;color:#E8ECF8">Tworzenie</h3>
+          <p style="margin:0;flex:1 1 280px;min-width:0;font-size:14px;line-height:21px;color:#A3AED0">Zamienia ustalenia w produkt: kierunek, treść, projekt i działający kod.</p>
+          <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0;white-space:nowrap">6 ról</span>
+        </div>
+
+        <!-- C1 -->
+        <div style="display:flex;gap:20px;margin-left:5px;min-height:204px;box-sizing:border-box">
+          <div style="position:relative;flex:0 0 48px;width:48px">
+            <div style="position:absolute;left:23px;top:0;width:2px;height:60px;background:#FF9A3D"></div>
+            <div style="position:absolute;left:23px;top:60px;bottom:0;width:2px;background:#FF9A3D"></div>
+            <div style="position:absolute;left:0;top:36px;width:48px;height:48px;box-sizing:border-box;border-radius:50%;border:2px solid #FF9A3D;background:#0B1020;display:flex;align-items:center;justify-content:center">
+              <div style="width:36px;height:36px;border-radius:50%;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:16px;line-height:1;color:#FF9A3D">S</div>
+            </div>
+          </div>
+          <div style="flex:1 1 auto;min-width:0;box-sizing:border-box;padding:26px 0 30px;border-top:1px solid transparent;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:18px 28px;align-items:start">
+            <div>
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;font-weight:500;line-height:16px;letter-spacing:.06em;color:#FF9A3D">C1</div>
+              <h4 style="margin:4px 0 0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Strateg produktu</h4>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Zamienia cel w kierunek: wybiera odbiorców i priorytety oraz uzasadnia, czego nie robić.</p>
+            </div>
+            <div style="border-top:1px solid rgba(242,193,78,.6);padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#F2C14E">Hermes wybiera, gdy:</div>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#E8ECF8">cel jest otwarty, a zasoby ograniczone, więc ktoś musi wybrać kierunek i kolejność prac.</p>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Narzędzia</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">priorytetyzacja</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">model wartości</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">roadmapa</span>
+              </div>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px;display:flex;flex-direction:column;gap:14px">
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Domyślny poziom rozumowania</div>
+                <div style="display:flex;align-items:center;gap:10px;min-height:24px;margin-top:6px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 19v-4" stroke="#E8ECF8"/><path d="M12 19v-8" stroke="#E8ECF8"/><path d="M18 19V6" stroke="#E8ECF8"/></svg>Głębokie rozumowanie</div>
+              </div>
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Zwykle przekazuje do:</div>
+                <div style="display:flex;flex-direction:column;gap:2px;margin-top:6px">
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #FF9A3D;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#FF9A3D">P</span>Projektant interfejsów</div>
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #FF9A3D;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#FF9A3D">C</span>Copywriter</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- C2 -->
+        <div style="display:flex;gap:20px;margin-left:5px;min-height:204px;box-sizing:border-box">
+          <div style="position:relative;flex:0 0 48px;width:48px">
+            <div style="position:absolute;left:23px;top:0;width:2px;height:60px;background:#FF9A3D"></div>
+            <div style="position:absolute;left:23px;top:60px;bottom:0;width:2px;background:#FF9A3D"></div>
+            <div style="position:absolute;left:0;top:36px;width:48px;height:48px;box-sizing:border-box;border-radius:50%;border:2px solid #FF9A3D;background:#0B1020;display:flex;align-items:center;justify-content:center">
+              <div style="width:36px;height:36px;border-radius:50%;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:16px;line-height:1;color:#FF9A3D">C</div>
+            </div>
+          </div>
+          <div style="flex:1 1 auto;min-width:0;box-sizing:border-box;padding:26px 0 30px;border-top:1px solid #232C4E;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:18px 28px;align-items:start">
+            <div>
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;font-weight:500;line-height:16px;letter-spacing:.06em;color:#FF9A3D">C2</div>
+              <h4 style="margin:4px 0 0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Copywriter</h4>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Pisze teksty dla konkretnego odbiorcy i dopasowuje ton do marki oraz kanału.</p>
+            </div>
+            <div style="border-top:1px solid rgba(242,193,78,.6);padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#F2C14E">Hermes wybiera, gdy:</div>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#E8ECF8">wynik trafi do ludzi jako tekst: strona, wiadomość, opis produktu lub komunikat w interfejsie.</p>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Narzędzia</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">edytor</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">przewodnik tonu</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">warianty</span>
+              </div>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px;display:flex;flex-direction:column;gap:14px">
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Domyślny poziom rozumowania</div>
+                <div style="display:flex;align-items:center;gap:10px;min-height:24px;margin-top:6px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 19v-4" stroke="#E8ECF8"/><path d="M12 19v-8" stroke="#E8ECF8"/><path d="M18 19V6" stroke="#34406B"/></svg>Zrównoważony</div>
+              </div>
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Zwykle przekazuje do:</div>
+                <div style="display:flex;flex-direction:column;gap:2px;margin-top:6px">
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #34D3BE;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#34D3BE">K</span>Krytyk</div>
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #C4A7FF;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#C4A7FF">R</span>Redaktor-integrator</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- C3 -->
+        <div style="display:flex;gap:20px;margin-left:5px;min-height:204px;box-sizing:border-box">
+          <div style="position:relative;flex:0 0 48px;width:48px">
+            <div style="position:absolute;left:23px;top:0;width:2px;height:60px;background:#FF9A3D"></div>
+            <div style="position:absolute;left:23px;top:60px;bottom:0;width:2px;background:#FF9A3D"></div>
+            <div style="position:absolute;left:0;top:36px;width:48px;height:48px;box-sizing:border-box;border-radius:50%;border:2px solid #FF9A3D;background:#0B1020;display:flex;align-items:center;justify-content:center">
+              <div style="width:36px;height:36px;border-radius:50%;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:16px;line-height:1;color:#FF9A3D">P</div>
+            </div>
+          </div>
+          <div style="flex:1 1 auto;min-width:0;box-sizing:border-box;padding:26px 0 30px;border-top:1px solid #232C4E;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:18px 28px;align-items:start">
+            <div>
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;font-weight:500;line-height:16px;letter-spacing:.06em;color:#FF9A3D">C3</div>
+              <h4 style="margin:4px 0 0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Projektant interfejsów</h4>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Projektuje przepływy i ekrany: układ, hierarchię informacji, stany i dostępność.</p>
+            </div>
+            <div style="border-top:1px solid rgba(242,193,78,.6);padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#F2C14E">Hermes wybiera, gdy:</div>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#E8ECF8">przy ekranie będzie człowiek, więc trzeba rozstrzygnąć, jak interfejs wygląda i działa.</p>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Narzędzia</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">makiety</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">komponenty</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">dostępność</span>
+              </div>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px;display:flex;flex-direction:column;gap:14px">
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Domyślny poziom rozumowania</div>
+                <div style="display:flex;align-items:center;gap:10px;min-height:24px;margin-top:6px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 19v-4" stroke="#E8ECF8"/><path d="M12 19v-8" stroke="#E8ECF8"/><path d="M18 19V6" stroke="#34406B"/></svg>Zrównoważony</div>
+              </div>
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Zwykle przekazuje do:</div>
+                <div style="display:flex;flex-direction:column;gap:2px;margin-top:6px">
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #FF9A3D;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#FF9A3D">F</span>Programista frontend</div>
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #34D3BE;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#34D3BE">T</span>Tester QA</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- C4 -->
+        <div style="display:flex;gap:20px;margin-left:5px;min-height:204px;box-sizing:border-box">
+          <div style="position:relative;flex:0 0 48px;width:48px">
+            <div style="position:absolute;left:23px;top:0;width:2px;height:60px;background:#FF9A3D"></div>
+            <div style="position:absolute;left:23px;top:60px;bottom:0;width:2px;background:#FF9A3D"></div>
+            <div style="position:absolute;left:0;top:36px;width:48px;height:48px;box-sizing:border-box;border-radius:50%;border:2px solid #FF9A3D;background:#0B1020;display:flex;align-items:center;justify-content:center">
+              <div style="width:36px;height:36px;border-radius:50%;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:16px;line-height:1;color:#FF9A3D">A</div>
+            </div>
+          </div>
+          <div style="flex:1 1 auto;min-width:0;box-sizing:border-box;padding:26px 0 30px;border-top:1px solid #232C4E;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:18px 28px;align-items:start">
+            <div>
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;font-weight:500;line-height:16px;letter-spacing:.06em;color:#FF9A3D">C4</div>
+              <h4 style="margin:4px 0 0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Architekt systemu</h4>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Dzieli rozwiązanie na części i wyznacza ich granice: dane, interfejsy, zależności.</p>
+            </div>
+            <div style="border-top:1px solid rgba(242,193,78,.6);padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#F2C14E">Hermes wybiera, gdy:</div>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#E8ECF8">zadanie obejmuje kilka współpracujących składników albo decyzję techniczną trudną do cofnięcia.</p>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Narzędzia</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">diagramy</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">kontrakty API</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">rejestr decyzji</span>
+              </div>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px;display:flex;flex-direction:column;gap:14px">
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Domyślny poziom rozumowania</div>
+                <div style="display:flex;align-items:center;gap:10px;min-height:24px;margin-top:6px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 19v-4" stroke="#E8ECF8"/><path d="M12 19v-8" stroke="#E8ECF8"/><path d="M18 19V6" stroke="#E8ECF8"/></svg>Głębokie rozumowanie</div>
+              </div>
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Zwykle przekazuje do:</div>
+                <div style="display:flex;flex-direction:column;gap:2px;margin-top:6px">
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #FF9A3D;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#FF9A3D">B</span>Programista backend</div>
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #FF9A3D;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#FF9A3D">F</span>Programista frontend</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- C5 -->
+        <div style="display:flex;gap:20px;margin-left:5px;min-height:204px;box-sizing:border-box">
+          <div style="position:relative;flex:0 0 48px;width:48px">
+            <div style="position:absolute;left:23px;top:0;width:2px;height:60px;background:#FF9A3D"></div>
+            <div style="position:absolute;left:23px;top:60px;bottom:0;width:2px;background:#FF9A3D"></div>
+            <div style="position:absolute;left:0;top:36px;width:48px;height:48px;box-sizing:border-box;border-radius:50%;border:2px solid #FF9A3D;background:#0B1020;display:flex;align-items:center;justify-content:center">
+              <div style="width:36px;height:36px;border-radius:50%;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:16px;line-height:1;color:#FF9A3D">F</div>
+            </div>
+          </div>
+          <div style="flex:1 1 auto;min-width:0;box-sizing:border-box;padding:26px 0 30px;border-top:1px solid #232C4E;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:18px 28px;align-items:start">
+            <div>
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;font-weight:500;line-height:16px;letter-spacing:.06em;color:#FF9A3D">C5</div>
+              <h4 style="margin:4px 0 0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Programista frontend</h4>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Buduje warstwę widoczną dla użytkownika: markup, style i obsługę zdarzeń według makiety.</p>
+            </div>
+            <div style="border-top:1px solid rgba(242,193,78,.6);padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#F2C14E">Hermes wybiera, gdy:</div>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#E8ECF8">wynikiem ma być działający ekran lub strona, a projekt interfejsu jest już gotowy.</p>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Narzędzia</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">HTML i CSS</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">JavaScript</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">narzędzia przeglądarki</span>
+              </div>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px;display:flex;flex-direction:column;gap:14px">
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Domyślny poziom rozumowania</div>
+                <div style="display:flex;align-items:center;gap:10px;min-height:24px;margin-top:6px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 19v-4" stroke="#E8ECF8"/><path d="M12 19v-8" stroke="#E8ECF8"/><path d="M18 19V6" stroke="#34406B"/></svg>Zrównoważony</div>
+              </div>
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Zwykle przekazuje do:</div>
+                <div style="display:flex;flex-direction:column;gap:2px;margin-top:6px">
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #34D3BE;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#34D3BE">T</span>Tester QA</div>
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #C4A7FF;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#C4A7FF">R</span>Redaktor-integrator</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- C6 -->
+        <div style="display:flex;gap:20px;margin-left:5px;min-height:204px;box-sizing:border-box">
+          <div style="position:relative;flex:0 0 48px;width:48px">
+            <div style="position:absolute;left:23px;top:0;width:2px;height:60px;background:#FF9A3D"></div>
+            <div style="position:absolute;left:0;top:36px;width:48px;height:48px;box-sizing:border-box;border-radius:50%;border:2px solid #FF9A3D;background:#0B1020;display:flex;align-items:center;justify-content:center">
+              <div style="width:36px;height:36px;border-radius:50%;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:16px;line-height:1;color:#FF9A3D">B</div>
+            </div>
+          </div>
+          <div style="flex:1 1 auto;min-width:0;box-sizing:border-box;padding:26px 0 30px;border-top:1px solid #232C4E;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:18px 28px;align-items:start">
+            <div>
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;font-weight:500;line-height:16px;letter-spacing:.06em;color:#FF9A3D">C6</div>
+              <h4 style="margin:4px 0 0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Programista backend</h4>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Implementuje logikę po stronie serwera: modele danych, API, integracje i obsługę błędów.</p>
+            </div>
+            <div style="border-top:1px solid rgba(242,193,78,.6);padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#F2C14E">Hermes wybiera, gdy:</div>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#E8ECF8">zadanie wymaga zapisu danych, reguł biznesowych lub połączenia z zewnętrzną usługą.</p>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Narzędzia</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">API</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">bazy danych</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">testy jednostkowe</span>
+              </div>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px;display:flex;flex-direction:column;gap:14px">
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Domyślny poziom rozumowania</div>
+                <div style="display:flex;align-items:center;gap:10px;min-height:24px;margin-top:6px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 19v-4" stroke="#E8ECF8"/><path d="M12 19v-8" stroke="#E8ECF8"/><path d="M18 19V6" stroke="#34406B"/></svg>Zrównoważony</div>
+              </div>
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Zwykle przekazuje do:</div>
+                <div style="display:flex;flex-direction:column;gap:2px;margin-top:6px">
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #34D3BE;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#34D3BE">T</span>Tester QA</div>
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #34D3BE;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#34D3BE">Z</span>Specjalista ds. zgodności</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---- Linia Q: Jakość ---- -->
+      <div id="linia-q" style="scroll-margin-top:24px;margin-top:56px">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;min-height:58px;box-sizing:border-box;padding:4px 20px 4px 4px;background:#111831;border:1px solid #232C4E;border-radius:10px">
+          <div style="flex:none;width:48px;height:48px;border-radius:8px;background:#34D3BE;color:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:800;font-size:26px;line-height:1">Q</div>
+          <h3 style="margin:0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:26px;line-height:30px;letter-spacing:-0.01em;color:#E8ECF8">Jakość</h3>
+          <p style="margin:0;flex:1 1 280px;min-width:0;font-size:14px;line-height:21px;color:#A3AED0">Podważa, sprawdza i pilnuje zgodności, zanim wynik opuści zespół.</p>
+          <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0;white-space:nowrap">3 role</span>
+        </div>
+
+        <!-- Q1 -->
+        <div style="display:flex;gap:20px;margin-left:5px;min-height:204px;box-sizing:border-box">
+          <div style="position:relative;flex:0 0 48px;width:48px">
+            <div style="position:absolute;left:23px;top:0;width:2px;height:60px;background:#34D3BE"></div>
+            <div style="position:absolute;left:23px;top:60px;bottom:0;width:2px;background:#34D3BE"></div>
+            <div style="position:absolute;left:0;top:36px;width:48px;height:48px;box-sizing:border-box;border-radius:50%;border:2px solid #34D3BE;background:#0B1020;display:flex;align-items:center;justify-content:center">
+              <div style="width:36px;height:36px;border-radius:50%;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:16px;line-height:1;color:#34D3BE">K</div>
+            </div>
+          </div>
+          <div style="flex:1 1 auto;min-width:0;box-sizing:border-box;padding:26px 0 30px;border-top:1px solid transparent;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:18px 28px;align-items:start">
+            <div>
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;font-weight:500;line-height:16px;letter-spacing:.06em;color:#34D3BE">Q1</div>
+              <h4 style="margin:4px 0 0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Krytyk <span style="font-family:'Instrument Sans','Segoe UI',system-ui,sans-serif;font-weight:400;font-size:14px;letter-spacing:0;color:#A3AED0">(adwokat diabła)</span></h4>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Szuka luk w cudzym wyniku: ukrytych założeń, błędów w rozumowaniu i scenariuszy porażki.</p>
+            </div>
+            <div style="border-top:1px solid rgba(242,193,78,.6);padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#F2C14E">Hermes wybiera, gdy:</div>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#E8ECF8">stawka jest wysoka albo wynik wygląda zbyt gładko, a nikt jeszcze go nie podważył.</p>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Narzędzia</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">lista założeń</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">pre-mortem</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">kontrprzykłady</span>
+              </div>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px;display:flex;flex-direction:column;gap:14px">
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Domyślny poziom rozumowania</div>
+                <div style="display:flex;align-items:center;gap:10px;min-height:24px;margin-top:6px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 19v-4" stroke="#E8ECF8"/><path d="M12 19v-8" stroke="#E8ECF8"/><path d="M18 19V6" stroke="#E8ECF8"/></svg>Głębokie rozumowanie</div>
+              </div>
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Zwykle przekazuje do:</div>
+                <div style="display:flex;flex-direction:column;gap:2px;margin-top:6px">
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px dashed #7F8BB3;background:#0B1020"></span>Autor wyniku <span style="color:#A3AED0">· poprawka</span></div>
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #C4A7FF;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#C4A7FF">R</span>Redaktor-integrator</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div style="display:flex;gap:20px;margin-left:5px;min-height:204px;box-sizing:border-box">
+          <div style="position:relative;flex:0 0 48px;width:48px">
+            <div style="position:absolute;left:23px;top:0;width:2px;height:60px;background:#34D3BE"></div>
+            <div style="position:absolute;left:23px;top:60px;bottom:0;width:2px;background:#34D3BE"></div>
+            <div style="position:absolute;left:0;top:36px;width:48px;height:48px;box-sizing:border-box;border-radius:50%;border:2px solid #34D3BE;background:#0B1020;display:flex;align-items:center;justify-content:center">
+              <div style="width:36px;height:36px;border-radius:50%;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:16px;line-height:1;color:#34D3BE">T</div>
+            </div>
+          </div>
+          <div style="flex:1 1 auto;min-width:0;box-sizing:border-box;padding:26px 0 30px;border-top:1px solid #232C4E;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:18px 28px;align-items:start">
+            <div>
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;font-weight:500;line-height:16px;letter-spacing:.06em;color:#34D3BE">Q2</div>
+              <h4 style="margin:4px 0 0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Tester QA</h4>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Sprawdza wynik punkt po punkcie względem kryteriów sukcesu i opisuje każdą rozbieżność.</p>
+            </div>
+            <div style="border-top:1px solid rgba(242,193,78,.6);padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#F2C14E">Hermes wybiera, gdy:</div>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#E8ECF8">jest co uruchomić lub odhaczyć, a kryteria sukcesu da się sprawdzić jednoznacznie.</p>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Narzędzia</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">scenariusze</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">listy kontrolne</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">uruchamianie</span>
+              </div>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px;display:flex;flex-direction:column;gap:14px">
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Domyślny poziom rozumowania</div>
+                <div style="display:flex;align-items:center;gap:10px;min-height:24px;margin-top:6px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 19v-4" stroke="#E8ECF8"/><path d="M12 19v-8" stroke="#34406B"/><path d="M18 19V6" stroke="#34406B"/></svg>Szybki</div>
+              </div>
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Zwykle przekazuje do:</div>
+                <div style="display:flex;flex-direction:column;gap:2px;margin-top:6px">
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px dashed #7F8BB3;background:#0B1020"></span>Autor wyniku <span style="color:#A3AED0">· poprawka</span></div>
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #C4A7FF;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#C4A7FF">R</span>Redaktor-integrator</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div style="display:flex;gap:20px;margin-left:5px;min-height:204px;box-sizing:border-box">
+          <div style="position:relative;flex:0 0 48px;width:48px">
+            <div style="position:absolute;left:23px;top:0;width:2px;height:60px;background:#34D3BE"></div>
+            <div style="position:absolute;left:0;top:36px;width:48px;height:48px;box-sizing:border-box;border-radius:50%;border:2px solid #34D3BE;background:#0B1020;display:flex;align-items:center;justify-content:center">
+              <div style="width:36px;height:36px;border-radius:50%;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:16px;line-height:1;color:#34D3BE">Z</div>
+            </div>
+          </div>
+          <div style="flex:1 1 auto;min-width:0;box-sizing:border-box;padding:26px 0 30px;border-top:1px solid #232C4E;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:18px 28px;align-items:start">
+            <div>
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;font-weight:500;line-height:16px;letter-spacing:.06em;color:#34D3BE">Q3</div>
+              <h4 style="margin:4px 0 0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Specjalista ds. zgodności</h4>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Sprawdza wynik pod kątem przepisów, polityk, prywatności i praw autorskich.</p>
+            </div>
+            <div style="border-top:1px solid rgba(242,193,78,.6);padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#F2C14E">Hermes wybiera, gdy:</div>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#E8ECF8">zadanie dotyka danych osobowych, cudzych treści, regulowanej branży lub obietnic dla klientów.</p>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Narzędzia</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">przepisy</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">listy zgodności</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">rejestr ryzyk</span>
+              </div>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px;display:flex;flex-direction:column;gap:14px">
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Domyślny poziom rozumowania</div>
+                <div style="display:flex;align-items:center;gap:10px;min-height:24px;margin-top:6px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 19v-4" stroke="#E8ECF8"/><path d="M12 19v-8" stroke="#E8ECF8"/><path d="M18 19V6" stroke="#E8ECF8"/></svg>Głębokie rozumowanie</div>
+              </div>
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Zwykle przekazuje do:</div>
+                <div style="display:flex;flex-direction:column;gap:2px;margin-top:6px">
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px dashed #7F8BB3;background:#0B1020"></span>Autor wyniku <span style="color:#A3AED0">· poprawka</span></div>
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #C4A7FF;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#C4A7FF">R</span>Redaktor-integrator</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---- Linia D: Dostawa ---- -->
+      <div id="linia-d" style="scroll-margin-top:24px;margin-top:56px">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;min-height:58px;box-sizing:border-box;padding:4px 20px 4px 4px;background:#111831;border:1px solid #232C4E;border-radius:10px">
+          <div style="flex:none;width:48px;height:48px;border-radius:8px;background:#C4A7FF;color:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:800;font-size:26px;line-height:1">D</div>
+          <h3 style="margin:0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:26px;line-height:30px;letter-spacing:-0.01em;color:#E8ECF8">Dostawa</h3>
+          <p style="margin:0;flex:1 1 280px;min-width:0;font-size:14px;line-height:21px;color:#A3AED0">Scala pracę wszystkich linii w jeden gotowy wynik.</p>
+          <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0;white-space:nowrap">1 rola</span>
+        </div>
+
+        <!-- D1 -->
+        <div style="display:flex;gap:20px;margin-left:5px;min-height:204px;box-sizing:border-box">
+          <div style="position:relative;flex:0 0 48px;width:48px">
+            <div style="position:absolute;left:23px;top:0;width:2px;height:60px;background:#C4A7FF"></div>
+            <div style="position:absolute;left:0;top:36px;width:48px;height:48px;box-sizing:border-box;border-radius:50%;border:2px solid #C4A7FF;background:#0B1020;display:flex;align-items:center;justify-content:center">
+              <div style="width:36px;height:36px;border-radius:50%;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:16px;line-height:1;color:#C4A7FF">R</div>
+            </div>
+          </div>
+          <div style="flex:1 1 auto;min-width:0;box-sizing:border-box;padding:26px 0 30px;border-top:1px solid transparent;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:18px 28px;align-items:start">
+            <div>
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;font-weight:500;line-height:16px;letter-spacing:.06em;color:#C4A7FF">D1</div>
+              <h4 style="margin:4px 0 0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Redaktor-integrator</h4>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Scala wyniki wszystkich ról w jedną całość: ujednolica ton i terminy, usuwa sprzeczności.</p>
+            </div>
+            <div style="border-top:1px solid rgba(242,193,78,.6);padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#F2C14E">Hermes wybiera, gdy:</div>
+              <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#E8ECF8">kilka ról dostarcza osobne części, które trzeba zamienić w jeden dokument, plan lub odpowiedź.</p>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Narzędzia</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">edytor</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">porównanie wersji</span>
+                <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:18px;padding:3px 8px;border:1px solid #232C4E;border-radius:6px;background:#0E1530;color:#E8ECF8">spis źródeł</span>
+              </div>
+            </div>
+            <div style="border-top:1px solid #34406B;padding-top:10px;display:flex;flex-direction:column;gap:14px">
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Domyślny poziom rozumowania</div>
+                <div style="display:flex;align-items:center;gap:10px;min-height:24px;margin-top:6px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 19v-4" stroke="#E8ECF8"/><path d="M12 19v-8" stroke="#E8ECF8"/><path d="M18 19V6" stroke="#34406B"/></svg>Zrównoważony</div>
+              </div>
+              <div>
+                <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Zwykle przekazuje do:</div>
+                <div style="display:flex;flex-direction:column;gap:2px;margin-top:6px">
+                  <div style="display:flex;align-items:center;gap:8px;min-height:24px;font-size:14px;line-height:20px;color:#E8ECF8"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#7F8BB3" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg><span style="flex:none;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:1.5px solid #F2C14E;background:#0B1020;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1;color:#F2C14E">H</span>Hermes <span style="color:#A3AED0">· wynik końcowy</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 4. LEGENDA ============ -->
+  <section id="legenda" style="border-top:1px solid #232C4E;min-height:1060px;box-sizing:border-box">
+    <div style="max-width:1360px;margin:0 auto;padding:72px clamp(20px,4vw,56px) 88px;box-sizing:border-box">
+
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 64px;min-height:96px;margin-bottom:48px">
+        <div style="flex:1 1 420px;min-width:0">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="flex:none;width:24px;height:2px;background:#F2C14E"></span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">Legenda</span>
+          </div>
+          <h2 style="margin:14px 0 0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:700;font-size:clamp(30px,3.2vw,42px);line-height:1.1;letter-spacing:-0.01em;color:#E8ECF8">Legenda centrum dowodzenia</h2>
+        </div>
+        <p style="margin:0;flex:0 1 460px;min-width:0;font-size:15px;line-height:22px;color:#A3AED0">Znaki, które wracają na głównym ekranie: stan stacji, pakiety jadące po liniach i poziom rozumowania przy każdej roli.</p>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:56px 64px;align-items:flex-start">
+
+        <!-- Lewa kolumna: statusy + poziomy rozumowania -->
+        <div style="flex:1 1 440px;min-width:0;min-height:740px">
+
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;height:52px;box-sizing:border-box;padding-bottom:14px;border-bottom:1px solid #34406B">
+            <h3 style="margin:0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Statusy agenta</h3>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">4 stany</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:64px 1fr;column-gap:18px;align-items:center;min-height:84px;box-sizing:border-box;padding:10px 0 9px;border-bottom:1px solid #232C4E">
+            <svg viewBox="0 0 76 76" width="64" height="64" fill="none" aria-hidden="true"><circle cx="38" cy="38" r="24" fill="#0B1020" stroke="#7F8BB3" stroke-width="3" stroke-dasharray="5 5.053" stroke-linecap="round"/><text x="38" y="44" text-anchor="middle" font-size="16" font-weight="700" fill="#7F8BB3" fill-opacity=".7" style="font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif">A</text></svg>
+            <div>
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;line-height:18px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:#E8ECF8">czeka</div>
+              <p style="margin:2px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Szary pierścień przerywany, bez łuku postępu, a monogram przygaszony. Agent czeka na wejście od innej roli.</p>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:64px 1fr;column-gap:18px;align-items:center;min-height:84px;box-sizing:border-box;padding:10px 0 9px;border-bottom:1px solid #232C4E">
+            <svg viewBox="0 0 76 76" width="64" height="64" fill="none" aria-hidden="true"><circle class="hermes-pulse" cx="38" cy="38" r="34" stroke="#FF9A3D" stroke-width="2"/><circle cx="38" cy="38" r="31" stroke="#232C4E" stroke-width="3"/><circle cx="38" cy="38" r="31" stroke="#FF9A3D" stroke-width="3" stroke-linecap="round" stroke-dasharray="126.6 194.8" transform="rotate(-90 38 38)"/><circle cx="38" cy="38" r="24" fill="#0B1020" stroke="#FF9A3D" stroke-width="3"/><text x="38" y="44" text-anchor="middle" font-size="16" font-weight="700" fill="#FF9A3D" style="font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif">A</text></svg>
+            <div>
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;line-height:18px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:#E8ECF8">pracuje</div>
+              <p style="margin:2px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Pełny pierścień w kolorze linii z łukiem postępu, a na zewnątrz pulsuje drugi pierścień. Agent pracuje nad swoim zadaniem.</p>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:64px 1fr;column-gap:18px;align-items:center;min-height:84px;box-sizing:border-box;padding:10px 0 9px;border-bottom:1px solid #232C4E">
+            <svg viewBox="0 0 76 76" width="64" height="64" fill="none" aria-hidden="true"><circle cx="38" cy="38" r="31" stroke="#232C4E" stroke-width="3"/><circle cx="38" cy="38" r="31" stroke="#FF9A3D" stroke-width="3" stroke-linecap="round" stroke-dasharray="77.9 194.8" transform="rotate(-90 38 38)"/><circle cx="38" cy="38" r="24" fill="#0B1020" stroke="#FF9A3D" stroke-width="3" stroke-dasharray="0.1 5.93" stroke-linecap="round"/><text x="38" y="44" text-anchor="middle" font-size="16" font-weight="700" fill="#FF9A3D" style="font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif">A</text></svg>
+            <div>
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;line-height:18px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:#E8ECF8">recenzja</div>
+              <p style="margin:2px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Pierścień kropkowany w kolorze linii z łukiem postępu. Agent wykonuje zadanie recenzenckie: sam ocenia cudzą pracę, np. Krytyk.</p>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:64px 1fr;column-gap:18px;align-items:center;min-height:84px;box-sizing:border-box;padding:10px 0 9px;border-bottom:1px solid #232C4E">
+            <svg viewBox="0 0 76 76" width="64" height="64" fill="none" aria-hidden="true"><circle cx="38" cy="38" r="24" fill="#0B1020" stroke="#FF9A3D" stroke-width="3"/><text x="38" y="44" text-anchor="middle" font-size="16" font-weight="700" fill="#FF9A3D" style="font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif">A</text><g transform="translate(59 17)"><circle cx="0" cy="0" r="9" fill="#FF9A3D"/><path d="M-4 0.5L-1 3.5L4.5 -3" stroke="#0B1020" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+            <div>
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;line-height:18px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:#E8ECF8">gotowe</div>
+              <p style="margin:2px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Pełny pierścień i znaczek z haczykiem przy stacji. Wszystkie zadania agenta są zamknięte.</p>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;height:52px;box-sizing:border-box;padding-bottom:14px;border-bottom:1px solid #34406B;margin-top:40px">
+            <h3 style="margin:0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Poziom rozumowania</h3>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">3 poziomy</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:28px 1fr;column-gap:18px;align-items:start;min-height:84px;box-sizing:border-box;padding:14px 0 12px;border-bottom:1px solid #232C4E">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 19v-4" stroke="#E8ECF8"/><path d="M12 19v-8" stroke="#E8ECF8"/><path d="M18 19V6" stroke="#E8ECF8"/></svg>
+            <div>
+              <div style="font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:17px;line-height:22px;color:#E8ECF8">Głębokie rozumowanie</div>
+              <p style="margin:4px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Dla ról, które rozstrzygają albo podważają cudze decyzje.</p>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:28px 1fr;column-gap:18px;align-items:start;min-height:84px;box-sizing:border-box;padding:14px 0 12px;border-bottom:1px solid #232C4E">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 19v-4" stroke="#E8ECF8"/><path d="M12 19v-8" stroke="#E8ECF8"/><path d="M18 19V6" stroke="#34406B"/></svg>
+            <div>
+              <div style="font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:17px;line-height:22px;color:#E8ECF8">Zrównoważony</div>
+              <p style="margin:4px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Domyślny wybór dla większości pracy twórczej i analitycznej.</p>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:28px 1fr;column-gap:18px;align-items:start;min-height:84px;box-sizing:border-box;padding:14px 0 12px;border-bottom:1px solid #232C4E">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 19v-4" stroke="#E8ECF8"/><path d="M12 19v-8" stroke="#34406B"/><path d="M18 19V6" stroke="#34406B"/></svg>
+            <div>
+              <div style="font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:17px;line-height:22px;color:#E8ECF8">Szybki</div>
+              <p style="margin:4px 0 0;font-size:14px;line-height:21px;color:#A3AED0">Dla pracy powtarzalnej i jasno określonej, gdzie liczy się tempo.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prawa kolumna: rodzaje wiadomości -->
+        <div style="flex:1 1 440px;min-width:0;min-height:740px">
+
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;height:52px;box-sizing:border-box;padding-bottom:14px;border-bottom:1px solid #34406B">
+            <h3 style="margin:0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:600;font-size:22px;line-height:27px;letter-spacing:-0.01em;color:#E8ECF8">Rodzaje wiadomości</h3>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:#A3AED0">9 pakietów</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:10px 104px 1fr;column-gap:14px;align-items:start;min-height:74px;box-sizing:border-box;padding:14px 0;border-bottom:1px solid #232C4E">
+            <span style="width:10px;height:10px;margin-top:6px;border-radius:50%;background:#F2C14E"></span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;line-height:22px;font-weight:500;color:#E8ECF8">przydział</span>
+            <p style="margin:0;font-size:14px;line-height:21px;color:#A3AED0">Hermes powołuje agenta do zespołu i uzasadnia wybór roli.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:10px 104px 1fr;column-gap:14px;align-items:start;min-height:74px;box-sizing:border-box;padding:14px 0;border-bottom:1px solid #232C4E">
+            <span style="width:10px;height:10px;margin-top:6px;border-radius:50%;background:#E8ECF8"></span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;line-height:22px;font-weight:500;color:#E8ECF8">zlecenie</span>
+            <p style="margin:0;font-size:14px;line-height:21px;color:#A3AED0">Hermes zleca agentowi zadanie: co zrobić i w jakiej formie oddać wynik.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:10px 104px 1fr;column-gap:14px;align-items:start;min-height:74px;box-sizing:border-box;padding:14px 0;border-bottom:1px solid #232C4E">
+            <span style="width:10px;height:10px;margin-top:6px;border-radius:50%;background:#E8ECF8"></span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;line-height:22px;font-weight:500;color:#E8ECF8">przekazanie</span>
+            <p style="margin:0;font-size:14px;line-height:21px;color:#A3AED0">Wynik jednego agenta trafia do następnego w łańcuchu, zwykle z załącznikiem.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:10px 104px 1fr;column-gap:14px;align-items:start;min-height:74px;box-sizing:border-box;padding:14px 0;border-bottom:1px solid #232C4E">
+            <span style="width:10px;height:10px;margin-top:6px;border-radius:50%;background:#7CC4FF"></span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;line-height:22px;font-weight:500;color:#E8ECF8">pytanie</span>
+            <p style="margin:0;font-size:14px;line-height:21px;color:#A3AED0">Agent prosi o brakującą informację albo o decyzję.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:10px 104px 1fr;column-gap:14px;align-items:start;min-height:74px;box-sizing:border-box;padding:14px 0;border-bottom:1px solid #232C4E">
+            <span style="width:10px;height:10px;margin-top:6px;border-radius:50%;background:#E8ECF8"></span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;line-height:22px;font-weight:500;color:#E8ECF8">odpowiedź</span>
+            <p style="margin:0;font-size:14px;line-height:21px;color:#A3AED0">Odpowiedź wraca do agenta, który zadał pytanie.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:10px 104px 1fr;column-gap:14px;align-items:start;min-height:74px;box-sizing:border-box;padding:14px 0;border-bottom:1px solid #232C4E">
+            <span style="width:10px;height:10px;margin-top:6px;border-radius:50%;background:#FF8FA3"></span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;line-height:22px;font-weight:500;color:#E8ECF8">krytyka</span>
+            <p style="margin:0;font-size:14px;line-height:21px;color:#A3AED0">Recenzent wytyka autorowi konkretny błąd w wyniku i mówi, co poprawić.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:10px 104px 1fr;column-gap:14px;align-items:start;min-height:74px;box-sizing:border-box;padding:14px 0;border-bottom:1px solid #232C4E">
+            <span style="width:10px;height:10px;margin-top:6px;border-radius:50%;background:#FFB48A"></span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;line-height:22px;font-weight:500;color:#E8ECF8">poprawka</span>
+            <p style="margin:0;font-size:14px;line-height:21px;color:#A3AED0">Autor odpowiada na krytykę: wprowadza poprawki i oddaje wynik do ponownej oceny.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:10px 104px 1fr;column-gap:14px;align-items:start;min-height:74px;box-sizing:border-box;padding:14px 0;border-bottom:1px solid #232C4E">
+            <span style="width:10px;height:10px;margin-top:6px;border-radius:50%;background:#34D3BE"></span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;line-height:22px;font-weight:500;color:#E8ECF8">akceptacja</span>
+            <p style="margin:0;font-size:14px;line-height:21px;color:#A3AED0">Recenzent akceptuje wynik; pętla krytyki się zamyka.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:10px 104px 1fr;column-gap:14px;align-items:start;min-height:74px;box-sizing:border-box;padding:14px 0;border-bottom:1px solid #232C4E">
+            <span style="width:10px;height:10px;margin-top:6px;border-radius:50%;background:#E8ECF8"></span>
+            <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;line-height:22px;font-weight:500;color:#E8ECF8">wynik</span>
+            <p style="margin:0;font-size:14px;line-height:21px;color:#A3AED0">Agent oddaje końcowy rezultat Hermesowi, a Hermes przekazuje go użytkownikowi.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5. STOPKA ============ -->
+  <footer style="border-top:1px solid #34406B;min-height:240px;box-sizing:border-box">
+    <div style="max-width:1360px;margin:0 auto;padding:56px clamp(20px,4vw,56px) 64px;box-sizing:border-box">
+      <div style="display:flex;align-items:center;gap:20px">
+        <svg viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="#F2C14E" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="24" cy="24" r="22" stroke-dasharray="4 4.06"/><path d="M24 16v16"/><path d="M16 24h16"/></svg>
+        <p style="margin:0;font-family:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;font-weight:500;font-size:22px;line-height:30px;letter-spacing:-0.01em;color:#E8ECF8">Role są punktem wyjścia: Hermes może zdefiniować rolę od zera, jeśli zadanie jej wymaga.</p>
+      </div>
+      <p style="margin:24px 0 0;max-width:760px;font-size:13px;line-height:20px;color:#A3AED0"><span style="font-weight:600;color:#E8ECF8">Tryb demonstracyjny:</span> role i przebiegi w aplikacji to zaplanowane z wyprzedzeniem scenariusze, a nie zespół dobierany na żywo.</p>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":5630}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

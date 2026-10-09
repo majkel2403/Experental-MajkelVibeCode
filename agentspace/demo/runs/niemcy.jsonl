@@ -1,0 +1,236 @@
+{"ts":1791280800000,"run":"niemcy","type":"task.started","text":"Oceń, czy polski e-sklep z naturalnymi kosmetykami powinien wejść na rynek niemiecki. Przygotuj rekomendację go/no-go oraz plan pierwszych 90 dni."}
+{"ts":1791280800600,"run":"niemcy","type":"hermes.reasoning","text":"Cel: Rozstrzygnąć, czy polski e-sklep z kosmetykami naturalnymi ma wejść na rynek DE, i rozpisać pierwsze 90 dni.","tokens":600}
+{"ts":1791280801700,"run":"niemcy","type":"hermes.reasoning","text":"Ograniczenie: Tylko sprawdzalne przepisy UE i DE, bez liczb z pamięci"}
+{"ts":1791280802200,"run":"niemcy","type":"hermes.reasoning","text":"Ograniczenie: Każdy wniosek prawny do potwierdzenia z doradcą prawnym"}
+{"ts":1791280802700,"run":"niemcy","type":"hermes.reasoning","text":"Ograniczenie: Ograniczony budżet i zespół na pierwszy etap"}
+{"ts":1791280803100,"run":"niemcy","type":"hermes.reasoning","text":"Kryterium: Jasna rekomendacja go/no-go z uzasadnieniem"}
+{"ts":1791280803600,"run":"niemcy","type":"hermes.reasoning","text":"Kryterium: Plan 90 dni z etapami i bramkami decyzyjnymi"}
+{"ts":1791280804100,"run":"niemcy","type":"hermes.reasoning","text":"Kryterium: Lista wymogów zgodności gotowa dla doradcy prawnego"}
+{"ts":1791280804500,"run":"niemcy","type":"hermes.reasoning","text":"Ryzyko: Brak zaufania do marki bez lokalnych recenzji"}
+{"ts":1791280804950,"run":"niemcy","type":"hermes.reasoning","text":"Ryzyko: Niezgodność etykiet i dokumentacji z wymogami UE"}
+{"ts":1791280805400,"run":"niemcy","type":"hermes.reasoning","text":"Ryzyko: Logistyka i zwroty mogą zjeść marżę na starcie"}
+{"ts":1791280806000,"run":"niemcy","type":"planner.step","text":"Skład zespołu: Rynek, Finanse, Zgodność, Strateg, Adwokat, Redaktor."}
+{"ts":1791280807000,"run":"niemcy","type":"agent.spawned","agent":"rynek","label":"Rynek","text":"Badacz rynku — Decyzja o DE zaczyna się od popytu: kto kupuje kosmetyki naturalne online, jakimi kanałami i czego oczekuje od marki z Polski."}
+{"ts":1791280808000,"run":"niemcy","type":"agent.spawned","agent":"finanse","label":"Finanse","text":"Analityk finansowy — Bez modelu logistyki, zwrotów i marketingu rekomendacja go/no-go byłaby opinią, a nie decyzją."}
+{"ts":1791280809000,"run":"niemcy","type":"agent.spawned","agent":"zgodnosc","label":"Zgodność","text":"Specjalista ds. zgodności — Błąd w wymogach (CPNP, osoba odpowiedzialna, opakowania) zablokuje sprzedaż kosmetyków, więc rola dostaje głębokie rozumowanie."}
+{"ts":1791280810200,"run":"niemcy","type":"agent.spawned","agent":"strateg","label":"Strateg","text":"Strateg wejścia — Ktoś musi zamienić wyniki badań, kosztów i wymogów w plan na 90 dni z bramkami go/no-go."}
+{"ts":1791280811600,"run":"niemcy","type":"agent.spawned","agent":"adwokat","label":"Adwokat","text":"Adwokat diabła — Nowy rynek kusi optymizmem; niezależny krytyk ma sprawdzić założenia, zanim zespół zainwestuje czas i pieniądze."}
+{"ts":1791280813000,"run":"niemcy","type":"agent.spawned","agent":"redaktor","label":"Redaktor","text":"Redaktor raportu — Wyniki pięciu ról trzeba złożyć w jeden raport dla właściciela sklepu. To praca powtarzalna, więc wystarczy szybki model."}
+{"ts":1791280814900,"run":"niemcy","type":"message.sent","agent":"hermes","to":"rynek","tone":"assign","text":"Ustal, kto w Niemczech kupuje online kosmetyki naturalne, w jakich kanałach i czego oczekuje od marki z zagranicy. Bez liczb z pamięci."}
+{"ts":1791280815000,"run":"niemcy","type":"tool.started","agent":"rynek","tool":"przeglad_zrodel","text":"Profil klienta i kanały w DE"}
+{"ts":1791280815357,"run":"niemcy","type":"resource.read","agent":"rynek","tool":"przeglad_zrodel","resource":"rynek/przeglad_zrodel/raport_branzowy_1_1","text":"Profil klienta i kanały w DE"}
+{"ts":1791280815500,"run":"niemcy","type":"tool.started","agent":"zgodnosc","tool":"wymogi_ue_i_de","text":"Mapa wymogów UE i DE"}
+{"ts":1791280815856,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"wymogi_ue_i_de","resource":"zgodnosc/wymogi_ue_i_de/przypadek_1_1","text":"Mapa wymogów UE i DE"}
+{"ts":1791280815900,"run":"niemcy","type":"message.sent","agent":"hermes","to":"zgodnosc","tone":"assign","text":"Zmapuj wymogi UE i DE dla sprzedaży wysyłkowej kosmetyków. Każdy wniosek oznacz: „do potwierdzenia z doradcą prawnym”."}
+{"ts":1791280816070,"run":"niemcy","type":"resource.read","agent":"rynek","tool":"przeglad_zrodel","resource":"rynek/przeglad_zrodel/wpis_forum_1_2","text":"Profil klienta i kanały w DE"}
+{"ts":1791280816500,"run":"niemcy","type":"tool.started","agent":"finanse","tool":"model_kosztow","text":"Model kosztów wejścia"}
+{"ts":1791280816569,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"wymogi_ue_i_de","resource":"zgodnosc/wymogi_ue_i_de/log_1_2","text":"Mapa wymogów UE i DE"}
+{"ts":1791280816783,"run":"niemcy","type":"file.created","agent":"rynek","tool":"przeglad_zrodel","resource":"rynek/przeglad_zrodel/tabela_1_1.csv","text":"Profil klienta i kanały w DE"}
+{"ts":1791280816841,"run":"niemcy","type":"resource.read","agent":"finanse","tool":"model_kosztow","resource":"finanse/model_kosztow/raport_branzowy_1_1","text":"Model kosztów wejścia"}
+{"ts":1791280816900,"run":"niemcy","type":"message.sent","agent":"hermes","to":"finanse","tone":"assign","text":"Zbuduj model kosztów wejścia: logistyka, zwroty, marketing, opakowania. Wartości wpisz jako [placeholdery], bez zmyślonych kwot."}
+{"ts":1791280817281,"run":"niemcy","type":"file.created","agent":"zgodnosc","tool":"wymogi_ue_i_de","resource":"zgodnosc/wymogi_ue_i_de/checklista_1_1.md","text":"Mapa wymogów UE i DE"}
+{"ts":1791280817497,"run":"niemcy","type":"resource.read","agent":"rynek","tool":"przeglad_zrodel","resource":"rynek/przeglad_zrodel/dane_1_4","text":"Profil klienta i kanały w DE"}
+{"ts":1791280817524,"run":"niemcy","type":"resource.read","agent":"finanse","tool":"model_kosztow","resource":"finanse/model_kosztow/wpis_forum_1_2","text":"Model kosztów wejścia"}
+{"ts":1791280817900,"run":"niemcy","type":"message.sent","agent":"hermes","to":"strateg","tone":"assign","text":"Poczekaj na badania, koszty i wymogi, potem złóż plan wejścia na 90 dni z bramkami go/no-go. Rekomendacja ma być jednoznaczna."}
+{"ts":1791280817994,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"wymogi_ue_i_de","resource":"zgodnosc/wymogi_ue_i_de/przypadek_1_4","text":"Mapa wymogów UE i DE"}
+{"ts":1791280818206,"run":"niemcy","type":"file.created","agent":"finanse","tool":"model_kosztow","resource":"finanse/model_kosztow/tabela_1_1.csv","text":"Model kosztów wejścia"}
+{"ts":1791280818210,"run":"niemcy","type":"resource.read","agent":"rynek","tool":"przeglad_zrodel","resource":"rynek/przeglad_zrodel/zrodlo_1_5","text":"Profil klienta i kanały w DE"}
+{"ts":1791280818706,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"wymogi_ue_i_de","resource":"zgodnosc/wymogi_ue_i_de/log_1_5","text":"Mapa wymogów UE i DE"}
+{"ts":1791280818888,"run":"niemcy","type":"resource.read","agent":"finanse","tool":"model_kosztow","resource":"finanse/model_kosztow/dane_1_4","text":"Model kosztów wejścia"}
+{"ts":1791280818923,"run":"niemcy","type":"file.modified","agent":"rynek","tool":"przeglad_zrodel","resource":"rynek/przeglad_zrodel/zestawienie_1_2.csv","text":"Profil klienta i kanały w DE"}
+{"ts":1791280819000,"run":"niemcy","type":"message.sent","agent":"hermes","to":"adwokat","tone":"assign","text":"Gdy strateg odda szkic, szukaj słabych założeń. Krytykuj konkretnie: co nie gra i jakiego dowodu brakuje."}
+{"ts":1791280819419,"run":"niemcy","type":"file.modified","agent":"zgodnosc","tool":"wymogi_ue_i_de","resource":"zgodnosc/wymogi_ue_i_de/checklista_1_2.md","text":"Mapa wymogów UE i DE"}
+{"ts":1791280819571,"run":"niemcy","type":"resource.read","agent":"finanse","tool":"model_kosztow","resource":"finanse/model_kosztow/zrodlo_1_5","text":"Model kosztów wejścia"}
+{"ts":1791280819637,"run":"niemcy","type":"resource.read","agent":"rynek","tool":"przeglad_zrodel","resource":"rynek/przeglad_zrodel/wpis_forum_1_7","text":"Profil klienta i kanały w DE"}
+{"ts":1791280820000,"run":"niemcy","type":"message.sent","agent":"hermes","to":"redaktor","tone":"assign","text":"Przygotuj szkielet raportu: rekomendacja, plan 90 dni, zgodność, ryzyka. Treść dostaniesz od zespołu, zacznij od struktury."}
+{"ts":1791280820131,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"wymogi_ue_i_de","resource":"zgodnosc/wymogi_ue_i_de/przypadek_1_7","text":"Mapa wymogów UE i DE"}
+{"ts":1791280820253,"run":"niemcy","type":"file.modified","agent":"finanse","tool":"model_kosztow","resource":"finanse/model_kosztow/zestawienie_1_2.csv","text":"Model kosztów wejścia"}
+{"ts":1791280820350,"run":"niemcy","type":"resource.read","agent":"rynek","tool":"przeglad_zrodel","resource":"rynek/przeglad_zrodel/opinia_1_8","text":"Profil klienta i kanały w DE"}
+{"ts":1791280820500,"run":"niemcy","type":"tool.started","agent":"redaktor","tool":"szkielet_raportu","text":"Szkielet raportu końcowego"}
+{"ts":1791280820844,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"wymogi_ue_i_de","resource":"zgodnosc/wymogi_ue_i_de/log_1_8","text":"Mapa wymogów UE i DE"}
+{"ts":1791280820846,"run":"niemcy","type":"resource.read","agent":"redaktor","tool":"szkielet_raportu","resource":"redaktor/szkielet_raportu/zalacznik_1_1","text":"Szkielet raportu końcowego"}
+{"ts":1791280820935,"run":"niemcy","type":"resource.read","agent":"finanse","tool":"model_kosztow","resource":"finanse/model_kosztow/wpis_forum_1_7","text":"Model kosztów wejścia"}
+{"ts":1791280821000,"run":"niemcy","type":"message.sent","agent":"redaktor","to":"hermes","tone":"question","text":"Dla kogo piszemy: zarząd czy właściciel sklepu? Od tego zależy, ile kontekstu prawnego zmieszczę w pierwszej części."}
+{"ts":1791280821063,"run":"niemcy","type":"file.created","agent":"rynek","tool":"przeglad_zrodel","resource":"rynek/przeglad_zrodel/wykres_1_3.png","text":"Profil klienta i kanały w DE"}
+{"ts":1791280821538,"run":"niemcy","type":"resource.read","agent":"redaktor","tool":"szkielet_raportu","resource":"redaktor/szkielet_raportu/uwaga_1_2","text":"Szkielet raportu końcowego"}
+{"ts":1791280821556,"run":"niemcy","type":"file.created","agent":"zgodnosc","tool":"wymogi_ue_i_de","resource":"zgodnosc/wymogi_ue_i_de/checklista_1_3.md","text":"Mapa wymogów UE i DE"}
+{"ts":1791280821618,"run":"niemcy","type":"resource.read","agent":"finanse","tool":"model_kosztow","resource":"finanse/model_kosztow/opinia_1_8","text":"Model kosztów wejścia"}
+{"ts":1791280821777,"run":"niemcy","type":"resource.read","agent":"rynek","tool":"przeglad_zrodel","resource":"rynek/przeglad_zrodel/zrodlo_1_10","text":"Profil klienta i kanały w DE"}
+{"ts":1791280822100,"run":"niemcy","type":"message.sent","agent":"hermes","to":"redaktor","tone":"answer","text":"Dla właściciela sklepu, który decyduje o budżecie. Najpierw rekomendacja, potem plan i ryzyka; szczegóły prawne w osobnej sekcji."}
+{"ts":1791280822231,"run":"niemcy","type":"file.created","agent":"redaktor","tool":"szkielet_raportu","resource":"redaktor/szkielet_raportu/rozdzial_1_1.md","text":"Szkielet raportu końcowego"}
+{"ts":1791280822269,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"wymogi_ue_i_de","resource":"zgodnosc/wymogi_ue_i_de/przypadek_1_10","text":"Mapa wymogów UE i DE"}
+{"ts":1791280822300,"run":"niemcy","type":"file.created","agent":"finanse","tool":"model_kosztow","resource":"finanse/model_kosztow/wykres_1_3.png","text":"Model kosztów wejścia"}
+{"ts":1791280822490,"run":"niemcy","type":"resource.read","agent":"rynek","tool":"przeglad_zrodel","resource":"rynek/przeglad_zrodel/raport_branzowy_1_11","text":"Profil klienta i kanały w DE"}
+{"ts":1791280822923,"run":"niemcy","type":"resource.read","agent":"redaktor","tool":"szkielet_raportu","resource":"redaktor/szkielet_raportu/zalacznik_1_4","text":"Szkielet raportu końcowego"}
+{"ts":1791280822981,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"wymogi_ue_i_de","resource":"zgodnosc/wymogi_ue_i_de/log_1_11","text":"Mapa wymogów UE i DE"}
+{"ts":1791280822982,"run":"niemcy","type":"resource.read","agent":"finanse","tool":"model_kosztow","resource":"finanse/model_kosztow/zrodlo_1_10","text":"Model kosztów wejścia"}
+{"ts":1791280823203,"run":"niemcy","type":"file.modified","agent":"rynek","tool":"przeglad_zrodel","resource":"rynek/przeglad_zrodel/cytaty_1_4.txt","text":"Profil klienta i kanały w DE"}
+{"ts":1791280823400,"run":"niemcy","type":"message.sent","agent":"finanse","to":"rynek","tone":"question","text":"Które kanały sprzedaży w DE da się wycenić osobno: własny sklep, marketplace, partner drogeryjny? Potrzebuję tego do modelu."}
+{"ts":1791280823615,"run":"niemcy","type":"resource.read","agent":"redaktor","tool":"szkielet_raportu","resource":"redaktor/szkielet_raportu/uwaga_1_5","text":"Szkielet raportu końcowego"}
+{"ts":1791280823665,"run":"niemcy","type":"resource.read","agent":"finanse","tool":"model_kosztow","resource":"finanse/model_kosztow/raport_branzowy_1_11","text":"Model kosztów wejścia"}
+{"ts":1791280823694,"run":"niemcy","type":"file.modified","agent":"zgodnosc","tool":"wymogi_ue_i_de","resource":"zgodnosc/wymogi_ue_i_de/checklista_1_4.md","text":"Mapa wymogów UE i DE"}
+{"ts":1791280823917,"run":"niemcy","type":"resource.read","agent":"rynek","tool":"przeglad_zrodel","resource":"rynek/przeglad_zrodel/opinia_1_13","text":"Profil klienta i kanały w DE"}
+{"ts":1791280824308,"run":"niemcy","type":"file.modified","agent":"redaktor","tool":"szkielet_raportu","resource":"redaktor/szkielet_raportu/rozdzial_1_2.md","text":"Szkielet raportu końcowego"}
+{"ts":1791280824347,"run":"niemcy","type":"file.modified","agent":"finanse","tool":"model_kosztow","resource":"finanse/model_kosztow/cytaty_1_4.txt","text":"Model kosztów wejścia"}
+{"ts":1791280824406,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"wymogi_ue_i_de","resource":"zgodnosc/wymogi_ue_i_de/przypadek_1_13","text":"Mapa wymogów UE i DE"}
+{"ts":1791280824500,"run":"niemcy","type":"message.sent","agent":"rynek","to":"finanse","tone":"answer","text":"Wyceniaj osobno trzy kanały: własny sklep z wersją DE, marketplace i partnera drogeryjnego. Różnią się kontrolą nad marką i kosztem klienta."}
+{"ts":1791280824630,"run":"niemcy","type":"resource.read","agent":"rynek","tool":"przeglad_zrodel","resource":"rynek/przeglad_zrodel/dane_1_14","text":"Profil klienta i kanały w DE"}
+{"ts":1791280825000,"run":"niemcy","type":"resource.read","agent":"redaktor","tool":"szkielet_raportu","resource":"redaktor/szkielet_raportu/zalacznik_1_7","text":"Szkielet raportu końcowego"}
+{"ts":1791280825029,"run":"niemcy","type":"resource.read","agent":"finanse","tool":"model_kosztow","resource":"finanse/model_kosztow/opinia_1_13","text":"Model kosztów wejścia"}
+{"ts":1791280825119,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"wymogi_ue_i_de","resource":"zgodnosc/wymogi_ue_i_de/log_1_14","text":"Mapa wymogów UE i DE"}
+{"ts":1791280825343,"run":"niemcy","type":"file.created","agent":"rynek","tool":"przeglad_zrodel","resource":"rynek/przeglad_zrodel/notatka_1_5.md","text":"Profil klienta i kanały w DE"}
+{"ts":1791280825400,"run":"niemcy","type":"file.created","agent":"rynek","resource":"projekt/profil_klienta_de.md","text":"Profil klienta DE i mapa kanałów gotowe. Segment: kupujący, którzy czytają skład i szukają jasnego pochodzenia. To hipotezy do weryfikacji."}
+{"ts":1791280825500,"run":"niemcy","type":"tool.started","agent":"strateg","tool":"plan_90_dni","text":"Szkic planu wejścia na 90 dni"}
+{"ts":1791280825692,"run":"niemcy","type":"resource.read","agent":"redaktor","tool":"szkielet_raportu","resource":"redaktor/szkielet_raportu/uwaga_1_8","text":"Szkielet raportu końcowego"}
+{"ts":1791280825700,"run":"niemcy","type":"tool.completed","agent":"rynek","tool":"przeglad_zrodel","latencyMs":10700}
+{"ts":1791280825700,"run":"niemcy","type":"message.sent","agent":"rynek","to":"strateg","tone":"handoff","text":"Profil klienta DE i mapa kanałów gotowe. Segment: kupujący, którzy czytają skład i szukają jasnego pochodzenia. To hipotezy do weryfikacji."}
+{"ts":1791280825712,"run":"niemcy","type":"resource.read","agent":"finanse","tool":"model_kosztow","resource":"finanse/model_kosztow/dane_1_14","text":"Model kosztów wejścia"}
+{"ts":1791280825831,"run":"niemcy","type":"file.created","agent":"zgodnosc","tool":"wymogi_ue_i_de","resource":"zgodnosc/wymogi_ue_i_de/checklista_1_5.md","text":"Mapa wymogów UE i DE"}
+{"ts":1791280825850,"run":"niemcy","type":"resource.read","agent":"strateg","tool":"plan_90_dni","resource":"strateg/plan_90_dni/wzor_1_1","text":"Szkic planu wejścia na 90 dni"}
+{"ts":1791280826100,"run":"niemcy","type":"agent.completed","agent":"rynek"}
+{"ts":1791280826385,"run":"niemcy","type":"file.created","agent":"redaktor","tool":"szkielet_raportu","resource":"redaktor/szkielet_raportu/rozdzial_1_3.md","text":"Szkielet raportu końcowego"}
+{"ts":1791280826394,"run":"niemcy","type":"file.created","agent":"finanse","tool":"model_kosztow","resource":"finanse/model_kosztow/notatka_1_5.md","text":"Model kosztów wejścia"}
+{"ts":1791280826544,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"wymogi_ue_i_de","resource":"zgodnosc/wymogi_ue_i_de/przypadek_1_16","text":"Mapa wymogów UE i DE"}
+{"ts":1791280826550,"run":"niemcy","type":"resource.read","agent":"strateg","tool":"plan_90_dni","resource":"strateg/plan_90_dni/referencja_1_2","text":"Szkic planu wejścia na 90 dni"}
+{"ts":1791280826600,"run":"niemcy","type":"file.created","agent":"zgodnosc","resource":"projekt/wymogi_zgodnosci.md","text":"Wymogi: rozporządzenie WE 1223/2009, osoba odpowiedzialna w UE, CPNP, VAT OSS, 14 dni odstąpienia, VerpackG/LUCID. Do potwierdzenia z doradcą prawnym."}
+{"ts":1791280826900,"run":"niemcy","type":"tool.completed","agent":"zgodnosc","tool":"wymogi_ue_i_de","latencyMs":11400}
+{"ts":1791280826900,"run":"niemcy","type":"message.sent","agent":"zgodnosc","to":"strateg","tone":"handoff","text":"Wymogi: rozporządzenie WE 1223/2009, osoba odpowiedzialna w UE, CPNP, VAT OSS, 14 dni odstąpienia, VerpackG/LUCID. Do potwierdzenia z doradcą prawnym."}
+{"ts":1791280827076,"run":"niemcy","type":"resource.read","agent":"finanse","tool":"model_kosztow","resource":"finanse/model_kosztow/raport_branzowy_1_16","text":"Model kosztów wejścia"}
+{"ts":1791280827077,"run":"niemcy","type":"resource.read","agent":"redaktor","tool":"szkielet_raportu","resource":"redaktor/szkielet_raportu/zalacznik_1_10","text":"Szkielet raportu końcowego"}
+{"ts":1791280827100,"run":"niemcy","type":"file.read","agent":"strateg","resource":"projekt/profil_klienta_de.md"}
+{"ts":1791280827250,"run":"niemcy","type":"file.created","agent":"strateg","tool":"plan_90_dni","resource":"strateg/plan_90_dni/fragment_1_1.txt","text":"Szkic planu wejścia na 90 dni"}
+{"ts":1791280827759,"run":"niemcy","type":"resource.read","agent":"finanse","tool":"model_kosztow","resource":"finanse/model_kosztow/wpis_forum_1_17","text":"Model kosztów wejścia"}
+{"ts":1791280827769,"run":"niemcy","type":"resource.read","agent":"redaktor","tool":"szkielet_raportu","resource":"redaktor/szkielet_raportu/uwaga_1_11","text":"Szkielet raportu końcowego"}
+{"ts":1791280827800,"run":"niemcy","type":"file.created","agent":"finanse","resource":"projekt/model_kosztow.xlsx","text":"Model kosztów gotowy. Największy wpływ na wynik mają logistyka, zwroty i koszt pozyskania klienta; parametry to [placeholdery] do uzupełnienia."}
+{"ts":1791280827950,"run":"niemcy","type":"resource.read","agent":"strateg","tool":"plan_90_dni","resource":"strateg/plan_90_dni/kod_1_4","text":"Szkic planu wejścia na 90 dni"}
+{"ts":1791280828100,"run":"niemcy","type":"tool.completed","agent":"finanse","tool":"model_kosztow","latencyMs":11600}
+{"ts":1791280828100,"run":"niemcy","type":"message.sent","agent":"finanse","to":"strateg","tone":"handoff","text":"Model kosztów gotowy. Największy wpływ na wynik mają logistyka, zwroty i koszt pozyskania klienta; parametry to [placeholdery] do uzupełnienia."}
+{"ts":1791280828300,"run":"niemcy","type":"file.read","agent":"strateg","resource":"projekt/wymogi_zgodnosci.md"}
+{"ts":1791280828462,"run":"niemcy","type":"file.modified","agent":"redaktor","tool":"szkielet_raportu","resource":"redaktor/szkielet_raportu/rozdzial_1_4.md","text":"Szkielet raportu końcowego"}
+{"ts":1791280828650,"run":"niemcy","type":"resource.read","agent":"strateg","tool":"plan_90_dni","resource":"strateg/plan_90_dni/brief_1_5","text":"Szkic planu wejścia na 90 dni"}
+{"ts":1791280829000,"run":"niemcy","type":"file.created","agent":"strateg","resource":"projekt/struktura_planu.md","text":"Struktura rekomendacji: teza, etapy, bramki decyzyjne, ryzyka. Dopasuj do niej szkielet raportu, treść dosyłam po przeglądzie adwokata."}
+{"ts":1791280829154,"run":"niemcy","type":"resource.read","agent":"redaktor","tool":"szkielet_raportu","resource":"redaktor/szkielet_raportu/zalacznik_1_13","text":"Szkielet raportu końcowego"}
+{"ts":1791280829300,"run":"niemcy","type":"message.sent","agent":"strateg","to":"redaktor","tone":"handoff","text":"Struktura rekomendacji: teza, etapy, bramki decyzyjne, ryzyka. Dopasuj do niej szkielet raportu, treść dosyłam po przeglądzie adwokata."}
+{"ts":1791280829350,"run":"niemcy","type":"file.modified","agent":"strateg","tool":"plan_90_dni","resource":"strateg/plan_90_dni/wariant_1_2.md","text":"Szkic planu wejścia na 90 dni"}
+{"ts":1791280829500,"run":"niemcy","type":"tool.completed","agent":"redaktor","tool":"szkielet_raportu","latencyMs":9000}
+{"ts":1791280829500,"run":"niemcy","type":"file.read","agent":"strateg","resource":"projekt/model_kosztow.xlsx"}
+{"ts":1791280830050,"run":"niemcy","type":"resource.read","agent":"strateg","tool":"plan_90_dni","resource":"strateg/plan_90_dni/referencja_1_7","text":"Szkic planu wejścia na 90 dni"}
+{"ts":1791280830700,"run":"niemcy","type":"file.read","agent":"redaktor","resource":"projekt/struktura_planu.md"}
+{"ts":1791280830750,"run":"niemcy","type":"resource.read","agent":"strateg","tool":"plan_90_dni","resource":"strateg/plan_90_dni/notatka_1_8","text":"Szkic planu wejścia na 90 dni"}
+{"ts":1791280831450,"run":"niemcy","type":"file.created","agent":"strateg","tool":"plan_90_dni","resource":"strateg/plan_90_dni/modul_1_3.js","text":"Szkic planu wejścia na 90 dni"}
+{"ts":1791280831500,"run":"niemcy","type":"file.created","agent":"strateg","resource":"projekt/plan_90_dni_v1.md","text":"Szkic v1: start własnym sklepem DE, główna obietnica to polskie pochodzenie i naturalny skład, skalowanie reklam od 3. tygodnia."}
+{"ts":1791280831800,"run":"niemcy","type":"tool.completed","agent":"strateg","tool":"plan_90_dni","latencyMs":6300}
+{"ts":1791280831800,"run":"niemcy","type":"message.sent","agent":"strateg","to":"adwokat","tone":"handoff","text":"Szkic v1: start własnym sklepem DE, główna obietnica to polskie pochodzenie i naturalny skład, skalowanie reklam od 3. tygodnia."}
+{"ts":1791280832000,"run":"niemcy","type":"tool.started","agent":"adwokat","tool":"test_zalozen","text":"Test założeń planu"}
+{"ts":1791280832100,"run":"niemcy","type":"test.started","agent":"adwokat","name":"test_zalozen_planu"}
+{"ts":1791280832357,"run":"niemcy","type":"resource.read","agent":"adwokat","tool":"test_zalozen","resource":"adwokat/test_zalozen/przypadek_1_1","text":"Test założeń planu"}
+{"ts":1791280833071,"run":"niemcy","type":"resource.read","agent":"adwokat","tool":"test_zalozen","resource":"adwokat/test_zalozen/log_1_2","text":"Test założeń planu"}
+{"ts":1791280833200,"run":"niemcy","type":"file.read","agent":"adwokat","resource":"projekt/plan_90_dni_v1.md"}
+{"ts":1791280833786,"run":"niemcy","type":"file.created","agent":"adwokat","tool":"test_zalozen","resource":"adwokat/test_zalozen/checklista_1_1.md","text":"Test założeń planu"}
+{"ts":1791280834000,"run":"niemcy","type":"tool.started","agent":"strateg","tool":"macierz_decyzji","text":"Korekta planu: pilotaż etap 1"}
+{"ts":1791280834000,"run":"niemcy","type":"message.sent","agent":"adwokat","to":"strateg","tone":"critique","text":"Zakładasz, że Niemcy kupią „polską naturalność” bez lokalnych certyfikatów i recenzji. Brak dowodu, a reklamy od 3. tygodnia zaufania nie zbudują."}
+{"ts":1791280834000,"run":"niemcy","type":"memory.write","agent":"adwokat","resource":"decyzje/zarzut_wlasny_sklep","text":"Zakwestionowano start własnym sklepem DE — Brak dowodu, że klient niemiecki zaufa marce bez lokalnych certyfikatów i recenzji; reklamy tego nie zastąpią."}
+{"ts":1791280834359,"run":"niemcy","type":"resource.read","agent":"strateg","tool":"macierz_decyzji","resource":"strateg/macierz_decyzji/referencja_2_1","text":"Korekta planu: pilotaż etap 1"}
+{"ts":1791280834500,"run":"niemcy","type":"resource.read","agent":"adwokat","tool":"test_zalozen","resource":"adwokat/test_zalozen/przypadek_1_4","text":"Test założeń planu"}
+{"ts":1791280834800,"run":"niemcy","type":"tool.started","agent":"zgodnosc","tool":"portal_cpnp","text":"Zgodność pilotażu na platformie"}
+{"ts":1791280835078,"run":"niemcy","type":"resource.read","agent":"strateg","tool":"macierz_decyzji","resource":"strateg/macierz_decyzji/notatka_2_2","text":"Korekta planu: pilotaż etap 1"}
+{"ts":1791280835100,"run":"niemcy","type":"message.sent","agent":"strateg","to":"zgodnosc","tone":"question","text":"Jeśli etap 1 pójdzie przez marketplace, czy rejestracje się upraszczają? Czy CPNP i osoba odpowiedzialna są wymagane od początku?"}
+{"ts":1791280835120,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"portal_cpnp","resource":"zgodnosc/portal_cpnp/log_2_1","text":"Zgodność pilotażu na platformie"}
+{"ts":1791280835214,"run":"niemcy","type":"resource.read","agent":"adwokat","tool":"test_zalozen","resource":"adwokat/test_zalozen/log_1_5","text":"Test założeń planu"}
+{"ts":1791280835760,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"portal_cpnp","resource":"zgodnosc/portal_cpnp/wymaganie_2_2","text":"Zgodność pilotażu na platformie"}
+{"ts":1791280835797,"run":"niemcy","type":"file.created","agent":"strateg","tool":"macierz_decyzji","resource":"strateg/macierz_decyzji/modul_2_1.js","text":"Korekta planu: pilotaż etap 1"}
+{"ts":1791280835929,"run":"niemcy","type":"file.modified","agent":"adwokat","tool":"test_zalozen","resource":"adwokat/test_zalozen/checklista_1_2.md","text":"Test założeń planu"}
+{"ts":1791280836200,"run":"niemcy","type":"message.sent","agent":"zgodnosc","to":"strateg","tone":"answer","text":"Wymogi zostają. Osoba odpowiedzialna i CPNP przed pierwszą sprzedażą, a platformy zwykle wymagają LUCID. Do potwierdzenia z doradcą prawnym."}
+{"ts":1791280836200,"run":"niemcy","type":"memory.write","agent":"zgodnosc","resource":"decyzje/wymogi_w_pilotazu","text":"Wymogi zgodności obowiązują także w pilotażu — Osoba odpowiedzialna i CPNP są potrzebne przed pierwszą sprzedażą, a platformy zwykle wymagają LUCID."}
+{"ts":1791280836400,"run":"niemcy","type":"file.created","agent":"zgodnosc","tool":"portal_cpnp","resource":"zgodnosc/portal_cpnp/uwagi_2_1.txt","text":"Zgodność pilotażu na platformie"}
+{"ts":1791280836516,"run":"niemcy","type":"resource.read","agent":"strateg","tool":"macierz_decyzji","resource":"strateg/macierz_decyzji/brief_2_4","text":"Korekta planu: pilotaż etap 1"}
+{"ts":1791280836643,"run":"niemcy","type":"resource.read","agent":"adwokat","tool":"test_zalozen","resource":"adwokat/test_zalozen/przypadek_1_7","text":"Test założeń planu"}
+{"ts":1791280837000,"run":"niemcy","type":"test.passed","agent":"adwokat","name":"test_zalozen_planu"}
+{"ts":1791280837040,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"portal_cpnp","resource":"zgodnosc/portal_cpnp/log_2_4","text":"Zgodność pilotażu na platformie"}
+{"ts":1791280837234,"run":"niemcy","type":"resource.read","agent":"strateg","tool":"macierz_decyzji","resource":"strateg/macierz_decyzji/wzor_2_5","text":"Korekta planu: pilotaż etap 1"}
+{"ts":1791280837300,"run":"niemcy","type":"message.sent","agent":"strateg","to":"finanse","tone":"question","text":"Po zmianie na pilotaż na marketplace: które koszty znikają na starcie, a które dochodzą (prowizje, zasady zwrotów)?"}
+{"ts":1791280837500,"run":"niemcy","type":"tool.started","agent":"finanse","tool":"scenariusze","text":"Przeliczenie wariantu pilotażu"}
+{"ts":1791280837680,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"portal_cpnp","resource":"zgodnosc/portal_cpnp/wymaganie_2_5","text":"Zgodność pilotażu na platformie"}
+{"ts":1791280837875,"run":"niemcy","type":"resource.read","agent":"finanse","tool":"scenariusze","resource":"finanse/scenariusze/wpis_forum_2_1","text":"Przeliczenie wariantu pilotażu"}
+{"ts":1791280837953,"run":"niemcy","type":"file.modified","agent":"strateg","tool":"macierz_decyzji","resource":"strateg/macierz_decyzji/makieta_2_2.png","text":"Korekta planu: pilotaż etap 1"}
+{"ts":1791280838000,"run":"niemcy","type":"tool.completed","agent":"zgodnosc","tool":"portal_cpnp","latencyMs":3200}
+{"ts":1791280838400,"run":"niemcy","type":"message.sent","agent":"finanse","to":"strateg","tone":"answer","text":"Znika koszt budowy wersji DE sklepu na starcie; dochodzą prowizje platformy i jej zasady zwrotów. Przeliczam scenariusze pilotażu."}
+{"ts":1791280838625,"run":"niemcy","type":"resource.read","agent":"finanse","tool":"scenariusze","resource":"finanse/scenariusze/opinia_2_2","text":"Przeliczenie wariantu pilotażu"}
+{"ts":1791280838672,"run":"niemcy","type":"resource.read","agent":"strateg","tool":"macierz_decyzji","resource":"strateg/macierz_decyzji/notatka_2_7","text":"Korekta planu: pilotaż etap 1"}
+{"ts":1791280839000,"run":"niemcy","type":"tool.started","agent":"adwokat","tool":"premortem","text":"Weryfikacja poprawionego planu"}
+{"ts":1791280839100,"run":"niemcy","type":"test.started","agent":"adwokat","name":"weryfikacja_poprawionego_planu"}
+{"ts":1791280839333,"run":"niemcy","type":"resource.read","agent":"adwokat","tool":"premortem","resource":"adwokat/premortem/log_2_1","text":"Weryfikacja poprawionego planu"}
+{"ts":1791280839375,"run":"niemcy","type":"file.created","agent":"finanse","tool":"scenariusze","resource":"finanse/scenariusze/wykres_2_1.png","text":"Przeliczenie wariantu pilotażu"}
+{"ts":1791280839391,"run":"niemcy","type":"resource.read","agent":"strateg","tool":"macierz_decyzji","resource":"strateg/macierz_decyzji/kod_2_8","text":"Korekta planu: pilotaż etap 1"}
+{"ts":1791280839400,"run":"niemcy","type":"file.created","agent":"strateg","resource":"projekt/plan_90_dni_v2.md","text":"Korekta: etap 1 to pilotaż na marketplace, by zebrać niemieckie recenzje i sprawdzić potrzebę certyfikatów. Własny sklep po bramce w tygodniu 9."}
+{"ts":1791280839700,"run":"niemcy","type":"message.sent","agent":"strateg","to":"adwokat","tone":"revision","text":"Korekta: etap 1 to pilotaż na marketplace, by zebrać niemieckie recenzje i sprawdzić potrzebę certyfikatów. Własny sklep po bramce w tygodniu 9."}
+{"ts":1791280839700,"run":"niemcy","type":"memory.write","agent":"strateg","resource":"decyzje/pilotaz_na_marketplace","text":"Etap 1 to pilotaż na marketplace, nie własny sklep — Pilotaż zbiera niemieckie recenzje i sprawdza potrzebę certyfikatów, a własny sklep czeka na bramkę w tygodniu 9."}
+{"ts":1791280840000,"run":"niemcy","type":"tool.started","agent":"zgodnosc","tool":"lista_kontrolna_vat_oss","text":"Sekcja zgodności do raportu"}
+{"ts":1791280840000,"run":"niemcy","type":"resource.read","agent":"adwokat","tool":"premortem","resource":"adwokat/premortem/wymaganie_2_2","text":"Weryfikacja poprawionego planu"}
+{"ts":1791280840109,"run":"niemcy","type":"file.created","agent":"strateg","tool":"macierz_decyzji","resource":"strateg/macierz_decyzji/szkic_2_3.md","text":"Korekta planu: pilotaż etap 1"}
+{"ts":1791280840125,"run":"niemcy","type":"resource.read","agent":"finanse","tool":"scenariusze","resource":"finanse/scenariusze/zrodlo_2_4","text":"Przeliczenie wariantu pilotażu"}
+{"ts":1791280840388,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"lista_kontrolna_vat_oss","resource":"zgodnosc/lista_kontrolna_vat_oss/wymaganie_3_1","text":"Sekcja zgodności do raportu"}
+{"ts":1791280840667,"run":"niemcy","type":"file.created","agent":"adwokat","tool":"premortem","resource":"adwokat/premortem/uwagi_2_1.txt","text":"Weryfikacja poprawionego planu"}
+{"ts":1791280840828,"run":"niemcy","type":"resource.read","agent":"strateg","tool":"macierz_decyzji","resource":"strateg/macierz_decyzji/wzor_2_10","text":"Korekta planu: pilotaż etap 1"}
+{"ts":1791280840875,"run":"niemcy","type":"resource.read","agent":"finanse","tool":"scenariusze","resource":"finanse/scenariusze/raport_branzowy_2_5","text":"Przeliczenie wariantu pilotażu"}
+{"ts":1791280840900,"run":"niemcy","type":"message.sent","agent":"adwokat","to":"strateg","tone":"approve","text":"Zarzut zamknięty. Warunek: bramka w tygodniu 9 opiera się na recenzjach, zwrotach i zgłoszeniach jakości, a nie na samym upływie czasu."}
+{"ts":1791280840900,"run":"niemcy","type":"memory.write","agent":"adwokat","resource":"decyzje/bramka_oparta_na_dowodach","text":"Zarzut zamknięty pod warunkiem bramki opartej na dowodach — Bramka w tygodniu 9 ma opierać się na recenzjach, zwrotach i zgłoszeniach jakości, a nie na upływie czasu."}
+{"ts":1791280841100,"run":"niemcy","type":"file.read","agent":"adwokat","resource":"projekt/plan_90_dni_v2.md"}
+{"ts":1791280841100,"run":"niemcy","type":"agent.completed","agent":"adwokat"}
+{"ts":1791280841163,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"lista_kontrolna_vat_oss","resource":"zgodnosc/lista_kontrolna_vat_oss/przypadek_3_2","text":"Sekcja zgodności do raportu"}
+{"ts":1791280841333,"run":"niemcy","type":"resource.read","agent":"adwokat","tool":"premortem","resource":"adwokat/premortem/log_2_4","text":"Weryfikacja poprawionego planu"}
+{"ts":1791280841547,"run":"niemcy","type":"resource.read","agent":"strateg","tool":"macierz_decyzji","resource":"strateg/macierz_decyzji/referencja_2_11","text":"Korekta planu: pilotaż etap 1"}
+{"ts":1791280841625,"run":"niemcy","type":"file.modified","agent":"finanse","tool":"scenariusze","resource":"finanse/scenariusze/cytaty_2_2.txt","text":"Przeliczenie wariantu pilotażu"}
+{"ts":1791280841700,"run":"niemcy","type":"file.created","agent":"finanse","resource":"projekt/scenariusze_pilotazu.xlsx","text":"Scenariusze pilotażu: wynik zależy od zwrotów i kosztu pozyskania klienta. Do bramki dodaj próg opłacalności jako [placeholder]."}
+{"ts":1791280841938,"run":"niemcy","type":"file.created","agent":"zgodnosc","tool":"lista_kontrolna_vat_oss","resource":"zgodnosc/lista_kontrolna_vat_oss/raport_testu_3_1.json","text":"Sekcja zgodności do raportu"}
+{"ts":1791280842000,"run":"niemcy","type":"tool.completed","agent":"finanse","tool":"scenariusze","latencyMs":4500}
+{"ts":1791280842000,"run":"niemcy","type":"resource.read","agent":"adwokat","tool":"premortem","resource":"adwokat/premortem/wymaganie_2_5","text":"Weryfikacja poprawionego planu"}
+{"ts":1791280842000,"run":"niemcy","type":"message.sent","agent":"finanse","to":"strateg","tone":"handoff","text":"Scenariusze pilotażu: wynik zależy od zwrotów i kosztu pozyskania klienta. Do bramki dodaj próg opłacalności jako [placeholder]."}
+{"ts":1791280842266,"run":"niemcy","type":"file.modified","agent":"strateg","tool":"macierz_decyzji","resource":"strateg/macierz_decyzji/fragment_2_4.txt","text":"Korekta planu: pilotaż etap 1"}
+{"ts":1791280842400,"run":"niemcy","type":"agent.completed","agent":"finanse"}
+{"ts":1791280842667,"run":"niemcy","type":"file.modified","agent":"adwokat","tool":"premortem","resource":"adwokat/premortem/uwagi_2_2.txt","text":"Weryfikacja poprawionego planu"}
+{"ts":1791280842713,"run":"niemcy","type":"resource.read","agent":"zgodnosc","tool":"lista_kontrolna_vat_oss","resource":"zgodnosc/lista_kontrolna_vat_oss/wymaganie_3_4","text":"Sekcja zgodności do raportu"}
+{"ts":1791280842800,"run":"niemcy","type":"file.created","agent":"zgodnosc","resource":"projekt/sekcja_zgodnosc.md","text":"Sekcja zgodności do raportu: wymogi w kolejności wdrożenia, każdy z adnotacją „do potwierdzenia z doradcą prawnym”."}
+{"ts":1791280842984,"run":"niemcy","type":"resource.read","agent":"strateg","tool":"macierz_decyzji","resource":"strateg/macierz_decyzji/kod_2_13","text":"Korekta planu: pilotaż etap 1"}
+{"ts":1791280843000,"run":"niemcy","type":"test.passed","agent":"adwokat","name":"weryfikacja_poprawionego_planu"}
+{"ts":1791280843100,"run":"niemcy","type":"tool.completed","agent":"zgodnosc","tool":"lista_kontrolna_vat_oss","latencyMs":3100}
+{"ts":1791280843100,"run":"niemcy","type":"message.sent","agent":"zgodnosc","to":"redaktor","tone":"handoff","text":"Sekcja zgodności do raportu: wymogi w kolejności wdrożenia, każdy z adnotacją „do potwierdzenia z doradcą prawnym”."}
+{"ts":1791280843200,"run":"niemcy","type":"tool.started","agent":"adwokat","tool":"analiza_luk","text":"Rejestr ryzyk otwartych"}
+{"ts":1791280843300,"run":"niemcy","type":"test.started","agent":"adwokat","name":"rejestr_ryzyk_otwartych"}
+{"ts":1791280843400,"run":"niemcy","type":"file.read","agent":"strateg","resource":"projekt/scenariusze_pilotazu.xlsx"}
+{"ts":1791280843500,"run":"niemcy","type":"tool.started","agent":"redaktor","tool":"korekta_jezykowa","text":"Skład i redakcja raportu"}
+{"ts":1791280843500,"run":"niemcy","type":"agent.completed","agent":"zgodnosc"}
+{"ts":1791280843530,"run":"niemcy","type":"resource.read","agent":"adwokat","tool":"analiza_luk","resource":"adwokat/analiza_luk/wymaganie_3_1","text":"Rejestr ryzyk otwartych"}
+{"ts":1791280843703,"run":"niemcy","type":"resource.read","agent":"strateg","tool":"macierz_decyzji","resource":"strateg/macierz_decyzji/brief_2_14","text":"Korekta planu: pilotaż etap 1"}
+{"ts":1791280843857,"run":"niemcy","type":"resource.read","agent":"redaktor","tool":"korekta_jezykowa","resource":"redaktor/korekta_jezykowa/uwaga_2_1","text":"Skład i redakcja raportu"}
+{"ts":1791280843900,"run":"niemcy","type":"file.created","agent":"adwokat","resource":"projekt/ryzyka_otwarte.md","text":"Otwarte ryzyka do raportu: zaufanie do marki, zwroty, zgodność etykiet. Wpisz je wprost, bez łagodzenia."}
+{"ts":1791280844190,"run":"niemcy","type":"resource.read","agent":"adwokat","tool":"analiza_luk","resource":"adwokat/analiza_luk/przypadek_3_2","text":"Rejestr ryzyk otwartych"}
+{"ts":1791280844200,"run":"niemcy","type":"message.sent","agent":"adwokat","to":"redaktor","tone":"handoff","text":"Otwarte ryzyka do raportu: zaufanie do marki, zwroty, zgodność etykiet. Wpisz je wprost, bez łagodzenia."}
+{"ts":1791280844422,"run":"niemcy","type":"file.created","agent":"strateg","tool":"macierz_decyzji","resource":"strateg/macierz_decyzji/wariant_2_5.md","text":"Korekta planu: pilotaż etap 1"}
+{"ts":1791280844500,"run":"niemcy","type":"file.read","agent":"redaktor","resource":"projekt/sekcja_zgodnosc.md"}
+{"ts":1791280844571,"run":"niemcy","type":"resource.read","agent":"redaktor","tool":"korekta_jezykowa","resource":"redaktor/korekta_jezykowa/sekcja_2_2","text":"Skład i redakcja raportu"}
+{"ts":1791280844850,"run":"niemcy","type":"file.created","agent":"adwokat","tool":"analiza_luk","resource":"adwokat/analiza_luk/raport_testu_3_1.json","text":"Rejestr ryzyk otwartych"}
+{"ts":1791280845141,"run":"niemcy","type":"resource.read","agent":"strateg","tool":"macierz_decyzji","resource":"strateg/macierz_decyzji/referencja_2_16","text":"Korekta planu: pilotaż etap 1"}
+{"ts":1791280845200,"run":"niemcy","type":"file.created","agent":"strateg","resource":"projekt/plan_90_dni_final.md","text":"Plan finalny: tyg. 1-3 zgodność i platforma, 4-8 pilotaż, bramka w tyg. 9, potem własny sklep DE albo wstrzymanie. Składaj raport na tej wersji."}
+{"ts":1791280845286,"run":"niemcy","type":"file.created","agent":"redaktor","tool":"korekta_jezykowa","resource":"redaktor/korekta_jezykowa/pakiet_2_1.zip","text":"Skład i redakcja raportu"}
+{"ts":1791280845500,"run":"niemcy","type":"tool.completed","agent":"strateg","tool":"macierz_decyzji","latencyMs":11500}
+{"ts":1791280845500,"run":"niemcy","type":"message.sent","agent":"strateg","to":"redaktor","tone":"handoff","text":"Plan finalny: tyg. 1-3 zgodność i platforma, 4-8 pilotaż, bramka w tyg. 9, potem własny sklep DE albo wstrzymanie. Składaj raport na tej wersji."}
+{"ts":1791280845500,"run":"niemcy","type":"memory.write","agent":"strateg","resource":"decyzje/plan_final_baza_raportu","text":"Plan finalny jest podstawą składu raportu — Wersja z bramką po pilotażu i progiem opłacalności zamyka pętlę korekty; redaktor składa raport na niej."}
+{"ts":1791280845510,"run":"niemcy","type":"resource.read","agent":"adwokat","tool":"analiza_luk","resource":"adwokat/analiza_luk/wymaganie_3_4","text":"Rejestr ryzyk otwartych"}
+{"ts":1791280845600,"run":"niemcy","type":"file.read","agent":"redaktor","resource":"projekt/ryzyka_otwarte.md"}
+{"ts":1791280845900,"run":"niemcy","type":"agent.completed","agent":"strateg"}
+{"ts":1791280846000,"run":"niemcy","type":"resource.read","agent":"redaktor","tool":"korekta_jezykowa","resource":"redaktor/korekta_jezykowa/uwaga_2_4","text":"Skład i redakcja raportu"}
+{"ts":1791280846170,"run":"niemcy","type":"resource.read","agent":"adwokat","tool":"analiza_luk","resource":"adwokat/analiza_luk/przypadek_3_5","text":"Rejestr ryzyk otwartych"}
+{"ts":1791280846500,"run":"niemcy","type":"test.passed","agent":"adwokat","name":"rejestr_ryzyk_otwartych"}
+{"ts":1791280846714,"run":"niemcy","type":"resource.read","agent":"redaktor","tool":"korekta_jezykowa","resource":"redaktor/korekta_jezykowa/sekcja_2_5","text":"Skład i redakcja raportu"}
+{"ts":1791280846900,"run":"niemcy","type":"file.read","agent":"redaktor","resource":"projekt/plan_90_dni_final.md"}
+{"ts":1791280846900,"run":"niemcy","type":"agent.completed","agent":"adwokat"}
+{"ts":1791280847429,"run":"niemcy","type":"file.modified","agent":"redaktor","tool":"korekta_jezykowa","resource":"redaktor/korekta_jezykowa/pakiet_2_2.zip","text":"Skład i redakcja raportu"}
+{"ts":1791280848000,"run":"niemcy","type":"file.created","agent":"redaktor","resource":"projekt/raport_niemcy.md","text":"Raport złożony: warunkowe go, plan 90 dni z bramką po pilotażu, wymogi zgodności i otwarte ryzyka. Gotowy do syntezy."}
+{"ts":1791280848143,"run":"niemcy","type":"resource.read","agent":"redaktor","tool":"korekta_jezykowa","resource":"redaktor/korekta_jezykowa/uwaga_2_7","text":"Skład i redakcja raportu"}
+{"ts":1791280848300,"run":"niemcy","type":"message.sent","agent":"redaktor","to":"hermes","tone":"result","text":"Raport złożony: warunkowe go, plan 90 dni z bramką po pilotażu, wymogi zgodności i otwarte ryzyka. Gotowy do syntezy."}
+{"ts":1791280848500,"run":"niemcy","type":"tool.completed","agent":"redaktor","tool":"korekta_jezykowa","latencyMs":5000}
+{"ts":1791280848900,"run":"niemcy","type":"agent.completed","agent":"redaktor"}
+{"ts":1791280852000,"run":"niemcy","type":"result.returned","agent":"hermes","text":"Synteza w toku: łączę wyniki sześciu agentów w rekomendację warunkowego go z pilotażem na marketplace i planem 90 dni."}
+{"ts":1791280856500,"run":"niemcy","type":"result.returned","agent":"hermes","text":"Raport dostarczony: warunkowe go z etapem 1 na marketplace, plan 90 dni, lista wymogów zgodności i otwarte ryzyka."}
+{"ts":1791280858500,"run":"niemcy","type":"task.completed","text":"Rekomendacja: warunkowe go na rynek DE przez pilotaż"}

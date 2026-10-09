@@ -1,0 +1,283 @@
+{"ts":1791280800000,"run":"panel","type":"task.started","text":"Zaprojektuj i zbuduj MVP panelu sprzedażowego dla małego sklepu internetowego: import zamówień z pliku CSV, trzy wykresy oraz alert o nagłym spadku sprzedaży."}
+{"ts":1791280800600,"run":"panel","type":"hermes.reasoning","text":"Cel: Dostarczyć działające MVP panelu: import zamówień z CSV, trzy wykresy i alert o nagłym spadku sprzedaży.","tokens":600}
+{"ts":1791280801700,"run":"panel","type":"hermes.reasoning","text":"Ograniczenie: Dane wejściowe wyłącznie z plików CSV"}
+{"ts":1791280802200,"run":"panel","type":"hermes.reasoning","text":"Ograniczenie: Zakres MVP: trzy wykresy i jeden typ alertu"}
+{"ts":1791280802700,"run":"panel","type":"hermes.reasoning","text":"Ograniczenie: Bez płatnych usług zewnętrznych, prosty hosting"}
+{"ts":1791280803100,"run":"panel","type":"hermes.reasoning","text":"Kryterium: Typowy plik CSV importuje się bez ręcznych poprawek"}
+{"ts":1791280803600,"run":"panel","type":"hermes.reasoning","text":"Kryterium: Trzy wykresy zasilane jednym kontraktem danych"}
+{"ts":1791280804100,"run":"panel","type":"hermes.reasoning","text":"Kryterium: Alert reaguje na symulowany spadek, nie na zwykłe wahania"}
+{"ts":1791280804500,"run":"panel","type":"hermes.reasoning","text":"Ryzyko: Złośliwe komórki i zbyt duże pliki CSV"}
+{"ts":1791280804950,"run":"panel","type":"hermes.reasoning","text":"Ryzyko: Niespójne daty, separatory i kodowanie w CSV"}
+{"ts":1791280805400,"run":"panel","type":"hermes.reasoning","text":"Ryzyko: Fałszywe alarmy przy niepełnych dniach i małej liczbie zamówień"}
+{"ts":1791280806000,"run":"panel","type":"planner.step","text":"Skład zespołu: Analityk, Architekt, Dane, Interfejs, Ochrona, Tester, Integrator."}
+{"ts":1791280806500,"run":"panel","type":"agent.spawned","agent":"analityk","label":"Analityk","text":"Analityk wymagań — Wymagania są ogólnikowe, więc zakres MVP i kryteria akceptacji trzeba spisać, zanim ruszy projekt i kod."}
+{"ts":1791280807500,"run":"panel","type":"agent.spawned","agent":"architekt","label":"Architekt","text":"Architekt systemu — Importer, API wykresów i alert muszą współdzielić jeden model danych; ta decyzja wyznacza resztę prac."}
+{"ts":1791280808500,"run":"panel","type":"agent.spawned","agent":"dane","label":"Dane","text":"Programista danych — Import CSV i agregacje dzienne to rdzeń MVP, a ich poprawność decyduje o wiarygodności wykresów i alertu."}
+{"ts":1791280809500,"run":"panel","type":"agent.spawned","agent":"frontend","label":"Interfejs","text":"Programista interfejsu — Trzy wykresy i widok alertu da się budować równolegle z backendem, gdy kontrakt danych jest już uzgodniony."}
+{"ts":1791280810500,"run":"panel","type":"agent.spawned","agent":"bezp","label":"Ochrona","text":"Specjalista bezpieczeństwa — Plik wgrywany przez użytkownika to klasyczny wektor ataku, więc import wymaga niezależnego przeglądu bezpieczeństwa."}
+{"ts":1791280811500,"run":"panel","type":"agent.spawned","agent":"qa","label":"Tester","text":"Tester QA — Alert o spadku łatwo rozstroić fałszywymi alarmami, więc trzeba go sprawdzić na danych próbnych i symulacji spadku."}
+{"ts":1791280812500,"run":"panel","type":"agent.spawned","agent":"integrator","label":"Integrator","text":"Integrator wydania — Wynik ma być jednym pakietem, który właściciel sklepu uruchomi sam, więc ktoś musi złożyć całość i spisać instrukcję."}
+{"ts":1791280814500,"run":"panel","type":"tool.started","agent":"analityk","tool":"granice_zakresu","text":"Wymagania i kryteria akceptacji"}
+{"ts":1791280814833,"run":"panel","type":"resource.read","agent":"analityk","tool":"granice_zakresu","resource":"analityk/granice_zakresu/raport_branzowy_1_1","text":"Wymagania i kryteria akceptacji"}
+{"ts":1791280814850,"run":"panel","type":"message.sent","agent":"hermes","to":"analityk","tone":"assign","text":"Zadanie: MVP panelu sprzedażowego małego sklepu. Ustal granice zakresu i kryteria akceptacji dla importu CSV, trzech wykresów i alertu."}
+{"ts":1791280815500,"run":"panel","type":"resource.read","agent":"analityk","tool":"granice_zakresu","resource":"analityk/granice_zakresu/wpis_forum_1_2","text":"Wymagania i kryteria akceptacji"}
+{"ts":1791280815760,"run":"panel","type":"message.sent","agent":"hermes","to":"architekt","tone":"assign","text":"Zaprojektuj model danych zamówień i jeden kontrakt danych dla wszystkich wykresów. Wymagania dostaniesz od analityka w trakcie pracy."}
+{"ts":1791280816000,"run":"panel","type":"tool.started","agent":"architekt","tool":"model_danych","text":"Model danych zamówień"}
+{"ts":1791280816167,"run":"panel","type":"file.created","agent":"analityk","tool":"granice_zakresu","resource":"analityk/granice_zakresu/tabela_1_1.csv","text":"Wymagania i kryteria akceptacji"}
+{"ts":1791280816361,"run":"panel","type":"resource.read","agent":"architekt","tool":"model_danych","resource":"architekt/model_danych/wzor_1_1","text":"Model danych zamówień"}
+{"ts":1791280816670,"run":"panel","type":"message.sent","agent":"hermes","to":"dane","tone":"assign","text":"Zbuduj import zamówień z CSV oraz dzienne agregacje dla wykresów i alertu. Schemat dostarczy architekt, kod trafi do przeglądu bezpieczeństwa."}
+{"ts":1791280816833,"run":"panel","type":"resource.read","agent":"analityk","tool":"granice_zakresu","resource":"analityk/granice_zakresu/dane_1_4","text":"Wymagania i kryteria akceptacji"}
+{"ts":1791280817083,"run":"panel","type":"resource.read","agent":"architekt","tool":"model_danych","resource":"architekt/model_danych/referencja_1_2","text":"Model danych zamówień"}
+{"ts":1791280817500,"run":"panel","type":"resource.read","agent":"analityk","tool":"granice_zakresu","resource":"analityk/granice_zakresu/zrodlo_1_5","text":"Wymagania i kryteria akceptacji"}
+{"ts":1791280817580,"run":"panel","type":"message.sent","agent":"hermes","to":"frontend","tone":"assign","text":"Zbuduj panel z trzema wykresami i widokiem alertu. Kontrakt uzgodnij z architektem, dane pobieraj z endpointów programisty danych."}
+{"ts":1791280817806,"run":"panel","type":"file.created","agent":"architekt","tool":"model_danych","resource":"architekt/model_danych/fragment_1_1.txt","text":"Model danych zamówień"}
+{"ts":1791280818167,"run":"panel","type":"file.modified","agent":"analityk","tool":"granice_zakresu","resource":"analityk/granice_zakresu/zestawienie_1_2.csv","text":"Wymagania i kryteria akceptacji"}
+{"ts":1791280818490,"run":"panel","type":"message.sent","agent":"hermes","to":"bezp","tone":"assign","text":"Przejrzyj import CSV pod kątem ataków przez wgrywany plik. Wady zgłaszaj wprost autorowi kodu i podawaj, jak je poprawić."}
+{"ts":1791280818528,"run":"panel","type":"resource.read","agent":"architekt","tool":"model_danych","resource":"architekt/model_danych/kod_1_4","text":"Model danych zamówień"}
+{"ts":1791280818833,"run":"panel","type":"resource.read","agent":"analityk","tool":"granice_zakresu","resource":"analityk/granice_zakresu/wpis_forum_1_7","text":"Wymagania i kryteria akceptacji"}
+{"ts":1791280819250,"run":"panel","type":"resource.read","agent":"architekt","tool":"model_danych","resource":"architekt/model_danych/brief_1_5","text":"Model danych zamówień"}
+{"ts":1791280819400,"run":"panel","type":"message.sent","agent":"hermes","to":"qa","tone":"assign","text":"Przygotuj plan testów i pliki próbne dla importu oraz alertu. Sprawdź, czy alert nie zgłasza fałszywych spadków."}
+{"ts":1791280819500,"run":"panel","type":"resource.read","agent":"analityk","tool":"granice_zakresu","resource":"analityk/granice_zakresu/opinia_1_8","text":"Wymagania i kryteria akceptacji"}
+{"ts":1791280819972,"run":"panel","type":"file.modified","agent":"architekt","tool":"model_danych","resource":"architekt/model_danych/wariant_1_2.md","text":"Model danych zamówień"}
+{"ts":1791280820167,"run":"panel","type":"file.created","agent":"analityk","tool":"granice_zakresu","resource":"analityk/granice_zakresu/wykres_1_3.png","text":"Wymagania i kryteria akceptacji"}
+{"ts":1791280820310,"run":"panel","type":"message.sent","agent":"hermes","to":"integrator","tone":"assign","text":"Przygotuj skrypt budowania i uruchomienia, a na końcu złóż komponenty w jedno wydanie MVP z instrukcją dla właściciela sklepu."}
+{"ts":1791280820500,"run":"panel","type":"tool.completed","agent":"analityk","tool":"granice_zakresu","latencyMs":6000}
+{"ts":1791280820694,"run":"panel","type":"resource.read","agent":"architekt","tool":"model_danych","resource":"architekt/model_danych/referencja_1_7","text":"Model danych zamówień"}
+{"ts":1791280820920,"run":"panel","type":"file.created","agent":"analityk","resource":"projekt/wymagania.md","text":"Wymagania: import zamówień z CSV, trzy wykresy (przychód dzienny, najlepiej sprzedające się produkty, liczba zamówień) i alert o spadku."}
+{"ts":1791280821000,"run":"panel","type":"tool.started","agent":"frontend","tool":"biblioteka_wykresow","text":"Szkielet panelu i wykresy"}
+{"ts":1791280821220,"run":"panel","type":"message.sent","agent":"analityk","to":"architekt","tone":"handoff","text":"Wymagania: import zamówień z CSV, trzy wykresy (przychód dzienny, najlepiej sprzedające się produkty, liczba zamówień) i alert o spadku."}
+{"ts":1791280821364,"run":"panel","type":"resource.read","agent":"frontend","tool":"biblioteka_wykresow","resource":"frontend/biblioteka_wykresow/wzor_1_1","text":"Szkielet panelu i wykresy"}
+{"ts":1791280821417,"run":"panel","type":"resource.read","agent":"architekt","tool":"model_danych","resource":"architekt/model_danych/notatka_1_8","text":"Model danych zamówień"}
+{"ts":1791280821830,"run":"panel","type":"file.created","agent":"analityk","resource":"projekt/kryteria.md","text":"Kryteria akceptacji: poprawny plik importuje się w całości, błędne wiersze są zgłaszane z numerem, alert reaguje na spadek, nie na wahania."}
+{"ts":1791280822091,"run":"panel","type":"resource.read","agent":"frontend","tool":"biblioteka_wykresow","resource":"frontend/biblioteka_wykresow/referencja_1_2","text":"Szkielet panelu i wykresy"}
+{"ts":1791280822130,"run":"panel","type":"message.sent","agent":"analityk","to":"qa","tone":"handoff","text":"Kryteria akceptacji: poprawny plik importuje się w całości, błędne wiersze są zgłaszane z numerem, alert reaguje na spadek, nie na wahania."}
+{"ts":1791280822139,"run":"panel","type":"file.created","agent":"architekt","tool":"model_danych","resource":"architekt/model_danych/modul_1_3.js","text":"Model danych zamówień"}
+{"ts":1791280822500,"run":"panel","type":"tool.completed","agent":"architekt","tool":"model_danych","latencyMs":6500}
+{"ts":1791280822500,"run":"panel","type":"tool.started","agent":"qa","tool":"pliki_probne_csv","text":"Plan testów i dane próbne"}
+{"ts":1791280822620,"run":"panel","type":"file.read","agent":"architekt","resource":"projekt/wymagania.md"}
+{"ts":1791280822740,"run":"panel","type":"file.created","agent":"architekt","resource":"projekt/model_danych.md","text":"Schemat: tabele zamówień i pozycji, data w ISO 8601, kwoty jako liczby dziesiętne. Importer mapuje kolumny CSV wprost na ten model."}
+{"ts":1791280822818,"run":"panel","type":"file.created","agent":"frontend","tool":"biblioteka_wykresow","resource":"frontend/biblioteka_wykresow/fragment_1_1.txt","text":"Szkielet panelu i wykresy"}
+{"ts":1791280822844,"run":"panel","type":"resource.read","agent":"qa","tool":"pliki_probne_csv","resource":"qa/pliki_probne_csv/przypadek_1_1","text":"Plan testów i dane próbne"}
+{"ts":1791280823000,"run":"panel","type":"tool.started","agent":"architekt","tool":"kontrakt_wykresow","text":"Kontrakt danych wykresów"}
+{"ts":1791280823040,"run":"panel","type":"message.sent","agent":"architekt","to":"dane","tone":"handoff","text":"Schemat: tabele zamówień i pozycji, data w ISO 8601, kwoty jako liczby dziesiętne. Importer mapuje kolumny CSV wprost na ten model."}
+{"ts":1791280823357,"run":"panel","type":"resource.read","agent":"architekt","tool":"kontrakt_wykresow","resource":"architekt/kontrakt_wykresow/referencja_2_1","text":"Kontrakt danych wykresów"}
+{"ts":1791280823500,"run":"panel","type":"tool.started","agent":"dane","tool":"parser_csv","text":"Import CSV i agregacje"}
+{"ts":1791280823530,"run":"panel","type":"file.read","agent":"qa","resource":"projekt/kryteria.md"}
+{"ts":1791280823531,"run":"panel","type":"resource.read","agent":"qa","tool":"pliki_probne_csv","resource":"qa/pliki_probne_csv/log_1_2","text":"Plan testów i dane próbne"}
+{"ts":1791280823545,"run":"panel","type":"resource.read","agent":"frontend","tool":"biblioteka_wykresow","resource":"frontend/biblioteka_wykresow/kod_1_4","text":"Szkielet panelu i wykresy"}
+{"ts":1791280823861,"run":"panel","type":"resource.read","agent":"dane","tool":"parser_csv","resource":"dane/parser_csv/wzor_1_1","text":"Import CSV i agregacje"}
+{"ts":1791280824000,"run":"panel","type":"message.sent","agent":"frontend","to":"architekt","tone":"question","text":"Jaki kontrakt przyjmujemy dla wykresów: gotowe szeregi z backendu czy surowe zamówienia do agregacji w przeglądarce?"}
+{"ts":1791280824071,"run":"panel","type":"resource.read","agent":"architekt","tool":"kontrakt_wykresow","resource":"architekt/kontrakt_wykresow/notatka_2_2","text":"Kontrakt danych wykresów"}
+{"ts":1791280824219,"run":"panel","type":"file.created","agent":"qa","tool":"pliki_probne_csv","resource":"qa/pliki_probne_csv/checklista_1_1.md","text":"Plan testów i dane próbne"}
+{"ts":1791280824273,"run":"panel","type":"resource.read","agent":"frontend","tool":"biblioteka_wykresow","resource":"frontend/biblioteka_wykresow/brief_1_5","text":"Szkielet panelu i wykresy"}
+{"ts":1791280824440,"run":"panel","type":"file.read","agent":"dane","resource":"projekt/model_danych.md"}
+{"ts":1791280824583,"run":"panel","type":"resource.read","agent":"dane","tool":"parser_csv","resource":"dane/parser_csv/referencja_1_2","text":"Import CSV i agregacje"}
+{"ts":1791280824786,"run":"panel","type":"file.created","agent":"architekt","tool":"kontrakt_wykresow","resource":"architekt/kontrakt_wykresow/modul_2_1.js","text":"Kontrakt danych wykresów"}
+{"ts":1791280824906,"run":"panel","type":"resource.read","agent":"qa","tool":"pliki_probne_csv","resource":"qa/pliki_probne_csv/przypadek_1_4","text":"Plan testów i dane próbne"}
+{"ts":1791280825000,"run":"panel","type":"file.modified","agent":"frontend","tool":"biblioteka_wykresow","resource":"frontend/biblioteka_wykresow/wariant_1_2.md","text":"Szkielet panelu i wykresy"}
+{"ts":1791280825200,"run":"panel","type":"file.created","agent":"architekt","resource":"projekt/kontrakt_wykresow.md","text":"Gotowe szeregi z backendu: dla każdego wykresu tablica {etykieta, wartość}, daty w ISO 8601, puste dni uzupełnione zerem."}
+{"ts":1791280825306,"run":"panel","type":"file.created","agent":"dane","tool":"parser_csv","resource":"dane/parser_csv/fragment_1_1.txt","text":"Import CSV i agregacje"}
+{"ts":1791280825500,"run":"panel","type":"resource.read","agent":"architekt","tool":"kontrakt_wykresow","resource":"architekt/kontrakt_wykresow/brief_2_4","text":"Kontrakt danych wykresów"}
+{"ts":1791280825500,"run":"panel","type":"message.sent","agent":"architekt","to":"frontend","tone":"answer","text":"Gotowe szeregi z backendu: dla każdego wykresu tablica {etykieta, wartość}, daty w ISO 8601, puste dni uzupełnione zerem."}
+{"ts":1791280825500,"run":"panel","type":"memory.write","agent":"architekt","resource":"decyzje/gotowe_szeregi_z_backendu","text":"Gotowe szeregi z backendu zamiast agregacji w przeglądarce — Jeden kontrakt dla wszystkich wykresów; interfejs nie liczy danych, więc wartości są spójne i łatwe do testów."}
+{"ts":1791280825594,"run":"panel","type":"resource.read","agent":"qa","tool":"pliki_probne_csv","resource":"qa/pliki_probne_csv/log_1_5","text":"Plan testów i dane próbne"}
+{"ts":1791280825727,"run":"panel","type":"resource.read","agent":"frontend","tool":"biblioteka_wykresow","resource":"frontend/biblioteka_wykresow/referencja_1_7","text":"Szkielet panelu i wykresy"}
+{"ts":1791280826028,"run":"panel","type":"resource.read","agent":"dane","tool":"parser_csv","resource":"dane/parser_csv/kod_1_4","text":"Import CSV i agregacje"}
+{"ts":1791280826214,"run":"panel","type":"resource.read","agent":"architekt","tool":"kontrakt_wykresow","resource":"architekt/kontrakt_wykresow/wzor_2_5","text":"Kontrakt danych wykresów"}
+{"ts":1791280826281,"run":"panel","type":"file.modified","agent":"qa","tool":"pliki_probne_csv","resource":"qa/pliki_probne_csv/checklista_1_2.md","text":"Plan testów i dane próbne"}
+{"ts":1791280826455,"run":"panel","type":"resource.read","agent":"frontend","tool":"biblioteka_wykresow","resource":"frontend/biblioteka_wykresow/notatka_1_8","text":"Szkielet panelu i wykresy"}
+{"ts":1791280826500,"run":"panel","type":"message.sent","agent":"qa","to":"bezp","tone":"question","text":"Jakie złośliwe pliki CSV dodać do testów importu poza zbyt dużym rozmiarem? Chcę je mieć w zestawie od początku."}
+{"ts":1791280826750,"run":"panel","type":"resource.read","agent":"dane","tool":"parser_csv","resource":"dane/parser_csv/brief_1_5","text":"Import CSV i agregacje"}
+{"ts":1791280826900,"run":"panel","type":"file.read","agent":"frontend","resource":"projekt/kontrakt_wykresow.md"}
+{"ts":1791280826929,"run":"panel","type":"file.modified","agent":"architekt","tool":"kontrakt_wykresow","resource":"architekt/kontrakt_wykresow/makieta_2_2.png","text":"Kontrakt danych wykresów"}
+{"ts":1791280826969,"run":"panel","type":"resource.read","agent":"qa","tool":"pliki_probne_csv","resource":"qa/pliki_probne_csv/przypadek_1_7","text":"Plan testów i dane próbne"}
+{"ts":1791280827000,"run":"panel","type":"tool.started","agent":"bezp","tool":"przeglad_kodu","text":"Przegląd bezpieczeństwa importu"}
+{"ts":1791280827100,"run":"panel","type":"test.started","agent":"bezp","name":"przeglad_bezpieczenstwa_importu"}
+{"ts":1791280827182,"run":"panel","type":"file.created","agent":"frontend","tool":"biblioteka_wykresow","resource":"frontend/biblioteka_wykresow/modul_1_3.js","text":"Szkielet panelu i wykresy"}
+{"ts":1791280827361,"run":"panel","type":"resource.read","agent":"bezp","tool":"przeglad_kodu","resource":"bezp/przeglad_kodu/przypadek_1_1","text":"Przegląd bezpieczeństwa importu"}
+{"ts":1791280827472,"run":"panel","type":"file.modified","agent":"dane","tool":"parser_csv","resource":"dane/parser_csv/wariant_1_2.md","text":"Import CSV i agregacje"}
+{"ts":1791280827500,"run":"panel","type":"message.sent","agent":"bezp","to":"qa","tone":"answer","text":"Komórki zaczynające się od =, +, - lub @, pola z cudzysłowami i nowymi liniami, błędne kodowanie oraz plik ze zmienionym rozszerzeniem."}
+{"ts":1791280827643,"run":"panel","type":"resource.read","agent":"architekt","tool":"kontrakt_wykresow","resource":"architekt/kontrakt_wykresow/notatka_2_7","text":"Kontrakt danych wykresów"}
+{"ts":1791280827656,"run":"panel","type":"resource.read","agent":"qa","tool":"pliki_probne_csv","resource":"qa/pliki_probne_csv/log_1_8","text":"Plan testów i dane próbne"}
+{"ts":1791280827909,"run":"panel","type":"resource.read","agent":"frontend","tool":"biblioteka_wykresow","resource":"frontend/biblioteka_wykresow/brief_1_10","text":"Szkielet panelu i wykresy"}
+{"ts":1791280828000,"run":"panel","type":"tool.completed","agent":"architekt","tool":"kontrakt_wykresow","latencyMs":5000}
+{"ts":1791280828083,"run":"panel","type":"resource.read","agent":"bezp","tool":"przeglad_kodu","resource":"bezp/przeglad_kodu/log_1_2","text":"Przegląd bezpieczeństwa importu"}
+{"ts":1791280828194,"run":"panel","type":"resource.read","agent":"dane","tool":"parser_csv","resource":"dane/parser_csv/referencja_1_7","text":"Import CSV i agregacje"}
+{"ts":1791280828344,"run":"panel","type":"file.created","agent":"qa","tool":"pliki_probne_csv","resource":"qa/pliki_probne_csv/checklista_1_3.md","text":"Plan testów i dane próbne"}
+{"ts":1791280828636,"run":"panel","type":"resource.read","agent":"frontend","tool":"biblioteka_wykresow","resource":"frontend/biblioteka_wykresow/wzor_1_11","text":"Szkielet panelu i wykresy"}
+{"ts":1791280828700,"run":"panel","type":"file.created","agent":"dane","resource":"projekt/import_csv.py","text":"Importer gotowy do przeglądu: parsowanie, mapowanie kolumn i zapis do bazy. Agregacje dzienne dokończę równolegle."}
+{"ts":1791280828806,"run":"panel","type":"file.created","agent":"bezp","tool":"przeglad_kodu","resource":"bezp/przeglad_kodu/checklista_1_1.md","text":"Przegląd bezpieczeństwa importu"}
+{"ts":1791280828917,"run":"panel","type":"resource.read","agent":"dane","tool":"parser_csv","resource":"dane/parser_csv/notatka_1_8","text":"Import CSV i agregacje"}
+{"ts":1791280829000,"run":"panel","type":"tool.completed","agent":"frontend","tool":"biblioteka_wykresow","latencyMs":8000}
+{"ts":1791280829000,"run":"panel","type":"tool.started","agent":"integrator","tool":"skrypt_budowania","text":"Skrypt budowania i uruchomienia"}
+{"ts":1791280829000,"run":"panel","type":"message.sent","agent":"dane","to":"bezp","tone":"handoff","text":"Importer gotowy do przeglądu: parsowanie, mapowanie kolumn i zapis do bazy. Agregacje dzienne dokończę równolegle."}
+{"ts":1791280829031,"run":"panel","type":"resource.read","agent":"qa","tool":"pliki_probne_csv","resource":"qa/pliki_probne_csv/przypadek_1_10","text":"Plan testów i dane próbne"}
+{"ts":1791280829350,"run":"panel","type":"resource.read","agent":"integrator","tool":"skrypt_budowania","resource":"integrator/skrypt_budowania/zalacznik_1_1","text":"Skrypt budowania i uruchomienia"}
+{"ts":1791280829500,"run":"panel","type":"tool.started","agent":"frontend","tool":"szkic_interfejsu","text":"Widok alertu i podpięcie danych"}
+{"ts":1791280829528,"run":"panel","type":"resource.read","agent":"bezp","tool":"przeglad_kodu","resource":"bezp/przeglad_kodu/przypadek_1_4","text":"Przegląd bezpieczeństwa importu"}
+{"ts":1791280829639,"run":"panel","type":"file.created","agent":"dane","tool":"parser_csv","resource":"dane/parser_csv/modul_1_3.js","text":"Import CSV i agregacje"}
+{"ts":1791280829700,"run":"panel","type":"file.created","agent":"dane","resource":"projekt/przyklad_api.json","text":"Endpointy działają zgodnie z kontraktem: trzy szeregi danych dla wykresów i status alertu. Przykładowa odpowiedź w załączniku."}
+{"ts":1791280829719,"run":"panel","type":"resource.read","agent":"qa","tool":"pliki_probne_csv","resource":"qa/pliki_probne_csv/log_1_11","text":"Plan testów i dane próbne"}
+{"ts":1791280829846,"run":"panel","type":"resource.read","agent":"frontend","tool":"szkic_interfejsu","resource":"frontend/szkic_interfejsu/referencja_2_1","text":"Widok alertu i podpięcie danych"}
+{"ts":1791280830000,"run":"panel","type":"tool.completed","agent":"dane","tool":"parser_csv","latencyMs":6500}
+{"ts":1791280830000,"run":"panel","type":"message.sent","agent":"dane","to":"frontend","tone":"handoff","text":"Endpointy działają zgodnie z kontraktem: trzy szeregi danych dla wykresów i status alertu. Przykładowa odpowiedź w załączniku."}
+{"ts":1791280830050,"run":"panel","type":"resource.read","agent":"integrator","tool":"skrypt_budowania","resource":"integrator/skrypt_budowania/uwaga_1_2","text":"Skrypt budowania i uruchomienia"}
+{"ts":1791280830250,"run":"panel","type":"resource.read","agent":"bezp","tool":"przeglad_kodu","resource":"bezp/przeglad_kodu/log_1_5","text":"Przegląd bezpieczeństwa importu"}
+{"ts":1791280830400,"run":"panel","type":"file.read","agent":"bezp","resource":"projekt/import_csv.py"}
+{"ts":1791280830406,"run":"panel","type":"file.modified","agent":"qa","tool":"pliki_probne_csv","resource":"qa/pliki_probne_csv/checklista_1_4.md","text":"Plan testów i dane próbne"}
+{"ts":1791280830538,"run":"panel","type":"resource.read","agent":"frontend","tool":"szkic_interfejsu","resource":"frontend/szkic_interfejsu/notatka_2_2","text":"Widok alertu i podpięcie danych"}
+{"ts":1791280830750,"run":"panel","type":"file.created","agent":"integrator","tool":"skrypt_budowania","resource":"integrator/skrypt_budowania/rozdzial_1_1.md","text":"Skrypt budowania i uruchomienia"}
+{"ts":1791280830972,"run":"panel","type":"file.modified","agent":"bezp","tool":"przeglad_kodu","resource":"bezp/przeglad_kodu/checklista_1_2.md","text":"Przegląd bezpieczeństwa importu"}
+{"ts":1791280831000,"run":"panel","type":"tool.started","agent":"dane","tool":"agregacje_dzienne","text":"Poprawki zabezpieczeń importu"}
+{"ts":1791280831000,"run":"panel","type":"message.sent","agent":"bezp","to":"dane","tone":"critique","text":"Komórki z =, +, - lub @ na początku trafiają do bazy bez zmian, co grozi wstrzyknięciem formuł. Brak limitów rozmiaru, wierszy i kontroli typu pliku."}
+{"ts":1791280831094,"run":"panel","type":"resource.read","agent":"qa","tool":"pliki_probne_csv","resource":"qa/pliki_probne_csv/przypadek_1_13","text":"Plan testów i dane próbne"}
+{"ts":1791280831231,"run":"panel","type":"file.created","agent":"frontend","tool":"szkic_interfejsu","resource":"frontend/szkic_interfejsu/modul_2_1.js","text":"Widok alertu i podpięcie danych"}
+{"ts":1791280831333,"run":"panel","type":"resource.read","agent":"dane","tool":"agregacje_dzienne","resource":"dane/agregacje_dzienne/referencja_2_1","text":"Poprawki zabezpieczeń importu"}
+{"ts":1791280831400,"run":"panel","type":"file.read","agent":"frontend","resource":"projekt/przyklad_api.json"}
+{"ts":1791280831450,"run":"panel","type":"resource.read","agent":"integrator","tool":"skrypt_budowania","resource":"integrator/skrypt_budowania/zalacznik_1_4","text":"Skrypt budowania i uruchomienia"}
+{"ts":1791280831694,"run":"panel","type":"resource.read","agent":"bezp","tool":"przeglad_kodu","resource":"bezp/przeglad_kodu/przypadek_1_7","text":"Przegląd bezpieczeństwa importu"}
+{"ts":1791280831781,"run":"panel","type":"resource.read","agent":"qa","tool":"pliki_probne_csv","resource":"qa/pliki_probne_csv/log_1_14","text":"Plan testów i dane próbne"}
+{"ts":1791280831923,"run":"panel","type":"resource.read","agent":"frontend","tool":"szkic_interfejsu","resource":"frontend/szkic_interfejsu/brief_2_4","text":"Widok alertu i podpięcie danych"}
+{"ts":1791280832000,"run":"panel","type":"resource.read","agent":"dane","tool":"agregacje_dzienne","resource":"dane/agregacje_dzienne/notatka_2_2","text":"Poprawki zabezpieczeń importu"}
+{"ts":1791280832150,"run":"panel","type":"resource.read","agent":"integrator","tool":"skrypt_budowania","resource":"integrator/skrypt_budowania/uwaga_1_5","text":"Skrypt budowania i uruchomienia"}
+{"ts":1791280832417,"run":"panel","type":"resource.read","agent":"bezp","tool":"przeglad_kodu","resource":"bezp/przeglad_kodu/log_1_8","text":"Przegląd bezpieczeństwa importu"}
+{"ts":1791280832469,"run":"panel","type":"file.created","agent":"qa","tool":"pliki_probne_csv","resource":"qa/pliki_probne_csv/checklista_1_5.md","text":"Plan testów i dane próbne"}
+{"ts":1791280832615,"run":"panel","type":"resource.read","agent":"frontend","tool":"szkic_interfejsu","resource":"frontend/szkic_interfejsu/wzor_2_5","text":"Widok alertu i podpięcie danych"}
+{"ts":1791280832667,"run":"panel","type":"file.created","agent":"dane","tool":"agregacje_dzienne","resource":"dane/agregacje_dzienne/modul_2_1.js","text":"Poprawki zabezpieczeń importu"}
+{"ts":1791280832850,"run":"panel","type":"file.modified","agent":"integrator","tool":"skrypt_budowania","resource":"integrator/skrypt_budowania/rozdzial_1_2.md","text":"Skrypt budowania i uruchomienia"}
+{"ts":1791280833139,"run":"panel","type":"file.created","agent":"bezp","tool":"przeglad_kodu","resource":"bezp/przeglad_kodu/checklista_1_3.md","text":"Przegląd bezpieczeństwa importu"}
+{"ts":1791280833156,"run":"panel","type":"resource.read","agent":"qa","tool":"pliki_probne_csv","resource":"qa/pliki_probne_csv/przypadek_1_16","text":"Plan testów i dane próbne"}
+{"ts":1791280833308,"run":"panel","type":"file.modified","agent":"frontend","tool":"szkic_interfejsu","resource":"frontend/szkic_interfejsu/makieta_2_2.png","text":"Widok alertu i podpięcie danych"}
+{"ts":1791280833333,"run":"panel","type":"resource.read","agent":"dane","tool":"agregacje_dzienne","resource":"dane/agregacje_dzienne/brief_2_4","text":"Poprawki zabezpieczeń importu"}
+{"ts":1791280833500,"run":"panel","type":"test.passed","agent":"bezp","name":"przeglad_bezpieczenstwa_importu"}
+{"ts":1791280833500,"run":"panel","type":"tool.completed","agent":"qa","tool":"pliki_probne_csv","latencyMs":11000}
+{"ts":1791280833550,"run":"panel","type":"resource.read","agent":"integrator","tool":"skrypt_budowania","resource":"integrator/skrypt_budowania/zalacznik_1_7","text":"Skrypt budowania i uruchomienia"}
+{"ts":1791280834000,"run":"panel","type":"resource.read","agent":"dane","tool":"agregacje_dzienne","resource":"dane/agregacje_dzienne/wzor_2_5","text":"Poprawki zabezpieczeń importu"}
+{"ts":1791280834000,"run":"panel","type":"resource.read","agent":"frontend","tool":"szkic_interfejsu","resource":"frontend/szkic_interfejsu/notatka_2_7","text":"Widok alertu i podpięcie danych"}
+{"ts":1791280834000,"run":"panel","type":"tool.started","agent":"qa","tool":"testy_akceptacyjne","text":"Testy akceptacyjne i alert"}
+{"ts":1791280834000,"run":"panel","type":"message.sent","agent":"qa","to":"dane","tone":"critique","text":"Alert porównuje niepełny dzień ze średnią z poprzednich, więc w południe zgłasza fałszywy spadek. Potrzebne: tylko pełne dni i próg w konfiguracji."}
+{"ts":1791280834100,"run":"panel","type":"test.started","agent":"qa","name":"testy_akceptacyjne_i_alert"}
+{"ts":1791280834250,"run":"panel","type":"resource.read","agent":"integrator","tool":"skrypt_budowania","resource":"integrator/skrypt_budowania/uwaga_1_8","text":"Skrypt budowania i uruchomienia"}
+{"ts":1791280834353,"run":"panel","type":"resource.read","agent":"qa","tool":"testy_akceptacyjne","resource":"qa/testy_akceptacyjne/log_2_1","text":"Testy akceptacyjne i alert"}
+{"ts":1791280834667,"run":"panel","type":"file.modified","agent":"dane","tool":"agregacje_dzienne","resource":"dane/agregacje_dzienne/makieta_2_2.png","text":"Poprawki zabezpieczeń importu"}
+{"ts":1791280834692,"run":"panel","type":"resource.read","agent":"frontend","tool":"szkic_interfejsu","resource":"frontend/szkic_interfejsu/kod_2_8","text":"Widok alertu i podpięcie danych"}
+{"ts":1791280834950,"run":"panel","type":"file.created","agent":"integrator","tool":"skrypt_budowania","resource":"integrator/skrypt_budowania/rozdzial_1_3.md","text":"Skrypt budowania i uruchomienia"}
+{"ts":1791280835059,"run":"panel","type":"resource.read","agent":"qa","tool":"testy_akceptacyjne","resource":"qa/testy_akceptacyjne/wymaganie_2_2","text":"Testy akceptacyjne i alert"}
+{"ts":1791280835333,"run":"panel","type":"resource.read","agent":"dane","tool":"agregacje_dzienne","resource":"dane/agregacje_dzienne/notatka_2_7","text":"Poprawki zabezpieczeń importu"}
+{"ts":1791280835385,"run":"panel","type":"file.created","agent":"frontend","tool":"szkic_interfejsu","resource":"frontend/szkic_interfejsu/szkic_2_3.md","text":"Widok alertu i podpięcie danych"}
+{"ts":1791280835650,"run":"panel","type":"resource.read","agent":"integrator","tool":"skrypt_budowania","resource":"integrator/skrypt_budowania/zalacznik_1_10","text":"Skrypt budowania i uruchomienia"}
+{"ts":1791280835765,"run":"panel","type":"file.created","agent":"qa","tool":"testy_akceptacyjne","resource":"qa/testy_akceptacyjne/uwagi_2_1.txt","text":"Testy akceptacyjne i alert"}
+{"ts":1791280836000,"run":"panel","type":"resource.read","agent":"dane","tool":"agregacje_dzienne","resource":"dane/agregacje_dzienne/kod_2_8","text":"Poprawki zabezpieczeń importu"}
+{"ts":1791280836000,"run":"panel","type":"tool.completed","agent":"integrator","tool":"skrypt_budowania","latencyMs":7000}
+{"ts":1791280836077,"run":"panel","type":"resource.read","agent":"frontend","tool":"szkic_interfejsu","resource":"frontend/szkic_interfejsu/wzor_2_10","text":"Widok alertu i podpięcie danych"}
+{"ts":1791280836471,"run":"panel","type":"resource.read","agent":"qa","tool":"testy_akceptacyjne","resource":"qa/testy_akceptacyjne/log_2_4","text":"Testy akceptacyjne i alert"}
+{"ts":1791280836667,"run":"panel","type":"file.created","agent":"dane","tool":"agregacje_dzienne","resource":"dane/agregacje_dzienne/szkic_2_3.md","text":"Poprawki zabezpieczeń importu"}
+{"ts":1791280836700,"run":"panel","type":"file.created","agent":"dane","resource":"projekt/import_csv_v2.py","text":"Poprawione: komórki z =, +, - lub @ dostają przedrostek apostrofu, plik ma limit rozmiaru i liczby wierszy, nieznany typ jest odrzucany."}
+{"ts":1791280836769,"run":"panel","type":"resource.read","agent":"frontend","tool":"szkic_interfejsu","resource":"frontend/szkic_interfejsu/referencja_2_11","text":"Widok alertu i podpięcie danych"}
+{"ts":1791280837000,"run":"panel","type":"tool.started","agent":"architekt","tool":"przeglad_spojnosci","text":"Przegląd spójności komponentów"}
+{"ts":1791280837000,"run":"panel","type":"tool.completed","agent":"dane","tool":"agregacje_dzienne","latencyMs":6000}
+{"ts":1791280837000,"run":"panel","type":"message.sent","agent":"dane","to":"bezp","tone":"revision","text":"Poprawione: komórki z =, +, - lub @ dostają przedrostek apostrofu, plik ma limit rozmiaru i liczby wierszy, nieznany typ jest odrzucany."}
+{"ts":1791280837000,"run":"panel","type":"memory.write","agent":"bezp","resource":"decyzje/neutralizacja_formul","text":"Neutralizacja formuł i limity w imporcie CSV po zarzucie — Przegląd wykazał formuły w komórkach i brak limitów, więc importer dostał apostrof, limity i odrzucanie typu."}
+{"ts":1791280837176,"run":"panel","type":"resource.read","agent":"qa","tool":"testy_akceptacyjne","resource":"qa/testy_akceptacyjne/wymaganie_2_5","text":"Testy akceptacyjne i alert"}
+{"ts":1791280837357,"run":"panel","type":"resource.read","agent":"architekt","tool":"przeglad_spojnosci","resource":"architekt/przeglad_spojnosci/notatka_3_1","text":"Przegląd spójności komponentów"}
+{"ts":1791280837462,"run":"panel","type":"file.modified","agent":"frontend","tool":"szkic_interfejsu","resource":"frontend/szkic_interfejsu/fragment_2_4.txt","text":"Widok alertu i podpięcie danych"}
+{"ts":1791280837500,"run":"panel","type":"tool.started","agent":"dane","tool":"walidacja_schematu","text":"Korekta reguły alertu"}
+{"ts":1791280837857,"run":"panel","type":"resource.read","agent":"dane","tool":"walidacja_schematu","resource":"dane/walidacja_schematu/notatka_3_1","text":"Korekta reguły alertu"}
+{"ts":1791280837882,"run":"panel","type":"file.modified","agent":"qa","tool":"testy_akceptacyjne","resource":"qa/testy_akceptacyjne/uwagi_2_2.txt","text":"Testy akceptacyjne i alert"}
+{"ts":1791280838000,"run":"panel","type":"tool.started","agent":"bezp","tool":"model_zagrozen","text":"Ponowna weryfikacja poprawek"}
+{"ts":1791280838071,"run":"panel","type":"resource.read","agent":"architekt","tool":"przeglad_spojnosci","resource":"architekt/przeglad_spojnosci/kod_3_2","text":"Przegląd spójności komponentów"}
+{"ts":1791280838100,"run":"panel","type":"test.started","agent":"bezp","name":"ponowna_weryfikacja_poprawek"}
+{"ts":1791280838154,"run":"panel","type":"resource.read","agent":"frontend","tool":"szkic_interfejsu","resource":"frontend/szkic_interfejsu/kod_2_13","text":"Widok alertu i podpięcie danych"}
+{"ts":1791280838200,"run":"panel","type":"file.created","agent":"frontend","resource":"projekt/panel_ui.zip","text":"Interfejs gotowy: trzy wykresy, widok alertu i obsługa pustych danych; wynik to statyczne pliki serwowane przez backend."}
+{"ts":1791280838333,"run":"panel","type":"resource.read","agent":"bezp","tool":"model_zagrozen","resource":"bezp/model_zagrozen/log_2_1","text":"Ponowna weryfikacja poprawek"}
+{"ts":1791280838400,"run":"panel","type":"file.read","agent":"bezp","resource":"projekt/import_csv_v2.py"}
+{"ts":1791280838500,"run":"panel","type":"tool.completed","agent":"frontend","tool":"szkic_interfejsu","latencyMs":9000}
+{"ts":1791280838500,"run":"panel","type":"message.sent","agent":"frontend","to":"integrator","tone":"handoff","text":"Interfejs gotowy: trzy wykresy, widok alertu i obsługa pustych danych; wynik to statyczne pliki serwowane przez backend."}
+{"ts":1791280838571,"run":"panel","type":"resource.read","agent":"dane","tool":"walidacja_schematu","resource":"dane/walidacja_schematu/kod_3_2","text":"Korekta reguły alertu"}
+{"ts":1791280838588,"run":"panel","type":"resource.read","agent":"qa","tool":"testy_akceptacyjne","resource":"qa/testy_akceptacyjne/log_2_7","text":"Testy akceptacyjne i alert"}
+{"ts":1791280838786,"run":"panel","type":"file.created","agent":"architekt","tool":"przeglad_spojnosci","resource":"architekt/przeglad_spojnosci/szkic_3_1.md","text":"Przegląd spójności komponentów"}
+{"ts":1791280838900,"run":"panel","type":"agent.completed","agent":"frontend"}
+{"ts":1791280839000,"run":"panel","type":"resource.read","agent":"bezp","tool":"model_zagrozen","resource":"bezp/model_zagrozen/wymaganie_2_2","text":"Ponowna weryfikacja poprawek"}
+{"ts":1791280839000,"run":"panel","type":"tool.started","agent":"integrator","tool":"lista_zmian","text":"Złożenie wydania MVP"}
+{"ts":1791280839286,"run":"panel","type":"file.created","agent":"dane","tool":"walidacja_schematu","resource":"dane/walidacja_schematu/szkic_3_1.md","text":"Korekta reguły alertu"}
+{"ts":1791280839294,"run":"panel","type":"resource.read","agent":"qa","tool":"testy_akceptacyjne","resource":"qa/testy_akceptacyjne/wymaganie_2_8","text":"Testy akceptacyjne i alert"}
+{"ts":1791280839354,"run":"panel","type":"resource.read","agent":"integrator","tool":"lista_zmian","resource":"integrator/lista_zmian/uwaga_2_1","text":"Złożenie wydania MVP"}
+{"ts":1791280839500,"run":"panel","type":"resource.read","agent":"architekt","tool":"przeglad_spojnosci","resource":"architekt/przeglad_spojnosci/wzor_3_4","text":"Przegląd spójności komponentów"}
+{"ts":1791280839667,"run":"panel","type":"file.created","agent":"bezp","tool":"model_zagrozen","resource":"bezp/model_zagrozen/uwagi_2_1.txt","text":"Ponowna weryfikacja poprawek"}
+{"ts":1791280839900,"run":"panel","type":"file.read","agent":"integrator","resource":"projekt/panel_ui.zip"}
+{"ts":1791280840000,"run":"panel","type":"resource.read","agent":"dane","tool":"walidacja_schematu","resource":"dane/walidacja_schematu/wzor_3_4","text":"Korekta reguły alertu"}
+{"ts":1791280840000,"run":"panel","type":"file.created","agent":"qa","tool":"testy_akceptacyjne","resource":"qa/testy_akceptacyjne/uwagi_2_3.txt","text":"Testy akceptacyjne i alert"}
+{"ts":1791280840000,"run":"panel","type":"message.sent","agent":"architekt","to":"frontend","tone":"approve","text":"Przegląd spójności: pola i formaty dat w interfejsie zgadzają się z kontraktem wykresów. Bez uwag do architektury."}
+{"ts":1791280840063,"run":"panel","type":"resource.read","agent":"integrator","tool":"lista_zmian","resource":"integrator/lista_zmian/sekcja_2_2","text":"Złożenie wydania MVP"}
+{"ts":1791280840200,"run":"panel","type":"agent.completed","agent":"architekt"}
+{"ts":1791280840214,"run":"panel","type":"resource.read","agent":"architekt","tool":"przeglad_spojnosci","resource":"architekt/przeglad_spojnosci/referencja_3_5","text":"Przegląd spójności komponentów"}
+{"ts":1791280840333,"run":"panel","type":"resource.read","agent":"bezp","tool":"model_zagrozen","resource":"bezp/model_zagrozen/log_2_4","text":"Ponowna weryfikacja poprawek"}
+{"ts":1791280840706,"run":"panel","type":"resource.read","agent":"qa","tool":"testy_akceptacyjne","resource":"qa/testy_akceptacyjne/log_2_10","text":"Testy akceptacyjne i alert"}
+{"ts":1791280840714,"run":"panel","type":"resource.read","agent":"dane","tool":"walidacja_schematu","resource":"dane/walidacja_schematu/referencja_3_5","text":"Korekta reguły alertu"}
+{"ts":1791280840771,"run":"panel","type":"file.created","agent":"integrator","tool":"lista_zmian","resource":"integrator/lista_zmian/pakiet_2_1.zip","text":"Złożenie wydania MVP"}
+{"ts":1791280840929,"run":"panel","type":"file.modified","agent":"architekt","tool":"przeglad_spojnosci","resource":"architekt/przeglad_spojnosci/fragment_3_2.txt","text":"Przegląd spójności komponentów"}
+{"ts":1791280841000,"run":"panel","type":"resource.read","agent":"bezp","tool":"model_zagrozen","resource":"bezp/model_zagrozen/wymaganie_2_5","text":"Ponowna weryfikacja poprawek"}
+{"ts":1791280841000,"run":"panel","type":"message.sent","agent":"bezp","to":"dane","tone":"approve","text":"Ponowna weryfikacja: neutralizacja formuł, limity i odrzucanie nieznanego typu działają na plikach próbnych. Import może wejść do wydania."}
+{"ts":1791280841200,"run":"panel","type":"agent.completed","agent":"bezp"}
+{"ts":1791280841412,"run":"panel","type":"resource.read","agent":"qa","tool":"testy_akceptacyjne","resource":"qa/testy_akceptacyjne/wymaganie_2_11","text":"Testy akceptacyjne i alert"}
+{"ts":1791280841429,"run":"panel","type":"file.modified","agent":"dane","tool":"walidacja_schematu","resource":"dane/walidacja_schematu/fragment_3_2.txt","text":"Korekta reguły alertu"}
+{"ts":1791280841479,"run":"panel","type":"resource.read","agent":"integrator","tool":"lista_zmian","resource":"integrator/lista_zmian/uwaga_2_4","text":"Złożenie wydania MVP"}
+{"ts":1791280841643,"run":"panel","type":"resource.read","agent":"architekt","tool":"przeglad_spojnosci","resource":"architekt/przeglad_spojnosci/kod_3_7","text":"Przegląd spójności komponentów"}
+{"ts":1791280841667,"run":"panel","type":"file.modified","agent":"bezp","tool":"model_zagrozen","resource":"bezp/model_zagrozen/uwagi_2_2.txt","text":"Ponowna weryfikacja poprawek"}
+{"ts":1791280842000,"run":"panel","type":"tool.completed","agent":"architekt","tool":"przeglad_spojnosci","latencyMs":5000}
+{"ts":1791280842118,"run":"panel","type":"file.modified","agent":"qa","tool":"testy_akceptacyjne","resource":"qa/testy_akceptacyjne/uwagi_2_4.txt","text":"Testy akceptacyjne i alert"}
+{"ts":1791280842143,"run":"panel","type":"resource.read","agent":"dane","tool":"walidacja_schematu","resource":"dane/walidacja_schematu/kod_3_7","text":"Korekta reguły alertu"}
+{"ts":1791280842188,"run":"panel","type":"resource.read","agent":"integrator","tool":"lista_zmian","resource":"integrator/lista_zmian/sekcja_2_5","text":"Złożenie wydania MVP"}
+{"ts":1791280842333,"run":"panel","type":"resource.read","agent":"bezp","tool":"model_zagrozen","resource":"bezp/model_zagrozen/log_2_7","text":"Ponowna weryfikacja poprawek"}
+{"ts":1791280842400,"run":"panel","type":"agent.completed","agent":"architekt"}
+{"ts":1791280842500,"run":"panel","type":"tool.completed","agent":"dane","tool":"walidacja_schematu","latencyMs":5000}
+{"ts":1791280842500,"run":"panel","type":"message.sent","agent":"dane","to":"qa","tone":"revision","text":"Alert liczy teraz tylko pełne dni i porównuje je z medianą z 7 ostatnich pełnych dni; próg spadku ustawia się w konfiguracji."}
+{"ts":1791280842500,"run":"panel","type":"memory.write","agent":"dane","resource":"decyzje/alert_tylko_pelne_dni","text":"Alert liczy tylko pełne dni i medianę z 7 dni — Niepełny dzień dawał fałszywe alarmy w południe; mediana jest odporna na skoki, a próg trafia do konfiguracji."}
+{"ts":1791280842824,"run":"panel","type":"resource.read","agent":"qa","tool":"testy_akceptacyjne","resource":"qa/testy_akceptacyjne/log_2_13","text":"Testy akceptacyjne i alert"}
+{"ts":1791280842896,"run":"panel","type":"file.modified","agent":"integrator","tool":"lista_zmian","resource":"integrator/lista_zmian/pakiet_2_2.zip","text":"Złożenie wydania MVP"}
+{"ts":1791280842900,"run":"panel","type":"agent.completed","agent":"dane"}
+{"ts":1791280843000,"run":"panel","type":"resource.read","agent":"bezp","tool":"model_zagrozen","resource":"bezp/model_zagrozen/wymaganie_2_8","text":"Ponowna weryfikacja poprawek"}
+{"ts":1791280843200,"run":"panel","type":"file.created","agent":"bezp","resource":"projekt/raport_bezp.md","text":"Raport przeglądu: import zabezpieczony; do wydania dołącz uwagę, że MVP nie ma logowania, więc powinien działać tylko w sieci lokalnej."}
+{"ts":1791280843500,"run":"panel","type":"message.sent","agent":"bezp","to":"integrator","tone":"handoff","text":"Raport przeglądu: import zabezpieczony; do wydania dołącz uwagę, że MVP nie ma logowania, więc powinien działać tylko w sieci lokalnej."}
+{"ts":1791280843500,"run":"panel","type":"memory.write","agent":"bezp","resource":"decyzje/wydanie_siec_lokalna","text":"Wydanie wyłącznie do pracy w sieci lokalnej — MVP nie ma logowania, więc import wolno uruchamiać tylko w sieci lokalnej; uwaga trafia do instrukcji wydania."}
+{"ts":1791280843529,"run":"panel","type":"resource.read","agent":"qa","tool":"testy_akceptacyjne","resource":"qa/testy_akceptacyjne/wymaganie_2_14","text":"Testy akceptacyjne i alert"}
+{"ts":1791280843604,"run":"panel","type":"resource.read","agent":"integrator","tool":"lista_zmian","resource":"integrator/lista_zmian/uwaga_2_7","text":"Złożenie wydania MVP"}
+{"ts":1791280843667,"run":"panel","type":"file.created","agent":"bezp","tool":"model_zagrozen","resource":"bezp/model_zagrozen/uwagi_2_3.txt","text":"Ponowna weryfikacja poprawek"}
+{"ts":1791280844000,"run":"panel","type":"tool.started","agent":"analityk","tool":"mapa_wymagan","text":"Odbiór zgodności z wymaganiami"}
+{"ts":1791280844000,"run":"panel","type":"test.passed","agent":"bezp","name":"ponowna_weryfikacja_poprawek"}
+{"ts":1791280844235,"run":"panel","type":"file.created","agent":"qa","tool":"testy_akceptacyjne","resource":"qa/testy_akceptacyjne/uwagi_2_5.txt","text":"Testy akceptacyjne i alert"}
+{"ts":1791280844313,"run":"panel","type":"resource.read","agent":"integrator","tool":"lista_zmian","resource":"integrator/lista_zmian/sekcja_2_8","text":"Złożenie wydania MVP"}
+{"ts":1791280844357,"run":"panel","type":"resource.read","agent":"analityk","tool":"mapa_wymagan","resource":"analityk/mapa_wymagan/wpis_forum_2_1","text":"Odbiór zgodności z wymaganiami"}
+{"ts":1791280844400,"run":"panel","type":"agent.completed","agent":"bezp"}
+{"ts":1791280844500,"run":"panel","type":"message.sent","agent":"qa","to":"dane","tone":"approve","text":"Alert zachowuje się poprawnie na serii z symulowanym spadkiem i na niepełnym dniu. Zamykam uwagę."}
+{"ts":1791280844700,"run":"panel","type":"agent.completed","agent":"qa"}
+{"ts":1791280844900,"run":"panel","type":"file.read","agent":"integrator","resource":"projekt/raport_bezp.md"}
+{"ts":1791280844941,"run":"panel","type":"resource.read","agent":"qa","tool":"testy_akceptacyjne","resource":"qa/testy_akceptacyjne/log_2_16","text":"Testy akceptacyjne i alert"}
+{"ts":1791280845021,"run":"panel","type":"file.created","agent":"integrator","tool":"lista_zmian","resource":"integrator/lista_zmian/pakiet_2_3.zip","text":"Złożenie wydania MVP"}
+{"ts":1791280845071,"run":"panel","type":"resource.read","agent":"analityk","tool":"mapa_wymagan","resource":"analityk/mapa_wymagan/opinia_2_2","text":"Odbiór zgodności z wymaganiami"}
+{"ts":1791280845200,"run":"panel","type":"file.created","agent":"qa","resource":"projekt/raport_testow.md","text":"Testy akceptacyjne przechodzą dla importu, wykresów i alertu; pliki próbne i opis przypadków dołączone do wydania."}
+{"ts":1791280845500,"run":"panel","type":"message.sent","agent":"qa","to":"integrator","tone":"handoff","text":"Testy akceptacyjne przechodzą dla importu, wykresów i alertu; pliki próbne i opis przypadków dołączone do wydania."}
+{"ts":1791280845647,"run":"panel","type":"resource.read","agent":"qa","tool":"testy_akceptacyjne","resource":"qa/testy_akceptacyjne/wymaganie_2_17","text":"Testy akceptacyjne i alert"}
+{"ts":1791280845729,"run":"panel","type":"resource.read","agent":"integrator","tool":"lista_zmian","resource":"integrator/lista_zmian/uwaga_2_10","text":"Złożenie wydania MVP"}
+{"ts":1791280845786,"run":"panel","type":"file.created","agent":"analityk","tool":"mapa_wymagan","resource":"analityk/mapa_wymagan/wykres_2_1.png","text":"Odbiór zgodności z wymaganiami"}
+{"ts":1791280846000,"run":"panel","type":"test.passed","agent":"qa","name":"testy_akceptacyjne_i_alert"}
+{"ts":1791280846400,"run":"panel","type":"agent.completed","agent":"qa"}
+{"ts":1791280846438,"run":"panel","type":"resource.read","agent":"integrator","tool":"lista_zmian","resource":"integrator/lista_zmian/sekcja_2_11","text":"Złożenie wydania MVP"}
+{"ts":1791280846500,"run":"panel","type":"resource.read","agent":"analityk","tool":"mapa_wymagan","resource":"analityk/mapa_wymagan/zrodlo_2_4","text":"Odbiór zgodności z wymaganiami"}
+{"ts":1791280846900,"run":"panel","type":"file.read","agent":"integrator","resource":"projekt/raport_testow.md"}
+{"ts":1791280847146,"run":"panel","type":"file.modified","agent":"integrator","tool":"lista_zmian","resource":"integrator/lista_zmian/pakiet_2_4.zip","text":"Złożenie wydania MVP"}
+{"ts":1791280847200,"run":"panel","type":"file.created","agent":"integrator","resource":"projekt/panel_mvp.zip","text":"Wydanie MVP złożone: importer, API wykresów, interfejs, testy i instrukcja uruchomienia w jednym pakiecie, z uwagą o pracy tylko w sieci lokalnej."}
+{"ts":1791280847214,"run":"panel","type":"resource.read","agent":"analityk","tool":"mapa_wymagan","resource":"analityk/mapa_wymagan/raport_branzowy_2_5","text":"Odbiór zgodności z wymaganiami"}
+{"ts":1791280847500,"run":"panel","type":"tool.completed","agent":"integrator","tool":"lista_zmian","latencyMs":8500}
+{"ts":1791280847500,"run":"panel","type":"message.sent","agent":"integrator","to":"hermes","tone":"result","text":"Wydanie MVP złożone: importer, API wykresów, interfejs, testy i instrukcja uruchomienia w jednym pakiecie, z uwagą o pracy tylko w sieci lokalnej."}
+{"ts":1791280847900,"run":"panel","type":"agent.completed","agent":"integrator"}
+{"ts":1791280847929,"run":"panel","type":"file.modified","agent":"analityk","tool":"mapa_wymagan","resource":"analityk/mapa_wymagan/cytaty_2_2.txt","text":"Odbiór zgodności z wymaganiami"}
+{"ts":1791280848643,"run":"panel","type":"resource.read","agent":"analityk","tool":"mapa_wymagan","resource":"analityk/mapa_wymagan/opinia_2_7","text":"Odbiór zgodności z wymaganiami"}
+{"ts":1791280849000,"run":"panel","type":"tool.completed","agent":"analityk","tool":"mapa_wymagan","latencyMs":5000}
+{"ts":1791280849000,"run":"panel","type":"message.sent","agent":"analityk","to":"hermes","tone":"approve","text":"Zakres odpowiada wymaganiom: import CSV, trzy wykresy i alert działają. Poza zakresem: logowanie, wielu użytkowników, integracje ze sklepem."}
+{"ts":1791280849000,"run":"panel","type":"memory.write","agent":"analityk","resource":"decyzje/odbior_zakresu_mvp","text":"Odbiór zakresu MVP z listą rzeczy poza zakresem — Import CSV, trzy wykresy i alert spełniają wymagania; logowanie, wielu użytkowników i integracje odłożono."}
+{"ts":1791280849200,"run":"panel","type":"agent.completed","agent":"analityk"}
+{"ts":1791280849400,"run":"panel","type":"agent.completed","agent":"analityk"}
+{"ts":1791280850000,"run":"panel","type":"result.returned","agent":"hermes","text":"Synteza w toku: łączę wyniki zespołu w raport z rekomendacjami i listą otwartych ryzyk."}
+{"ts":1791280856000,"run":"panel","type":"result.returned","agent":"hermes","text":"Dostarczone: kompletny pakiet MVP panelu sprzedażowego oraz raport z kolejnością dalszych prac i otwartymi ryzykami."}
+{"ts":1791280858500,"run":"panel","type":"task.completed","text":"Panel sprzedażowy MVP: pakiet, zabezpieczenia i dalsze kroki"}

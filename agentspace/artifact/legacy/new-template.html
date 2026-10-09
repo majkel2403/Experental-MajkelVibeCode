@@ -1,0 +1,518 @@
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Instrument+Sans:wght@400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#05070F}
+button{font-family:inherit;color:inherit}
+button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible,[tabindex="0"]:focus-visible{outline:2px solid #F2C14E;outline-offset:2px}
+textarea::placeholder{color:#7F8BB3}
+@keyframes hm-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes hm-pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+@keyframes hm-rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes hm-glint{0%{opacity:.55}50%{opacity:1}100%{opacity:.55}}
+.hm-msg{animation:hm-in .4s ease-out both}
+.hm-chip{animation:hm-pop .3s ease-out both}
+.hm-rise{animation:hm-rise .55s ease-out both}
+.hm-btn:hover{background:#1D2850 !important}
+.hm-pri:hover{background:#FFD36B !important}
+.hm-pill:hover{background:rgba(232,236,248,0.12) !important}
+.hm-row:hover{background:rgba(232,236,248,0.07) !important}
+.hm-feed{scrollbar-width:thin;scrollbar-color:#34406B transparent}
+.hm-range{-webkit-appearance:none;appearance:none;width:100%;height:28px;margin:0;background:transparent;cursor:pointer}
+.hm-range::-webkit-slider-runnable-track{height:4px;background:#5F6D9F;border-radius:2px}
+.hm-range::-moz-range-track{height:4px;background:#5F6D9F;border-radius:2px}
+.hm-range::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:12px;height:22px;margin-top:-9px;border-radius:3px;background:#F2C14E;border:0}
+.hm-range::-moz-range-thumb{width:12px;height:22px;border-radius:3px;background:#F2C14E;border:0}
+.hm-fade{-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 34px);mask-image:linear-gradient(to bottom,transparent 0,#000 34px)}
+.hm-glass{background:rgba(8,13,30,0.72);-webkit-backdrop-filter:blur(18px) saturate(135%);backdrop-filter:blur(18px) saturate(135%);border:1px solid rgba(132,152,255,0.2);border-radius:14px;box-shadow:0 14px 48px rgba(0,0,0,0.42)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.hm-glass{background:rgba(10,15,34,0.95)}}
+.hm-cockpit{position:relative;display:grid;grid-template-columns:minmax(300px,330px) minmax(0,1fr) minmax(320px,370px);gap:16px;align-items:start;padding:16px 24px}
+.hm-hero{position:absolute;left:24px;right:24px;top:16px;bottom:16px;border-radius:18px;overflow:hidden;background:#04060F;border:1px solid #1B2554;box-shadow:0 0 0 1px rgba(109,182,255,0.05),0 30px 90px rgba(0,0,0,0.55)}
+.hm-hud{position:absolute;left:0;right:0;top:0;bottom:0;padding:16px 400px 16px 360px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;pointer-events:none}
+.hm-hud>*{pointer-events:auto}
+.hm-sideL{position:relative;z-index:2;display:flex;flex-direction:column;gap:14px;min-width:0;margin:14px 0 14px 14px}
+.hm-sideR{position:relative;z-index:2;display:flex;flex-direction:column;gap:14px;min-width:0;margin:14px 14px 14px 0}
+.hm-mid{position:relative;z-index:1;min-height:820px}
+.hm-sheet{position:absolute;left:0;right:0;top:14px;bottom:14px;overflow:auto}
+@media (max-width:1100px){
+.hm-cockpit{display:flex;flex-direction:column;gap:12px;padding:12px}
+.hm-hero{position:relative;left:auto;right:auto;top:auto;bottom:auto;height:600px;order:-1}
+.hm-hud{padding:12px}
+.hm-sideL,.hm-sideR{margin:0}
+.hm-mid{min-height:0}
+.hm-sheet{position:relative;top:auto;bottom:auto}
+}
+@media (prefers-reduced-motion: reduce){.hm-msg,.hm-chip,.hm-rise{animation:none}}
+</style>
+</helmet>
+<div style="min-height: 1400px; background: #05070F; color: #E8ECF8; font-family: 'Instrument Sans', 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.5; display: flex; flex-direction: column">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 40px; padding: 14px 24px; border-bottom: 1px solid #1B2554">
+<div style="display: flex; align-items: center; gap: 12px">
+<svg viewBox="0 0 32 32" width="34" height="34" fill="none" stroke="#F2C14E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="16" r="5"/><path d="M11 15C8 14.5 5.5 12.8 3.5 9.5"/><path d="M11 18C8.5 18.2 6 17.5 4 15.5"/><path d="M21 15C24 14.5 26.5 12.8 28.5 9.5"/><path d="M21 18C23.5 18.2 26 17.5 28 15.5"/><path d="M16 21v7"/></svg>
+<div>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.01em; line-height: 1.1">Hermes</h1>
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: #7F8BB3">Agentspace · centrum dowodzenia</div>
+</div>
+</div>
+<ol aria-label="Fazy przebiegu" style="flex: 1 1 460px; min-width: 0; list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px 20px">
+<sc-for list="{{phaseSteps}}" as="ph" hint-placeholder-count="4">
+<li style="flex: 1 1 110px; min-width: 110px; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px">
+<span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #7F8BB3">{{ph.num}}</span>
+<span style="font-weight: 600; font-size: 14px; color: {{ph.color}}">{{ph.label}}</span>
+<span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #7F8BB3; margin-left: auto">{{ph.range}}</span>
+</div>
+<div style="height: 3px; background: #232C4E; border-radius: 2px; overflow: hidden"><div style="height: 100%; width: {{ph.fill}}%; background: #F2C14E"></div></div>
+</li>
+</sc-for>
+</ol>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<a href="Roster.dc.html" class="hm-btn" style="display: flex; align-items: center; min-height: 40px; box-sizing: border-box; padding: 0 16px; background: #161F3D; border: 1px solid #34406B; border-radius: 6px; color: #E8ECF8; font-size: 14px; font-weight: 600; text-decoration: none">Katalog specjalistów</a>
+<sc-if value="{{showReportBtn}}" hint-placeholder-val="{{ false }}">
+<button type="button" class="hm-btn" onClick="{{showReport}}" style="min-height: 40px; padding: 0 16px; background: #161F3D; border: 1px solid #34406B; border-radius: 6px; color: #E8ECF8; font-size: 14px; font-weight: 600; cursor: pointer">Pokaż raport</button>
+</sc-if>
+<div style="display: flex; align-items: center; gap: 8px; padding: 6px 14px; border: 1px solid #34406B; border-radius: 999px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: #E8ECF8; white-space: nowrap">
+<span style="display: block; width: 8px; height: 8px; border-radius: 50%; background: {{statusDot}}"></span>{{statusLabel}}
+</div>
+</div>
+</header>
+<div role="status" style="position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">{{announce}}</div>
+
+<main class="hm-cockpit">
+
+<div class="hm-hero">
+<canvas id="hm-cv" aria-hidden="true" onPointerDown="{{cvDown}}" onPointerMove="{{cvMove}}" onPointerUp="{{cvUp}}" onPointerCancel="{{cvUp}}" onPointerLeave="{{cvLeave}}" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: {{cvDisplay}}; touch-action: none; cursor: grab"></canvas>
+<div class="hm-hud" style="display: {{hudDisplay}}">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px">
+<div class="hm-glass" style="padding: 10px 14px; min-width: 0; max-width: 100%">
+<h2 style="margin: 0; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; font-weight: 400; letter-spacing: .08em; text-transform: uppercase; color: #A3AED0">Neuronowa przestrzeń zespołu</h2>
+<div style="font-weight: 600; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 520px">{{taskTitle}}</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+<ul aria-label="Linie robocze" class="hm-glass" style="list-style: none; margin: 0; padding: 8px 12px; display: flex; flex-wrap: wrap; gap: 6px 14px">
+<sc-for list="{{lineLegend}}" as="ln" hint-placeholder-count="4">
+<li style="display: flex; align-items: center; gap: 6px">
+<span style="display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: {{ln.color}}; color: #0B1020; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; font-weight: 500">{{ln.letter}}</span>
+<span style="font-size: 13px; color: #C5CEE8">{{ln.name}}</span>
+</li>
+</sc-for>
+</ul>
+<div role="group" aria-label="Widok mapy" class="hm-glass" style="display: flex; padding: 4px; gap: 4px">
+<button type="button" onClick="{{setView3d}}" aria-pressed="{{v3on}}" style="min-height: 36px; padding: 0 14px; border: 0; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 600; color: #E8ECF8; background: {{v3bg}}">3D</button>
+<button type="button" onClick="{{setViewFlat}}" aria-pressed="{{vfon}}" style="min-height: 36px; padding: 0 14px; border: 0; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 600; color: #E8ECF8; background: {{vfbg}}">Płaski</button>
+</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div role="group" aria-label="Wybór węzła w przestrzeni" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{agentChips}}" as="ac" hint-placeholder-count="4">
+<button type="button" class="hm-pill hm-chip" onClick="{{ac.pick}}" onMouseEnter="{{ac.hov}}" onMouseLeave="{{ac.unhov}}" aria-pressed="{{ac.sel}}" style="display: flex; align-items: center; gap: 7px; min-height: 36px; padding: 0 12px 0 8px; border-radius: 999px; cursor: pointer; font-size: 13px; font-weight: 600; color: #E8ECF8; background: {{ac.bg}}; border: 1px solid {{ac.border}}; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px)">
+<span style="display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: {{ac.color}}; color: #0B1020; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; font-weight: 500">{{ac.letter}}</span>
+{{ac.name}}
+<span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; font-weight: 400; color: {{ac.stColor}}">{{ac.status}}</span>
+</button>
+</sc-for>
+</div>
+<div class="hm-glass" style="display: flex; align-items: flex-start; gap: 12px; padding: 11px 16px">
+<span style="flex: none; padding-top: 2px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #F2C14E">{{captionLabel}}</span>
+<span style="font-size: 14px; line-height: 1.5; color: #E8ECF8; min-height: 42px">{{captionText}}</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px">
+<ul aria-label="Statystyki grafu projektu" class="hm-glass" style="list-style: none; margin: 0; padding: 9px 16px; display: flex; flex-wrap: wrap; gap: 6px 22px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .04em; color: #A3AED0">
+<sc-for list="{{stats}}" as="sx" hint-placeholder-count="4">
+<li style="white-space: nowrap">{{sx.label}} <span style="color: #E8ECF8; font-weight: 500">{{sx.value}}</span></li>
+</sc-for>
+</ul>
+<div role="group" aria-label="Sterowanie kamerą" class="hm-glass" style="display: flex; padding: 4px; gap: 4px">
+<button type="button" class="hm-pill" onClick="{{zoomOut}}" aria-label="Oddal" style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 0; border-radius: 10px; background: transparent; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8ECF8" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+<button type="button" class="hm-pill" onClick="{{zoomIn}}" aria-label="Przybliż" style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 0; border-radius: 10px; background: transparent; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8ECF8" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
+<button type="button" class="hm-pill" onClick="{{toggleOrbit}}" aria-pressed="{{orbitOn}}" aria-label="Automatyczny obrót kamery" style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 0; border-radius: 10px; cursor: pointer; background: {{orbitBg}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8ECF8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.4-5.7"/><path d="M20 4v5h-5"/></svg></button>
+<button type="button" class="hm-pill" onClick="{{resetCam}}" aria-label="Wyzeruj kamerę i wybór" style="display: flex; align-items: center; justify-content: center; min-width: 36px; height: 36px; padding: 0 10px; border: 0; border-radius: 10px; background: transparent; cursor: pointer; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #E8ECF8">reset</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<aside class="hm-sideL" aria-label="Zadanie i analiza">
+<div class="hm-glass" style="padding: 16px; display: flex; flex-direction: column; gap: 12px">
+<label for="hm-task" style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #A3AED0">Zadanie dla Hermesa</label>
+<textarea id="hm-task" rows="4" value="{{task}}" onChange="{{onTask}}" placeholder="Opisz, co ma zostać zrobione…" style="width: 100%; box-sizing: border-box; min-height: 104px; padding: 12px; background: rgba(6,10,26,0.8); border: 1px solid #5F6D9F; border-radius: 8px; color: #E8ECF8; font-family: 'Instrument Sans', 'Segoe UI', system-ui, sans-serif; font-size: 14.5px; line-height: 1.5; resize: vertical"></textarea>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<sc-for list="{{chips}}" as="c" hint-placeholder-count="3">
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.active}}" style="display: flex; align-items: center; gap: 12px; width: 100%; min-height: 44px; box-sizing: border-box; text-align: left; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; color: #E8ECF8; background: {{c.bg}}; border: 1px solid {{c.border}}">
+<span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: {{c.numColor}}">{{c.num}}</span>
+<span style="flex: 1">{{c.label}}</span>
+</button>
+</sc-for>
+</div>
+<button type="button" class="hm-pri" onClick="{{run}}" style="display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 48px; background: #F2C14E; border: 0; border-radius: 8px; color: #1A1300; font-size: 15px; font-weight: 700; cursor: pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1300" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg>
+Uruchom Hermesa
+</button>
+<sc-if value="{{hasNote}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; font-size: 13px; color: #F2C14E">{{note}}</p>
+</sc-if>
+<p style="margin: 0; font-size: 12.5px; line-height: 1.5; color: #8E9ABF">Wersja demonstracyjna: Hermes dobiera najbliższy z gotowych scenariuszy, a przebiegi są zaplanowane z wyprzedzeniem, nie generowane na żywo.</p>
+</div>
+
+<div class="hm-glass" style="padding: 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px">
+<h2 style="margin: 0; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; font-weight: 400; letter-spacing: .08em; text-transform: uppercase; color: #A3AED0">Analiza Hermesa</h2>
+<span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #8E9ABF">faza 01</span>
+</div>
+<sc-if value="{{hasGoal}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: #F2C14E">Cel</span>
+<span style="font-size: 14.5px; line-height: 1.45; color: #E8ECF8; min-height: 64px">{{goalText}}</span>
+</div>
+</sc-if>
+<div role="group" aria-label="Elementy analizy" style="display: flex; gap: 4px; padding: 3px; background: rgba(6,10,26,0.7); border-radius: 10px">
+<sc-for list="{{anTabs}}" as="at" hint-placeholder-count="3">
+<button type="button" onClick="{{at.pick}}" aria-pressed="{{at.active}}" style="flex: 1; min-height: 36px; padding: 0 4px; border: 0; border-radius: 8px; cursor: pointer; font-size: 12.5px; font-weight: 600; color: {{at.color}}; background: {{at.bg}}">{{at.label}}</button>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; min-height: 126px">
+<sc-for list="{{anItems}}" as="it" hint-placeholder-count="3">
+<div class="hm-chip" style="padding: 7px 10px; background: rgba(6,10,26,0.7); border: 1px solid #232C4E; border-radius: 8px; font-size: 13px; line-height: 1.4; color: #E8ECF8">{{it.text}}</div>
+</sc-for>
+</div>
+</div>
+</aside>
+
+<section class="hm-mid" aria-label="Raport i widok płaski">
+<div style="display: {{flatDisplay}}; padding-top: 14px">
+<div class="hm-glass" style="overflow: hidden">
+<div style="padding: 10px 10px 0; overflow-x: auto">
+<div style="position: relative; width: 100%; min-width: 600px; max-width: 900px; margin: 0 auto; aspect-ratio: 820 / 500; background-color: #0B1020; background-image: linear-gradient(#151D3A 1px, transparent 1px), linear-gradient(90deg, #151D3A 1px, transparent 1px); background-size: 32px 32px; border-radius: 6px; overflow: hidden">
+<svg viewBox="0 0 820 500" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%" aria-hidden="true">
+<sc-for list="{{spokes}}" as="sp" hint-placeholder-count="0">
+<polyline points="{{sp.points}}" style="fill: none; stroke: {{sp.color}}; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: {{sp.dash}}; opacity: {{sp.op}}"/>
+</sc-for>
+<sc-for list="{{rails}}" as="rl" hint-placeholder-count="0">
+<line x1="{{rl.x1}}" y1="{{rl.y1}}" x2="{{rl.x2}}" y2="{{rl.y2}}" style="stroke: {{rl.color}}; stroke-width: {{rl.w}}; stroke-linecap: round; opacity: {{rl.op}}"/>
+</sc-for>
+<sc-for list="{{links}}" as="lk" hint-placeholder-count="0">
+<polyline points="{{lk.points}}" style="fill: none; stroke: {{lk.color}}; stroke-width: {{lk.w}}; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: {{lk.dash}}; opacity: {{lk.op}}"/>
+</sc-for>
+<sc-for list="{{packets}}" as="pk" hint-placeholder-count="0">
+<circle cx="{{pk.x}}" cy="{{pk.y}}" r="{{pk.r}}" style="fill: {{pk.color}}; opacity: {{pk.op}}"/>
+</sc-for>
+<sc-for list="{{stations}}" as="s" hint-placeholder-count="0">
+<g transform="{{s.tf}}">
+<circle cx="0" cy="0" r="{{s.pulseR}}" style="fill: none; stroke: {{s.color}}; stroke-width: 2; opacity: {{s.pulseOp}}"/>
+<circle cx="0" cy="0" r="{{s.arrR}}" style="fill: none; stroke: {{s.arrColor}}; stroke-width: 2.5; opacity: {{s.arrOp}}"/>
+<circle cx="0" cy="0" r="31" style="fill: none; stroke: #232C4E; stroke-width: 3"/>
+<circle cx="0" cy="0" r="31" transform="rotate(-90)" style="fill: none; stroke: {{s.color}}; stroke-width: 3; stroke-linecap: round; stroke-dasharray: {{s.prog}}"/>
+<circle cx="0" cy="0" r="24" style="fill: #0B1020; stroke: {{s.ringColor}}; stroke-width: 3; stroke-linecap: round; stroke-dasharray: {{s.baseDash}}; opacity: {{s.baseOp}}"/>
+<sc-if value="{{s.done}}" hint-placeholder-val="{{ false }}">
+<g transform="translate(21 -21)">
+<circle cx="0" cy="0" r="9" style="fill: {{s.color}}"/>
+<path d="M-4 0.5 L-1 3.5 L4.5 -3" style="fill: none; stroke: #0B1020; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"/>
+</g>
+</sc-if>
+</g>
+</sc-for>
+<g transform="translate(78 250)">
+<circle cx="0" cy="0" r="{{hub.pulseR}}" style="fill: none; stroke: #F2C14E; stroke-width: 2; opacity: {{hub.pulseOp}}"/>
+<circle cx="0" cy="0" r="56" transform="{{hub.spin}}" style="fill: none; stroke: #F2C14E; stroke-width: 1.5; stroke-dasharray: 4 9; stroke-linecap: round; opacity: 0.6"/>
+<circle cx="0" cy="0" r="44" style="fill: #0B1020; stroke: #F2C14E; stroke-width: 2.5"/>
+<circle cx="0" cy="0" r="36" style="fill: #161F3D; stroke: #34406B; stroke-width: 1"/>
+<g transform="translate(-20 -20) scale(1.25)" style="fill: none; stroke: #F2C14E; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round">
+<circle cx="16" cy="16" r="5"/>
+<path d="M11 15C8 14.5 5.5 12.8 3.5 9.5"/>
+<path d="M11 18C8.5 18.2 6 17.5 4 15.5"/>
+<path d="M21 15C24 14.5 26.5 12.8 28.5 9.5"/>
+<path d="M21 18C23.5 18.2 26 17.5 28 15.5"/>
+<path d="M16 21v7"/>
+</g>
+</g>
+</svg>
+<sc-for list="{{nodes}}" as="nd" hint-placeholder-count="3">
+<button type="button" class="hm-pill" onClick="{{nd.pick}}" aria-pressed="{{nd.sel}}" aria-label="{{nd.aria}}" style="position: absolute; left: {{nd.left}}%; top: {{nd.top}}%; margin-top: {{nd.mt}}%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; width: 15.12%; padding: 0 0 4px; box-sizing: border-box; border-radius: 8px; cursor: pointer; opacity: {{nd.op}}; background: {{nd.bg}}; border: 1px solid {{nd.border}}">
+<span style="display: flex; align-items: center; justify-content: center; width: {{nd.sp}}%; aspect-ratio: 1 / 1; font-family: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 17px; line-height: 1; color: {{nd.monoColor}}; opacity: {{nd.monoOp}}; transform: scale({{nd.k}})">{{nd.mono}}</span>
+<span style="display: inline-flex; align-items: center; gap: 5px; font-weight: 600; font-size: 13px; line-height: 16px; color: #E8ECF8; white-space: nowrap; text-shadow: 0 0 6px #0B1020, 0 0 3px #0B1020"><sc-if value="{{nd.hasLine}}" hint-placeholder-val="{{ true }}"><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; width: 14px; height: 14px; border-radius: 50%; background: {{nd.lineColor}}; color: #0B1020; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; font-weight: 500; line-height: 14px; text-shadow: none">{{nd.lineLetter}}</span></sc-if>{{nd.name}}</span>
+<span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; line-height: 16px; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; color: {{nd.statusColor}}; text-shadow: 0 0 6px #0B1020, 0 0 3px #0B1020">{{nd.status}}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+
+<sc-if value="{{reportOpen}}" hint-placeholder-val="{{ false }}">
+<section aria-labelledby="hm-rep-h" class="hm-sheet hm-glass hm-rise" style="box-sizing: border-box; background: rgba(5,8,20,0.9); padding: 26px 30px 30px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px">
+<svg viewBox="0 0 32 32" width="26" height="26" fill="none" stroke="#F2C14E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="16" r="5"/><path d="M11 15C8 14.5 5.5 12.8 3.5 9.5"/><path d="M11 18C8.5 18.2 6 17.5 4 15.5"/><path d="M21 15C24 14.5 26.5 12.8 28.5 9.5"/><path d="M21 18C23.5 18.2 26 17.5 28 15.5"/><path d="M16 21v7"/></svg>
+<span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #F2C14E">{{reportTag}} · {{scenarioChip}}</span>
+</div>
+<button type="button" class="hm-btn" onClick="{{closeReport}}" aria-label="Zamknij raport" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; background: #161F3D; border: 1px solid #34406B; border-radius: 50%; cursor: pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8ECF8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>
+</button>
+</div>
+<h2 id="hm-rep-h" style="margin: 0; font-family: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 30px; line-height: 1.12; letter-spacing: -0.015em; max-width: 760px; text-wrap: balance">{{reportTitle}}</h2>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: #B5BFDC; max-width: 760px">{{reportLead}}</p>
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 820px">
+<sc-for list="{{reportSections}}" as="sec" hint-placeholder-count="3">
+<div class="hm-rise" style="display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 4px 12px; padding-top: 14px; border-top: 1px solid #232C4E">
+<div aria-hidden="true" style="font-family: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 24px; line-height: 1.1; color: #7F8BB3">{{sec.num}}</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h3 style="margin: 0; font-size: 16.5px; font-weight: 700; color: #E8ECF8">{{sec.h}}</h3>
+<p style="margin: 0; font-size: 14.5px; line-height: 1.6; color: #E8ECF8">{{sec.p}}</p>
+</div>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{reportNextShown}}" hint-placeholder-val="{{ true }}">
+<div class="hm-rise" style="max-width: 820px; padding: 14px 16px; background: rgba(17,24,49,0.8); border: 1px solid #34406B; border-radius: 10px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #F2C14E; margin-bottom: 8px">Następne kroki</div>
+<ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px">
+<sc-for list="{{reportNext}}" as="nx" hint-placeholder-count="2">
+<li style="font-size: 14.5px; line-height: 1.5; color: #E8ECF8">{{nx.text}}</li>
+</sc-for>
+</ol>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px">
+<button type="button" class="hm-pri" onClick="{{download}}" style="display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 20px; background: #F2C14E; border: 0; border-radius: 8px; color: #1A1300; font-size: 15px; font-weight: 700; cursor: pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1300" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7.5 11l4.5 4.5 4.5-4.5"/><path d="M5 19.5h14"/></svg>
+Pobierz raport (.md)
+</button>
+<button type="button" class="hm-btn" onClick="{{closeReport}}" style="min-height: 48px; padding: 0 20px; background: #161F3D; border: 1px solid #34406B; border-radius: 8px; color: #E8ECF8; font-size: 15px; font-weight: 600; cursor: pointer">Wróć do przestrzeni</button>
+<span aria-live="polite" style="font-size: 13px; color: #4FF0D8">{{toast}}</span>
+</div>
+<p style="margin: 0; font-size: 12.5px; color: #8E9ABF; max-width: 820px">Przebieg demonstracyjny: scenariusz jest zaplanowany z wyprzedzeniem, nie generowany na żywo.</p>
+</sc-if>
+</section>
+</sc-if>
+</section>
+
+<aside class="hm-sideR" aria-label="Rozmowa, pliki, decyzje i inspektor">
+<div class="hm-glass" style="height: 470px; display: flex; flex-direction: column; overflow: hidden">
+<div role="tablist" aria-label="Widok panelu" style="display: flex; gap: 4px; padding: 8px 8px 0; border-bottom: 1px solid rgba(132,152,255,0.18); flex: none">
+<sc-for list="{{tabs}}" as="tb" hint-placeholder-count="3">
+<button type="button" role="tab" aria-selected="{{tb.active}}" onClick="{{tb.pick}}" style="flex: 1; min-height: 42px; padding: 0 8px; border: 0; border-bottom: 2px solid {{tb.line}}; border-radius: 8px 8px 0 0; cursor: pointer; font-size: 13px; font-weight: 600; color: {{tb.color}}; background: {{tb.bg}}">{{tb.label}} <span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; font-weight: 400; color: #A3AED0">{{tb.count}}</span></button>
+</sc-for>
+</div>
+
+<sc-if value="{{tabFeed}}" hint-placeholder-val="{{ true }}">
+<div id="hm-feed" class="hm-fade hm-feed" role="region" tabindex="0" aria-label="Przebieg rozmowy agentów" onScroll="{{onFeedScroll}}" style="flex: 1 1 0; min-height: 0; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; gap: 8px; padding: 12px 14px">
+<div style="flex: 1 0 0"></div>
+<sc-for list="{{feed}}" as="m" hint-placeholder-count="3">
+<div class="hm-msg" style="flex: none; display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; background: {{m.bg}}; border: {{m.cardBorder}}; border-radius: 10px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px">
+<span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #8E9ABF">{{m.time}}</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600"><span style="display: block; width: 8px; height: 8px; border-radius: 50%; background: {{m.fromColor}}"></span>{{m.fromName}}</span>
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8E9ABF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+<span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600"><span style="display: block; width: 8px; height: 8px; border-radius: 50%; background: {{m.toColor}}"></span>{{m.toName}}</span>
+<span style="margin-left: auto; padding: 1px 8px; border-radius: 999px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: {{m.kindColor}}; border: 1px solid {{m.kindColor}}">{{m.kindLabel}}</span>
+</div>
+<div style="font-size: 14px; line-height: 1.45; color: #E8ECF8">{{m.text}}</div>
+<sc-if value="{{m.hasAttach}}" hint-placeholder-val="{{ false }}">
+<div style="display: inline-flex; align-self: flex-start; align-items: center; gap: 6px; padding: 2px 8px; background: rgba(6,10,26,0.7); border: 1px solid #34406B; border-radius: 6px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #B5BFDC">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B5BFDC" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg>
+{{m.attach}}
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{tabFiles}}" hint-placeholder-val="{{ false }}">
+<ul class="hm-feed" aria-label="Pliki projektu" style="flex: 1 1 0; min-height: 0; overflow-y: auto; list-style: none; margin: 0; padding: 12px 12px 14px; display: flex; flex-direction: column; gap: 6px">
+<sc-if value="{{noFiles}}" hint-placeholder-val="{{ false }}"><li style="padding: 20px 8px; font-size: 13.5px; color: #8E9ABF">Pliki pojawią się tu, gdy agenci zaczną je tworzyć i przekazywać.</li></sc-if>
+<sc-for list="{{fileRows}}" as="fr" hint-placeholder-count="3">
+<li class="hm-chip">
+<button type="button" class="hm-row" onClick="{{fr.pick}}" aria-pressed="{{fr.sel}}" style="display: flex; align-items: flex-start; gap: 10px; width: 100%; box-sizing: border-box; text-align: left; padding: 9px 10px; border-radius: 10px; cursor: pointer; color: #E8ECF8; background: {{fr.bg}}; border: {{fr.border}}">
+<span style="flex: none; min-width: 38px; padding: 2px 0; text-align: center; border-radius: 6px; border: 1px solid {{fr.color}}; color: {{fr.color}}; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; text-transform: uppercase">{{fr.kind}}</span>
+<span style="flex: 1; min-width: 0">
+<span style="display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px">
+<span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; color: #E8ECF8; overflow-wrap: anywhere">{{fr.name}}</span>
+<sc-if value="{{fr.hasVer}}" hint-placeholder-val="{{ false }}"><span style="padding: 0 7px; border-radius: 999px; border: 1px solid #5F6D9F; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #C5CEE8">{{fr.ver}}</span></sc-if>
+</span>
+<span style="display: block; font-size: 12.5px; line-height: 1.4; color: #A3AED0">{{fr.summary}}</span>
+<span style="display: flex; align-items: center; gap: 6px; margin-top: 2px; font-size: 12px; color: #8E9ABF"><span style="display: block; width: 8px; height: 8px; border-radius: 50%; background: {{fr.ownerColor}}"></span>{{fr.owner}} · {{fr.time}}</span>
+</span>
+</button>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+
+<sc-if value="{{tabDecs}}" hint-placeholder-val="{{ false }}">
+<ul class="hm-feed" aria-label="Rejestr decyzji" style="flex: 1 1 0; min-height: 0; overflow-y: auto; list-style: none; margin: 0; padding: 12px 12px 14px; display: flex; flex-direction: column; gap: 8px">
+<sc-if value="{{noDecs}}" hint-placeholder-val="{{ false }}"><li style="padding: 20px 8px; font-size: 13.5px; color: #8E9ABF">Decyzje zespołu pojawią się tu po pierwszych rozstrzygnięciach.</li></sc-if>
+<sc-for list="{{decRows}}" as="dr" hint-placeholder-count="3">
+<li class="hm-chip">
+<button type="button" class="hm-row" onClick="{{dr.pick}}" aria-pressed="{{dr.sel}}" style="display: flex; flex-direction: column; gap: 6px; width: 100%; box-sizing: border-box; text-align: left; padding: 11px 12px; border-radius: 10px; cursor: pointer; color: #E8ECF8; background: {{dr.bg}}; border: {{dr.border}}">
+<span style="display: flex; align-items: center; gap: 8px"><span style="display: block; width: 9px; height: 9px; transform: rotate(45deg); background: #FFE9A8"></span><span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #8E9ABF">{{dr.time}}</span></span>
+<span style="font-size: 14px; font-weight: 600; line-height: 1.35">{{dr.title}}</span>
+<span style="font-size: 13px; line-height: 1.45; color: #B5BFDC">{{dr.why}}</span>
+<span style="display: flex; flex-wrap: wrap; gap: 4px 6px"><sc-for list="{{dr.files}}" as="df" hint-placeholder-count="2"><span style="padding: 1px 8px; border-radius: 6px; border: 1px solid #34406B; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #B5BFDC">{{df.name}}</span></sc-for></span>
+</button>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+</div>
+
+<div class="hm-glass" style="padding: 16px; display: flex; flex-direction: column; gap: 12px; min-height: 300px; box-sizing: border-box">
+<h2 style="margin: 0; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; font-weight: 400; letter-spacing: .08em; text-transform: uppercase; color: #A3AED0">Inspektor</h2>
+
+<sc-if value="{{isHermes}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 50%; border: 2px solid #F2C14E; background: rgba(6,10,26,0.8)">
+<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="#F2C14E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="16" r="5"/><path d="M11 15C8 14.5 5.5 12.8 3.5 9.5"/><path d="M11 18C8.5 18.2 6 17.5 4 15.5"/><path d="M21 15C24 14.5 26.5 12.8 28.5 9.5"/><path d="M21 18C23.5 18.2 26 17.5 28 15.5"/><path d="M16 21v7"/></svg>
+</span>
+<div>
+<div style="font-family: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 19px; line-height: 1.15">Hermes</div>
+<div style="font-size: 13px; color: #A3AED0">Dyspozytor i orkiestrator zespołu</div>
+</div>
+</div>
+<p style="margin: 0; font-size: 13.5px; line-height: 1.55; color: #E8ECF8">{{hermesText}}</p>
+<dl style="margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{hermesStats}}" as="st" hint-placeholder-count="4">
+<div style="padding: 8px 12px; background: rgba(6,10,26,0.7); border: 1px solid #232C4E; border-radius: 10px">
+<dt style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: #A3AED0">{{st.label}}</dt>
+<dd style="margin: 2px 0 0; font-family: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 22px; line-height: 1.2">{{st.value}}</dd>
+</div>
+</sc-for>
+</dl>
+</sc-if>
+
+<sc-if value="{{isAgent}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; flex: none; border-radius: 50%; border: 3px solid {{ins.color}}; background: rgba(6,10,26,0.8); color: {{ins.color}}; font-family: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 20px">{{ins.mono}}</span>
+<div style="min-width: 0">
+<div style="font-family: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 18px; line-height: 1.15">{{ins.name}}</div>
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: {{ins.color}}">{{ins.line}}</div>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px">
+<div style="display: flex; align-items: center; gap: 8px">
+<span aria-hidden="true" style="display: flex; align-items: flex-end; gap: 3px; height: 16px">
+<span style="display: block; width: 5px; height: 6px; border-radius: 1px; background: {{ins.bar1}}"></span>
+<span style="display: block; width: 5px; height: 11px; border-radius: 1px; background: {{ins.bar2}}"></span>
+<span style="display: block; width: 5px; height: 16px; border-radius: 1px; background: {{ins.bar3}}"></span>
+</span>
+<span style="font-size: 13px; color: #E8ECF8">{{ins.tier}}</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="display: block; width: 8px; height: 8px; border-radius: 50%; background: {{ins.statusColor}}"></span>
+<span style="font-size: 13px; color: #E8ECF8">{{ins.status}}</span>
+</div>
+</div>
+<div style="padding: 9px 12px; background: rgba(6,10,26,0.7); border: 1px solid #232C4E; border-radius: 10px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: #A3AED0">Dlaczego Hermes go wybrał</div>
+<div style="margin-top: 4px; font-size: 13.5px; line-height: 1.5; color: #E8ECF8">{{ins.why}}</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{ins.tools}}" as="tl" hint-placeholder-count="3">
+<span style="padding: 3px 9px; background: #161F3D; border: 1px solid #34406B; border-radius: 999px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #E8ECF8">{{tl.name}}</span>
+</sc-for>
+</div>
+<sc-if value="{{ins.hasLast}}" hint-placeholder-val="{{ false }}">
+<div style="font-size: 13px; line-height: 1.5; color: #B5BFDC"><span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase">Ostatnio · {{ins.lastTime}}</span><br/>{{ins.lastText}}</div>
+</sc-if>
+</sc-if>
+
+<sc-if value="{{isFile}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: flex-start; gap: 12px">
+<span style="flex: none; min-width: 44px; padding: 5px 0; text-align: center; border-radius: 8px; border: 1px solid {{fi.color}}; color: {{fi.color}}; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; text-transform: uppercase">{{fi.kind}}</span>
+<div style="min-width: 0">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 14px; font-weight: 500; overflow-wrap: anywhere">{{fi.name}}</div>
+<div style="font-size: 13px; line-height: 1.45; color: #B5BFDC">{{fi.summary}}</div>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 13px; color: #E8ECF8">
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="display: block; width: 8px; height: 8px; border-radius: 50%; background: {{fi.ownerColor}}"></span>{{fi.owner}}</span>
+<span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #A3AED0">{{fi.time}}</span>
+<sc-if value="{{fi.hasVer}}" hint-placeholder-val="{{ false }}"><span style="padding: 0 8px; border-radius: 999px; border: 1px solid #5F6D9F; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #C5CEE8">{{fi.ver}}</span></sc-if>
+</div>
+<div style="padding: 10px 12px; background: rgba(3,6,16,0.85); border: 1px solid #232C4E; border-radius: 10px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; line-height: 1.6; color: #D5DCF2; display: flex; flex-direction: column; overflow-x: auto">
+<sc-for list="{{fi.preview}}" as="pl" hint-placeholder-count="4"><span style="white-space: pre">{{pl.line}}</span></sc-for>
+</div>
+<sc-if value="{{fi.hasFrom}}" hint-placeholder-val="{{ false }}">
+<div style="font-size: 12.5px; color: #A3AED0">Powstał z: <sc-for list="{{fi.from}}" as="ff" hint-placeholder-count="2"><span style="display: inline-block; margin: 2px 4px 2px 0; padding: 0 7px; border-radius: 6px; border: 1px solid #34406B; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #C5CEE8">{{ff.name}}</span></sc-for></div>
+</sc-if>
+</sc-if>
+
+<sc-if value="{{isDecision}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; gap: 10px"><span style="display: block; width: 12px; height: 12px; transform: rotate(45deg); background: #FFE9A8"></span><span style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: #FFE9A8">Decyzja · {{di.time}}</span></div>
+<div style="font-family: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 18px; line-height: 1.25">{{di.title}}</div>
+<p style="margin: 0; font-size: 13.5px; line-height: 1.55; color: #E8ECF8">{{di.why}}</p>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 6px"><sc-for list="{{di.files}}" as="df" hint-placeholder-count="2"><span style="padding: 1px 8px; border-radius: 6px; border: 1px solid #34406B; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; color: #C5CEE8">{{df.name}}</span></sc-for></div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 13px"><sc-for list="{{di.agents}}" as="da" hint-placeholder-count="2"><span style="display: inline-flex; align-items: center; gap: 6px"><span style="display: block; width: 8px; height: 8px; border-radius: 50%; background: {{da.color}}"></span>{{da.name}}</span></sc-for></div>
+</sc-if>
+
+<sc-if value="{{isReportSel}}" hint-placeholder-val="{{ false }}">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: #F2C14E">Raport końcowy</div>
+<div style="font-family: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 18px; line-height: 1.25">{{reportTitle}}</div>
+<p style="margin: 0; font-size: 13.5px; line-height: 1.55; color: #E8ECF8">{{reportLead}}</p>
+<button type="button" class="hm-btn" onClick="{{showReport}}" style="min-height: 44px; padding: 0 16px; background: #161F3D; border: 1px solid #34406B; border-radius: 8px; color: #E8ECF8; font-size: 14px; font-weight: 600; cursor: pointer; align-self: flex-start">Otwórz raport</button>
+</sc-if>
+</div>
+</aside>
+</main>
+
+<section aria-label="Oś czasu" class="hm-glass" style="margin: 0 24px 28px; overflow: hidden">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 12px 16px; border-bottom: 1px solid rgba(132,152,255,0.18)">
+<button type="button" class="hm-pri" onClick="{{togglePlay}}" aria-label="{{playAria}}" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; background: #F2C14E; border: 0; border-radius: 50%; cursor: pointer">
+<sc-if value="{{isPlaying}}" hint-placeholder-val="{{ false }}">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1300" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5v14"/><path d="M16 5v14"/></svg>
+</sc-if>
+<sc-if value="{{notPlaying}}" hint-placeholder-val="{{ true }}">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1300" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg>
+</sc-if>
+</button>
+<button type="button" class="hm-btn" onClick="{{restart}}" aria-label="Odtwórz od początku" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; background: #161F3D; border: 1px solid #34406B; border-radius: 50%; cursor: pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8ECF8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v5h5"/></svg>
+</button>
+<div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 14px; white-space: nowrap"><span style="color: #E8ECF8">{{timeNow}}</span><span style="color: #8E9ABF"> / 1:00</span></div>
+<div role="group" aria-label="Prędkość odtwarzania" style="display: flex; gap: 4px">
+<sc-for list="{{speeds}}" as="sp" hint-placeholder-count="3">
+<button type="button" onClick="{{sp.pick}}" aria-pressed="{{sp.active}}" style="min-width: 48px; min-height: 44px; padding: 0 10px; border-radius: 8px; cursor: pointer; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; color: #E8ECF8; background: {{sp.bg}}; border: 1px solid {{sp.border}}">{{sp.label}}</button>
+</sc-for>
+</div>
+</div>
+<div style="overflow-x: auto">
+<div style="display: flex; gap: 12px; padding: 12px 16px 14px; min-width: 460px">
+<div style="flex: none; width: 132px">
+<div style="height: 22px"></div>
+<div style="height: 28px"></div>
+<sc-for list="{{ganttRows}}" as="r" hint-placeholder-count="4">
+<div style="height: 34px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; border-top: 1px solid #1B2444">
+<div style="display: flex; align-items: center; gap: 6px; line-height: 16px">
+<span style="flex: none; display: flex; align-items: center; justify-content: center; width: 16px; height: 16px; box-sizing: border-box; border-radius: 50%; border: 1px solid {{r.color}}; background: {{r.chipBg}}; color: {{r.chipFg}}; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; font-weight: 500; line-height: 14px">{{r.letter}}</span>
+<span style="font-size: 13px; font-weight: 600; color: {{r.nameColor}}; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{r.short}}</span>
+</div>
+<span style="font-size: 12px; line-height: 16px; color: {{r.labelColor}}; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{r.taskLabel}}</span>
+</div>
+</sc-for>
+</div>
+<div style="flex: 1 1 0; min-width: 0; position: relative">
+<div style="position: relative; height: 22px; margin: 0 6px">
+<sc-for list="{{phaseBands}}" as="pb" hint-placeholder-count="4">
+<div style="position: absolute; top: 0; height: 22px; box-sizing: border-box; left: {{pb.left}}%; width: {{pb.width}}%; border-left: 1px solid #34406B; padding-left: 6px; font-size: 12px; line-height: 22px; color: {{pb.color}}; overflow: hidden; white-space: nowrap">{{pb.label}}</div>
+</sc-for>
+</div>
+<input type="range" class="hm-range" min="0" max="600" step="1" value="{{scrubValue}}" onChange="{{onScrub}}" aria-label="Oś czasu przebiegu" aria-valuetext="{{timeNow}}"/>
+<sc-for list="{{ganttRows}}" as="r" hint-placeholder-count="4">
+<div style="position: relative; height: 34px; box-sizing: border-box; border-top: 1px solid #1B2444">
+<div style="position: absolute; left: 6px; right: 6px; top: 0; bottom: 0; opacity: {{r.dim}}">
+<sc-for list="{{r.bars}}" as="b" hint-placeholder-count="1">
+<div style="position: absolute; top: 9px; height: 16px; box-sizing: border-box; border-radius: 4px; overflow: hidden; left: {{b.left}}%; width: {{b.width}}%; background: {{b.bg}}; border: {{b.border}}">
+<div style="height: 100%; width: {{b.fill}}%; background: {{b.color}}"></div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+<div style="position: absolute; top: 0; bottom: 0; width: 2px; background: #F2C14E; pointer-events: none; left: {{playheadLeft}}"></div>
+</div>
+</div>
+</div>
+</section>
+</div>

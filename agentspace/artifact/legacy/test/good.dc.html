@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>Test dobry</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+@keyframes pulse{0%{opacity:.4}100%{opacity:1}}
+</style>
+</helmet>
+<div style="width: 400px; padding: 16px; font-family: 'Instrument Sans', system-ui, sans-serif">
+<h1 style="margin: 0; color: {{accent}}">{{title}}</h1>
+<button type="button" onClick="{{toggle}}">Przełącz</button>
+<sc-if value="{{open}}" hint-placeholder-val="{{ true }}"><p>Otwarte {{count}}</p></sc-if>
+<sc-for list="{{items}}" as="it" hint-placeholder-count="2">
+<button type="button" onClick="{{it.pick}}" style="width: {{it.w}}px">{{it.label}} {{$index}}</button>
+<svg viewBox="0 0 10 10" width="10" height="10"><circle cx="{{it.cx}}" cy="5" r="3" style="fill: {{it.fill}}"/></svg>
+</sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F2C14E"},"$preview":{"width":400,"height":300}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { open: true, n: 2 }; }
+  componentDidMount() { this._r = requestAnimationFrame(() => {}); }
+  renderVals() {
+    return {
+      accent: this.props.accent ?? '#F2C14E', title: 'Tytuł', open: this.state.open, count: this.state.n,
+      toggle: () => this.setState({ open: !this.state.open }),
+      items: [1, 2, 3].map((i) => ({ label: 'Pozycja', w: 40 + i, cx: i, fill: '#fff', pick: () => this.setState({ n: i }) })),
+    };
+  }
+}
+</script>
+</body>
+</html>

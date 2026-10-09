@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>Test zły</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="padding: 16px; font-family: Inter, sans-serif">
+<h1 style="color: {{accent}}">{{ a + b }}</h1>
+<div onClick="{{toggle}}">klik 🚀</div>
+<p class=plain>{{missing}} {{items.0.nope}}</p>
+<sc-for list="{{notarray}}" as="it"><span>{{it.label}}</span></sc-for>
+<sc-for list="{{items}}" as="it" hint-placeholder-count="2"><span style="left: {{it.left}}px">{{it.label}}</span></sc-for>
+<section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F2C14E"}}'>
+class Component extends DCLogic {
+  renderVals() { return { accent: '#fff', toggle: 'nope', notarray: 5, items: [{ label: 'x', left: NaN }] }; }
+}
+</script>
+</body>
+</html>

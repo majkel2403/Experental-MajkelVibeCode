@@ -1,0 +1,111 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Hermes.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "is_interactive": true,
+      "title": "Hermes · Centrum dowodzenia (jedna aplikacja)",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "HermesMobile.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "title": "Hermes · telefon",
+      "w": 390,
+      "x": 1520,
+      "y": 0
+    },
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 1760,
+      "is_interactive": true,
+      "title": "Wcześniejsza wersja · centrum dowodzenia",
+      "w": 1440,
+      "x": 0,
+      "y": 1040
+    },
+    "Mobile.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "title": "Wcześniejsza wersja · widok mobilny 3D",
+      "w": 390,
+      "x": 1520,
+      "y": 2920
+    },
+    "Roster.dc.html": {
+      "expand": "fill",
+      "h": 5630,
+      "title": "Wcześniejsza wersja · katalog specjalistów",
+      "w": 1440,
+      "x": 0,
+      "y": 2920
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-04T21:50:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "assume": {
+      "fill": "orange",
+      "maxH": 250,
+      "size": 24,
+      "text": "Wcześniejsza wersja: przebiegi to trzy zaplanowane scenariusze, nie generowanie na żywo. Wolny tekst zadania dopasowuje się słowami kluczowymi do najbliższego z nich.",
+      "w": 390,
+      "x": 1520,
+      "y": 1420
+    },
+    "howto": {
+      "fill": "blue",
+      "maxH": 300,
+      "size": 24,
+      "text": "Wcześniejsze wersje (obok i niżej): centrum dowodzenia (scena przerobiona na styl Gource), katalog specjalistów i telefon 3D. Zostały jako historia projektu — aktualna jest aplikacja Hermes powyżej.",
+      "w": 390,
+      "x": 1520,
+      "y": 1040
+    },
+    "title": {
+      "kind": "title1",
+      "maxW": 1440,
+      "text": "Hermes: Centrum dowodzenia zespołu agentów",
+      "w": 240,
+      "x": 0,
+      "y": -260
+    },
+    "workflow": {
+      "fill": "blue",
+      "maxH": 420,
+      "size": 24,
+      "text": "Hermes to jedna aplikacja o jednym systemie wyglądu. Po lewej zlecenie dla Hermesa, lista przebiegów i dziennik; na środku scena jak Gource (drzewo to przestrzeń robocza, awatary to agenci, promienie: zielony utworzenie, pomarańczowy zmiana, niebieski odczyt); po prawej jedna kolumna z zakładkami: Zespół i plan, Kod i terminal, Rozmowy, Pliki, Inspektor, Raport — nic na nic nie nachodzi. Najedź na agenta lub plik w panelu, a zaświeci się na scenie. Układ sam zmienia się z szerokością: trzy kolumny, jedna kolumna boczna i wersja na telefon.",
+      "w": 390,
+      "x": 1990,
+      "y": 0
+    },
+    "workflowAssume": {
+      "fill": "orange",
+      "maxH": 300,
+      "size": 24,
+      "text": "Przebiegi są zapisanymi scenariuszami demo; wpisane zadanie dopasowuje się słowami kluczowymi do najbliższego z nich. W „Naprawa repo” drzewo plików jest prawdziwe (socket.io), ale błąd i poprawka są demonstracyjne. Ta sama aplikacja działa w repo Agentspace (npm start) z trybem LIVE przez WebSocket; podgląd nie ma dostępu do sieci.",
+      "w": 390,
+      "x": 1990,
+      "y": 460
+    }
+  },
+  "order": [
+    "Hermes.dc.html",
+    "HermesMobile.dc.html",
+    "Main.dc.html",
+    "Roster.dc.html",
+    "Mobile.dc.html"
+  ],
+  "pages": [],
+  "title": "Hermes — Centrum dowodzenia zespołu agentów"
+}

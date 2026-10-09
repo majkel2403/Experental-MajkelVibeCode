@@ -1,0 +1,22 @@
+{
+  "name": "agentspace-neural-workflow",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Hermes / Jarvis Neural Workflow: Gource-style visualisation of agent runs from their event log (live + replay), with a Gource log adapter.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server/server.mjs",
+    "test": "node --test test/*.test.mjs",
+    "motion": "node tools/motion-report.mjs && node tools/motion-report.mjs --focus",
+    "check": "npm test && npm run motion",
+    "demo:build": "node demo/make-demo.mjs",
+    "demo:emit": "node demo/emit.mjs",
+    "gource": "node adapters/to-gource.mjs"
+  },
+  "dependencies": {
+    "ws": "^8.22.0"
+  }
+}
