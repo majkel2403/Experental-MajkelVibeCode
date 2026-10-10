@@ -24,12 +24,14 @@ Read **01**, **02**, **03** in order before implementation. The most important d
 | 11 | [Mission Control](11-mission-control-design.md) | Mapa misji, agentów, delegacji, statusów i dowodów wykonania | P1 |
 | 12 | [Second Brain Graph](12-second-brain-graph-design.md) | Pamięć, źródła, powiązania, weryfikacja wiedzy i historia zmian | P1 |
 | 13 | [Cinematic Event Director](13-cinematic-event-director-design.md) | Reguły efektów, kamery i animacji wynikających z rzeczywistych eventów | P1 |
+| 14 | [Unified System Design Review](14-unified-system-design-review.md) | Wspólna architektura Mission/Brain/Director, łączenie zdarzeń z projekcją i eliminacja sprzeczności | P0 |
+| 15 | [Superpowers Design Review Gate](15-superpowers-design-review-gate.md) | 14 decyzji do zatwierdzenia, status zgodności i zasady przejścia wyłącznie do dokumentów planistycznych | P0 |
 
 ## Documentation gate — only plans, no implementation
 
-Files **08–13** are planning deliverables, not code. ADRs are **proposed**, source audits are **not executed**, and all test cases are **NOT RUN**. The project remains in documentation/review mode. No code changes, installation, service startup, deployment or Git merge are authorized by these documents.
+Files **08–15** are planning deliverables, not code. ADRs are **proposed**, source audits are **not executed**, and all test cases are **NOT RUN**. The project remains in documentation/review mode. No code changes, installation, service startup, deployment or Git merge are authorized by these documents.
 
-Recommended review order: **08 (decisions)** → **09 (read-only evidence plan)** → **10 (acceptance cases)** → **11–13 (three new product-design specs)**. Only after explicit review should the older master spec and detailed plans be harmonized in documentation. Do not start implementation without a separate, clear instruction.
+Recommended review order: **08 (decisions)** → **09 (read-only evidence plan)** → **10 (acceptance cases)** → **11–13 (three new product-design specs)** → **14 (unified architecture)** → **15 (design sign-off checklist)**. Documents 14–15 are **proposals pending owner sign-off**, not acceptance of their ADRs. Only after explicit review should the older master spec and detailed plans be harmonized in documentation; writing implementation plans follows approved design and still does not authorize coding. Do not start implementation without a separate, clear instruction.
 
 ## What was directly inspected
 
