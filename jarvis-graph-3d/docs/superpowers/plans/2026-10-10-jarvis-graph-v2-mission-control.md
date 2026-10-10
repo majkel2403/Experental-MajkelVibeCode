@@ -143,4 +143,4 @@ The receipt must be emitted by an authenticated trusted adapter; constructing `v
 
 PASS DEMO requires canonical IDs and shared ViewStore synchronization, explicit pending/failed outcomes, no automatic tool calls, accessible UI and no private data leaked by aggregates. PASS REAL-LIVE requires separate authentic Hermes/Bridge evidence; this plan cannot deliver that until the Live Event Protocol and Source Inventory are approved and implemented. Never promote to main or production without separate explicit authorization.
 
-**Review dependency:** [Unified Design](../graph-v2/blueprint/14-unified-system-design-review.md) (for context; path from this plan should be checked by reviewer) and [Mission spec](../../graph-v2/blueprint/11-mission-control-design.md).
+**Review dependency:** [Unified Design](../../graph-v2/blueprint/14-unified-system-design-review.md) (for context; path from this plan should be checked by reviewer) and [Mission spec](../../graph-v2/blueprint/11-mission-control-design.md).
