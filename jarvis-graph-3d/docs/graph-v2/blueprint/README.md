@@ -2,7 +2,7 @@
 
 **Research-to-design package for Jarvis Graph OS v2.0.**
 
-Prepared: **2026-10-09**. Branch: **feat/jarvis-graph-3d**.  
+Prepared: **2026-10-09**; extended: **2026-10-10**. Current location: **`Experental-MajkelVibeCode/jarvis-graph-3d`**, docs branch **`docs/jarvis-graph-v2-mission-brain-motion`**. Former `Jarvis-` feature branch was moved into this experimental repository.  
 **Status: DRAFT / SPECIFICATIONS ONLY.** No runtime feature, live connection, test-suite implementation, security control or deployment is created by this documentation package. Do not merge to main without explicit authorization.
 
 ## Start here
@@ -21,12 +21,15 @@ Read **01**, **02**, **03** in order before implementation. The most important d
 | 08 | [ADRs — Contract Freeze Candidate](08-architecture-decisions-candidate.md) | Reconcile domain naming, graph/event versions, trust boundary and one-store rule; proposals pending review | P0 |
 | 09 | [Read-only Source Verification Plan](09-read-only-source-verification-plan.md) | What to inspect in actual Hermes, Jev, Bridge, memory and desktop without altering runtime | P0 |
 | 10 | [Acceptance Scenarios and Evidence](10-acceptance-scenarios-and-evidence.md) | Explicit future Given–When–Then cases, demo vs real-source evidence and release stop conditions | P0 |
+| 11 | [Mission Control](11-mission-control-design.md) | Mapa misji, agentów, delegacji, statusów i dowodów wykonania | P1 |
+| 12 | [Second Brain Graph](12-second-brain-graph-design.md) | Pamięć, źródła, powiązania, weryfikacja wiedzy i historia zmian | P1 |
+| 13 | [Cinematic Event Director](13-cinematic-event-director-design.md) | Reguły efektów, kamery i animacji wynikających z rzeczywistych eventów | P1 |
 
 ## Documentation gate — only plans, no implementation
 
-The new files **08–10** are planning deliverables, not code. ADRs are **proposed**, source audits are **not executed**, and all test cases are **NOT RUN**. The project remains in documentation/review mode. No code changes, installation, service startup, deployment or Git merge are authorized by these documents.
+Files **08–13** are planning deliverables, not code. ADRs are **proposed**, source audits are **not executed**, and all test cases are **NOT RUN**. The project remains in documentation/review mode. No code changes, installation, service startup, deployment or Git merge are authorized by these documents.
 
-Recommended review order: **08 (decisions)** → **09 (read-only evidence plan)** → **10 (acceptance cases)**. Only after explicit review should the older master spec and detailed plans be harmonized in documentation. Do not start implementation without a separate, clear instruction.
+Recommended review order: **08 (decisions)** → **09 (read-only evidence plan)** → **10 (acceptance cases)** → **11–13 (three new product-design specs)**. Only after explicit review should the older master spec and detailed plans be harmonized in documentation. Do not start implementation without a separate, clear instruction.
 
 ## What was directly inspected
 
@@ -105,4 +108,4 @@ Follow the already-written detailed plans:
 
 An implemented feature is accepted only with recorded passing test results from its exact commit, browser evidence for interactive WebGL behavior, error/security checks and measured performance if claimed. Documentation, Git commits or Vercel READY alone do **not** prove feature completion.
 
-This entire package is documentation only; root main, runtime plugins and currently deployed production are unchanged.
+This package is documentation only. These new docs are committed only to the dedicated documentation branch of the experimental repository. Neither `majkel2403/Jarvis-` `main` nor `majkel2403/Experental-MajkelVibeCode` `main`, runtime plugins, or deployments were changed by these edits.
