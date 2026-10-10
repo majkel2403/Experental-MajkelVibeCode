@@ -2,7 +2,9 @@
 
 Date: 2026-10-08
 Status: Proposed / planning only. No implementation authorized by this document.
-Baseline branch: `feat/jarvis-graph-3d`
+Historical baseline: `Jarvis-` branch `feat/jarvis-graph-3d` (later moved to `majkel2403/Experental-MajkelVibeCode/jarvis-graph-3d`).
+Current docs-only branch: `docs/jarvis-graph-v2-mission-brain-motion` in the experimental repository.
+Review status: unified design 14/15 proposed; future execution plans below are NOT authorized to run.
 Existing independent app: `graph-3d/`
 Existing preview deployment: `dpl_HWC8amTbLXgsHpMW5SLrqfo4Wmui`, READY. Visual/browser verification of this build is NOT established.
 Root `main` must not be changed, merged, or deployed.
@@ -119,6 +121,9 @@ Plans:
 - `docs/superpowers/plans/2026-10-08-jarvis-graph-v2-galaxy.md`
 - `docs/superpowers/plans/2026-10-08-jarvis-graph-v2-live.md`
 - `docs/superpowers/plans/2026-10-08-jarvis-graph-v2-workspace.md`
+- `docs/superpowers/plans/2026-10-10-jarvis-graph-v2-mission-control.md` (new Mission lens; planning only)
+- `docs/superpowers/plans/2026-10-10-jarvis-graph-v2-second-brain.md` (new knowledge lens; planning only)
+- `docs/superpowers/plans/2026-10-10-jarvis-graph-v2-cinematic-event-director.md` (new motion orchestration; planning only)
 
 Dependencies: A -> B; A domain contract -> C; C data contract -> D. B and C may proceed in parallel after A, with independent merge gates.
 
