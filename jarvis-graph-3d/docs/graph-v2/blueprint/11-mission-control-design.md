@@ -1,7 +1,9 @@
 # 11 — Jarvis Mission Control: specyfikacja centrum dowodzenia
 
+> **Design review alignment (2026-10-10):** See [Unified System Design 14](14-unified-system-design-review.md). SYSTEM/AGENTS/PROJECTS/MEMORY/LIVE remain the five top-level modes; Mission/Team/Trace/Timeline are contextual subviews, not new independent stores. Event names in the catalogue are semantic mapping *candidates* until authorized source inventory. Never equate LLM text or unverified task completion with a confirmed tool result.
+
 **Status:** DRAFT / projekt do przeglądu, bez implementacji.  
-**Miejsce:** repo eksperymentów \`Experental-MajkelVibeCode/jarvis-graph-3d\`, osobna gałąź dokumentacyjna.  
+**Miejsce:** repo eksperymentów `Experental-MajkelVibeCode/jarvis-graph-3d`, osobna gałąź dokumentacyjna.  
 **Cel:** Jeden spójny widok operacyjny, który pomaga zrozumieć kto, co, dlaczego i z jakim skutkiem robi w Jarvisie. Nie jest to system automatycznie wykonujący polecenia po kliknięciu grafu.
 
 ## 1. Historia użytkownika
@@ -29,11 +31,11 @@ Wizualne kolory muszą odpowiadać semantyce, a nie treści swobodnej wypowiedzi
 | Memory | zapisane, autoryzowane referencje do wiedzy | nie wstawiamy całych prywatnych plików do grafu |
 | Event Bus | transport faktów/procesów i ich historii | odbiór zdarzenia nie oznacza trwałego zapisu bez ACK |
 
-Zgodność terminów: \`GraphEntity\`, \`GraphRelation\`, \`GraphSnapshot\`, \`GraphPatch\`, \`JarvisEventV1\` z propozycji Blueprint 02, 03 i ADR 08. Do zatwierdzenia w jednym contract freeze.
+Zgodność terminów: `GraphEntity`, `GraphRelation`, `GraphSnapshot`, `GraphPatch`, `JarvisEventV1` z propozycji Blueprint 02, 03 i ADR 08. Do zatwierdzenia w jednym contract freeze.
 
 ## 4. Hierarchia Mission Control
 
-\`\`\`mermaid
+```mermaid
 flowchart TD
   A[Jarvis OS] --> B[Hermes — orkiestracja]
   A --> C[Jev — opcjonalny wybór]
@@ -48,7 +50,7 @@ flowchart TD
   E --> I
   I --> J[Dowody i statusy]
   J --> K[Historia / Inspektor]
-\`\`\`
+```
 
 **Nie łączyć dwóch niezależnych statusów w jeden:** aktywność agenta, status zadania, status połączenia i status wykonania narzędzia mają osobne znaczenia.
 
@@ -62,18 +64,18 @@ flowchart TD
 | **Trace** | konkretne wywołania, decyzje, receipty, błędy, retry | Dlaczego tak się stało? |
 | **Timeline / Replay** | źródłowe zdarzenia i historyczne stany | Kiedy i w jakiej kolejności to zaszło? |
 
-Wspólna selekcja musi działać między galaktyką 3D, G6, tabelą i inspektorem. \`FOLLOW LIVE\` jest opcjonalne; bez niego zdarzenie nie przejmuje automatycznie kamery.
+Wspólna selekcja musi działać między galaktyką 3D, G6, tabelą i inspektorem. `FOLLOW LIVE` jest opcjonalne; bez niego zdarzenie nie przejmuje automatycznie kamery.
 
 ## 6. Karta agenta i karta zadania
 
 **Karta agenta — wymagane pola (jeśli zweryfikowane):**
-- stabilny \`agentId\`, nazwa, rola, team/project, dostępność lub wyraźnie \`unknown\`;
+- stabilny `agentId`, nazwa, rola, team/project, dostępność lub wyraźnie `unknown`;
 - lista ostatnich potwierdzonych działań i aktualne zadania;
-- źródło, \`lastSeenAt\`, status sesji i status transportu;
+- źródło, `lastSeenAt`, status sesji i status transportu;
 - jawnie oznaczone zdolności/skille vs wykonane operacje.
 
 **Karta zadania:**
-- \`taskId\`, parent/project, planowane kroki, zależności i blokady;
+- `taskId`, parent/project, planowane kroki, zależności i blokady;
 - owner/assignee, runId, aktualny status (queued/running/blocked/succeeded/failed/cancelled);
 - correlation ID, ostatnia wersja grafu, historia prób i linki do potwierdzonych wyników;
 - wariant „brak zweryfikowanego dowodu” zamiast fikcyjnego sukcesu.
@@ -100,11 +102,11 @@ Nazwy są **propozycją kanonicznego mapowania**; rzeczywiste źródła Jev/Brid
 ## 8. Zależności i propagacja blokad
 
 Jeśli zadanie backendu blokuje frontend testowany E2E, graf powinien pokazać:
-- **bezpośrednią blokadę** na krawędzi \`depends_on\`;
+- **bezpośrednią blokadę** na krawędzi `depends_on`;
 - **potencjalny wpływ** na downstream tasks jako wynik analizy grafu — nigdy jako pewność błędu;
 - ścieżkę od objawu do przyczyny: zależność → zadanie blokujące → ostatnia operacja → potwierdzony wynik lub brak dowodu.
 
-G6/DAG jest narzędziem analizy zależności. Jeśli \`depends_on\` tworzy cykl, pokazać ostrzeżenie i widok sieciowy, a nie udawać poprawnego DAG.
+G6/DAG jest narzędziem analizy zależności. Jeśli `depends_on` tworzy cykl, pokazać ostrzeżenie i widok sieciowy, a nie udawać poprawnego DAG.
 
 ## 9. Wariant 20 menedżerów + 100 agentów
 
@@ -117,13 +119,13 @@ Ten wariant jest **scenariuszem symulacyjnym do Playground**, nie twierdzeniem, 
 
 ## 10. Prawa i bezpieczeństwo
 
-Domyślnie graficzny widok jest **read-only**. Kliknięcie nodu nie uruchamia narzędzia, delegacji ani ponownej próby. Przyszłe przyciski \`RETRY\`, \`CANCEL\`, \`APPROVE\` wymagają osobnej specyfikacji komend, uprawnień, potwierdzenia i audytu. Vercel Preview pozostaje syntetycznym DEMO bez lokalnych tokenów.
+Domyślnie graficzny widok jest **read-only**. Kliknięcie nodu nie uruchamia narzędzia, delegacji ani ponownej próby. Przyszłe przyciski `RETRY`, `CANCEL`, `APPROVE` wymagają osobnej specyfikacji komend, uprawnień, potwierdzenia i audytu. Vercel Preview pozostaje syntetycznym DEMO bez lokalnych tokenów.
 
 ## 11. Scenariusze odbiorcze — projekt testów, NIE uruchomione
 
 1. Dwa zadania tej samej misji mają różnych wykonawców: Trace i Team wskazują identyczne canonical IDs.
 2. Hermes pisze „skończone”, lecz Bridge nie zwrócił receiptu: operacja pozostaje niepotwierdzona.
-3. Przyszło \`approval.requested\`: nie ginie pod natłokiem dekoracyjnych eventów.
+3. Przyszło `approval.requested`: nie ginie pod natłokiem dekoracyjnych eventów.
 4. Zależy A→B→C, B failed: widoczna bezpośrednia blokada i analityczny downstream risk, bez automatycznego sukcesu ani winy C.
 5. Jev wyłączony: reszta misji nadal działa, zamiast pokazywać fikcyjną decyzję.
 6. Bridge offline: ostatni snapshot i historyczne dowody dostępne, status STALE.
@@ -133,11 +135,11 @@ Domyślnie graficzny widok jest **read-only**. Kliknięcie nodu nie uruchamia na
 ## 12. Pytania wymagające akceptacji
 
 - Czy Mission Control jest **tylko do obserwowania**, czy w odległej wersji także do zarządzania wykonaniem? Ta specyfikacja zakłada read-only.
-- Czy jednym „zadaniem” jest plan Hermesa czy konkretne uruchomienie? Zalecenie: osobne \`task\` i \`run\`.
+- Czy jednym „zadaniem” jest plan Hermesa czy konkretne uruchomienie? Zalecenie: osobne `task` i `run`.
 - Kto jest autorytatywnym źródłem sukcesu: hook, Bridge, testy E2E czy stan artefaktu? Wymagane mapowanie per typ czynności.
 - Jak liczymy postęp: potwierdzone kroki, a nie liczba tokenów ani same komunikaty modelu.
 - Czy przedstawiać historię delegacji jako relacje z czasem ważności, czy tylko aktualną strukturę? Rekomendacja: aktualna projekcja + historia w Timeline.
 
 **Powiązania:** [Architektura](01-system-architecture.md), [Ontologia](02-graph-ontology-contracts.md), [Event Bus](03-event-bus-protocol.md), [Interaction](04-interaction-semantic-zoom.md), [ADR](08-architecture-decisions-candidate.md), [Acceptance](10-acceptance-scenarios-and-evidence.md).
 
-**Ograniczenie:** Tylko specyfikacja. Nie stanowi zgody na kodowanie, modyfikację \`main\`, runtime Hermesa/Bridge czy wdrożenie.
+**Ograniczenie:** Tylko specyfikacja. Nie stanowi zgody na kodowanie, modyfikację `main`, runtime Hermesa/Bridge czy wdrożenie.
