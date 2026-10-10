@@ -1,6 +1,6 @@
 # Jarvis Graph OS v2.0 — Execution Roadmap and Release Gates
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans (Native, previously selected by the user) or superpowers:subagent-driven-development if user changes execution mode. The four implementation plans are authoritative. This file is their ordering and acceptance gate, not an alternative implementation specification.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans (Native, previously selected by the user) or superpowers:subagent-driven-development if user changes execution mode. The four 2026-10-08 tracks are retained as historical plans; the newer Blueprint 02/03/14 contract proposals and the 2026-10-10 lens plans govern their future alignment **after design sign-off**. This file is the ordering and acceptance gate, not permission to execute.
 
 **Goal:** Evolve an isolated graph DEMO into a trustworthy, cinematic Jarvis knowledge-and-agent operating surface.
 
@@ -9,6 +9,8 @@
 **Tech Stack:** React, Vite, TS, react-force-graph-3d, Three.js, d3-force-3d, G6, Vitest, Playwright, secure streaming transport as supported by verified runtime.
 
 **Spec:** `docs/superpowers/specs/2026-10-08-jarvis-graph-v2-master-design.md`.
+
+> **2026-10-10 documentation-only reconciliation.** The experiment and its plans are now stored inside `majkel2403/Experental-MajkelVibeCode/jarvis-graph-3d`; new documents are on branch `docs/jarvis-graph-v2-mission-brain-motion`, not `main`. Never execute an older plan's `GraphNode/core` model or browser-only `durable in-memory` transport as a production contract: read Blueprint 02, 03, 08, 14 and 15 first. No step is authorized to run in this document-review phase.
 
 ## Project State at Planning Time
 
@@ -41,6 +43,11 @@ The D 2D engine may be prototyped after Gate A using fixture data, but evidence/
 | B | `2026-10-08-jarvis-graph-v2-galaxy.md` | 6 | hierarchy + selection + camera + visual QA + FPS |
 | C | `2026-10-08-jarvis-graph-v2-live.md` | 6 | normalized verified event + trace + reconnect + privacy |
 | D | `2026-10-08-jarvis-graph-v2-workspace.md` | 6 | G6 DAG + identity synchronization + 2D mobile + scale |
+| M | `2026-10-10-jarvis-graph-v2-mission-control.md` | 5 | team/task views, verified outcome, dependency impact, mobile |
+| K | `2026-10-10-jarvis-graph-v2-second-brain.md` | 6 | provenance, verified memory, suggestions, history, privacy |
+| V | `2026-10-10-jarvis-graph-v2-cinematic-event-director.md` | 6 | event cues, priority queue, camera control, pause/replay, accessible motion |
+
+**Sequencing of additional lens plans:** M (Mission) requires Gate A canonical selectors; V (Director) requires Gate B visual adapter and Gate C accepted event contract for REAL-LIVE; K (Second Brain) requires Gate A ontology and approved Gate C memory/evidence source. All may be demonstrated with synthetic authorized DEMO fixtures before real source verification. The M/K/V plans are **future instructions**, NOT started tasks.
 
 Each track has independent RED/GREEN tests and git commits. Treat each as separately reviewable.
 
