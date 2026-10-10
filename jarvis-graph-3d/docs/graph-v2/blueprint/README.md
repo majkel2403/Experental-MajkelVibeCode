@@ -27,6 +27,20 @@ Read **01**, **02**, **03** in order before implementation. The most important d
 | 14 | [Unified System Design Review](14-unified-system-design-review.md) | Wspólna architektura Mission/Brain/Director, łączenie zdarzeń z projekcją i eliminacja sprzeczności | P0 |
 | 15 | [Superpowers Design Review Gate](15-superpowers-design-review-gate.md) | 14 decyzji do zatwierdzenia, status zgodności i zasady przejścia wyłącznie do dokumentów planistycznych | P0 |
 
+## Superpowers: trzy nowe plany wykonania (TYLKO DOKUMENTY)
+
+Te plany opisują pracę **przyszłego** implementatora. Nie rozpoczęto żadnego kroku RED/GREEN, nie instalowano zależności i nie testowano przeglądarki w ramach przygotowania dokumentów.
+
+| Moduł | Dokument planistyczny | Liczba przyszłych zadań | Warunek wstępny |
+| --- | --- | ---: | --- |
+| Mission Control | [2026-10-10 Mission Plan](../../superpowers/plans/2026-10-10-jarvis-graph-v2-mission-control.md) | 5 | zaakceptowana ontologia + Foundation |
+| Second Brain | [2026-10-10 Second Brain Plan](../../superpowers/plans/2026-10-10-jarvis-graph-v2-second-brain.md) | 6 | zaakceptowana ontologia + źródła pamięci i prywatność |
+| Cinematic Event Director | [2026-10-10 Cinematic Plan](../../superpowers/plans/2026-10-10-jarvis-graph-v2-cinematic-event-director.md) | 6 | zatwierdzony model zdarzeń + renderer i kamera |
+
+**17 przyszłych zadań, 85 zaprojektowanych kroków**. Niczego nie wykonano. Przed kodowaniem trzeba zatwierdzić [Unified Design 14](14-unified-system-design-review.md), ujednolicić [ADR 08](08-architecture-decisions-candidate.md) i zweryfikować rzeczywiste źródła [Plan 09](09-read-only-source-verification-plan.md). Do tej pory to wyłącznie materiał do przeglądu.
+
+Zaktualizowano także [Master Spec](../../superpowers/specs/2026-10-08-jarvis-graph-v2-master-design.md) i [Execution Roadmap](../../superpowers/plans/2026-10-08-jarvis-graph-v2-execution-roadmap.md). Starsze plany A/B/C/D zawierają ostrzeżenia o potencjalnie nieaktualnych nazwach i założeniach — nie wykonuj ich bez review.
+
 ## Documentation gate — only plans, no implementation
 
 Files **08–15** are planning deliverables, not code. ADRs are **proposed**, source audits are **not executed**, and all test cases are **NOT RUN**. The project remains in documentation/review mode. No code changes, installation, service startup, deployment or Git merge are authorized by these documents.
