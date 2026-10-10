@@ -1,5 +1,7 @@
 # Jarvis Graph v2 — Live Knowledge and Agent Events Implementation Plan
 
+> **2026-10-10 documentation alignment — HOLD FOR CONTRACT REVIEW.** This older execution plan is retained for historical task decomposition, but MUST be read together with [Unified Design 14](../../graph-v2/blueprint/14-unified-system-design-review.md), [ADR 08](../../graph-v2/blueprint/08-architecture-decisions-candidate.md), and the reconciled Master Spec. The older title `Durable in-memory snapshot` is NOT a sufficient durability plan: browser memory alone cannot ensure event retention through Hermes/Bridge restart. Gate C requires producer outbox, durable ingest log, dedupe/ACK, projector checkpoint, replay/resync as proposed in Blueprint 03/08/14, subject to actual read-only Bridge/Jev source inventory. Do NOT implement unverified WebSocket or new external access. **Planning only; no execution authorized.**
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Replace simulated graph activity with trustworthy, authorization-safe data about Hermes, Jev, Bridge, projects, tasks, agent actions and long-term memory, while preserving DEMO mode and making execution verifiable.
