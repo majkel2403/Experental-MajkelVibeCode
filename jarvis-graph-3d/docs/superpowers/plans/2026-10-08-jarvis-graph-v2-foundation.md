@@ -1,5 +1,7 @@
 # Jarvis Graph v2 — Reliability Foundation Implementation Plan
 
+> **2026-10-10 documentation alignment — HOLD FOR CONTRACT REVIEW.** This older execution plan is retained for historical task decomposition, but MUST be read together with [Unified Design 14](../../graph-v2/blueprint/14-unified-system-design-review.md), [ADR 08](../../graph-v2/blueprint/08-architecture-decisions-candidate.md), and the reconciled Master Spec. Contract Task 2 must consume the proposed `GraphEntity`/`GraphRelation`/`GraphSnapshot`/`GraphPatch` schema from Blueprint 02 rather than the obsolete `GraphNode/core` draft. Do not mistake seeded DEMO data for actual Hermes state. Preserve separate viewer scope and renderer DTO. See Blueprint 14. **Planning only; no execution authorized.**
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Turn current standalone graph DEMO into a reproducibly tested, stable WebGL explorer with reliable camera, selection, pause, resources, and a renderer-independent graph model.
