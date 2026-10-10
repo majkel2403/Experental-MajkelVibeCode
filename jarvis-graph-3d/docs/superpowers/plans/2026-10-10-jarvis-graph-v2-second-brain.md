@@ -156,7 +156,7 @@ interface BrainProjection {
 
 - [ ] **Step 1: Write failing acceptance cases** `revoked_source_absent_from_aggregates`, `2k_memory_records_use_selective_lod`, `stale_index_does_not_pretend_fresh`, `no_unapproved_file_url_or_token` and `replay_cannot_write_memory`.
 - [ ] **Step 2: Confirm RED:** `npx playwright test e2e/second-brain.spec.ts`, only after test runner is available.
-- [ ] **Step 3: Implement only minimal gaps in selectors, UI or viewer-scoped gateway defined in the separately approved live architecture; do not modify the user's actual memory without explicit consent.
+- [ ] **Step 3: Implement** only minimal gaps in selectors, UI or viewer-scoped gateway defined in the separately approved live architecture; do not modify the user's actual memory without explicit consent.
 - [ ] **Step 4: Confirm GREEN:** `npm test`, `npm run typecheck`, `npm run build`, plus browser suite. Record exact SHA and non-private benchmark evidence; source-verified memory write remains BLOCKED until proof is available.
 - [ ] **Step 5: Commit** tests/report as `test(graph): verify knowledge provenance privacy and mobile UX`.
 
