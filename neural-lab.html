@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Neural Discovery Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script type="importmap">
+{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}
+</script>
+<style>
+:root{
+  --bg:#04070d; --panel:rgba(9,15,26,.74); --line:rgba(120,170,220,.16);
+  --txt:#b8cde3; --dim:#5b7088; --cyan:#38e6ff; --orange:#ffab4a;
+  --blue:#4f8dff; --purple:#b57bff; --green:#5dffb0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:var(--bg);color:var(--txt);
+  font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-size:11px;overflow-x:hidden}
+body{background:radial-gradient(ellipse at 50% 20%,#0b1a2e 0%,#04070d 60%,#020305 100%);min-height:100vh}
+#grid-bg{position:fixed;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(60,120,180,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(60,120,180,.08) 1px,transparent 1px);
+  background-size:44px 44px;animation:drift 22s linear infinite;
+  -webkit-mask-image:radial-gradient(ellipse at center,#000 35%,transparent 85%);mask-image:radial-gradient(ellipse at center,#000 35%,transparent 85%)}
+@keyframes drift{to{background-position:44px 44px}}
+#scan{position:fixed;inset:0;pointer-events:none;z-index:50;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.022) 0 1px,transparent 1px 3px)}
+#scan::after{content:"";position:absolute;left:0;right:0;height:120px;top:-120px;
+  background:linear-gradient(transparent,rgba(56,230,255,.06),transparent);animation:beam 6s linear infinite}
+@keyframes beam{to{top:100%}}
+
+.app{position:relative;z-index:1;max-width:1500px;margin:0 auto;padding:18px 22px 14px;display:flex;flex-direction:column;gap:12px;min-height:100vh}
+
+/* header */
+header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--line);padding-bottom:10px}
+h1{font-size:18px;letter-spacing:.28em;font-weight:600;color:#e6f4ff;text-shadow:0 0 18px rgba(56,230,255,.45);
+  animation:flicker 7s infinite}
+@keyframes flicker{0%,94%,100%{opacity:1}95%{opacity:.6}96%{opacity:1}97%{opacity:.75}}
+.sub{color:var(--dim);margin-top:6px;letter-spacing:.12em}
+.status{display:flex;gap:10px;align-items:center;letter-spacing:.2em;color:var(--dim)}
+.status b{color:var(--green);font-weight:600}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:ping 1.8s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(93,255,176,.7)}70%,100%{box-shadow:0 0 0 10px rgba(93,255,176,0)}}
+
+/* pipeline */
+.pipe{display:flex;align-items:stretch}
+.node{--c:#38e6ff;flex:1;min-width:0;position:relative;padding:10px 12px;border:1px solid var(--c);border-radius:4px;overflow:hidden;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--c) 16%,transparent),rgba(5,9,16,.85));
+  box-shadow:0 0 18px -6px var(--c),inset 0 0 22px -12px var(--c);transition:transform .3s}
+.node:hover{transform:translateY(-3px)}
+.node::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--c) 45%,transparent),transparent);
+  animation:sweep 3.6s ease-in-out infinite;animation-delay:var(--d,0s)}
+@keyframes sweep{0%{left:-60%}60%,100%{left:120%}}
+.node b{display:block;color:#f0f8ff;letter-spacing:.14em;font-size:11px}
+.node small{color:var(--dim);font-size:9px;letter-spacing:.1em}
+.node .bars{display:flex;gap:2px;margin-top:9px;height:4px}
+.node .bars i{flex:1;background:var(--c);animation:blink 1.4s steps(2) infinite;animation-delay:var(--d,0s)}
+@keyframes blink{50%{opacity:.15}}
+.arrow{flex:0 0 26px;position:relative;align-self:center;height:2px;background:linear-gradient(90deg,transparent,rgba(120,170,220,.35),transparent)}
+.arrow i{position:absolute;top:-2px;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 10px var(--cyan);animation:run 1.6s linear infinite}
+@keyframes run{0%{left:-6px;opacity:0}20%{opacity:1}100%{left:100%;opacity:0}}
+
+/* panels */
+.panel{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:12px 14px;
+  backdrop-filter:blur(6px);box-shadow:0 0 40px -22px rgba(56,230,255,.45);overflow:hidden;min-width:0}
+.panel::before{content:"";position:absolute;inset:-1px;pointer-events:none;opacity:.6;
+  border:1px solid transparent;border-radius:4px;
+  background:linear-gradient(var(--bg),var(--bg)) padding-box,linear-gradient(135deg,var(--cyan),transparent 30%,transparent 70%,var(--purple)) border-box}
+.ph{display:flex;justify-content:space-between;align-items:center;letter-spacing:.18em;color:#d6ebff;
+  padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid var(--line)}
+.ph em{font-style:normal;color:var(--green);font-size:9px;letter-spacing:.2em}
+.ph em.dim{color:var(--dim)}
+canvas{display:block;width:100%}
+.mid{display:grid;grid-template-columns:2.1fr 1fr;gap:12px}
+.side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.bottom{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:12px}
+.dim{color:var(--dim)}
+
+/* hero */
+.hero{position:relative;height:440px;border-radius:4px;overflow:hidden;cursor:grab;
+  background:radial-gradient(circle at 50% 45%,#0c1b2d,#02040a 70%)}
+.hero:active{cursor:grabbing}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero .meta{position:absolute;left:14px;top:12px;color:var(--dim);letter-spacing:.14em;font-size:10px;pointer-events:none}
+.callout{position:absolute;left:8%;bottom:14%;padding:7px 10px;border:1px solid var(--orange);background:rgba(20,12,4,.72);
+  color:#ffd9a8;font-size:10px;line-height:1.6;letter-spacing:.08em;box-shadow:0 0 18px -4px var(--orange);pointer-events:none}
+.callout::after{content:"";position:absolute;right:-1px;top:-1px;width:6px;height:6px;background:var(--orange)}
+.fallback{position:absolute;inset:0;display:grid;place-items:center;color:var(--dim)}
+.rows{display:grid;gap:7px;margin-top:10px}
+.row3{display:grid;grid-template-columns:90px 1fr 60px;align-items:center;gap:10px;color:var(--dim);letter-spacing:.08em}
+.row3 canvas{height:26px}
+.row3 span:last-child{text-align:right;color:#dfefff}
+.row-tele{display:grid;grid-template-columns:1fr 1.4fr 62px;align-items:center;gap:10px;margin-bottom:8px;letter-spacing:.08em;color:var(--dim)}
+.row-tele canvas{height:22px}
+.row-tele span:last-child{text-align:right;color:#dfefff}
+.stats{display:flex;justify-content:space-between;margin-top:8px;color:var(--dim);letter-spacing:.06em}
+.stats b{color:#dfefff;font-weight:400}
+.big-num{font-size:30px;color:#e9f6ff;text-shadow:0 0 16px rgba(255,171,74,.5);font-weight:600}
+.legend{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;color:var(--dim);font-size:10px;letter-spacing:.08em}
+
+footer{display:flex;justify-content:space-between;align-items:center;color:var(--dim);letter-spacing:.14em;
+  border-top:1px solid var(--line);padding-top:10px}
+.seg{display:flex;gap:6px}
+.seg i{width:40px;height:3px;background:rgba(120,170,220,.2);position:relative;overflow:hidden}
+.seg i.on{background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+.seg i.sweep::after{content:"";position:absolute;inset:0;background:var(--cyan);animation:seg 2.4s linear infinite}
+@keyframes seg{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+
+@media (max-width:1000px){
+  .mid,.bottom{grid-template-columns:1fr}
+  .pipe{flex-wrap:wrap;gap:8px}
+  .node{flex:1 1 140px}
+  .arrow{display:none}
+  .hero{height:360px}
+  .app{padding:14px}
+  h1{font-size:14px}
+}
+</style>
+</head>
+<body>
+<div id="grid-bg"></div>
+<div id="scan"></div>
+
+<div class="app">
+  <header>
+    <div>
+      <h1>NEURAL DISCOVERY LAB / AGENT ARCHITECTURE</h1>
+      <div class="sub">AGENT COORDINATION GRID &middot; BUILD 26.10 &middot; RUN <span id="run">0847</span></div>
+    </div>
+    <div class="status">
+      <span>SYSTEM</span><b id="sys">NOMINAL</b><i class="dot"></i><span id="clock" class="dim"></span>
+    </div>
+  </header>
+
+  <nav class="pipe">
+    <div class="node" style="--c:#ffab4a;--d:0s"><b>OPUS DIRECTOR</b><small>plan &middot; route</small>
+      <div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <span class="arrow"><i style="animation-delay:0s"></i></span>
+    <div class="node" style="--c:#38e6ff;--d:.4s"><b>IDEA GRAPH</b><small>map-elites</small>
+      <div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <span class="arrow"><i style="animation-delay:.4s"></i></span>
+    <div class="node" style="--c:#4f8dff;--d:.8s"><b>SQL PROPOSER</b><small>mutate &middot; crossover</small>
+      <div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <span class="arrow"><i style="animation-delay:.8s"></i></span>
+    <div class="node" style="--c:#3ef0b0;--d:1.2s"><b>EXEC SANDBOX</b><small>isolated run</small>
+      <div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <span class="arrow"><i style="animation-delay:1.2s"></i></span>
+    <div class="node" style="--c:#ffab4a;--d:1.6s"><b>HIDDEN EVAL</b><small>blind scoring</small>
+      <div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <span class="arrow"><i style="animation-delay:1.6s"></i></span>
+    <div class="node" style="--c:#b57bff;--d:2s"><b>META DISTILL</b><small>compress &middot; memory</small>
+      <div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+  </nav>
+
+  <section class="mid">
+    <div class="panel">
+      <div class="ph"><span>PERSISTENT IDEA-GRAPH &nbsp;/&nbsp; MAP-ELITES + MCTS</span><em>ITER <span id="iter">0413</span></em></div>
+      <div class="dim" style="margin:-4px 0 8px;letter-spacing:.1em">NODE MAP // 4096 VERTICES // 16384 EDGES &nbsp;&nbsp; TOPOLOGY: ACTIVE</div>
+      <div class="hero" id="hero">
+        <div class="meta">SEARCH NEIGHBORHOOD &middot; DRAG TO ROTATE</div>
+        <div class="callout">SANDBOX.2 VERIFIED<br>LINEAGE RETAINED &nbsp;/&nbsp; CONTEXT RESET</div>
+      </div>
+      <div class="rows">
+        <div class="row3"><span>GRAPH &Delta;</span><canvas class="spark" data-c="#38e6ff"></canvas><span id="v-graph">0.886</span></div>
+        <div class="row3"><span>EVAL IO</span><canvas class="spark" data-c="#ffab4a"></canvas><span id="v-eval">0.739</span></div>
+        <div class="row3"><span>TOK/S</span><canvas class="spark" data-c="#b57bff"></canvas><span id="v-tok">0.556</span></div>
+      </div>
+      <div class="stats"><span>SYNC <b id="sync">.999</b></span><span>LOSS <b id="loss">.000</b></span><span>CONTEXT RESET / SANDBOX CLEAN / EVALUATOR ISOLATED</span></div>
+    </div>
+
+    <div class="side">
+      <section class="panel">
+        <div class="ph"><span>SEARCH ACTIVITY</span><em>LIVE</em></div>
+        <canvas id="wave" style="height:110px"></canvas>
+        <div class="legend"><span style="color:#38e6ff">&#9632; DIRECTOR</span><span style="color:#ffab4a">&#9632; PROPOSER</span><span style="color:#b57bff">&#9632; EVAL</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="ph"><span>CANDIDATE YIELD</span><em>LIVE</em></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px">
+          <span class="dim">ACCEPTED</span><span class="big-num" id="yieldPct">68%</span>
+        </div>
+        <canvas id="yield" style="height:120px"></canvas>
+        <div class="stats"><span>OPUS <b>228</b> / SQL <b>894</b></span><span>EVAL <b>0.82</b> / COST <b>3.2&times;</b></span></div>
+        <div class="stats"><span>BATCH <b>032</b> / GPU <b>08</b></span><span>PASS <b>91%</b></span></div>
+      </section>
+
+      <section class="panel">
+        <div class="ph"><span>MODEL TELEMETRY</span><em>LIVE</em></div>
+        <div class="row-tele"><span>GRAPH DEPTH</span><canvas class="spark" data-c="#38e6ff"></canvas><span id="t-gd">.842</span></div>
+        <div class="row-tele"><span>SEARCH TEMP</span><canvas class="spark" data-c="#ffab4a"></canvas><span id="t-st">.317</span></div>
+        <div class="row-tele"><span>FITNESS &Delta;</span><canvas class="spark" data-c="#5dffb0"></canvas><span id="t-fi">+.004</span></div>
+        <div class="row-tele"><span>BRANCH DIV</span><canvas class="spark" data-c="#4f8dff"></canvas><span id="t-bd">.725</span></div>
+        <div class="row-tele"><span>CTX BLEED</span><canvas class="spark" data-c="#b57bff"></canvas><span id="t-cb">.000</span></div>
+        <div class="stats"><span>CTX RESET <b>100%</b></span><span>0 LEAK</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="ph"><span>STATE MATRIX</span><em class="dim">SYNC</em></div>
+        <canvas id="matrix" style="height:78px"></canvas>
+      </section>
+    </div>
+  </section>
+
+  <section class="bottom">
+    <div class="panel">
+      <div class="ph"><span>EXECUTION LINEAGE</span><em class="dim">DAG</em></div>
+      <canvas id="lineage" style="height:190px"></canvas>
+      <div class="stats"><span>ACTIVE <b>18</b> / PRUNED <b>07</b></span><span>SAFE</span></div>
+    </div>
+
+    <div class="panel">
+      <div class="ph"><span>SEARCH FRONTIER</span><em class="dim">MAP</em></div>
+      <canvas id="frontier" style="height:190px"></canvas>
+      <div class="stats"><span>OCCUPANCY <b>91.8%</b></span><span>TOP <b>.947</b></span></div>
+    </div>
+
+    <div class="panel">
+      <div class="ph"><span>VERIFIED OBJECTIVE</span><em class="dim">EVAL</em></div>
+      <canvas id="pareto" style="height:190px"></canvas>
+      <div class="stats"><span>GAIN <b>+0.004</b></span><span>LEAK <b>0.000</b></span></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>03 VERIFY / ISOLATED EXECUTION / PERSISTENT MEMORY</span>
+    <div class="seg"><i></i><i></i><i class="on sweep"></i><i></i></div>
+  </footer>
+</div>
+
+<script type="module">
+const $ = s => document.querySelector(s);
+const rnd = (a, b) => a + Math.random() * (b - a);
+const lerp = (a, b, t) => a + (b - a) * t;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+/* ---------- 2D charts registry ---------- */
+const charts = [];
+function fit(o) {
+  const r = o.c.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2);
+  o.c.width = Math.max(2, (r.width * d) | 0);
+  o.c.height = Math.max(2, (r.height * d) | 0);
+  o.g = o.c.getContext('2d');
+  o.g.setTransform(d, 0, 0, d, 0, 0);
+  o.w = r.width; o.h = r.height;
+}
+function chart(el, draw) {
+  const o = { c: el, draw };
+  fit(o); charts.push(o);
+  return o;
+}
+window.addEventListener('resize', () => charts.forEach(fit));
+
+/* Search activity: layered sine waves with glow */
+const waveCols = ['#38e6ff', '#ffab4a', '#b57bff'];
+chart($('#wave'), (o, t) => {
+  const { g, w, h } = o; g.clearRect(0, 0, w, h);
+  g.strokeStyle = 'rgba(120,170,220,.08)'; g.lineWidth = 1;
+  for (let y = 0; y < h; y += h / 4) { g.beginPath(); g.moveTo(0, y); g.lineTo(w, y); g.stroke(); }
+  waveCols.forEach((c, s) => {
+    g.beginPath(); g.strokeStyle = c; g.shadowColor = c; g.shadowBlur = 10; g.lineWidth = 1.6;
+    for (let x = 0; x <= w; x += 3) {
+      const k = x / w;
+      const v = Math.sin(k * 18 + t * (1.3 + s * .4) + s) * .45 + Math.sin(k * 41 - t * 2.1 + s * 2) * .22 + Math.sin(k * 7 + t * .6) * .2;
+      const y = h / 2 + v * h * .38 * (.7 + .3 * Math.sin(t * .5 + s));
+      x ? g.lineTo(x, y) : g.moveTo(x, y);
+    }
+    g.stroke();
+  });
+  g.shadowBlur = 0;
+});
+
+/* Candidate yield: eased bars with glow */
+const yb = { v: Array(12).fill(.5), tg: Array(12).fill(.5), next: 0 };
+chart($('#yield'), (o, t, dt) => {
+  if (t > yb.next) { yb.next = t + 1.6; yb.tg = yb.tg.map(() => rnd(.15, .95)); }
+  yb.v = yb.v.map((v, i) => lerp(v, yb.tg[i], Math.min(1, dt * 4)));
+  const { g, w, h } = o; g.clearRect(0, 0, w, h);
+  const n = yb.v.length, gap = 6, bw = (w - gap * (n - 1)) / n;
+  yb.v.forEach((v, i) => {
+    const bh = v * h * .92, x = i * (bw + gap), y = h - bh, hot = i < 4;
+    const grd = g.createLinearGradient(0, y, 0, h);
+    grd.addColorStop(0, hot ? '#ffb35c' : '#6ab4ff');
+    grd.addColorStop(1, hot ? 'rgba(255,171,74,.12)' : 'rgba(79,141,255,.1)');
+    g.fillStyle = grd; g.shadowColor = hot ? '#ffab4a' : '#4f8dff'; g.shadowBlur = 12;
+    g.fillRect(x, y, bw, bh);
+  });
+  g.shadowBlur = 0;
+  $('#yieldPct').textContent = Math.round(yb.v.reduce((a, b) => a + b, 0) / n * 100) + '%';
+});
+
+/* Sparklines (hero rows + telemetry) */
+document.querySelectorAll('canvas.spark').forEach((el, idx) => {
+  const col = el.dataset.c, seed = idx * 1.7;
+  chart(el, (o, t) => {
+    const { g, w, h } = o; g.clearRect(0, 0, w, h);
+    g.beginPath(); g.strokeStyle = col; g.shadowColor = col; g.shadowBlur = 6; g.lineWidth = 1.3;
+    for (let x = 0; x <= w; x += 2) {
+      const q = x / w;
+      const y = h / 2 + (Math.sin(q * 14 + t * 2 + seed) * .4 + Math.sin(q * 31 - t * 3 + seed) * .18) * h * .8;
+      x ? g.lineTo(x, y) : g.moveTo(x, y);
+    }
+    g.stroke(); g.shadowBlur = 0;
+  });
+});
+
+/* State matrix: flickering cells */
+const MX = { st: Array.from({ length: 36 }, () => Math.random() * 5 | 0), next: 0,
+  pal: ['#38e6ff', '#ffab4a', '#4f8dff', '#5dffb0', '#b57bff'] };
+chart($('#matrix'), (o, t) => {
+  if (t > MX.next) { MX.next = t + .12; MX.st[Math.random() * 36 | 0] = Math.random() * 5 | 0; }
+  const { g, w, h } = o; g.clearRect(0, 0, w, h);
+  const cols = 12, rows = 3, cw = w / cols, ch = h / rows;
+  for (let i = 0; i < 36; i++) {
+    g.globalAlpha = .45 + .55 * Math.sin(t * 2 + i) ** 2;
+    g.fillStyle = MX.pal[MX.st[i]];
+    g.fillRect((i % cols) * cw + 2, ((i / cols) | 0) * ch + 2, cw - 4, ch - 4);
+  }
+  g.globalAlpha = 1;
+});
+
+/* Execution lineage: DAG with travelling packets */
+const LN = [
+  { x: .05, y: .5, c: '#ffab4a', p: -1 }, { x: .3, y: .22, c: '#38e6ff', p: 0 }, { x: .3, y: .78, c: '#ffab4a', p: 0 },
+  { x: .55, y: .1, c: '#38e6ff', p: 1 }, { x: .55, y: .34, c: '#ffab4a', p: 1 }, { x: .55, y: .66, c: '#38e6ff', p: 2 },
+  { x: .55, y: .9, c: '#ffab4a', p: 2 }, { x: .82, y: .04, c: '#38e6ff', p: 3 }, { x: .82, y: .16, c: '#ffab4a', p: 4 },
+  { x: .82, y: .6, c: '#38e6ff', p: 5 }, { x: .82, y: .72, c: '#ffab4a', p: 6 }, { x: .82, y: .9, c: '#38e6ff', p: 6 }
+];
+const bez = (a, b, s, mx) => {
+  const u = 1 - s;
+  return {
+    x: u ** 3 * a.x + 3 * u * u * s * mx + 3 * u * s * s * mx + s ** 3 * b.x,
+    y: u ** 3 * a.y + 3 * u * u * s * a.y + 3 * u * s * s * b.y + s ** 3 * b.y
+  };
+};
+chart($('#lineage'), (o, t) => {
+  const { g, w, h } = o; g.clearRect(0, 0, w, h);
+  const P = n => ({ x: 14 + n.x * (w - 28), y: 12 + n.y * (h - 24) });
+  LN.forEach((n, i) => {
+    if (n.p < 0) return;
+    const a = P(LN[n.p]), b = P(n), mx = (a.x + b.x) / 2;
+    g.strokeStyle = 'rgba(120,170,220,.3)'; g.lineWidth = 1;
+    g.beginPath(); g.moveTo(a.x, a.y); g.bezierCurveTo(mx, a.y, mx, b.y, b.x, b.y); g.stroke();
+    const s = (t * .35 + i * .11) % 1, p = bez(a, b, s, mx);
+    g.fillStyle = n.c; g.shadowColor = n.c; g.shadowBlur = 10;
+    g.beginPath(); g.arc(p.x, p.y, 2, 0, 6.283); g.fill();
+  });
+  LN.forEach((n, i) => {
+    const p = P(n), pulse = 3 + Math.sin(t * 2.5 + i) * 1;
+    g.shadowColor = n.c; g.shadowBlur = 14; g.fillStyle = n.c;
+    g.beginPath(); g.arc(p.x, p.y, pulse, 0, 6.283); g.fill();
+  });
+  g.shadowBlur = 0;
+});
+
+/* Search frontier: heatmap grid, blue exploration -> orange exploitation */
+const FR = { on: [], ph: [] };
+for (let i = 0; i < 144; i++) {
+  const x = i % 16;
+  FR.on.push(Math.random() < .95 - .5 * (x / 16) ? 1 : 0);
+  FR.ph.push(Math.random() * 6.283);
+}
+chart($('#frontier'), (o, t) => {
+  const { g, w, h } = o; g.clearRect(0, 0, w, h);
+  const cols = 16, rows = 9, cw = w / cols, ch = h / rows, hi = (t * 3 | 0) % 144;
+  for (let i = 0; i < 144; i++) {
+    const x = i % cols, y = (i / cols) | 0, f = x / (cols - 1);
+    const x0 = x * cw + 2, y0 = y * ch + 2, ww = cw - 4, hh = ch - 4;
+    if (!FR.on[i]) { g.fillStyle = 'rgba(40,60,90,.22)'; g.fillRect(x0, y0, ww, hh); continue; }
+    const a = .35 + .65 * (.5 + .5 * Math.sin(t * 1.6 + FR.ph[i]));
+    g.fillStyle = f < .6 ? `rgba(60,140,255,${a})` : `rgba(255,160,60,${a})`;
+    g.fillRect(x0, y0, ww, hh);
+    if (i === hi) { g.fillStyle = '#fff'; g.shadowColor = '#fff'; g.shadowBlur = 12; g.fillRect(x0, y0, ww, hh); g.shadowBlur = 0; }
+  }
+});
+
+/* Verified objective: growing Pareto curves over bar histogram */
+chart($('#pareto'), (o, t) => {
+  const { g, w, h } = o; g.clearRect(0, 0, w, h);
+  const nb = 14, bw = w / nb;
+  for (let i = 0; i < nb; i++) {
+    const bh = h * .35 * (.3 + .7 * Math.abs(Math.sin(i * 1.3 + t * .8)));
+    g.fillStyle = 'rgba(79,141,255,.35)';
+    g.fillRect(i * bw + bw * .2, h - bh, bw * .6, bh);
+  }
+  const prog = (t * .22) % 1.4;
+  [['#ffab4a', .9, 0], ['#ffffff', .7, .2], ['#38e6ff', .55, .4]].forEach(([c, a, off]) => {
+    const p = clamp(prog * 1.4 - off, 0, 1);
+    g.beginPath(); g.strokeStyle = c; g.shadowColor = c; g.shadowBlur = 8; g.lineWidth = 1.5;
+    for (let x = 0; x <= w * p; x += 2) {
+      const k = x / w;
+      const y = h * .75 - (1 - Math.exp(-a * k * 5)) * h * .55 * (1 - off * .4);
+      x ? g.lineTo(x, y) : g.moveTo(x, y);
+    }
+    g.stroke();
+    if (p > 0) { g.fillStyle = c; g.beginPath(); g.arc(w * p, h * .75 - (1 - Math.exp(-a * p * 5)) * h * .55 * (1 - off * .4), 2.6, 0, 6.283); g.fill(); }
+  });
+  g.shadowBlur = 0;
+});
+
+/* ---------- live text counters ---------- */
+const vals = { '#v-graph': .886, '#v-eval': .739, '#v-tok': .556, '#t-gd': .842, '#t-st': .317, '#t-fi': .004, '#t-bd': .725, '#t-cb': .0 };
+setInterval(() => {
+  for (const k in vals) {
+    vals[k] = clamp(vals[k] + rnd(-.01, .01), 0, 1);
+    const el = $(k);
+    const s = vals[k].toFixed(3).replace(/^0/, '');
+    el.textContent = k === '#t-fi' ? '+' + s : s;
+  }
+  $('#sync').textContent = (.99 + rnd(0, .009)).toFixed(3).replace(/^0/, '');
+}, 900);
+let iter = 413, run = 847;
+setInterval(() => {
+  iter++; if (iter % 3 === 0) run++;
+  $('#iter').textContent = String(iter).padStart(4, '0');
+  $('#run').textContent = String(run).padStart(4, '0');
+}, 2200);
+setInterval(() => { $('#clock').textContent = new Date().toLocaleTimeString('pl-PL'); }, 1000);
+$('#clock').textContent = new Date().toLocaleTimeString('pl-PL');
+
+/* ---------- main loop ---------- */
+let heroTick = null;
+const t0 = performance.now(); let last = t0;
+function frame(now) {
+  const t = (now - t0) / 1000, dt = Math.min(.05, (now - last) / 1000); last = now;
+  for (const o of charts) o.draw(o, t, dt);
+  if (heroTick) heroTick(t, dt);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+/* ---------- 3D idea-graph (Three.js + bloom) ---------- */
+try {
+  const T = await import('three');
+  const { EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js');
+  const { RenderPass } = await import('three/addons/postprocessing/RenderPass.js');
+  const { UnrealBloomPass } = await import('three/addons/postprocessing/UnrealBloomPass.js');
+
+  const host = $('#hero');
+  const renderer = new T.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.toneMapping = T.ACESFilmicToneMapping;
+  host.prepend(renderer.domElement);
+
+  const scene = new T.Scene();
+  const cam = new T.PerspectiveCamera(38, 1, .1, 100);
+  cam.position.set(0, 2.6, 7.2); cam.lookAt(0, 0, 0);
+
+  const R = 2.0, r = .62;
+  const root = new T.Group(); root.rotation.set(.9, 0, -.35); scene.add(root);
+
+  /* glowing torus with fresnel + flowing gradient shader */
+  const torusMat = new T.ShaderMaterial({
+    uniforms: { uTime: { value: 0 } },
+    transparent: true, blending: T.AdditiveBlending, depthWrite: false,
+    vertexShader: `
+      varying vec2 vUv; varying vec3 vN; varying vec3 vV;
+      void main(){
+        vUv = uv;
+        vec4 mv = modelViewMatrix * vec4(position, 1.0);
+        vN = normalize(normalMatrix * normal);
+        vV = normalize(-mv.xyz);
+        gl_Position = projectionMatrix * mv;
+      }`,
+    fragmentShader: `
+      uniform float uTime; varying vec2 vUv; varying vec3 vN; varying vec3 vV;
+      vec3 pal(float t){
+        vec3 a = vec3(1.0, .67, .29), b = vec3(.31, .55, 1.0), c = vec3(.71, .48, 1.0), cy = vec3(.22, .9, 1.0);
+        float s = fract(t);
+        vec3 col = mix(a, b, smoothstep(0., .45, s));
+        col = mix(col, c, smoothstep(.45, .75, s));
+        col = mix(col, cy, smoothstep(.75, 1., s));
+        return col;
+      }
+      void main(){
+        float fres = pow(1.0 - max(dot(normalize(vN), normalize(vV)), 0.0), 2.2);
+        float flow = sin(vUv.x * 18.85 - uTime * .8 + vUv.y * 6.0) * .5 + .5;
+        float streak = smoothstep(.85, 1., sin(vUv.y * 120.0 + vUv.x * 6.0 - uTime * 2.0));
+        vec3 base = pal(vUv.x + uTime * .03 + vUv.y * .15);
+        vec3 col = base * (.25 + .9 * flow) + vec3(1.) * fres * .9 + base * fres * 1.4 + base * streak * .15;
+        float alpha = clamp(.35 + fres * .8 + flow * .2, 0., 1.);
+        gl_FragColor = vec4(col, alpha);
+      }`
+  });
+  const torus = new T.Mesh(new T.TorusGeometry(R, r, 160, 320), torusMat);
+  root.add(torus);
+
+  /* faint wireframe shell */
+  const shell = new T.Mesh(new T.TorusGeometry(R, r * 1.03, 48, 120),
+    new T.MeshBasicMaterial({ color: 0x6fd8ff, wireframe: true, transparent: true, opacity: .07, depthWrite: false }));
+  root.add(shell);
+
+  /* hair-like fins radiating from the surface */
+  const FIN = 900;
+  const finGeo = new T.ConeGeometry(.012, 1, 5); finGeo.translate(0, .5, 0);
+  const fins = new T.InstancedMesh(finGeo,
+    new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: .55, blending: T.AdditiveBlending, depthWrite: false }), FIN);
+  const dummy = new T.Object3D(), up = new T.Vector3(0, 1, 0), nrm = new T.Vector3();
+  for (let i = 0; i < FIN; i++) {
+    const u = Math.random() * Math.PI * 2, phi = (Math.random() * 2 - 1) * Math.PI * .9;
+    const cp = Math.cos(phi), sp = Math.sin(phi);
+    nrm.set(cp * Math.cos(u), sp, cp * Math.sin(u));
+    dummy.position.set((R + r * cp) * Math.cos(u), r * sp, (R + r * cp) * Math.sin(u));
+    dummy.quaternion.setFromUnitVectors(up, nrm);
+    dummy.scale.set(1, .08 + Math.random() * .35 * (.3 + Math.max(cp, 0)), 1);
+    dummy.updateMatrix(); fins.setMatrixAt(i, dummy.matrix);
+  }
+  fins.instanceMatrix.needsUpdate = true; root.add(fins);
+
+  /* idea nodes + edges on the surface */
+  const NN = 40, nodePos = [];
+  const nodeMesh = new T.InstancedMesh(new T.SphereGeometry(.035, 8, 8),
+    new T.MeshBasicMaterial({ color: 0xdff6ff, blending: T.AdditiveBlending, transparent: true, depthWrite: false }), NN);
+  for (let i = 0; i < NN; i++) {
+    const u = Math.random() * Math.PI * 2, phi = (Math.random() * 2 - 1) * Math.PI;
+    const p = new T.Vector3((R + r * Math.cos(phi)) * Math.cos(u), r * Math.sin(phi), (R + r * Math.cos(phi)) * Math.sin(u));
+    nodePos.push(p);
+    dummy.position.copy(p); dummy.scale.set(1, 1, 1); dummy.updateMatrix(); nodeMesh.setMatrixAt(i, dummy.matrix);
+  }
+  nodeMesh.instanceMatrix.needsUpdate = true; root.add(nodeMesh);
+  const edgePts = [];
+  for (let i = 0; i < NN; i++) for (let j = i + 1; j < NN; j++)
+    if (nodePos[i].distanceTo(nodePos[j]) < 1.5 && Math.random() < .6) edgePts.push(nodePos[i], nodePos[j]);
+  const edgeGeo = new T.BufferGeometry().setFromPoints(edgePts);
+  root.add(new T.LineSegments(edgeGeo, new T.LineBasicMaterial({ color: 0x66ccff, transparent: true, opacity: .22, blending: T.AdditiveBlending, depthWrite: false })));
+
+  /* flowing particles along the tube */
+  const P = 700;
+  const pPos = new Float32Array(P * 3), pCol = new Float32Array(P * 3);
+  const pu = new Float32Array(P), pp = new Float32Array(P), ps = new Float32Array(P);
+  for (let i = 0; i < P; i++) { pu[i] = Math.random() * 6.283; pp[i] = Math.random() * 6.283; ps[i] = .2 + Math.random() * .6; }
+  const pGeo = new T.BufferGeometry();
+  pGeo.setAttribute('position', new T.BufferAttribute(pPos, 3));
+  pGeo.setAttribute('color', new T.BufferAttribute(pCol, 3));
+  const pts = new T.Points(pGeo, new T.PointsMaterial({ size: .05, vertexColors: true, transparent: true,
+    blending: T.AdditiveBlending, depthWrite: false, opacity: .9 }));
+  root.add(pts);
+  const col = new T.Color();
+
+  /* post-processing bloom */
+  const host2 = host;
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, cam));
+  const bloom = new UnrealBloomPass(new T.Vector2(1, 1), .9, .45, .12);
+  composer.addPass(bloom);
+
+  function resize() {
+    const w = host2.clientWidth, h = host2.clientHeight;
+    renderer.setSize(w, h, false);
+    composer.setSize(w, h);
+    cam.aspect = w / h; cam.updateProjectionMatrix();
+  }
+  new ResizeObserver(resize).observe(host2);
+  resize();
+
+  /* drag to spin */
+  let dragging = false, lx = 0, vel = 0;
+  host2.addEventListener('pointerdown', e => { dragging = true; lx = e.clientX; });
+  addEventListener('pointerup', () => dragging = false);
+  addEventListener('pointermove', e => { if (dragging) { vel = (e.clientX - lx) * .004; lx = e.clientX; } });
+
+  heroTick = (t, dt) => {
+    torusMat.uniforms.uTime.value = t;
+    for (let i = 0; i < P; i++) {
+      pu[i] += ps[i] * dt * .6;
+      pp[i] += dt * .9 * Math.sin(pu[i] * 3 + i) * .6;
+      const cp = Math.cos(pp[i]), sp = Math.sin(pp[i]), rr = r * 1.18;
+      pPos[i * 3] = (R + rr * cp) * Math.cos(pu[i]);
+      pPos[i * 3 + 1] = rr * sp;
+      pPos[i * 3 + 2] = (R + rr * cp) * Math.sin(pu[i]);
+      col.setHSL(.07 + .55 * ((pu[i] % 6.283) / 6.283), 1, .6);
+      pCol[i * 3] = col.r; pCol[i * 3 + 1] = col.g; pCol[i * 3 + 2] = col.b;
+    }
+    pGeo.attributes.position.needsUpdate = true;
+    pGeo.attributes.color.needsUpdate = true;
+    root.rotation.y += dt * .15 + vel;
+    vel *= .92;
+    cam.position.x = Math.sin(t * .2) * .4;
+    cam.lookAt(0, 0, 0);
+    composer.render(dt);
+  };
+} catch (err) {
+  console.warn('3D hero unavailable:', err);
+  $('#hero').insertAdjacentHTML('beforeend', '<div class="fallback">3D niedostępne (brak dostępu do CDN)</div>');
+}
+</script>
+</body>
+</html>
