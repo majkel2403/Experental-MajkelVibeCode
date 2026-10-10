@@ -51,63 +51,33 @@ Full graph view defaults to semantic landmarks. Clusters can expand/collapse; ca
 
 Controls: orbit/zoom, focus, dynamic fit-to-view, hover neighborhood and dim unrelated content, search, filters, multi-select, breadcrumbs/back, cluster expand/collapse, quality/density, toggle labels/glow, pause demo/live event stream, independent freeze renderer.
 
-PAUSE EVENTS: stops event subscription/simulation and emission, retaining camera/graph interaction.
+PAUSE EVENTS (reconciled): suspends visual event playback/cues in the UI but never drops durable P0/P1 delivery; reconnect/resume uses cursor replay or resync. DEMO playback may pause its fixture generator independently. Camera/graph interactions remain available.
 FREEZE SCENE (explicit advanced action): may call graph `pauseAnimation()` and disables interaction; `resumeAnimation()` restores it.
 Reduced-motion: no autoplay cinematic orbit, continuous particles, or ambient pulsation by default.
 
-## Normalized graph contract
+## Normalized graph contract — reconciled proposal (2026-10-10)
 
-Implement shared pure model under `graph-3d/src/graph/domain/`, never in a rendering component.
+> **Documentation-only alignment, not code approval.** The illustrative 2026-10-08 `GraphNode` / `GraphEdge` / `GraphEventEnvelope` interfaces, their `core` semantic type and `version/capturedAt` naming have been superseded **for planning purposes** by the more detailed 2026-10-09/10 candidate contracts. See [Blueprint 02 — Graph Ontology](../../graph-v2/blueprint/02-graph-ontology-contracts.md), [Blueprint 03 — Event Bus](../../graph-v2/blueprint/03-event-bus-protocol.md), [Blueprint 08 — ADR Candidates](../../graph-v2/blueprint/08-architecture-decisions-candidate.md) and [Blueprint 14 — Unified Design](../../graph-v2/blueprint/14-unified-system-design-review.md). The precise contracts still require documented sign-off before any implementation.
 
-```ts
-type NodeId = string;
-type EdgeId = string;
-type EntityKind = 'core'|'agent'|'team'|'project'|'task'|'memory'|
-                  'decision'|'file'|'person'|'skill'|'tool'|'event';
-type EdgeKind = 'owns'|'delegated_to'|'depends_on'|'used'|'resulted_in'|
-                'remembers'|'decided_by'|'relates_to'|'triggered'|'contains';
+There is **one canonical graph**, shared by Galaxy 3D, G6, Mission Control and Second Brain:
 
-interface GraphNode {
-  id: NodeId;
-  kind: EntityKind;
-  label: string;
-  status?: string;
-  parentId?: NodeId;
-  projectId?: NodeId;
-  importance?: number;
-  updatedAt?: string;
-  metadata?: Record<string, unknown>;
-}
+- `GraphEntity`: durable domain object, immutable namespaced ID, `kind`, typed status, `classification`, provenance and monotonic `revision`.
+- `GraphRelation`: semantic relationship between stable IDs; directed when applicable. `hub`, `core` and `traffic` do **not** belong to durable domain enums.
+- `GraphSnapshot`: `schemaVersion: '2.0'`, `graphVersion`, opaque `cursor`, `generatedAt`, nodes and edges.
+- `GraphPatch`: `baseVersion`, next `graphVersion`, validated atomic upserts/deletions, cursor.
+- `JarvisEventV1`: CloudEvents-like event envelope with identity `(source,id)`, per-source `sequence`, server-assigned replay cursor, correlation/causation and source-bound authentication.
+- `GraphStore` / `GraphProjector`: own *semantic state*, never 3D positions, effects or camera. Authorized client mirror contains only already-filtered data.
+- `VisualCue` and renderer DTO: short-lived presentation effects, not proof of work or source-of-truth events.
 
-interface GraphEdge {
-  id: EdgeId;
-  source: NodeId;
-  target: NodeId;
-  kind: EdgeKind;
-  directed: boolean;
-  weight?: number;
-}
+**Ordering is not global:** `sequence` is source-scoped; `partitionkey` alone does not grant task-scoped order. `graphVersion` and event-log `cursor` measure different things. Task end-of-response text is not proof of tool execution. Verified external action success requires an authoritative receipt. Memory persistence requires confirmation from the authorized memory source.
 
-interface GraphSnapshot {
-  nodes: GraphNode[];
-  edges: GraphEdge[];
-  version: number;
-  capturedAt: string;
-}
+**Ownership:** local trusted ingest/log and Graph Projector remain authoritative; the browser receives a redacted viewer-scoped graph. Hosted Preview stays synthetic DEMO by default. The precise Bridge, Jev and memory source contracts remain UNKNOWN until the read-only inventory specified in [Blueprint 09](../../graph-v2/blueprint/09-read-only-source-verification-plan.md).
 
-interface GraphEventEnvelope {
-  eventId: string;
-  sequence: number;
-  occurredAt: string;
-  sourceSystem: 'hermes'|'jev'|'bridge'|'memory'|'demo';
-  entityId?: NodeId;
-  correlationId?: string;
-  type: string;
-  payload: unknown;
-}
-```
+**Unified navigation:** the top-level product modes are SYSTEM, AGENTS, PROJECTS, MEMORY, LIVE; Mission Control, Second Brain and Trace/Timeline are lenses *inside* those modes, not new competing application shells. Semantic levels L0–L3 describe progressive detail in any relevant lens; L3 is an evidence inspector, not mandatory new 3D scene.
 
-Names/fields are the v2 contract; isolated adapters map real source events after discovery. Dedupe by eventId, sequence ordering per stream, atomic snapshot update, no dangling edges or duplicate IDs, no stale inspector selection. Runtime event history is append-only with a bounded UI window. Distinguish status evidence from presentation inference.
+**Proposed extension requiring separate ratification:** memory `persistenceVerification` (pending/confirmed/failed/unknown) and relationship `verification` (verified/suggested/contradicted/stale) are not currently defined as fields of Blueprint 02's stable interfaces. Their meanings and authorized projection must be agreed and versioned before a developer adds them.
+
+---
 
 ## Event to visualization policy
 
