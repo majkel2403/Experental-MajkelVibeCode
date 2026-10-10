@@ -1,0 +1,1309 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ORB Studio — mały stworek</title>
+<meta name="description" content="Projektuj puchatego stworka: futro w WebGL (shell texturing), oczy, dodatki, animacje i cząsteczki.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --coral:#ff7a5c; --coral-2:#ff9d86; --blue:#3f48d6; --ink:#2b2750; --mut:#7b7898;
+  --card:rgba(255,255,255,.74); --line:rgba(63,72,214,.12); --chip:#f1f0fb; --lav:#e7e8ff;
+  --top:#fff8f3; --bot:#f3e6e2; --shadow:0 18px 40px -24px rgba(60,40,120,.4);
+  color-scheme:light;
+}
+body.bg-lilac{--top:#f6f0ff;--bot:#e2d4ff}
+body.bg-mint{--top:#f1fff9;--bot:#cdf3e3}
+body.bg-night{--top:#1d1745;--bot:#09081c;--ink:#f1edff;--mut:#a9a3d6;--card:rgba(255,255,255,.07);--line:rgba(255,255,255,.12);--chip:rgba(255,255,255,.08);--lav:rgba(255,255,255,.1);--blue:#b7beff;--shadow:0 18px 40px -20px rgba(0,0,0,.7);color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{font-family:Nunito,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(180deg,var(--top),var(--bot)) fixed;min-height:100vh;transition:background .6s,color .4s}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
+button:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+svg.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.app{max-width:1280px;margin:0 auto;padding:18px 18px 40px}
+.top{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.logo{font-family:"Baloo 2",Nunito,sans-serif;font-weight:800;font-size:40px;line-height:1;letter-spacing:.5px;white-space:nowrap}
+.logo .o{color:var(--coral)} .logo .s{color:var(--blue)}
+.tag{color:var(--mut);font-weight:700;font-size:17px;padding-left:16px;border-left:1px solid var(--line)}
+.tag b{color:var(--coral)}
+.top-actions{margin-left:auto;display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 22px;border-radius:18px;font-weight:800;font-size:16px;transition:transform .15s,box-shadow .2s,background .2s;white-space:nowrap}
+.btn:hover{transform:translateY(-2px)} .btn:active{transform:scale(.97)}
+.btn-ghost{background:var(--lav);color:var(--blue)}
+.btn-coral{background:linear-gradient(180deg,var(--coral-2),var(--coral));color:#fff;box-shadow:0 14px 28px -12px rgba(255,100,70,.75)}
+.layout{display:grid;grid-template-columns:100px minmax(0,1fr) 116px;gap:16px;margin-top:16px}
+.rail{background:var(--card);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:10px 8px;display:flex;flex-direction:column;gap:6px;align-items:center}
+.nav-btn{width:82px;padding:11px 0 10px;border-radius:18px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13px;font-weight:800;color:var(--mut);transition:background .2s,color .2s}
+.nav-btn:hover{color:var(--ink)}
+.nav-btn.on{background:#ffece7;color:var(--coral)}
+body.bg-night .nav-btn.on{background:rgba(255,122,92,.18)}
+.stage{position:relative;height:min(66vh,660px);min-height:400px;border-radius:30px;overflow:hidden;isolation:isolate;background:radial-gradient(60% 55% at 50% 45%,rgba(255,255,255,.8),rgba(255,255,255,0) 72%)}
+body.bg-night .stage{background:radial-gradient(60% 55% at 50% 45%,rgba(140,120,255,.25),rgba(0,0,0,0) 72%)}
+body.bg-mint .stage{background:radial-gradient(60% 55% at 50% 45%,rgba(255,255,255,.7),rgba(255,255,255,0) 72%)}
+.stage::after{content:"";position:absolute;left:10%;right:10%;bottom:4%;height:16%;background:radial-gradient(50% 50% at 50% 50%,rgba(120,100,180,.16),transparent 70%);pointer-events:none;z-index:0}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.stage canvas#cv-fx{pointer-events:none;z-index:2}
+.stage .no-gl{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--mut);font-weight:700;padding:30px;z-index:3}
+.name{position:absolute;left:16px;top:14px;z-index:5;background:var(--card);border:1px solid var(--line);padding:9px 14px;border-radius:14px;font-weight:800;font-size:15px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.name small{display:block;color:var(--mut);font-weight:700;font-size:12px;margin-top:2px}
+.hint{position:absolute;right:16px;top:16px;font-size:12.5px;color:var(--mut);font-weight:700;z-index:5;max-width:250px;text-align:right;line-height:1.4}
+.stage-bar{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:6}
+.round{width:52px;height:52px;border-radius:50%;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;place-items:center;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:transform .15s}
+.round:hover{transform:scale(1.07)}
+.round svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pill{height:52px;border-radius:26px;display:flex;align-items:center;gap:4px;padding:0 4px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.pill .round{width:44px;height:44px;border:0;box-shadow:none;background:transparent}
+.ring{padding:12px 10px;justify-content:flex-start}
+.th{position:relative;width:90px;height:90px;border-radius:20px;padding:3px;border:2px solid transparent;background:transparent;transition:border-color .2s,transform .2s,background .2s;flex:none}
+.th:hover{transform:scale(1.04)}
+.th canvas{width:100%;height:100%;display:block;border-radius:16px}
+.th.on{border-color:var(--coral);background:rgba(255,122,92,.07)}
+.add{width:90px;height:90px;border-radius:20px;background:var(--chip);display:grid;place-items:center;font-size:32px;color:var(--mut);font-weight:700;flex:none}
+.add:disabled{opacity:.4;cursor:not-allowed}
+.add:not(:disabled):hover{color:var(--coral)}
+.panel{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:8px 24px 24px}
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin:0 -10px 22px;overflow-x:auto}
+.tab{padding:14px 22px 12px;font-weight:800;color:var(--mut);display:flex;gap:10px;align-items:center;border-radius:14px 14px 0 0;position:relative;white-space:nowrap}
+.tab svg{width:22px;height:22px}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--blue);background:var(--lav)}
+.tab.on::after{content:"";position:absolute;left:12px;right:12px;bottom:-1px;height:3px;border-radius:3px;background:var(--blue)}
+.cols{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:34px}
+@media (max-width:820px){.cols{grid-template-columns:1fr;gap:22px}}
+.lbl{font-weight:800;font-size:15px;margin:2px 0 14px;color:var(--ink)}
+.cap{font-size:13px;color:var(--mut);font-weight:700;margin-top:10px}
+.sw-row{display:flex;gap:13px;flex-wrap:wrap;padding:4px}
+.sw{width:42px;height:42px;border-radius:50%;background:var(--c);box-shadow:inset 0 -5px 0 rgba(0,0,0,.12),inset 0 3px 0 rgba(255,255,255,.4),0 6px 12px -6px rgba(0,0,0,.35);transition:transform .15s,box-shadow .2s}
+.sw:hover{transform:scale(1.1)}
+.sw.on{box-shadow:0 0 0 3px var(--card),0 0 0 5px var(--blue)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}
+.opt{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 6px 10px;border-radius:18px;background:var(--chip);border:2px solid transparent;font-weight:800;font-size:13px;transition:border-color .2s,background .2s,transform .15s}
+.opt:hover{transform:translateY(-2px)}
+.opt canvas{width:100%;height:60px;display:block}
+.opt.on{border-color:var(--blue);background:var(--card)}
+.bgsw{display:block;width:100%;height:62px;border-radius:12px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:10px 15px;border-radius:14px;background:var(--chip);font-weight:800;font-size:14px;transition:background .2s,color .2s}
+.chip:hover{color:var(--blue)}
+.chip.on{background:var(--blue);color:#fff}
+.sl{display:block;margin:4px 0 18px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:10px;border-radius:10px;background:linear-gradient(90deg,var(--blue) var(--p,50%),var(--chip) var(--p,50%));outline:none;margin:8px 0 0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 3px 10px rgba(40,30,100,.4);border:0;cursor:pointer}
+input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:#fff;border:0;box-shadow:0 3px 10px rgba(40,30,100,.4);cursor:pointer}
+.sl-ends{display:flex;justify-content:space-between;font-size:13px;color:var(--mut);font-weight:700;margin-top:8px}
+.txt{width:100%;max-width:340px;height:50px;border-radius:14px;border:1px solid var(--line);background:var(--chip);color:var(--ink);font:inherit;font-weight:800;font-size:16px;padding:0 16px}
+.saved{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
+.sv{margin:0;background:var(--chip);border-radius:20px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.sv img{width:100%;aspect-ratio:1;object-fit:contain;border-radius:14px;background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.7),rgba(255,255,255,0) 70%)}
+.sv figcaption{font-weight:800;font-size:15px;text-align:center}
+.sv-act{display:flex;gap:6px;justify-content:center}
+.sv-act .chip{padding:8px 11px;font-size:13px}
+.empty{color:var(--mut);font-weight:700;padding:26px 6px;font-size:15px;max-width:520px;line-height:1.5}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,24px);opacity:0;background:var(--ink);color:#fff;font-weight:800;padding:13px 20px;border-radius:16px;box-shadow:0 14px 30px -12px rgba(0,0,0,.5);transition:opacity .3s,transform .3s;pointer-events:none;z-index:50;max-width:90vw;text-align:center}
+body.bg-night .toast{background:#f1edff;color:#1d1745}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (max-width:980px){
+  .layout{grid-template-columns:1fr}
+  .rail.left{flex-direction:row;justify-content:center;flex-wrap:wrap;order:0}
+  .nav-btn{width:auto;flex-direction:row;padding:10px 16px;gap:8px}
+  .nav-btn svg.i{width:20px;height:20px}
+  .ring{flex-direction:row;overflow-x:auto;justify-content:flex-start}
+  .th,.add{width:76px;height:76px;flex:none}
+}
+@media (max-width:640px){
+  .logo{font-size:30px}
+  .tag{display:none}
+  .top-actions{margin-left:0;width:100%}
+  .top-actions .btn{flex:1;justify-content:center;padding:0 12px;font-size:15px}
+  .stage{min-height:360px;height:60vh;border-radius:24px}
+  .hint{display:none}
+  .stage-bar{bottom:10px;gap:6px}
+  .round{width:46px;height:46px}
+  .pill .round{width:40px;height:40px}
+  .panel{padding:6px 16px 18px}
+  .tabs{margin:0 -6px 16px}
+  .tab{padding:12px 14px 10px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="logo" aria-label="ORB Studio"><span class="o">ORB</span> <span class="s">STUDIO</span></div>
+    <div class="tag">Mały stworek. Twój styl. <b>♥</b></div>
+    <div class="top-actions">
+      <button class="btn btn-ghost" id="btnRandom" title="Losowy wygląd dla aktywnego stworka">
+        <svg class="i" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><circle cx="8.5" cy="8.5" r="1.3" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.3" fill="currentColor"/></svg>
+        Losuj wygląd
+      </button>
+      <button class="btn btn-coral" id="btnSave" title="Zapisz PNG i dodaj do Zapisanych">
+        <svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+        Zapisz awatar
+      </button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <nav class="rail left" aria-label="Sekcje">
+      <button class="nav-btn on" data-mode="make"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="11" r="1" fill="currentColor"/><circle cx="15" cy="11" r="1" fill="currentColor"/><path d="M9 15c1.6 1.4 4.4 1.4 6 0"/></svg>Stwórz</button>
+      <button class="nav-btn" data-mode="bg"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>Tło</button>
+      <button class="nav-btn" data-mode="saved"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 8"/></svg>Zapisane</button>
+      <button class="nav-btn" data-mode="settings"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8" stroke-dasharray="3 2.6" stroke-width="4"/></svg>Ustawienia</button>
+    </nav>
+
+    <section class="stage" id="stage" aria-label="Podgląd stworka">
+      <canvas id="cv-sh"></canvas>
+      <canvas id="cv-gl"></canvas>
+      <canvas id="cv-fx"></canvas>
+      <div class="name" id="nameTag"></div>
+      <div class="hint">Przeciągnij, by obrócić · kliknij, by pogłaskać · kliknij sąsiada, by go wybrać</div>
+      <div class="stage-bar">
+        <button class="round" id="resetYaw" title="Wyśrodkuj obrót" aria-label="Wyśrodkuj obrót"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5"/></svg></button>
+        <div class="pill">
+          <button class="round" id="prev" aria-label="Poprzedni"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <button class="round" id="next" aria-label="Następny"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+        <button class="round" id="zoom" title="Przybliż / oddal" aria-label="Przybliż lub oddal"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5M11 8v6M8 11h6"/></svg></button>
+      </div>
+    </section>
+
+    <aside class="rail ring" id="ring" aria-label="Stworki na scenie"></aside>
+  </main>
+
+  <section class="panel" id="panel" aria-live="polite"></section>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(() => {
+'use strict';
+
+/* ================================================================
+   helpers
+   ================================================================ */
+const TAU = Math.PI * 2;
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
+const lerp = (a, b, t) => a + (b - a) * t;
+const rnd = (a, b) => a + Math.random() * (b - a);
+const pick = (a) => a[(Math.random() * a.length) | 0];
+const clone = (o) => JSON.parse(JSON.stringify(o));
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const hexRgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
+const rgbHex = (c) => '#' + c.map((v) => Math.round(clamp(v, 0, 1) * 255).toString(16).padStart(2, '0')).join('');
+const mixHex = (a, b, t) => { const A = hexRgb(a), B = hexRgb(b); return rgbHex(A.map((v, i) => lerp(v, B[i], t))); };
+const visA = (f) => clamp((f - 0.1) / 0.3, 0, 1);
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ================================================================
+   palette, presets, constants
+   ================================================================ */
+const FURS = {
+  lilac:  { name: 'Lawenda',     base: '#9b7ee8', tip: '#e4d9ff' },
+  cream:  { name: 'Śmietanka',   base: '#e2cfae', tip: '#fff8ec' },
+  sky:    { name: 'Niebo',       base: '#5d9bf0', tip: '#cfe6ff' },
+  rose:   { name: 'Różyczka',    base: '#f08aa2', tip: '#ffdbe5' },
+  mint:   { name: 'Miętka',      base: '#44c4a0', tip: '#caf7e6' },
+  butter: { name: 'Masełko',     base: '#f3c551', tip: '#fff3c4' },
+  peach:  { name: 'Brzoskwinia', base: '#f5997a', tip: '#ffdacb' },
+  mocha:  { name: 'Mokka',       base: '#9d6d4c', tip: '#ebcca8' },
+};
+const EYE_COLORS = { violet: '#5b3fd1', brown: '#6a3d1f', honey: '#b7812c', blue: '#2f7fe0', green: '#3da35d', red: '#c8344f', teal: '#1fa7a4', ink: '#2b2350' };
+const EYE_STYLES = { round: 'Okrągłe', star: 'Gwiazdki', heart: 'Serduszka', galaxy: 'Galaktyka', happy: 'Szczęśliwe', sleepy: 'Senne' };
+const MOUTHS = { smile: 'Uśmiech', open: 'Radość', cat: 'Kotek', o: 'Ach', tiny: 'Mała' };
+const ACCS = { none: 'Brak', flower: 'Stokrotka', star: 'Gwiazdka', bow: 'Kokardka', shades: 'Okulary-serduszka' };
+const BGS = {
+  cream: { label: 'Kremowe',   top: '#fff8f3', bot: '#f3e6e2', night: false },
+  lilac: { label: 'Lawendowe', top: '#f6f0ff', bot: '#e2d4ff', night: false },
+  mint:  { label: 'Miętowe',   top: '#f1fff9', bot: '#cdf3e3', night: false },
+  night: { label: 'Nocne',     top: '#1d1745', bot: '#09081c', night: true },
+};
+const NAMES = ['Puch', 'Kluseczka', 'Mochi', 'Pyzia', 'Kulka', 'Bąbelek', 'Pufek', 'Chmurka', 'Zefirek'];
+const SLOTS = [
+  { x: 0,    z: 0,    s: 1.3 },   // centrum
+  { x: 2.9,  z: -0.9, s: 0.85 },
+  { x: 5.0,  z: -1.8, s: 0.7 },
+  { x: -2.9, z: -0.9, s: 0.85 },
+  { x: -5.0, z: -1.8, s: 0.7 },
+];
+const GROUND = -1.1;
+const FOV = 30 * Math.PI / 180;
+const BASE_DIST = 9;
+const ZOOMS = [1, 0.8, 1.35];
+const LAYERS = { low: 16, medium: 26, high: 38 };
+const THUMB = 192;
+const LIGHT = (() => { const x = -0.5, y = 0.85, z = 0.6, l = Math.hypot(x, y, z); return [x / l, y / l, z / l]; })();
+const KEY = 'orb-studio:saved:v1';
+
+const defaultCfg = (o = {}) => ({ name: 'Puch', fur: 'lilac', eyeStyle: 'galaxy', eyeColor: 'violet', gloss: 0.7, fluff: 0.6, mouth: 'smile', acc: 'none', blush: 0.6, wink: false, bounce: 0.6, ...o });
+const randomCfg = (name) => defaultCfg({
+  name: name || pick(NAMES), fur: pick(Object.keys(FURS)), eyeStyle: pick(Object.keys(EYE_STYLES)),
+  eyeColor: pick(Object.keys(EYE_COLORS)), mouth: pick(Object.keys(MOUTHS)), acc: pick(Object.keys(ACCS)),
+  fluff: rnd(0.3, 1), gloss: rnd(0.2, 1), blush: rnd(0, 1), wink: Math.random() < 0.3, bounce: rnd(0.3, 1),
+});
+
+/* ================================================================
+   state
+   ================================================================ */
+const starters = [
+  defaultCfg({ name: 'Lawenda', fur: 'lilac', eyeStyle: 'galaxy', eyeColor: 'violet', gloss: 0.8 }),
+  defaultCfg({ name: 'Śmietanka', fur: 'cream', eyeStyle: 'round', eyeColor: 'brown', acc: 'flower', mouth: 'tiny', gloss: 0.55, fluff: 0.5 }),
+  defaultCfg({ name: 'Niebieścik', fur: 'sky', eyeStyle: 'star', eyeColor: 'blue', acc: 'star', mouth: 'open', wink: true }),
+  defaultCfg({ name: 'Różyczka', fur: 'rose', eyeStyle: 'heart', eyeColor: 'red', acc: 'shades', mouth: 'cat', blush: 0.9 }),
+];
+const S = {
+  mode: 'make', tab: 'fur', bg: 'cream',
+  motion: !reduceMotion, particles: true, quality: 'high', zoom: 0,
+  saved: loadSaved(), exportPending: false, exportCb: null,
+  pointer: { x: -9999, y: -9999, in: false },
+};
+const creatures = [];
+let active = 0;
+let T = 0;               // scene clock (seconds)
+let STAGE_W = 1, STAGE_H = 1, DPR = 1;
+let thumbIdx = 0, thumbTimer = 0;
+const parts = [];        // hearts / sparkles
+const DUST = Array.from({ length: 42 }, () => ({ x: Math.random(), y: Math.random(), r: rnd(1, 3.6), v: rnd(0.006, 0.02), a: rnd(0.25, 0.6), p: rnd(0, TAU) }));
+const STARS = Array.from({ length: 110 }, () => [Math.random(), Math.random(), rnd(0, TAU), rnd(0.8, 2.4), rnd(0.5, 1.6)]);
+const GALAXY = [[-0.35, 0.3, 0.12], [0.3, -0.25, 0.09], [0.1, 0.45, 0.07], [-0.2, -0.5, 0.06], [0.45, 0.2, 0.05]];
+const SPARK_COLS = ['#ffb199', '#ffe27a', '#9ad4ff', '#ffffff'];
+
+function newCreature(cfg) {
+  return {
+    cfg, x: 0, z: 0, s: 1, y: GROUND + 1, wy: GROUND + 1, M: null, scr: null,
+    yaw: 0, yawV: 0, drag: false, home: false,
+    sq: 0, sv: 0, jy: 0, jv: 0,
+    lookX: 0, lookY: 0, tLookX: 0, tLookY: 0,
+    open: 1, openL: 1, blink: -1, wink: -1,
+    nextBlink: rnd(1.5, 3.5), nextWink: rnd(2.5, 5),
+    happy: 0, idle: rnd(4, 8), ph: rnd(0, TAU),
+    tx: 0, tz: 0, ts: 1, dirty: true, thumbCv: null, thumbCtx: null,
+  };
+}
+const starterCreatures = starters.map(newCreature);
+creatures.push(...starterCreatures);
+
+/* ================================================================
+   matrices (column-major, like WebGL)
+   ================================================================ */
+function mul(a, b) {
+  const o = new Float32Array(16);
+  for (let c = 0; c < 4; c++) for (let r = 0; r < 4; r++)
+    o[c * 4 + r] = a[r] * b[c * 4] + a[4 + r] * b[c * 4 + 1] + a[8 + r] * b[c * 4 + 2] + a[12 + r] * b[c * 4 + 3];
+  return o;
+}
+function persp(fy, asp, n, f) {
+  const t = 1 / Math.tan(fy / 2);
+  return new Float32Array([t / asp, 0, 0, 0, 0, t, 0, 0, 0, 0, (f + n) / (n - f), -1, 0, 0, 2 * f * n / (n - f), 0]);
+}
+function lookAt(e, c, u) {
+  let zx = e[0] - c[0], zy = e[1] - c[1], zz = e[2] - c[2];
+  let l = Math.hypot(zx, zy, zz); zx /= l; zy /= l; zz /= l;
+  let xx = u[1] * zz - u[2] * zy, xy = u[2] * zx - u[0] * zz, xz = u[0] * zy - u[1] * zx;
+  l = Math.hypot(xx, xy, xz); xx /= l; xy /= l; xz /= l;
+  const yx = zy * xz - zz * xy, yy = zz * xx - zx * xz, yz = zx * xy - zy * xx;
+  return new Float32Array([xx, yx, zx, 0, xy, yy, zy, 0, xz, yz, zz, 0,
+    -(xx * e[0] + xy * e[1] + xz * e[2]), -(yx * e[0] + yy * e[1] + yz * e[2]), -(zx * e[0] + zy * e[1] + zz * e[2]), 1]);
+}
+const Tm = (x, y, z) => new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, x, y, z, 1]);
+const Sm = (x, y, z) => new Float32Array([x, 0, 0, 0, 0, y, 0, 0, 0, 0, z, 0, 0, 0, 0, 1]);
+const Ry = (a) => { const c = Math.cos(a), s = Math.sin(a); return new Float32Array([c, 0, -s, 0, 0, 1, 0, 0, s, 0, c, 0, 0, 0, 0, 1]); };
+const Rz = (a) => { const c = Math.cos(a), s = Math.sin(a); return new Float32Array([c, s, 0, 0, -s, c, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]); };
+function xf(m, x, y, z) { return [m[0] * x + m[4] * y + m[8] * z + m[12], m[1] * x + m[5] * y + m[9] * z + m[13], m[2] * x + m[6] * y + m[10] * z + m[14]]; }
+function xf3(m, x, y, z) { return [m[0] * x + m[4] * y + m[8] * z, m[1] * x + m[5] * y + m[9] * z, m[2] * x + m[6] * y + m[10] * z]; }
+function proj(vp, x, y, z, W, H) {
+  const cw = vp[3] * x + vp[7] * y + vp[11] * z + vp[15];
+  const cx = vp[0] * x + vp[4] * y + vp[8] * z + vp[12];
+  const cy = vp[1] * x + vp[5] * y + vp[9] * z + vp[13];
+  return { x: (cx / cw * 0.5 + 0.5) * W, y: (0.5 - cy / cw * 0.5) * H };
+}
+
+/* ================================================================
+   WebGL: shell-textured fur renderer (one per canvas)
+   ================================================================ */
+const VS = `
+attribute vec3 aPos; attribute vec3 aNrm;
+uniform mat4 uVP, uModel;
+uniform float uLayer, uFur, uTime, uWind;
+varying vec3 vObj, vN, vW; varying float vL;
+void main(){
+  float L = uLayer; float g = L * L;
+  vec3 p = aPos + aNrm * (L * uFur);
+  p.x += sin(uTime * 1.6 + aPos.y * 4.0 + aPos.z * 2.0) * 0.05 * g * uWind;
+  p.z += cos(uTime * 1.25 + aPos.x * 3.0) * 0.04 * g * uWind;
+  p.y -= 0.07 * g * uWind;
+  vec4 w = uModel * vec4(p, 1.0);
+  vW = w.xyz;
+  vN = normalize((uModel * vec4(aNrm, 0.0)).xyz);
+  vObj = aPos; vL = L;
+  gl_Position = uVP * w;
+}`;
+const FS = `
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+varying vec3 vObj, vN, vW; varying float vL;
+uniform vec3 uBase, uTip, uRim, uLight, uEye;
+uniform float uDensity, uGloss;
+float hash(vec3 p){ p = fract(p * 0.1031); p += dot(p, p.zyx + 31.32); return fract((p.x + p.y) * p.z); }
+void main(){
+  vec3 cell = floor(vObj * uDensity);
+  float s = hash(cell);
+  float s2 = hash(cell * 1.37 + 11.7);
+  if (vL > 0.0 && s < vL * 0.86) discard;
+  vec3 N = normalize(vN);
+  vec3 V = normalize(uEye - vW);
+  vec3 Lg = normalize(uLight);
+  float nl = dot(N, Lg);
+  float diff = 0.55 * max(nl, 0.0) + 0.45 * (nl * 0.5 + 0.5);
+  float ao = mix(0.42, 1.0, vL);
+  vec3 col = mix(uBase * 0.6, uBase, diff);
+  col = mix(col, uTip, vL * 0.75 + s2 * 0.12);
+  col *= ao * (0.88 + 0.24 * s2);
+  float rim = pow(1.0 - max(dot(N, V), 0.0), 2.2);
+  col += uRim * rim * 0.42;
+  vec3 H = normalize(Lg + V);
+  float spec = pow(max(dot(N, H), 0.0), mix(10.0, 70.0, uGloss));
+  col += vec3(1.0, 0.98, 0.96) * spec * (0.12 + 0.3 * uGloss) * (0.4 + vL * 0.6);
+  gl_FragColor = vec4(col, 1.0);
+}`;
+
+function compile(gl, type, src) {
+  const sh = gl.createShader(type);
+  gl.shaderSource(sh, src); gl.compileShader(sh);
+  if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(sh));
+  return sh;
+}
+function makeRenderer(canvas) {
+  const gl = canvas.getContext('webgl', { antialias: true, alpha: true, premultipliedAlpha: true });
+  if (!gl) return null;
+  const prog = gl.createProgram();
+  gl.attachShader(prog, compile(gl, gl.VERTEX_SHADER, VS));
+  gl.attachShader(prog, compile(gl, gl.FRAGMENT_SHADER, FS));
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+  const U = {};
+  ['uVP', 'uModel', 'uLayer', 'uFur', 'uTime', 'uWind', 'uBase', 'uTip', 'uRim', 'uLight', 'uEye', 'uDensity', 'uGloss']
+    .forEach((n) => (U[n] = gl.getUniformLocation(prog, n)));
+  const aPos = gl.getAttribLocation(prog, 'aPos'), aNrm = gl.getAttribLocation(prog, 'aNrm');
+
+  // unit sphere, interleaved position + normal
+  const LAT = 34, LON = 48, verts = [], idx = [];
+  for (let i = 0; i <= LAT; i++) {
+    const th = i / LAT * Math.PI, st = Math.sin(th), ct = Math.cos(th);
+    for (let j = 0; j <= LON; j++) {
+      const ph = j / LON * TAU, x = st * Math.cos(ph), y = ct, z = st * Math.sin(ph);
+      verts.push(x, y, z, x, y, z);
+    }
+  }
+  for (let i = 0; i < LAT; i++) for (let j = 0; j < LON; j++) {
+    const a = i * (LON + 1) + j, b = a + LON + 1;
+    idx.push(a, b, a + 1, b, b + 1, a + 1);
+  }
+  const vbo = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
+  const ibo = gl.createBuffer();
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(idx), gl.STATIC_DRAW);
+  const icount = idx.length;
+  gl.enable(gl.DEPTH_TEST);
+
+  return {
+    canvas, gl,
+    begin() {
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    },
+    draw(M, vp, eye, p, layers, t) {
+      gl.useProgram(prog);
+      gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
+      gl.enableVertexAttribArray(aPos);
+      gl.enableVertexAttribArray(aNrm);
+      gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 24, 0);
+      gl.vertexAttribPointer(aNrm, 3, gl.FLOAT, false, 24, 12);
+      gl.uniformMatrix4fv(U.uVP, false, vp);
+      gl.uniformMatrix4fv(U.uModel, false, M);
+      gl.uniform3fv(U.uBase, p.base);
+      gl.uniform3fv(U.uTip, p.tip);
+      gl.uniform3fv(U.uRim, p.rim);
+      gl.uniform3fv(U.uLight, LIGHT);
+      gl.uniform3fv(U.uEye, eye);
+      gl.uniform1f(U.uDensity, p.density);
+      gl.uniform1f(U.uFur, p.len);
+      gl.uniform1f(U.uWind, p.wind);
+      gl.uniform1f(U.uGloss, p.gloss);
+      gl.uniform1f(U.uTime, t);
+      for (let i = 0; i <= layers; i++) {        // i = 0 is the dark skin, the rest are fur shells
+        gl.uniform1f(U.uLayer, i / layers);
+        gl.drawElements(gl.TRIANGLES, icount, gl.UNSIGNED_SHORT, 0);
+      }
+    },
+  };
+}
+
+let MAIN = null, THUMB_R = null;
+const cvSh = $('#cv-sh'), cvGL = $('#cv-gl'), cvFx = $('#cv-fx');
+const shG = cvSh.getContext('2d'), fxG = cvFx.getContext('2d');
+const stage = $('#stage');
+try {
+  MAIN = makeRenderer(cvGL);
+  THUMB_R = makeRenderer(document.createElement('canvas'));
+} catch (err) {
+  console.error(err);
+}
+if (!MAIN) {
+  const n = document.createElement('div');
+  n.className = 'no-gl';
+  n.textContent = 'Ta przeglądarka nie obsługuje WebGL — futerko nie wyrenderuje się, ale projektowanie działa.';
+  stage.appendChild(n);
+}
+
+/* ================================================================
+   per-creature derived data
+   ================================================================ */
+const furLen = (cfg) => lerp(0.06, 0.16, cfg.fluff);
+function furParams(cfg) {
+  const f = FURS[cfg.fur] || FURS.lilac;
+  const base = hexRgb(f.base), tip = hexRgb(f.tip);
+  return {
+    base, tip,
+    rim: base.map((v) => lerp(v, 1, 0.55)),
+    density: lerp(150, 230, cfg.fluff),
+    len: furLen(cfg),
+    wind: lerp(0.5, 1.0, cfg.fluff),
+    gloss: cfg.gloss,
+  };
+}
+function modelOf(c) {
+  const amp = S.motion ? 1 : 0;
+  const bobSin = Math.sin(T * 2.1 + c.ph);
+  const bob = bobSin * 0.03 * (0.4 + c.cfg.bounce) * amp;
+  const br = bobSin * 0.02 * amp;
+  const sxz = c.s * (1 + 0.1 * c.sq) * (1 - br * 0.5);
+  const sy = c.s * (1 - 0.16 * c.sq) * (1 + br);
+  const wy = GROUND + sy + c.jy + bob;
+  const yaw = c.yaw + Math.sin(T * 0.55 + c.ph) * 0.12 * amp * (0.5 + c.cfg.bounce);
+  const lean = c.lookX * 0.07;
+  const M = mul(mul(mul(Tm(c.x, wy, c.z), Ry(yaw)), Rz(lean)), Sm(sxz, sy, sxz));
+  return { M, wy };
+}
+function camera(W, H) {
+  const asp = W / H;
+  const dist = BASE_DIST * Math.max(1, 1 / asp) * ZOOMS[S.zoom];
+  const eye = [0, 1.6, dist];
+  const view = lookAt(eye, [0, 0.2, 0], [0, 1, 0]);
+  return { eye, vp: mul(persp(FOV, asp, 0.1, 100), view) };
+}
+
+/* ================================================================
+   face: eyes / mouth / accessories are projected from 3D anchors
+   onto the fur (2D overlay), so they follow rotation and squash.
+   ================================================================ */
+const n3 = (x, y, z) => { const l = Math.hypot(x, y, z); return [x / l, y / l, z / l]; };
+const DIR = {
+  eyeL: n3(-0.42, 0.12, 0.9), eyeR: n3(0.42, 0.12, 0.9), mouth: n3(0, -0.22, 1),
+  cheekL: n3(-0.7, -0.12, 0.7), cheekR: n3(0.7, -0.12, 0.7),
+  flower: n3(0.42, 0.84, 0.3), star: n3(0.22, 0.95, 0.25), bow: n3(-0.52, 0.72, 0.42),
+};
+// Screen-space affine frame for a point on the sphere surface: origin + axes per unit `U` (local units).
+function anchor(M, vp, W, H, d, R, U, eye) {
+  const [dx, dy, dz] = d;
+  let ux = -dx * dy, uy = 1 - dy * dy, uz = -dz * dy;           // world-up projected on the tangent plane
+  const ul = Math.hypot(ux, uy, uz) || 1; ux /= ul; uy /= ul; uz /= ul;
+  const rx = uy * dz - uz * dy, ry = uz * dx - ux * dz, rz = ux * dy - uy * dx; // right = up × d
+  const px = dx * R, py = dy * R, pz = dz * R;
+  const P = xf(M, px, py, pz);
+  const Rp = xf(M, px + rx * U, py + ry * U, pz + rz * U);
+  const Up = xf(M, px - ux * U, py - uy * U, pz - uz * U);      // local +v points down the screen
+  const s0 = proj(vp, P[0], P[1], P[2], W, H);
+  const s1 = proj(vp, Rp[0], Rp[1], Rp[2], W, H);
+  const s2 = proj(vp, Up[0], Up[1], Up[2], W, H);
+  const nW = xf3(M, dx, dy, dz);
+  const nl = Math.hypot(nW[0], nW[1], nW[2]) || 1;
+  const vx = eye[0] - P[0], vy = eye[1] - P[1], vz = eye[2] - P[2];
+  const vl = Math.hypot(vx, vy, vz) || 1;
+  const facing = (nW[0] * vx + nW[1] * vy + nW[2] * vz) / (nl * vl);
+  // one unit of the 2D frame = U local units, so the screen delta of that step is already "per unit"
+  return { x: s0.x, y: s0.y, ax: s1.x - s0.x, ay: s1.y - s0.y, bx: s2.x - s0.x, by: s2.y - s0.y, f: facing };
+}
+
+function ell(g, x, y, rx, ry) { g.beginPath(); g.ellipse(x, y, rx, ry, 0, 0, TAU); }
+function heartPath(g, x, y, s) {
+  g.beginPath();
+  g.moveTo(x, y + s * 0.9);
+  g.bezierCurveTo(x - s * 1.4, y + s * 0.1, x - s * 0.9, y - s * 1.1, x, y - s * 0.35);
+  g.bezierCurveTo(x + s * 0.9, y - s * 1.1, x + s * 1.4, y + s * 0.1, x, y + s * 0.9);
+  g.closePath();
+}
+function sparkle(g, x, y, r) {
+  g.beginPath();
+  g.moveTo(x, y - r); g.quadraticCurveTo(x, y, x + r, y); g.quadraticCurveTo(x, y, x, y + r);
+  g.quadraticCurveTo(x, y, x - r, y); g.quadraticCurveTo(x, y, x, y - r); g.closePath(); g.fill();
+}
+function star5(g, x, y, R, r) {
+  g.beginPath();
+  for (let i = 0; i < 10; i++) {
+    const rad = i % 2 ? r : R, a = -Math.PI / 2 + i * Math.PI / 5;
+    const px = x + Math.cos(a) * rad, py = y + Math.sin(a) * rad;
+    if (i) g.lineTo(px, py); else g.moveTo(px, py);
+  }
+  g.closePath();
+}
+
+// Eye in unit space: origin = eye centre, radius ≈ 1. open ∈ [0,1], look ∈ [-1,1].
+function drawEye(g, st, col, gloss, open, lx, ly, t) {
+  const INK = '#2a1d4a';
+  if (st === 'happy') {
+    g.strokeStyle = INK; g.lineWidth = 0.24; g.lineCap = 'round';
+    g.beginPath(); g.arc(0, 0.35, 0.9, Math.PI * 1.15, Math.PI * 1.85); g.stroke();
+    return;
+  }
+  const o = st === 'sleepy' ? Math.min(open, 0.5) : open;
+  if (o < 0.08) {
+    g.strokeStyle = INK; g.lineWidth = 0.22; g.lineCap = 'round';
+    g.beginPath(); g.moveTo(-0.9, 0.1); g.quadraticCurveTo(0, 0.45, 0.9, 0.1); g.stroke();
+    return;
+  }
+  g.save();
+  g.scale(1, o);
+  g.fillStyle = INK; ell(g, 0, 0, 1.12, 1.26); g.fill();
+  const sg = g.createLinearGradient(0, -1.1, 0, 1.1);
+  sg.addColorStop(0, '#ffffff'); sg.addColorStop(1, '#e6dcff');
+  g.fillStyle = sg; ell(g, 0, 0, 1.0, 1.14); g.fill();
+
+  g.save();
+  ell(g, 0, 0, 1.0, 1.14); g.clip();
+  const ix = lx * 0.18, iy = 0.06 + ly * 0.14;
+  const ig = g.createRadialGradient(ix, iy, 0.08, ix, iy, 0.9);
+  ig.addColorStop(0, mixHex(col, '#ffffff', 0.5));
+  ig.addColorStop(0.55, col);
+  ig.addColorStop(1, mixHex(col, '#000000', 0.5));
+  g.fillStyle = ig; g.beginPath(); g.arc(ix, iy, 0.86, 0, TAU); g.fill();
+  if (st === 'galaxy' || st === 'star') {
+    g.fillStyle = 'rgba(255,255,255,0.92)';
+    for (const [x, y, r] of GALAXY) sparkle(g, ix + x * 0.9, iy + y * 0.9, r * 1.7);
+  }
+  if (st === 'heart') { g.fillStyle = '#b5173f'; heartPath(g, ix, iy + 0.05, 0.42); g.fill(); }
+  else { g.fillStyle = '#1a1230'; g.beginPath(); g.arc(ix, iy, 0.36, 0, TAU); g.fill(); }
+  g.strokeStyle = 'rgba(20,10,40,0.45)'; g.lineWidth = 0.12;
+  g.beginPath(); g.arc(ix, iy, 0.86, 0, TAU); g.stroke();
+  const ls = g.createLinearGradient(0, -1.14, 0, -0.1);       // upper-lid shadow
+  ls.addColorStop(0, 'rgba(30,15,50,0.5)'); ls.addColorStop(1, 'rgba(30,15,50,0)');
+  g.fillStyle = ls; g.fillRect(-1.2, -1.3, 2.4, 1.2);
+  g.restore();
+
+  // highlights (outside the clip, so they overlap the rim)
+  g.fillStyle = '#ffffff';
+  g.beginPath(); g.arc(-0.34 + ix * 0.4, -0.42 + iy * 0.4, 0.26 + gloss * 0.08, 0, TAU); g.fill();
+  g.beginPath(); g.arc(0.36, 0.4, 0.12 + gloss * 0.06, 0, TAU); g.fill();
+  if (gloss > 0.45) sparkle(g, 0.22, -0.8, 0.2 + gloss * 0.06);
+  g.restore();
+}
+function drawMouth(g, kind) {
+  g.strokeStyle = '#2a1d4a'; g.lineWidth = 0.2; g.lineCap = 'round'; g.lineJoin = 'round';
+  switch (kind) {
+    case 'open':
+      g.fillStyle = '#2a1d4a'; g.beginPath();
+      g.moveTo(-0.7, -0.25); g.quadraticCurveTo(0, 0.1, 0.7, -0.25);
+      g.quadraticCurveTo(0.5, 1.0, 0, 1.0); g.quadraticCurveTo(-0.5, 1.0, -0.7, -0.25); g.fill();
+      g.fillStyle = '#ff6f8e'; ell(g, 0, 0.72, 0.38, 0.2); g.fill();
+      break;
+    case 'cat':
+      g.beginPath(); g.moveTo(-0.75, -0.1); g.quadraticCurveTo(-0.4, 0.6, 0, 0.1); g.quadraticCurveTo(0.4, 0.6, 0.75, -0.1); g.stroke(); break;
+    case 'o':
+      g.fillStyle = '#2a1d4a'; ell(g, 0, 0, 0.28, 0.36); g.fill(); break;
+    case 'tiny':
+      g.beginPath(); g.moveTo(-0.3, 0); g.quadraticCurveTo(0, 0.25, 0.3, 0); g.stroke(); break;
+    default:
+      g.beginPath(); g.moveTo(-0.8, -0.2); g.quadraticCurveTo(0, 0.55, 0.8, -0.2); g.stroke();
+  }
+}
+function drawFlower(g, t) {
+  g.save(); g.rotate(Math.sin(t * 1.2) * 0.12);
+  g.fillStyle = '#ffffff'; g.strokeStyle = 'rgba(230,190,215,.95)'; g.lineWidth = 0.08;
+  for (let i = 0; i < 7; i++) {
+    const a = i / 7 * TAU;
+    g.beginPath(); g.ellipse(Math.cos(a) * 0.66, Math.sin(a) * 0.66, 0.42, 0.3, a, 0, TAU); g.fill(); g.stroke();
+  }
+  g.fillStyle = '#ffd23f'; g.beginPath(); g.arc(0, 0, 0.36, 0, TAU); g.fill();
+  g.strokeStyle = '#e9a800'; g.lineWidth = 0.06; g.stroke();
+  g.restore();
+}
+function drawStarAcc(g, t) {
+  g.save(); g.rotate(Math.sin(t * 2) * 0.15);
+  g.fillStyle = '#ffd23f'; g.strokeStyle = '#f0a500'; g.lineWidth = 0.14; g.lineJoin = 'round';
+  star5(g, 0, 0, 1.1, 0.5); g.fill(); g.stroke();
+  g.fillStyle = 'rgba(255,255,255,.85)'; sparkle(g, -0.55, -0.6, 0.22);
+  g.restore();
+}
+function drawBow(g) {
+  g.save(); g.fillStyle = '#ff6fa3'; g.strokeStyle = '#c2326e'; g.lineWidth = 0.1; g.lineJoin = 'round';
+  for (const sx of [-1, 1]) {
+    g.beginPath(); g.moveTo(0, 0); g.lineTo(sx * 1.3, -0.8); g.lineTo(sx * 1.3, 0.8); g.closePath(); g.fill(); g.stroke();
+  }
+  g.fillStyle = '#e05490'; g.beginPath(); g.arc(0, 0, 0.32, 0, TAU); g.fill();
+  g.restore();
+}
+
+function drawFace(g, c, M, vp, W, H, dpr, eye, t) {
+  const cfg = c.cfg, R = 1 + furLen(cfg) * 0.8;
+  const at = (d, U) => anchor(M, vp, W, H, d, R, U, eye);
+  const setT = (a) => g.setTransform(dpr * a.ax, dpr * a.ay, dpr * a.bx, dpr * a.by, dpr * a.x, dpr * a.y);
+  const col = EYE_COLORS[cfg.eyeColor] || EYE_COLORS.violet;
+
+  // blush
+  if (cfg.blush > 0.02) for (const d of [DIR.cheekL, DIR.cheekR]) {
+    const a = at(d, 0.2), k = visA(a.f) * cfg.blush;
+    if (k < 0.01) continue;
+    g.save(); setT(a); g.globalAlpha = k * 0.9;
+    const rg = g.createRadialGradient(0, 0, 0, 0, 0, 1.25);
+    rg.addColorStop(0, 'rgba(255,110,140,0.95)'); rg.addColorStop(0.6, 'rgba(255,130,160,0.5)'); rg.addColorStop(1, 'rgba(255,140,170,0)');
+    g.fillStyle = rg; g.beginPath(); g.arc(0, 0, 1.25, 0, TAU); g.fill();
+    g.restore();
+  }
+
+  // eyes
+  const eL = at(DIR.eyeL, 0.25), eR = at(DIR.eyeR, 0.25);
+  const aL = visA(eL.f), aR = visA(eR.f);
+  if (aL > 0.01) { g.save(); setT(eL); g.globalAlpha = aL; drawEye(g, cfg.eyeStyle, col, cfg.gloss, c.openL, c.lookX, c.lookY, t); g.restore(); }
+  if (aR > 0.01) { g.save(); setT(eR); g.globalAlpha = aR; drawEye(g, cfg.eyeStyle, col, cfg.gloss, c.open, c.lookX, c.lookY, t); g.restore(); }
+
+  // mouth
+  const m = at(DIR.mouth, 0.15), am = visA(m.f);
+  if (am > 0.01) { g.save(); setT(m); g.globalAlpha = am; drawMouth(g, cfg.mouth); g.restore(); }
+
+  // accessories
+  const acc = (d, U, fn) => {
+    const a = at(d, U), k = visA(a.f);
+    if (k > 0.01) { g.save(); setT(a); g.globalAlpha = k; fn(); g.restore(); }
+  };
+  if (cfg.acc === 'flower') acc(DIR.flower, 0.2, () => drawFlower(g, t));
+  else if (cfg.acc === 'star') acc(DIR.star, 0.18, () => drawStarAcc(g, t));
+  else if (cfg.acc === 'bow') acc(DIR.bow, 0.17, () => drawBow(g));
+  else if (cfg.acc === 'shades') {
+    const sL = at(DIR.eyeL, 0.3), sR = at(DIR.eyeR, 0.3);
+    const k = Math.min(visA(sL.f), visA(sR.f));
+    if (k > 0.01) {
+      g.save(); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.globalAlpha = k;
+      g.strokeStyle = '#2b2750'; g.lineWidth = Math.max(1.5, Math.hypot(sR.x - sL.x, sR.y - sL.y) * 0.07);
+      g.beginPath(); g.moveTo(sL.x, sL.y); g.lineTo(sR.x, sR.y); g.stroke();
+      for (const s of [sL, sR]) {
+        setT(s);
+        heartPath(g, 0, 0, 1.0);
+        g.fillStyle = 'rgba(255,70,120,0.5)'; g.fill();
+        g.lineWidth = 0.14; g.strokeStyle = '#2b2750'; g.stroke();
+        g.fillStyle = 'rgba(255,255,255,0.8)'; g.beginPath(); g.ellipse(-0.42, -0.4, 0.16, 0.09, -0.5, 0, TAU); g.fill();
+      }
+      g.restore();
+    }
+  }
+}
+
+/* ================================================================
+   thumbnails: same renderer, small camera, copied into 2D canvases
+   ================================================================ */
+function renderThumbTo(ctx, cfg, t, yaw, ph = 0) {
+  const N = THUMB;
+  const eye = [0, 0.7, 5.4];
+  const vp = mul(persp(FOV, 1, 0.1, 50), lookAt(eye, [0, 0, 0], [0, 1, 0]));
+  const M = mul(Tm(0, 0, 0), Ry(yaw));
+  const c = { cfg, x: 0, z: 0, s: 1, yaw, lookX: 0, lookY: 0, open: 1, openL: 1, ph, sq: 0, jy: 0 };
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, N, N);
+  if (THUMB_R) {
+    if (THUMB_R.canvas.width !== N) { THUMB_R.canvas.width = N; THUMB_R.canvas.height = N; }
+    THUMB_R.begin();
+    THUMB_R.draw(M, vp, eye, furParams(cfg), 20, t);
+    ctx.drawImage(THUMB_R.canvas, 0, 0);
+  }
+  drawFace(ctx, c, M, vp, N, N, 1, eye, t);
+}
+function renderThumbDataURL(cfg) {
+  const cv = document.createElement('canvas');
+  cv.width = cv.height = THUMB;
+  renderThumbTo(cv.getContext('2d'), cfg, T, 0.25);
+  return cv.toDataURL('image/png');
+}
+
+/* ================================================================
+   layout, physics, input
+   ================================================================ */
+function layout() {
+  const n = creatures.length;
+  creatures.forEach((c, j) => {
+    const k = (j - active + n) % n, sl = SLOTS[k];
+    c.tx = sl.x; c.tz = sl.z; c.ts = sl.s;
+  });
+}
+function step(c, dt) {
+  const k = 1 - Math.exp(-dt * 5);
+  c.x = lerp(c.x, c.tx, k); c.z = lerp(c.z, c.tz, k); c.s = lerp(c.s, c.ts, k);
+  c.sv += (-150 * c.sq - 12 * c.sv) * dt; c.sq = clamp(c.sq + c.sv * dt, -0.6, 0.6);
+  c.jv += (-38 * c.jy - 5 * c.jv) * dt; c.jy += c.jv * dt;
+  if (!c.drag) { c.yaw += c.yawV * dt; c.yawV *= Math.exp(-dt * 3.2); }
+  if (c.home) { c.yaw = lerp(c.yaw, 0, 1 - Math.exp(-dt * 6)); if (Math.abs(c.yaw) < 0.002) { c.yaw = 0; c.home = false; } }
+  const kl = 1 - Math.exp(-dt * 8);
+  c.lookX = lerp(c.lookX, c.tLookX, kl); c.lookY = lerp(c.lookY, c.tLookY, kl);
+
+  if (c.blink < 0) { c.nextBlink -= dt; if (c.nextBlink <= 0) { c.blink = 0; c.nextBlink = rnd(2.4, 5); } }
+  else { c.blink += dt / 0.17; if (c.blink >= 1) c.blink = -1; }
+  c.open = c.blink < 0 ? 1 : Math.abs(c.blink * 2 - 1);
+
+  if (c.cfg.wink) {
+    if (c.wink < 0) { c.nextWink -= dt; if (c.nextWink <= 0) { c.wink = 0; c.nextWink = rnd(3, 6); } }
+    else { c.wink += dt / 0.5; if (c.wink >= 1) c.wink = -1; }
+  }
+  c.openL = c.cfg.wink && c.wink >= 0 ? Math.abs(c.wink * 2 - 1) : c.open;
+
+  c.happy = Math.max(0, c.happy - dt * 0.6);
+  if (S.motion) {
+    c.idle -= dt;
+    if (c.idle <= 0) { c.idle = rnd(6, 11); c.happy = 1; c.jv += 2.5; }
+  }
+}
+function burst(x, y) {
+  for (let i = 0; i < 6; i++) parts.push({ k: 'heart', x: x + rnd(-22, 22), y: y + rnd(-8, 8), vx: rnd(-30, 30), vy: rnd(-170, -90), life: 0, max: rnd(1.2, 1.9), s: rnd(8, 14), rot: rnd(-0.4, 0.4) });
+  if (!S.particles) return;
+  for (let i = 0; i < 9; i++) parts.push({ k: 'spark', x, y, vx: rnd(-150, 150), vy: rnd(-160, 30), life: 0, max: rnd(0.6, 1.0), s: rnd(5, 10), col: pick(SPARK_COLS) });
+}
+function pet(c) {
+  c.sv += 9; c.jv += 7; c.happy = 1; c.blink = 0;
+  if (c.scr) burst(c.scr.x, c.scr.y - c.scr.r * 0.8);
+}
+function setActive(j) {
+  if (j === active) return;
+  active = j; layout(); updateRing(); renderPanel(); updateName();
+}
+function cfgChanged(c = creatures[active]) { c.dirty = true; updateName(); }
+
+const stageEl = stage;
+let drag = null;
+stageEl.addEventListener('pointerdown', (e) => {
+  if (e.target.closest('button, .name, .hint')) return;
+  stageEl.setPointerCapture(e.pointerId);
+  drag = { x0: e.clientX, y0: e.clientY, lx: e.clientX, lt: performance.now(), moved: 0, c: creatures[active] };
+  drag.c.drag = true; drag.c.yawV = 0;
+});
+stageEl.addEventListener('pointermove', (e) => {
+  const r = stageEl.getBoundingClientRect();
+  S.pointer.x = e.clientX - r.left; S.pointer.y = e.clientY - r.top; S.pointer.in = true;
+  if (!drag) return;
+  const dx = e.clientX - drag.lx, now = performance.now();
+  drag.moved = Math.max(drag.moved, Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0));
+  drag.c.yaw += dx * 0.011;
+  drag.c.yawV = clamp(dx * 0.011 / Math.max(0.016, (now - drag.lt) / 1000), -12, 12);
+  drag.lx = e.clientX; drag.lt = now;
+});
+stageEl.addEventListener('pointerleave', () => { S.pointer.in = false; });
+stageEl.addEventListener('pointerup', (e) => {
+  if (!drag) return;
+  const d = drag; drag = null;
+  d.c.drag = false;
+  if (d.moved < 8) {
+    const r = stageEl.getBoundingClientRect();
+    onClick(e.clientX - r.left, e.clientY - r.top);
+  }
+});
+stageEl.addEventListener('pointercancel', () => { if (drag) drag.c.drag = false; drag = null; });
+function onClick(x, y) {
+  let best = -1, bz = -Infinity;
+  creatures.forEach((c, i) => {
+    if (!c.scr) return;
+    const dx = x - c.scr.x, dy = y - c.scr.y;
+    if (dx * dx + dy * dy < (c.scr.r * 1.02) ** 2 && c.z > bz) { best = i; bz = c.z; }
+  });
+  if (best < 0) return;
+  if (best !== active) return setActive(best);
+  pet(creatures[active]);
+}
+window.addEventListener('keydown', (e) => {
+  if (e.target.closest && e.target.closest('input,textarea,select')) return;
+  if (e.key === 'ArrowRight') cycle(1);
+  if (e.key === 'ArrowLeft') cycle(-1);
+});
+function cycle(d) {
+  const n = creatures.length;
+  setActive((active + d + n) % n);
+}
+
+/* ================================================================
+   main loop
+   ================================================================ */
+function update(dt) {
+  T += dt * (S.motion ? 1 : 0.25);
+  for (const c of creatures) step(c, dt);
+
+  // ambient sparkles above the active creature
+  if (S.motion && S.particles && creatures[active].scr) {
+    creatures[active].ambT = (creatures[active].ambT ?? 0) - dt;
+    if (creatures[active].ambT <= 0) {
+      creatures[active].ambT = rnd(0.5, 1.2);
+      const c = creatures[active], a = rnd(-Math.PI, 0);
+      parts.push({ k: 'spark', x: c.scr.x + Math.cos(a) * c.scr.r * 1.05, y: c.scr.y + Math.sin(a) * c.scr.r * 1.05, vx: rnd(-12, 12), vy: rnd(-40, -18), life: 0, max: rnd(0.8, 1.3), s: rnd(4, 8), col: pick(SPARK_COLS) });
+    }
+  }
+
+  for (let i = parts.length - 1; i >= 0; i--) {
+    const p = parts[i];
+    p.life += dt;
+    if (p.life > p.max) { parts.splice(i, 1); continue; }
+    p.x += p.vx * dt; p.y += p.vy * dt;
+    if (p.k === 'heart') { p.vx *= Math.exp(-dt * 1.6); p.vy *= Math.exp(-dt * 1.2); }
+    else { p.vy += 260 * dt; p.vx *= Math.exp(-dt * 2); }
+  }
+  for (const d of DUST) { d.y -= d.v * dt * (S.motion ? 1 : 0.2); if (d.y < -0.05) { d.y = 1.05; d.x = Math.random(); } }
+
+  // round-robin thumbnails (dirty first)
+  thumbTimer -= dt;
+  if (thumbTimer <= 0 && creatures.length) {
+    thumbTimer = 0.12;
+    const dirty = creatures.find((c) => c.dirty);
+    const c = dirty || creatures[thumbIdx++ % creatures.length];
+    if (c.thumbCtx) {
+      renderThumbTo(c.thumbCtx, c.cfg, T, c.yaw, c.ph);
+      c.dirty = false;
+    }
+  }
+}
+
+function drawBackdrop(W, H, dpr, vp) {
+  const g = shG;
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  g.clearRect(0, 0, cvSh.width, cvSh.height);
+  g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const night = BGS[S.bg].night;
+  if (night) {
+    for (const s of STARS) {
+      g.fillStyle = `rgba(255,255,255,${0.3 + 0.4 * Math.sin(T * s[3] + s[2]) ** 2})`;
+      g.beginPath(); g.arc(s[0] * W, s[1] * H, s[4], 0, TAU); g.fill();
+    }
+  }
+  if (S.particles) {
+    g.fillStyle = night ? '#ffffff' : '#d8c8ff';
+    for (const d of DUST) {
+      g.globalAlpha = d.a * (night ? 0.8 : 0.7) * (0.7 + 0.3 * Math.sin(T * 0.8 + d.p));
+      g.beginPath(); g.arc(d.x * W, d.y * H, d.r, 0, TAU); g.fill();
+    }
+    g.globalAlpha = 1;
+  }
+  // soft contact shadows, pulse with the bounce
+  for (const c of creatures) {
+    const a = proj(vp, c.x, GROUND, c.z, W, H), b = proj(vp, c.x + c.s, GROUND, c.z, W, H);
+    const rx = Math.hypot(b.x - a.x, b.y - a.y) * 1.05, ry = rx * 0.2;
+    if (rx < 1) continue;
+    const alpha = (night ? 0.55 : 0.26) * (1 - clamp(c.jy * 0.9, 0, 0.6));
+    g.save();
+    g.translate(a.x, a.y); g.scale(1, ry / rx);
+    const rg = g.createRadialGradient(0, 0, 0, 0, 0, rx);
+    rg.addColorStop(0, night ? `rgba(0,0,0,${alpha})` : `rgba(80,60,130,${alpha})`);
+    rg.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = rg; g.beginPath(); g.arc(0, 0, rx, 0, TAU); g.fill();
+    g.restore();
+  }
+}
+
+function drawActionLines(g, c, a) {
+  const { x, y, r } = c.scr;
+  g.strokeStyle = `rgba(255,122,92,${a})`; g.lineCap = 'round'; g.lineWidth = Math.max(2, r * 0.035);
+  for (const an of [-2.45, -2.2, -1.95, -0.7, -0.45]) {
+    const r1 = r * 1.22 + (1 - a) * r * 0.1, r2 = r1 + r * 0.2;
+    g.beginPath();
+    g.moveTo(x + Math.cos(an) * r1, y + Math.sin(an) * r1);
+    g.lineTo(x + Math.cos(an) * r2, y + Math.sin(an) * r2);
+    g.stroke();
+  }
+}
+
+function draw() {
+  const W = STAGE_W, H = STAGE_H, dpr = DPR;
+  const cam = camera(W, H);
+  for (const c of creatures) {
+    const m = modelOf(c);
+    c.M = m.M; c.wy = m.wy;
+    const ctr = proj(cam.vp, c.x, c.wy, c.z, W, H);
+    const edge = proj(cam.vp, c.x + c.s, c.wy, c.z, W, H);
+    c.scr = { x: ctr.x, y: ctr.y, r: Math.hypot(edge.x - ctr.x, edge.y - ctr.y) };
+    const span = Math.max(1, c.scr.r * 3);
+    c.tLookX = S.pointer.in ? clamp((S.pointer.x - ctr.x) / span, -1, 1) : 0;
+    c.tLookY = S.pointer.in ? clamp((S.pointer.y - ctr.y) / span, -1, 1) : 0;
+  }
+
+  // WebGL fur
+  if (MAIN) {
+    MAIN.begin();
+    const layers = LAYERS[S.quality];
+    for (const c of creatures) MAIN.draw(c.M, cam.vp, cam.eye, furParams(c.cfg), layers, T);
+  }
+
+  drawBackdrop(W, H, dpr, cam.vp);
+
+  // 2D overlay: faces back-to-front, action lines, particles
+  fxG.setTransform(1, 0, 0, 1, 0, 0);
+  fxG.clearRect(0, 0, cvFx.width, cvFx.height);
+  const order = creatures.slice().sort((a, b) => a.z - b.z);
+  for (const c of order) {
+    // a face behind a nearer creature would show through the fur, so skip it
+    const covered = creatures.some((o) => o !== c && o.z > c.z && Math.hypot(o.scr.x - c.scr.x, o.scr.y - c.scr.y) < o.scr.r * 0.95);
+    if (!covered) drawFace(fxG, c, c.M, cam.vp, W, H, dpr, cam.eye, T);
+  }
+  fxG.setTransform(dpr, 0, 0, dpr, 0, 0);
+  for (const c of creatures) if (c.happy > 0.02 && c.scr) drawActionLines(fxG, c, c.happy);
+  for (const p of parts) {
+    const k = p.life / p.max, a = 1 - k;
+    fxG.globalAlpha = a;
+    if (p.k === 'heart') {
+      fxG.save(); fxG.translate(p.x, p.y); fxG.rotate(p.rot);
+      fxG.fillStyle = '#ff6f8f';
+      heartPath(fxG, 0, 0, p.s * 0.5 * (0.9 + 0.2 * Math.sin(p.life * 9)));
+      fxG.fill(); fxG.restore();
+    } else {
+      fxG.fillStyle = p.col;
+      sparkle(fxG, p.x, p.y, p.s * (1 - k * 0.5));
+    }
+  }
+  fxG.globalAlpha = 1;
+
+  if (S.exportPending) {
+    S.exportPending = false;
+    const url = exportPNG();
+    const cb = S.exportCb; S.exportCb = null;
+    if (cb) cb(url);
+  }
+}
+
+function exportPNG() {
+  const W = cvFx.width, H = cvFx.height;
+  const ex = document.createElement('canvas');
+  ex.width = W; ex.height = H;
+  const g = ex.getContext('2d');
+  const b = BGS[S.bg];
+  const grd = g.createLinearGradient(0, 0, 0, H);
+  grd.addColorStop(0, b.top); grd.addColorStop(1, b.bot);
+  g.fillStyle = grd; g.fillRect(0, 0, W, H);
+  g.drawImage(cvSh, 0, 0);
+  g.drawImage(cvGL, 0, 0);
+  g.drawImage(cvFx, 0, 0);
+  return ex.toDataURL('image/png');
+}
+
+let last = performance.now();
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000);
+  last = now;
+  update(dt);
+  draw();
+  requestAnimationFrame(frame);
+}
+
+function resize() {
+  const r = stageEl.getBoundingClientRect();
+  STAGE_W = Math.max(1, r.width); STAGE_H = Math.max(1, r.height);
+  DPR = Math.min(window.devicePixelRatio || 1, S.quality === 'high' ? 2 : 1.25);
+  for (const cv of [cvSh, cvGL, cvFx]) {
+    cv.width = Math.round(STAGE_W * DPR);
+    cv.height = Math.round(STAGE_H * DPR);
+  }
+}
+
+/* ================================================================
+   UI: ring rail, name tag, panel, toasts, saved gallery
+   ================================================================ */
+const ringEl = $('#ring'), panel = $('#panel');
+function buildRing() {
+  ringEl.innerHTML = '';
+  creatures.forEach((c, j) => {
+    const b = document.createElement('button');
+    b.className = 'th';
+    b.setAttribute('aria-label', c.cfg.name);
+    b.title = c.cfg.name;
+    const cv = document.createElement('canvas');
+    cv.width = cv.height = THUMB;
+    b.appendChild(cv);
+    b.addEventListener('click', () => setActive(j));
+    ringEl.appendChild(b);
+    c.thumbCv = cv; c.thumbCtx = cv.getContext('2d');
+    c.dirty = true;
+  });
+  const add = document.createElement('button');
+  add.className = 'add'; add.id = 'addBtn'; add.textContent = '+';
+  add.title = 'Dodaj nowego stworka (max 5)'; add.setAttribute('aria-label', 'Dodaj stworka');
+  add.disabled = creatures.length >= 5;
+  add.addEventListener('click', addCreature);
+  ringEl.appendChild(add);
+  updateRing();
+}
+function updateRing() {
+  $$('.th', ringEl).forEach((b, j) => b.classList.toggle('on', j === active));
+}
+function addCreature() {
+  if (creatures.length >= 5) return toast('Na scenie mogą być maksymalnie pięć stworki');
+  const c = newCreature(randomCfg());
+  c.x = 7; c.z = -2.5; c.s = 0.7;
+  creatures.push(c);
+  active = creatures.length - 1;
+  layout();
+  buildRing();
+  renderPanel(); updateName();
+  toast(`Nowy stworek: ${c.cfg.name}`);
+}
+function updateName() {
+  const c = creatures[active].cfg;
+  $('#nameTag').innerHTML = `${esc(c.name)}<small>${FURS[c.fur].name} · ${EYE_STYLES[c.eyeStyle]} · ${ACCS[c.acc]}</small>`;
+}
+function syncNav() {
+  $$('.nav-btn').forEach((b) => b.classList.toggle('on', b.dataset.mode === S.mode));
+}
+
+const ICO = {
+  paw: '<svg class="i" viewBox="0 0 24 24"><ellipse cx="6" cy="10" rx="2" ry="2.6"/><ellipse cx="10" cy="5.5" rx="2" ry="2.6"/><ellipse cx="14" cy="5.5" rx="2" ry="2.6"/><ellipse cx="18" cy="10" rx="2" ry="2.6"/><path d="M12 12c-3 0-5.5 3.5-5.5 6 0 1.8 1.6 2.4 3.2 2.4.9 0 1.5-.4 2.3-.4s1.4.4 2.3.4c1.6 0 3.2-.6 3.2-2.4 0-2.5-2.5-6-5.5-6z"/></svg>',
+  eye: '<svg class="i" viewBox="0 0 24 24"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+  gift: '<svg class="i" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v8h14v-8M12 8v12M12 8c-2-4-6-4-6-1.5S10 8 12 8zm0 0c2-4 6-4 6-1.5S14 8 12 8z"/></svg>',
+};
+const slider = (key, val, l, r) => `
+  <label class="sl">
+    <input type="range" min="0" max="1" step="0.01" value="${val}" data-s="${key}" style="--p:${val * 100}%" aria-label="${esc(l)} – ${esc(r)}">
+    <div class="sl-ends"><span>${esc(l)}</span><span>${esc(r)}</span></div>
+  </label>`;
+const chip = (k, v, label, on) => `<button class="chip ${on ? 'on' : ''}" data-k="${k}" data-v="${v}">${esc(label)}</button>`;
+const sw = (k, v, color, on, title) => `<button class="sw ${on ? 'on' : ''}" style="--c:${color}" data-k="${k}" data-v="${v}" title="${esc(title)}" aria-label="${esc(title)}"></button>`;
+
+function furHTML(c) {
+  return `<div class="cols">
+    <div>
+      <div class="lbl">Kolor futerka</div>
+      <div class="sw-row">${Object.entries(FURS).map(([k, f]) => sw('fur', k, f.base, c.fur === k, f.name)).join('')}</div>
+      <div class="cap">${FURS[c.fur].name}</div>
+    </div>
+    <div>
+      <div class="lbl">Puszystość</div>
+      ${slider('fluff', c.fluff, 'Gładkie', 'Mega puchate')}
+    </div>
+  </div>`;
+}
+function eyesHTML(c) {
+  return `<div class="cols">
+    <div>
+      <div class="lbl">Styl oczu</div>
+      <div class="cards">${Object.entries(EYE_STYLES).map(([k, l]) => `
+        <button class="opt ${c.eyeStyle === k ? 'on' : ''}" data-k="eyeStyle" data-v="${k}"><canvas data-eye="${k}"></canvas>${esc(l)}</button>`).join('')}</div>
+    </div>
+    <div>
+      <div class="lbl">Kolor oczu</div>
+      <div class="sw-row">${Object.entries(EYE_COLORS).map(([k, col]) => sw('eyeColor', k, col, c.eyeColor === k, k)).join('')}</div>
+      <div class="lbl" style="margin-top:22px">Połysk / miękkość</div>
+      ${slider('gloss', c.gloss, 'Matowe', 'Bardziej błyszczące')}
+    </div>
+  </div>`;
+}
+function extrasHTML(c) {
+  return `<div class="cols">
+    <div>
+      <div class="lbl">Dodatki</div>
+      <div class="chips">${Object.entries(ACCS).map(([k, l]) => chip('acc', k, l, c.acc === k)).join('')}</div>
+      <div class="lbl" style="margin-top:22px">Buźka</div>
+      <div class="chips">${Object.entries(MOUTHS).map(([k, l]) => chip('mouth', k, l, c.mouth === k)).join('')}</div>
+    </div>
+    <div>
+      <div class="lbl">Ruch i nastrój</div>
+      ${slider('blush', c.blush, 'Blady', 'Różowy')}
+      ${slider('bounce', c.bounce, 'Spokojny', 'Radosny')}
+      <div class="chips"><button class="chip ${c.wink ? 'on' : ''}" data-k="wink" data-v="${!c.wink}">Mrugnięcie okiem</button></div>
+    </div>
+  </div>`;
+}
+function bgHTML() {
+  return `<div class="lbl">Tło studia</div>
+    <div class="cards">${Object.entries(BGS).map(([k, b]) => `
+      <button class="opt ${S.bg === k ? 'on' : ''}" data-bg="${k}">
+        <span class="bgsw" style="background:linear-gradient(180deg,${b.top},${b.bot})"></span>${esc(b.label)}
+      </button>`).join('')}</div>`;
+}
+function savedHTML() {
+  if (!S.saved.length) return `<div class="empty">Jeszcze nic nie zapisano. Dopracuj stworka i kliknij „Zapisz awatar” — trafi tutaj razem z PNG.</div>`;
+  return `<div class="saved">${S.saved.map((s) => `
+    <figure class="sv">
+      <img src="${s.img}" alt="${esc(s.name)}" loading="lazy">
+      <figcaption>${esc(s.name)}</figcaption>
+      <div class="sv-act"><button class="chip" data-load="${s.id}">Wczytaj</button><button class="chip" data-del="${s.id}">Usuń</button></div>
+    </figure>`).join('')}</div>`;
+}
+function settingsHTML(c) {
+  const q = { low: 'Lekka', medium: 'Standard', high: 'Maksymalna' };
+  return `<div class="cols">
+    <div>
+      <div class="lbl">Imię stworka</div>
+      <input class="txt" data-name maxlength="16" value="${esc(c.name)}" aria-label="Imię stworka">
+      <div class="lbl" style="margin-top:22px">Jakość futerka</div>
+      <div class="chips">${Object.entries(q).map(([k, l]) => `<button class="chip ${S.quality === k ? 'on' : ''}" data-q="${k}">${l}</button>`).join('')}</div>
+    </div>
+    <div>
+      <div class="lbl">Efekty</div>
+      <div class="chips">
+        <button class="chip ${S.motion ? 'on' : ''}" data-opt="motion">Animacje</button>
+        <button class="chip ${S.particles ? 'on' : ''}" data-opt="particles">Cząsteczki</button>
+      </div>
+      <div class="cap">Lżejsza jakość działa na słabszych urządzeniach (mniej warstw futra).</div>
+      <div class="chips" style="margin-top:20px"><button class="chip" data-clear>Wyczyść zapisane</button></div>
+    </div>
+  </div>`;
+}
+
+function renderPanel() {
+  const c = creatures[active].cfg;
+  let tabs = '';
+  if (S.mode === 'make') {
+    tabs = `<div class="tabs" role="tablist">${[['fur', 'Futerko', ICO.paw], ['eyes', 'Oczy', ICO.eye], ['extras', 'Dodatki', ICO.gift]]
+      .map(([k, l, ic]) => `<button class="tab ${S.tab === k ? 'on' : ''}" role="tab" aria-selected="${S.tab === k}" data-tab="${k}">${ic}${l}</button>`).join('')}</div>`;
+  }
+  let body;
+  if (S.mode === 'make') body = S.tab === 'fur' ? furHTML(c) : S.tab === 'eyes' ? eyesHTML(c) : extrasHTML(c);
+  else if (S.mode === 'bg') body = bgHTML();
+  else if (S.mode === 'saved') body = savedHTML();
+  else body = settingsHTML(c);
+  panel.innerHTML = tabs + `<div class="pbody">${body}</div>`;
+  paintPreviews();
+  syncNav();
+}
+function paintPreviews() {
+  const col = EYE_COLORS[creatures[active].cfg.eyeColor];
+  const gloss = creatures[active].cfg.gloss;
+  $$('canvas[data-eye]').forEach((cv) => {
+    const w = cv.clientWidth, h = cv.clientHeight;
+    if (!w || !h) return;
+    const dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    const g = cv.getContext('2d');
+    const k = Math.min(h * 0.2, w * 0.17);
+    for (const x of [-1.15, 1.15]) {
+      g.setTransform(dpr * k, 0, 0, dpr * k, (w / 2 + x * k) * dpr, (h / 2 + 2) * dpr);
+      drawEye(g, cv.dataset.eye, col, gloss, 1, 0.25, 0.1, 0);
+    }
+  });
+}
+
+let toastH = 0;
+function toast(msg) {
+  const t = $('#toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastH);
+  toastH = setTimeout(() => t.classList.remove('show'), 2000);
+}
+function persist() {
+  try { localStorage.setItem(KEY, JSON.stringify(S.saved)); } catch (e) { /* private mode / quota: keep in memory */ }
+}
+function loadSaved() {
+  try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; }
+}
+
+/* actions */
+function saveAvatar() {
+  const c = creatures[active];
+  const name = c.cfg.name;
+  const img = renderThumbDataURL(c.cfg);
+  S.saved.unshift({ id: Date.now().toString(36), name, cfg: clone(c.cfg), img });
+  S.saved = S.saved.slice(0, 24);
+  persist();
+  S.exportCb = (url) => {
+    const a = document.createElement('a');
+    a.href = url; a.download = `orb-${name.toLowerCase().replace(/[^a-z0-9ąćęłńóśźż]+/gi, '-') || 'stworek'}.png`;
+    document.body.appendChild(a); a.click(); a.remove();
+    toast(`Zapisano „${name}” — PNG pobrany i dodany do Zapisanych`);
+  };
+  S.exportPending = true;
+  if (S.mode === 'saved') renderPanel();
+}
+function randomize() {
+  const c = creatures[active];
+  c.cfg = randomCfg(c.cfg.name);
+  cfgChanged(c);
+  renderPanel();
+  toast('Nowy wygląd — ' + FURS[c.cfg.fur].name + ', ' + EYE_STYLES[c.cfg.eyeStyle].toLowerCase());
+}
+function setCfg(k, v) {
+  const c = creatures[active];
+  c.cfg[k] = v;
+  cfgChanged(c);
+}
+
+/* events */
+$('#btnRandom').addEventListener('click', randomize);
+$('#btnSave').addEventListener('click', saveAvatar);
+$('#prev').addEventListener('click', () => cycle(-1));
+$('#next').addEventListener('click', () => cycle(1));
+$('#resetYaw').addEventListener('click', () => { creatures[active].home = true; });
+$('#zoom').addEventListener('click', () => {
+  S.zoom = (S.zoom + 1) % ZOOMS.length;
+  toast(['Widok domyślny', 'Bliżej', 'Dalej'][S.zoom]);
+});
+$$('.nav-btn').forEach((b) => b.addEventListener('click', () => {
+  S.mode = b.dataset.mode;
+  renderPanel();
+}));
+document.body.addEventListener('dragover', (e) => e.preventDefault());
+
+panel.addEventListener('click', (e) => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  if (b.dataset.tab) { S.tab = b.dataset.tab; return renderPanel(); }
+  if (b.dataset.k) { setCfg(b.dataset.k, parseVal(b.dataset.v)); return renderPanel(); }
+  if (b.dataset.bg) {
+    S.bg = b.dataset.bg;
+    document.body.className = 'bg-' + S.bg;
+    return renderPanel();
+  }
+  if (b.dataset.load) {
+    const it = S.saved.find((s) => s.id === b.dataset.load);
+    if (it) { creatures[active].cfg = clone(it.cfg); cfgChanged(); renderPanel(); toast(`Wczytano „${it.name}”`); }
+    return;
+  }
+  if (b.dataset.del) { S.saved = S.saved.filter((s) => s.id !== b.dataset.del); persist(); return renderPanel(); }
+  if (b.hasAttribute('data-clear')) { S.saved = []; persist(); return renderPanel(); }
+  if (b.dataset.q) { S.quality = b.dataset.q; resize(); return renderPanel(); }
+  if (b.dataset.opt) { S[b.dataset.opt] = !S[b.dataset.opt]; return renderPanel(); }
+});
+panel.addEventListener('input', (e) => {
+  const s = e.target;
+  if (s.dataset && s.dataset.s) {
+    s.style.setProperty('--p', (s.value * 100) + '%');
+    setCfg(s.dataset.s, +s.value);
+  } else if (s.hasAttribute && s.hasAttribute('data-name')) {
+    creatures[active].cfg.name = s.value.slice(0, 16) || 'Stworek';
+    updateName();
+    creatures[active].dirty = true;
+  }
+});
+function parseVal(s) {
+  if (s === 'true') return true;
+  if (s === 'false') return false;
+  if (s !== '' && !isNaN(+s)) return +s;
+  return s;
+}
+
+/* boot */
+function init() {
+  layout();
+  for (const c of creatures) { c.x = c.tx; c.z = c.tz; c.s = c.ts; }
+  resize();
+  new ResizeObserver(resize).observe(stageEl);
+  buildRing();
+  renderPanel();
+  updateName();
+  document.body.className = 'bg-' + S.bg;
+  requestAnimationFrame((t) => { last = t; frame(t); });
+}
+init();
+})();
+</script>
+</body>
+</html>
