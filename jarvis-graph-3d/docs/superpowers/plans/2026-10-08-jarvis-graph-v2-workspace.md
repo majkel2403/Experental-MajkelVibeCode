@@ -1,5 +1,7 @@
 # Jarvis Graph v2 — G6 Workspace and Scale Implementation Plan
 
+> **2026-10-10 documentation alignment — HOLD FOR CONTRACT REVIEW.** This older execution plan is retained for historical task decomposition, but MUST be read together with [Unified Design 14](../../graph-v2/blueprint/14-unified-system-design-review.md), [ADR 08](../../graph-v2/blueprint/08-architecture-decisions-candidate.md), and the reconciled Master Spec. G6 is a read-only projection of the same authorized GraphSnapshot, not another graph database. Canonical `GraphEntity` IDs must match Galaxy/Mission/Second Brain; DAG cycles must trigger honest fallback. See Blueprint 02/14. Deployment and enabling real LIVE require separate approval. **Planning only; no execution authorized.**
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Add a precise, fast 2D/G6 operational workspace alongside the 3D galaxy, sharing the same graph state, event provenance and selection, with verified performance for large datasets.
