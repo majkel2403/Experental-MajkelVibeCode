@@ -1,5 +1,7 @@
 # Jarvis Graph v2 — Cinematic Galaxy Experience Implementation Plan
 
+> **2026-10-10 documentation alignment — HOLD FOR CONTRACT REVIEW.** This older execution plan is retained for historical task decomposition, but MUST be read together with [Unified Design 14](../../graph-v2/blueprint/14-unified-system-design-review.md), [ADR 08](../../graph-v2/blueprint/08-architecture-decisions-candidate.md), and the reconciled Master Spec. Galaxy only projects already-authorized canonical graph entities; `core/hub/traffic` are visual roles, not persisted relationships. Semantic L0–L3, FOLLOW LIVE and `PAUSE EVENTS` follow Blueprint 04/13/14. Event cues must be source-backed or explicitly DEMO, and manual camera always wins. **Planning only; no execution authorized.**
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Turn the Jarvis graph from a static cluster overview into an explorable spatial system with meaningful context, fluid navigation and polished visual feedback.
