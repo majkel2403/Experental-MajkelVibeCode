@@ -1,5 +1,10 @@
 # 06 — Jarvis MVP: testy odbiorcze, dowody, wydanie i rollback
 
+## Aktualizacja po audycie 11.10.2026
+
+> **Stan 11.10.2026:** odczyt procesów, plików, Git i wybranych fragmentów kodu **nie jest testem E2E**. Wszystkie E2E-01..12 nadal mają status **NOT RUN**. Dowody stanu środowiska: [02 — audyt](02-AUDYT-WYNIKI-2026-10-11.md); plan przyszłych testów: [07 — implementacja](07-PLAN-MVP-PO-AUDYCIE-2026-10-11.md).
+
+
 > **Jarvis MVP / Superpowers — szablon roboczy, 2026-10-11.** Wypełniaj na podstawie dowodów. `[DO UZUPEŁNIENIA]` oznacza otwartą decyzję; `[NIEZWERYFIKOWANE]` nie znaczy „działa”. Te dokumenty NIE są zgodą na implementację, instalowanie, zmianę `main` ani ingerencję w działającego Hermesa.
 
 **Status:** SZABLON — wszystkie testy `NOT RUN`. Samo istnienie tej listy nie oznacza PASS. **Cel:** obiektywna odpowiedź na pytanie „czy Jarvis MVP działa?”.
