@@ -1,6 +1,8 @@
 # 03 — Event Bus Protocol v2 and Reliable Replay
 
 **Status:** Proposed event envelope v1 / graph schema v2; no endpoint changed. **2026-10-09.**
+
+> **2026-10-11 Superpowers review:** [Doc 16 — Architecture Review](16-final-architecture-review.md) documents **F1–F3**. A global log cursor should not be exposed to viewers if it reveals hidden activity; use a viewer-scoped opaque replay cursor and reconcile it with an authorized projection version. `PAUSE EVENTS` means pause visual cues, not the durable source log or graph updates, with an explicit UI label; on resume do not replay past cues as fresh LIVE activity. `source.disconnected` may be a derived transport status, not a verified source-emitted event. These are proposals requiring ADR/sign-off; no real Bridge SSE/replay behavior has been confirmed.
 **Scope:** Hermes/Jev/Bridge inputs, acknowledgement, durable ordering, authoritative projection and read-only browser stream.
 
 ## 1. What currently exists
