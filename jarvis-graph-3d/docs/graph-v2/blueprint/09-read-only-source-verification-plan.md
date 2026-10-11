@@ -1,6 +1,6 @@
 # 09 — Read-only verification plan: Hermes, Jev, Bridge, memory
 
-**Status:** plan only, NOT performed. **Date:** 2026-10-09. **Restriction:** do not modify running services, their configuration, tokens, databases, or main branch. Do not make external service calls or enable remote live access while collecting this plan.
+**Status:** the code-only GitHub inventory is partially completed in [Doc 17](17-read-only-code-evidence-inventory.md); the runtime audit described below is still NOT PERFORMED. **Do not re-run known source inspection unless revisions changed.** **Date:** 2026-10-09. **Restriction:** do not modify running services, their configuration, tokens, databases, or main branch. Do not make external service calls or enable remote live access while collecting this plan.
 
 ## Goal
 
