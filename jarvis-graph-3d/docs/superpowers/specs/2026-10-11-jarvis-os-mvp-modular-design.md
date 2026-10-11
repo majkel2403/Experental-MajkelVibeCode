@@ -73,7 +73,7 @@ flowchart TD
   API --> TASK["TaskService + background execution coordinator"]
   TASK --> H["HermesAdapter"]
   TASK --> X["ToolExecutorAdapter (Bridge-owned / local host)"]
-  TASK -.optional.-> J["JevDecisionAdapter"]
+  TASK -.-> J["JevDecisionAdapter (optional)"]
   TASK --> DB[("One approved task/event/receipt store")]
   H --> DB
   X --> DB
@@ -204,7 +204,7 @@ No hard 99.9% availability or latency claims before measurement. Document measur
 
 ## 10. What NOT to build for the first release
 
-- A rewrite to JarvisAIO or a second complete platform — outside this project scope.
+- A rewrite into a second independent all-in-one Jarvis platform — outside this project scope.
 - Galaxy 3D, G6, elaborate particles/5D neural maps as a blocker for usable MVP.
 - 20+ managers, 100+ real agents, automatic massive delegation, autonomous finance execution.
 - Remote public access to local machine, production trading or mobile cloud control.
