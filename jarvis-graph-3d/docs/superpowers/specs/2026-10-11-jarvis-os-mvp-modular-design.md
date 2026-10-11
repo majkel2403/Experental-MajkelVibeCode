@@ -1,5 +1,7 @@
 # Jarvis OS MVP — Small Working Core, Modular Scale (Design Specification)
 
+> **Audyt lokalnego systemu — 11.10.2026:** porty 4000/8651/8642 potwierdzono w procesach na laptopie; stan repo i cztery zmodyfikowane pliki odczytano bez zmian. Pełne wyniki: [02 — audyt](../templates/jarvis-mvp/02-AUDYT-WYNIKI-2026-10-11.md), a konkretny plan następnych prac: [07 — plan po audycie](../templates/jarvis-mvp/07-PLAN-MVP-PO-AUDYCIE-2026-10-11.md). Nie testowano wykonania zadania E2E, nie ustalono aktywnego profilu gatewaya ani właściciela bazy. **MVP nadal nie jest wdrożone.**
+
 **Superpowers path:** ARCHITECTURAL / design document; **status: DRAFT, UNAPPROVED**, 2026-10-11.
 **Project:** Existing `Jarvis-` OS plus the separate `jarvis-graph-3d` visual experiment — **NOT** a new independent Jarvis platform.
 **Location:** planning branch `docs/jarvis-graph-v2-mission-brain-motion` of `majkel2403/Experental-MajkelVibeCode`. No product code or `main` changes.
