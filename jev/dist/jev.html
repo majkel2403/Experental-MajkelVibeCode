@@ -2132,6 +2132,60 @@ body.killed .lab-gt-hz { display: block; }
   .qt-rbgrid > b { height: 30px; font-size: 9px; }
 }
 
+/* ===== 1:1 pass: dashboard header, bold sans numerals, red book pnl, grids as in the reference ===== */
+.qt-head .eb { margin-bottom: 10px; }
+.qt-top { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 14px; padding: 9px 14px; border: 1px solid rgba(255, 255, 255, .08); border-radius: 12px;
+  background: linear-gradient(180deg, rgba(20, 12, 26, .95), rgba(8, 5, 12, .98)); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--mut); }
+.qt-brand { display: inline-flex; align-items: center; gap: 8px; font: 700 13px/1 var(--sans); letter-spacing: .08em; color: var(--ink); }
+.qt-brand b { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; font-size: 12px; color: #fff; background: linear-gradient(145deg, #ff4f8d, #e0155a); }
+.qt-live { display: inline-flex; align-items: center; gap: 6px; color: var(--green); }
+.qt-live .lamp { width: 6px; height: 6px; }
+.qt-clock { margin-left: auto; font: 700 14px/1 var(--mono); letter-spacing: .04em; color: var(--ink); }
+.qt-tick { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 8px; font-size: 10px; letter-spacing: .08em; color: var(--dim); }
+.qt-tick b { color: var(--ink); font-weight: 700; }
+
+.qt-cv-b, .qt-cv-s { margin-top: 10px; }
+.qt-big { font: 700 clamp(40px, 5vw, 64px)/1 var(--sans); letter-spacing: -.035em; text-shadow: 0 0 22px rgba(var(--cc-rgb), .45); }
+.qt-big-x { align-items: baseline; }
+.qt-big-x .qt-x { order: 2; font-size: .55em; color: var(--cc); }
+.qt-big-x b { order: 1; color: var(--ink); }
+.qt-big-pnl { color: #ff4d5e; font-size: clamp(38px, 4.4vw, 60px); text-shadow: 0 0 26px rgba(255, 77, 94, .55); }
+.qt-big-pnl b { color: #ff4d5e; }
+.qt-sub { padding-top: 6px; font-size: 10px; letter-spacing: .06em; color: var(--mut); }
+.qt-sub .up { color: var(--green); }
+.qt-kv4, .qt-kv3 { gap: 10px 12px; }
+.qt-kv4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.qt-kv3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.qt-kv b { font: 700 13px/1.1 var(--sans); }
+.qt-kv .up { color: var(--green); } .qt-kv .dn { color: #ff4d5e; }
+.qt-badge { font-size: 9px; }
+.qt-winbar, .qt-liq { display: flex; align-items: center; gap: 10px; padding: 12px 16px 0; font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--dim); }
+.qt-winbar span, .qt-liq span { white-space: nowrap; }
+.qt-winbar b, .qt-liq b { color: var(--ink); font-weight: 700; }
+.qt-winbar i, .qt-liq i { flex: 1; height: 5px; border-radius: 4px; background: rgba(255, 255, 255, .08); overflow: hidden; }
+.qt-winbar u, .qt-liq u { display: block; height: 100%; text-decoration: none; background: linear-gradient(90deg, #2ee6a6, #5ab4ff); box-shadow: 0 0 10px rgba(46, 230, 166, .6); }
+.qt-winbar u { width: 64.5%; }
+.qt-liq u { background: linear-gradient(90deg, #ffc13d, #ff8a3d); box-shadow: 0 0 10px rgba(255, 193, 61, .55); }
+.qt-liq em { font-style: normal; }
+
+/* stage dots: active = bright red, done = green */
+.qt-st i { display: inline-block; width: 7px; height: 7px; margin-right: 0; border-radius: 50%; background: rgba(255, 255, 255, .18); }
+.qt-st.on i { background: #ff4d5e; box-shadow: 0 0 8px #ff4d5e; }
+.qt-st small { margin-top: 6px; }
+
+/* robustness: 7 x 3 */
+.qt-rbgrid { grid-template-columns: 64px repeat(3, minmax(0, 1fr)); }
+.qt-rbgrid > b { font: 700 12px/1 var(--sans); }
+.qt-ring { stroke: #2ee6a6; }
+.qt-score b { font-size: 20px; }
+
+@media (max-width: 559px) {
+  .qt-kv4 { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .qt-kv4 b { font-size: 11px; }
+  .qt-big { font-size: 40px; }
+  .qt-tick { font-size: 9px; }
+}
+
 </style>
 </head>
 <body>
@@ -3249,12 +3303,15 @@ def gate(answer):
 
     <header class="sec-head qt-head rv">
       <div class="eb">06 <i>&middot;</i> the quant desk</div>
-      <h2 class="h2" id="qt-h2">One net, six stages, and <em>every</em> edge has to survive a stress test</h2>
-      <p class="lede">a simulated quant book: an 8-layer net scores the edge, seven gates filter it, a robustness grid and a monte carlo fan try to break the book before anything is allowed to size. every number is generated in your browser. no orders.</p>
-      <div class="qt-pills" role="list">
-        <span class="pill qt-pill" role="listitem"><i class="lamp"></i>walk-forward</span>
-        <span class="pill qt-pill" role="listitem">monte carlo &middot; 240 paths</span>
-        <span class="pill qt-pill" role="listitem">simulated &middot; no orders</span>
+      <h2 class="h2 sr-only" id="qt-h2">Quant desk dashboard</h2>
+      <div class="qt-top">
+        <span class="qt-brand"><b>J</b>jev &middot; quant</span>
+        <span class="qt-mode hide-s">kelly &middot; self-learn</span>
+        <span class="qt-live"><i class="lamp"></i>sim</span>
+        <span id="qtClock" class="qt-clock num">17:43:22</span>
+      </div>
+      <div class="qt-tick" aria-hidden="true">
+        <span>rank <b>#3</b> illustrative</span><span>top <b>0.01%</b></span><span class="hide-s">of <b>8,439</b> sim traders</span><span class="hide-s">+17 ranks / 24h</span>
       </div>
     </header>
 
@@ -3263,56 +3320,59 @@ def gate(answer):
       <!-- A · candidate -->
       <article class="card qt-card qt-hero rv" data-c="green" aria-labelledby="qt-hero-t">
         <i class="qt-edge" aria-hidden="true"></i>
-        <div class="ph"><span id="qt-hero-t">best candidate</span><span class="pill" data-c="green"><i class="lamp"></i>walk-forward</span></div>
-        <div class="qt-big"><span class="qt-x" aria-hidden="true">&times;</span><b id="qtMult" class="num">0</b></div>
-        <p class="qt-sub">equity multiple &middot; simulated two-year sample</p>
-        <canvas class="qt-cv qt-cv-s" id="qtEq" aria-hidden="true"></canvas>
-        <div class="qt-kv">
+        <div class="ph"><span id="qt-hero-t">highest win</span><span class="pill qt-badge" data-c="orange">walk-forward</span></div>
+        <div class="qt-big qt-big-x"><b id="qtMult" class="num">0</b><span class="qt-x" aria-hidden="true">&times;</span></div>
+        <div class="qt-kv qt-kv4">
+          <div><span>entry</span><b class="num">$50</b></div>
+          <div><span>net</span><b class="num up">+$4,083</b></div>
+          <div><span>alpha</span><b class="num up">+26%</b></div>
+          <div><span>cat</span><b>pump</b></div>
           <div><span>sharpe</span><b class="num">5.07</b></div>
-          <div><span>alpha</span><b class="num up">+2.4%</b></div>
+          <div><span>apy</span><b class="num up">+346%</b></div>
           <div><span>hold</span><b class="num">3m 23d</b></div>
-          <div><span>max dd</span><b class="num dn">-6.8%</b></div>
+          <div><span>date</span><b class="num">may 17</b></div>
         </div>
+        <div class="qt-winbar"><span>win rate <b class="num">64.5%</b></span><i><u id="qtWin"></u></i></div>
+        <canvas class="qt-cv qt-cv-s" id="qtEq" aria-hidden="true"></canvas>
       </article>
 
       <!-- B · book -->
-      <article class="card qt-card qt-pnl rv" data-c="pink" aria-labelledby="qt-pnl-t">
+      <article class="card qt-card qt-pnl rv" data-c="red" aria-labelledby="qt-pnl-t">
         <i class="qt-edge" aria-hidden="true"></i>
-        <div class="ph"><span id="qt-pnl-t">book &middot; all-time</span><span class="pill" data-c="gray">30-day window</span></div>
-        <div class="qt-big qt-big-pnl"><b id="qtPnl" class="num">+$78,940</b></div>
-        <p class="qt-sub">simulated pnl, net of a 4 bps cost model</p>
-        <canvas class="qt-cv qt-cv-b" id="qtBars" aria-hidden="true"></canvas>
-        <div class="qt-kv">
+        <div class="ph"><span id="qt-pnl-t">book</span><span class="pill qt-badge" data-c="green">sim &middot; verified</span></div>
+        <div class="qt-big qt-big-pnl"><b id="qtPnl" class="num">$78,940</b></div>
+        <p class="qt-sub">all-time pnl &middot; 365 days &middot; <span class="up">+2.14x</span></p>
+        <div class="qt-kv qt-kv3">
           <div><span>trades</span><b id="qtTrades" class="num">73,020</b></div>
           <div><span>win rate</span><b class="num">59.0%</b></div>
           <div><span>avg r/r</span><b class="num">3.92</b></div>
-          <div><span>cost</span><b class="num">4 bps</b></div>
         </div>
+        <div class="qt-liq"><span>liq risk <b class="num">3.5/10</b></span><i><u style="width:35%"></u></i><em class="pill" data-c="green">safe</em></div>
+        <canvas class="qt-cv qt-cv-b" id="qtBars" aria-hidden="true"></canvas>
       </article>
 
-      <!-- C · tape -->
-      <article class="card qt-card qt-mkt rv" data-c="cyan" aria-labelledby="qt-mkt-t">
+      <!-- C · tape + depth -->
+      <article class="card qt-card qt-mkt rv" data-c="blue" aria-labelledby="qt-mkt-t">
         <i class="qt-edge" aria-hidden="true"></i>
-        <div class="ph"><span id="qt-mkt-t">btc &middot; sim tape</span><span class="pill" data-c="cyan"><i class="lamp"></i>live</span></div>
-        <div class="qt-px"><b id="qtPrice" class="num">78,940</b><small>1m &middot; simulated</small></div>
+        <div class="ph"><span id="qt-mkt-t">btc &middot; 5m</span><span class="pill" data-c="blue">$<b id="qtPrice" class="num">78,940</b></span></div>
         <div class="qt-mktgrid">
           <canvas class="qt-cv qt-cv-c" id="qtCandles" aria-hidden="true"></canvas>
           <div class="qt-lad" id="qtLad" aria-hidden="true"></div>
         </div>
       </article>
 
-      <!-- D · execution rail -->
+      <!-- D · execution cycle -->
       <article class="card qt-card qt-cycle rv" id="qtCycle" data-c="pink" aria-labelledby="qt-cy-t">
         <i class="qt-edge" aria-hidden="true"></i>
         <div class="ph"><span id="qt-cy-t">execution cycle &middot; <b id="qtCycN" class="num">#483</b></span><span>fill <b id="qtFill" class="num">0.66</b></span></div>
         <div class="qt-rail">
           <ol class="qt-stages">
-            <li class="qt-st on" data-s="scan"><i>01</i><b>scan</b><small>412 markets</small></li>
-            <li class="qt-st" data-s="detect"><i>02</i><b>detect</b><small>38 signals</small></li>
-            <li class="qt-st" data-s="validate"><i>03</i><b>validate</b><small>7 gates</small></li>
-            <li class="qt-st" data-s="size"><i>04</i><b>size</b><small>12 lots</small></li>
-            <li class="qt-st" data-s="fill"><i>05</i><b>fill</b><small>9 fills</small></li>
-            <li class="qt-st" data-s="settle"><i>06</i><b>settle</b><small>6 trades</small></li>
+            <li class="qt-st on" data-s="scan"><i></i><b>scan</b><small>412 markets</small></li>
+            <li class="qt-st" data-s="detect"><i></i><b>detect</b><small>38 signals</small></li>
+            <li class="qt-st" data-s="validate"><i></i><b>validate</b><small>7 gates</small></li>
+            <li class="qt-st" data-s="size"><i></i><b>size</b><small>12 lots</small></li>
+            <li class="qt-st" data-s="fill"><i></i><b>fill</b><small>9 fills</small></li>
+            <li class="qt-st" data-s="settle"><i></i><b>settle</b><small>6 trades</small></li>
           </ol>
           <i class="qt-comet" aria-hidden="true"></i>
         </div>
@@ -3329,15 +3389,15 @@ def gate(answer):
       <!-- F · quincunx -->
       <article class="card qt-card qt-quin rv" data-c="orange" aria-labelledby="qt-q-t">
         <i class="qt-edge" aria-hidden="true"></i>
-        <div class="ph"><span id="qt-q-t">quincunx &middot; 7 gates</span><span><b id="qtFloor" class="num">floor 0.85</b> &middot; <b id="qtQuinN" class="num">0</b> balls</span></div>
+        <div class="ph"><span id="qt-q-t">quincunx &middot; 7 gates &middot; <span id="qtLoss" class="dn num">loss 42%</span></span><span><b id="qtFloor" class="num">floor 0.85</b> &middot; <b id="qtQuinN" class="num">0</b></span></div>
         <canvas class="qt-cv qt-cv-q" id="qtQuin" aria-hidden="true"></canvas>
       </article>
 
       <!-- G · robustness -->
-      <article class="card qt-card qt-rb rv" id="qtRb-card" data-c="green" aria-labelledby="qt-rb-t">
+      <article class="card qt-card qt-rb rv" data-c="green" aria-labelledby="qt-rb-t">
         <i class="qt-edge" aria-hidden="true"></i>
         <div class="ph">
-          <span id="qt-rb-t">robustness &middot; 7 checks &middot; 4 stresses</span>
+          <span id="qt-rb-t">robustness &middot; t+3</span>
           <span class="qt-score" aria-label="robustness score">
             <svg viewBox="0 0 44 44" aria-hidden="true"><circle class="qt-ring-bg" cx="22" cy="22" r="18"/><circle class="qt-ring" id="qtRing" cx="22" cy="22" r="18"/></svg>
             <b id="qtScore" class="num">82</b>
@@ -10065,12 +10125,18 @@ JEV.mod('quant', () => {
     // keep the histogram readable: once it gets heavy, halve it
     if (landed > 900) { for (let b = 0; b <= R; b++) bins[b] *= 0.5; landed *= 0.5; }
   });
-  every($('.qt-quin'), 0.5, () => setTxt(quinN, J.fmt(Math.round(landed), 0)));
+  const lossEl = $('#qtLoss');
+  every($('.qt-quin'), 0.5, () => {
+    setTxt(quinN, J.fmt(Math.round(landed), 0));
+    let left = 0, tot = 0;
+    for (let b = 0; b <= R; b++) { tot += bins[b]; if (b < R / 2) left += bins[b]; }
+    if (tot) setTxt(lossEl, 'loss ' + Math.round((left / tot) * 100) + '%');
+  });
 
   /* ---------- 7 · robustness: seven checks x four stress variants; cells breathe, the ring is the pass score ---------- */
   const rbGrid = $('#qtRb');
   const ROWS = ['return', 'sharpe', 'max dd', 'fill rate', 'latency', 'spread', 'regime'];
-  const COLS = ['base', 'vol +50%', 'lag 2 bars', 'thin book'];
+  const COLS = ['base', 'vol +50%', 'thin book'];
   const cells = [];
   const cellBg = (v) => { const a = clamp(0.14 + Math.abs(v) * 0.22, 0.14, 0.8); return v >= 0 ? rgba(C.green, a) : rgba(C.red, a); };
   if (rbGrid) {
@@ -10101,6 +10167,11 @@ JEV.mod('quant', () => {
     setTxt(scoreEl, String(score));
     if (ringEl) ringEl.style.strokeDashoffset = (113.1 * (1 - score / 100)).toFixed(1);
   });
+
+  /* ---------- clock in the header bar ---------- */
+  const clockEl = $('#qtClock');
+  const pad2 = (n) => String(n).padStart(2, '0');
+  every(clockEl, 1, () => { const d = new Date(); setTxt(clockEl, pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds())); });
 
   /* ---------- 8 · monte carlo: 240 paths fan out and fade; end values stack into the histogram on the right ---------- */
   const MCN = 240, MCS = 170, HB = 28, HMIN = -0.4, HMAX = 0.4;

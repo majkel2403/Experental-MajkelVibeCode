@@ -328,12 +328,18 @@ JEV.mod('quant', () => {
     // keep the histogram readable: once it gets heavy, halve it
     if (landed > 900) { for (let b = 0; b <= R; b++) bins[b] *= 0.5; landed *= 0.5; }
   });
-  every($('.qt-quin'), 0.5, () => setTxt(quinN, J.fmt(Math.round(landed), 0)));
+  const lossEl = $('#qtLoss');
+  every($('.qt-quin'), 0.5, () => {
+    setTxt(quinN, J.fmt(Math.round(landed), 0));
+    let left = 0, tot = 0;
+    for (let b = 0; b <= R; b++) { tot += bins[b]; if (b < R / 2) left += bins[b]; }
+    if (tot) setTxt(lossEl, 'loss ' + Math.round((left / tot) * 100) + '%');
+  });
 
   /* ---------- 7 · robustness: seven checks x four stress variants; cells breathe, the ring is the pass score ---------- */
   const rbGrid = $('#qtRb');
   const ROWS = ['return', 'sharpe', 'max dd', 'fill rate', 'latency', 'spread', 'regime'];
-  const COLS = ['base', 'vol +50%', 'lag 2 bars', 'thin book'];
+  const COLS = ['base', 'vol +50%', 'thin book'];
   const cells = [];
   const cellBg = (v) => { const a = clamp(0.14 + Math.abs(v) * 0.22, 0.14, 0.8); return v >= 0 ? rgba(C.green, a) : rgba(C.red, a); };
   if (rbGrid) {
@@ -364,6 +370,11 @@ JEV.mod('quant', () => {
     setTxt(scoreEl, String(score));
     if (ringEl) ringEl.style.strokeDashoffset = (113.1 * (1 - score / 100)).toFixed(1);
   });
+
+  /* ---------- clock in the header bar ---------- */
+  const clockEl = $('#qtClock');
+  const pad2 = (n) => String(n).padStart(2, '0');
+  every(clockEl, 1, () => { const d = new Date(); setTxt(clockEl, pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds())); });
 
   /* ---------- 8 · monte carlo: 240 paths fan out and fade; end values stack into the histogram on the right ---------- */
   const MCN = 240, MCS = 170, HB = 28, HMIN = -0.4, HMAX = 0.4;
