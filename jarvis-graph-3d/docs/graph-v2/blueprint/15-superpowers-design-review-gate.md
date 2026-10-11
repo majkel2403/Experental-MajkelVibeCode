@@ -1,7 +1,9 @@
 # 15 — Superpowers Design Review Gate: Jarvis Graph OS v2.0
 
 **Phase:** architecture/spec review; **not** writing-plans execution.  
-**Status:** DRAFT FOR USER REVIEW — no decisions approved on user's behalf.  
+**Status:** DRAFT FOR USER REVIEW — no decisions approved on user's behalf.
+
+> **Review update 2026-10-11:** [Doc 16](16-final-architecture-review.md) records the completed *document-only* comparison and F1/F2/F3 blocking decisions. The old Master Spec has already been reconciled as **proposals** (not ratified), older A/B/C/D plans were annotated, and three separate Mission/Brain/Director future plans were written. Do not treat the older checklist phrasing "not yet harmonized" as claiming those documentation edits are absent. Missing runtime source evidence and human architecture sign-off remain blockers.  
 **Date:** 2026-10-10. **Scope:** docs-only on branch `docs/jarvis-graph-v2-mission-brain-motion` in experimental repository.
 
 ## 1. The product promise (plain language)
