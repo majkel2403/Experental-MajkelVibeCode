@@ -1,5 +1,10 @@
 # 05 — Jarvis MVP Implementation Plan — Superpowers (szablon)
 
+## Aktualizacja po audycie 11.10.2026
+
+> **Uwaga — istnieje już plan dostosowany do faktycznej instalacji:** [07 — plan po audycie](07-PLAN-MVP-PO-AUDYCIE-2026-10-11.md). Ta wersja pozostaje **szablonem ogólnym**. Nie uruchomiono RED/GREEN; aktywny lokalny branch i cztery zmodyfikowane pliki wymagają izolacji worktree przed pracą w kodzie.
+
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 > **Jarvis MVP / Superpowers — szablon roboczy, 2026-10-11.** Wypełniaj na podstawie dowodów. `[DO UZUPEŁNIENIA]` oznacza otwartą decyzję; `[NIEZWERYFIKOWANE]` nie znaczy „działa”. Te dokumenty NIE są zgodą na implementację, instalowanie, zmianę `main` ani ingerencję w działającego Hermesa.
