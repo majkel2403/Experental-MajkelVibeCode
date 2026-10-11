@@ -1,6 +1,8 @@
 # 08 — Decyzje architektoniczne do zatwierdzenia (ADR)
 
-**Data:** 2026-10-09. **Status:** PROPOZYCJA DO PRZEGLĄDU — nie stanowi zgody na implementację. **Gałąź:** `feat/jarvis-graph-3d`, bez zmian w `main`.
+**Data:** 2026-10-09. **Status:** PROPOZYCJA DO PRZEGLĄDU — nie stanowi zgody na implementację. **Obecna lokalizacja:** `majkel2403/Experental-MajkelVibeCode/jarvis-graph-3d` na gałęzi `docs/jarvis-graph-v2-mission-brain-motion`, bez zmian w `main`.
+
+> **2026-10-11 — kwestie do dopięcia:** [Doc 16](16-final-architecture-review.md) dodaje F1 (wersja i cursor zakresu uprawnień), F2 (jednoznaczna pauza efektów przy trwającej synchronizacji) i F3 (stan połączenia kontra zdarzenie producenta). Żadna z tych propozycji nie jest jeszcze zatwierdzonym kontraktem.
 
 ## Dlaczego ten dokument istnieje?
 
