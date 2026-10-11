@@ -1,5 +1,7 @@
 # Jarvis Graph Engineering Blueprint
 
+> **MVP-first / audyt wykonany:** [Wszystkie 6 wzorów + wyniki audytu + plan MVP po audycie](../../superpowers/templates/jarvis-mvp/README.md). Stan na 11.10.2026: porty zweryfikowane, wykonanie realnego zadania **NIEZWERYFIKOWANE**. Graph 3D jest dalszym etapem, nie warunkiem pierwszego MVP.
+
 **Research-to-design package for Jarvis Graph OS v2.0.**
 
 Prepared: **2026-10-09**; extended: **2026-10-11**. Current location: **`Experental-MajkelVibeCode/jarvis-graph-3d`**, docs branch **`docs/jarvis-graph-v2-mission-brain-motion`**. Former `Jarvis-` feature branch was moved into this experimental repository.  
