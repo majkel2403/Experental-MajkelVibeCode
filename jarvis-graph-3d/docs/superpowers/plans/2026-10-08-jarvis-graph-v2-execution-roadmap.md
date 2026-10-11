@@ -12,6 +12,10 @@
 
 > **2026-10-10 documentation-only reconciliation.** The experiment and its plans are now stored inside `majkel2403/Experental-MajkelVibeCode/jarvis-graph-3d`; new documents are on branch `docs/jarvis-graph-v2-mission-brain-motion`, not `main`. Never execute an older plan's `GraphNode/core` model or browser-only `durable in-memory` transport as a production contract: read Blueprint 02, 03, 08, 14 and 15 first. No step is authorized to run in this document-review phase.
 
+## MVP-first supersession note (2026-10-11)
+
+The **product-level north star** is now [Jarvis OS MVP Modular Design](../specs/2026-10-11-jarvis-os-mvp-modular-design.md) (**DRAFT / awaiting design review**). This Graph-v2 roadmap is retained for the *future visualization module*, not the initial Jarvis OS release. The overall order is: verify existing local Hermes/Bridge → prove one background-capable task with truthful durable result → minimal chat/tasks/inspector UI and recovery → accept Jarvis MVP → expand Mission, Graph 3D, Second Brain and Cinematic Director progressively. None of these future implementation tasks has been executed by the documentation updates.
+
 ## Project State at Planning Time
 
 - Working branch: `feat/jarvis-graph-3d`.
