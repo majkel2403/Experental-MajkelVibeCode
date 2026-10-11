@@ -2,6 +2,8 @@
 
 **Superpowers path:** ARCHITECTURAL — design review, *not* an implementation plan.
 **Status:** PROPOSED, awaiting user approval. **Date:** 2026-10-10.
+
+> **2026-10-11 architectural review addendum:** The earlier reconciliation is strengthened by [Doc 16 — Final Architecture Review](16-final-architecture-review.md). The design still needs agreement on **viewer-scoped graphVersion/replay cursors**, **PAUSE visual cues while data stays live**, and **producer event names vs derived transport states**. The Master Spec already contains a documentation-only reconciliation; old implementation plans were annotated, and three separate lens plans have been written. None of this constitutes human sign-off, code implementation, or a REAL-LIVE verification.
 **Scope:** Reconcile documents 01–13. **Repository:** experimental `Experental-MajkelVibeCode/jarvis-graph-3d`, docs branch only.
 **Hard constraints:** No product code, no dependencies, no source/running Hermes or Bridge changes, no deployments, no merge into either `main`.
 
