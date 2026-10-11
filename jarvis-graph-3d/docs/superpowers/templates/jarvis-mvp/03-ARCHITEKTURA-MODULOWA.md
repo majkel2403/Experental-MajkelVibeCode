@@ -1,5 +1,10 @@
 # 03 — Jarvis MVP: modułowa architektura, kontrakty i skalowanie
 
+## Aktualizacja po audycie 11.10.2026
+
+> **Dopasowanie do rzeczywistości (11.10.2026):** serwer `serve_site.py` działa na 4000, `jarvis_bridge.py` na 8651, proces Hermes gateway na 8642. Istnieje kilka baz Hermesa oraz `agent-history.jsonl`. To przemawia za **adapterami do istniejących procesów i jednym wybranym ownerem stanu**, a nie nowym monolitem obok dotychczasowego Jarvisa. Wybór konkretnej bazy i aktywnego profilu pozostaje **OPEN**. [Audyt](02-AUDYT-WYNIKI-2026-10-11.md) · [Plan](07-PLAN-MVP-PO-AUDYCIE-2026-10-11.md).
+
+
 > **Jarvis MVP / Superpowers — szablon roboczy, 2026-10-11.** Wypełniaj na podstawie dowodów. `[DO UZUPEŁNIENIA]` oznacza otwartą decyzję; `[NIEZWERYFIKOWANE]` nie znaczy „działa”. Te dokumenty NIE są zgodą na implementację, instalowanie, zmianę `main` ani ingerencję w działającego Hermesa.
 
 **Status:** DRAFT; architektura proponowana, niepotwierdzona stanem runtime. **Styl:** modularny monolit + już istniejący Hermes; bez mikroserwisów dla każdego widżetu.
