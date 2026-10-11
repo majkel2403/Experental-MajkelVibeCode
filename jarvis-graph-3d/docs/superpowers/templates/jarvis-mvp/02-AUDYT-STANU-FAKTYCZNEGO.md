@@ -1,8 +1,13 @@
 # 02 — Jarvis MVP: audyt stanu obecnego (TYLKO ODCZYT)
 
+## Aktualizacja po audycie 11.10.2026
+
+> **Audyt wykonany 11.10.2026 (część bezpieczna, tylko odczyt):** wyniki i statusy VERIFIED/UNKNOWN są w [raporcie z laptopa](02-AUDYT-WYNIKI-2026-10-11.md). Ten plik pozostaje **wzorem wielokrotnego użytku**; nie należy odznaczać pól, których nie zweryfikowano. Aktywna lokalna gałąź `auto/nowa-petla-2026-10-09` ma cztery zmodyfikowane pliki — nie wolno ich nadpisywać.
+
+
 > **Jarvis MVP / Superpowers — szablon roboczy, 2026-10-11.** Wypełniaj na podstawie dowodów. `[DO UZUPEŁNIENIA]` oznacza otwartą decyzję; `[NIEZWERYFIKOWANE]` nie znaczy „działa”. Te dokumenty NIE są zgodą na implementację, instalowanie, zmianę `main` ani ingerencję w działającego Hermesa.
 
-**Status:** SZABLON; audyt aktualnego komputera **NIE ZOSTAŁ WYKONANY** tym dokumentem. **Cel:** odkryć, co działa, czego brakuje oraz gdzie istnieją duplikaty, zanim zaplanujemy zmiany.
+**Status:** SZABLON do ponownego użycia; audyt bieżącego komputera wykonano częściowo w osobnym raporcie z rzeczywistymi dowodami, bez E2E. **Cel:** odkryć, co działa, czego brakuje oraz gdzie istnieją duplikaty, zanim zaplanujemy zmiany.
 
 ## 1. Zasady pracy audytora
 
