@@ -1,6 +1,8 @@
 # 02 — Graph Ontology and Canonical Contracts
 
 **Status:** Proposed version 2.0 schema — MUST be ratified before implementation. **2026-10-09.**
+
+> **2026-10-11 Superpowers review:** [Doc 16 — Architecture Review](16-final-architecture-review.md) identifies **F1**, a blocking ambiguity in `graphVersion` and the replay `cursor` when the server filters private graph changes. Do not implement a global graphVersion as the browser-visible version without a viewer-scope policy. Recommendation pending approval: the snapshot's `graphVersion` represents the per-viewer authorized projection version, with canonical/store revision kept server-side. Cursor is opaque and scoped to the viewer authorization/session. On scope change, require a fresh snapshot. The wire contract is **not frozen**.
 **Authority:** domain objects, not physics/screen objects. **Dependencies:** Blueprint 01 and 03.
 
 ## 1. Problem and contract freeze
