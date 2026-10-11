@@ -2017,6 +2017,121 @@ body.killed .lab-gt-hz { display: block; }
 }
 @media (hover: none) { .lab-sc:hover { transform: none; } .lab-go { transform: none; } }
 
+/* ---- quant.css ---- */
+/* ===== quant — simulated desk: KPI glass · candles + ladder · execution rail · 8-layer MLP · quincunx · robustness · monte carlo (prefix qt-) ===== */
+.qt { position: relative; overflow-x: clip; }
+.qt-bgl { position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(46% 24% at 84% 8%, rgba(46, 230, 166, .09), transparent 70%), radial-gradient(42% 24% at 10% 52%, rgba(255, 46, 110, .10), transparent 70%),
+    radial-gradient(44% 22% at 62% 96%, rgba(166, 107, 255, .08), transparent 70%); }
+.qt .wrap { z-index: 1; }
+.qt .h2 { max-width: 26ch; font-size: clamp(26px, 4.2vw, 56px); }
+.qt-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.qt-pill { padding: 5px 12px; font-size: 10px; letter-spacing: .12em; color: #aaa1b8; }
+.qt-pill .lamp { width: 6px; height: 6px; }
+
+/* ---------- grid: one column on phones, 12 columns from 960px ---------- */
+.qt-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+.qt-grid > * { min-width: 0; }
+@media (min-width: 960px) {
+  .qt-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .qt-hero, .qt-pnl, .qt-mkt { grid-column: span 4; }
+  .qt-cycle, .qt-nn, .qt-mc { grid-column: 1 / -1; }
+  .qt-quin, .qt-rb { grid-column: span 6; }
+}
+
+/* ---------- glass cards with a coloured hairline ---------- */
+.qt-card { padding-bottom: 14px; background: linear-gradient(180deg, rgba(24, 14, 31, .93), rgba(9, 5, 14, .96)); border-color: rgba(var(--cc-rgb, 255, 255, 255), .22);
+  box-shadow: 0 24px 60px -30px rgba(0, 0, 0, .85), inset 0 1px 0 rgba(255, 255, 255, .04); }
+.qt-card .ph { padding: 14px 16px 0; }
+.qt-card .ph > span:first-child { color: #d7d0e0; }
+.qt-edge { position: absolute; left: 0; right: 0; top: 0; height: 1px; z-index: 2; background: linear-gradient(90deg, transparent, var(--cc), transparent);
+  box-shadow: 0 0 18px 1px rgba(var(--cc-rgb), .7); opacity: .85; }
+
+/* ---------- big numerals (serif, like the reference) ---------- */
+.qt-big { display: flex; align-items: baseline; gap: 6px; padding: 12px 16px 0; font: 700 clamp(44px, 5.4vw, 80px)/1 var(--serif); letter-spacing: -.02em; color: var(--ink);
+  font-variant-numeric: tabular-nums; text-shadow: 0 0 30px rgba(var(--cc-rgb), .35); }
+.qt-x { font-size: .5em; color: var(--cc); }
+.qt-big-pnl { color: var(--green); font-size: clamp(38px, 4.6vw, 68px); }
+.qt-sub { padding: 8px 16px 0; font-size: 10px; letter-spacing: .08em; color: var(--dim); }
+.qt-kv { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 16px; padding: 12px 16px 0; }
+.qt-kv > div { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.qt-kv span { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
+.qt-kv b { font-size: 14px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+
+/* ---------- canvases ---------- */
+.qt-cv { width: 100%; display: block; }
+.qt-cv-s { height: 92px; margin-top: 10px; }
+.qt-cv-b { height: 80px; margin-top: 12px; }
+.qt-cv-c { height: 176px; }
+.qt-cv-q { height: clamp(210px, 22vw, 260px); margin-top: 8px; }
+.qt-cv-nn { height: clamp(260px, 32vw, 360px); margin-top: 6px; }
+.qt-cv-mc { height: clamp(220px, 26vw, 300px); margin-top: 8px; }
+
+/* ---------- tape: price + candles + fake ladder ---------- */
+.qt-px { display: flex; align-items: baseline; gap: 10px; padding: 12px 16px 0; }
+.qt-px b { font: 700 30px/1 var(--sans); letter-spacing: -.01em; color: var(--ink); }
+.qt-px small { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--dim); }
+.qt-mktgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(86px, 104px); gap: 10px; padding: 10px 12px 0; }
+.qt-lad { display: flex; flex-direction: column; gap: 3px; font-size: 10px; font-variant-numeric: tabular-nums; justify-content: center; }
+.qt-lr { position: relative; display: grid; grid-template-columns: 1fr auto; gap: 6px; padding: 3px 6px; border-radius: 4px; overflow: hidden; }
+.qt-lr i { position: absolute; top: 0; bottom: 0; right: 0; left: 0; transform-origin: right center; transform: scaleX(.5); transition: transform .4s var(--ease); }
+.qt-lr.ask i { background: linear-gradient(270deg, rgba(255, 77, 94, .28), rgba(255, 77, 94, 0)); }
+.qt-lr.bid i { background: linear-gradient(270deg, rgba(46, 230, 166, .26), rgba(46, 230, 166, 0)); }
+.qt-lr b, .qt-lr em { position: relative; font-style: normal; font-weight: 500; }
+.qt-lr b { color: var(--ink); }
+.qt-lr em { color: var(--mut); }
+.qt-lr.ask b { color: #ff9aa5; } .qt-lr.bid b { color: #8ff5cf; }
+
+/* ---------- execution rail: six stages, a comet travels under them ---------- */
+.qt-rail { position: relative; margin: 14px 16px 0; padding-bottom: 16px; }
+.qt-rail::before { content: ''; position: absolute; left: 8.33%; right: 8.33%; bottom: 3px; height: 2px; border-radius: 2px; background: rgba(255, 255, 255, .08); }
+.qt-stages { list-style: none; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; position: relative; z-index: 1; }
+.qt-st { position: relative; min-width: 0; padding: 12px 10px 10px; border-radius: 10px; border: 1px solid var(--line); background: rgba(255, 255, 255, .02);
+  transition: border-color .45s, background .45s, box-shadow .45s, transform .45s var(--ease); }
+.qt-st i { font-style: normal; font-size: 9px; letter-spacing: .2em; color: var(--dim); }
+.qt-st b { display: block; margin-top: 5px; font: 700 14px/1 var(--sans); color: var(--mut); letter-spacing: .02em; transition: color .45s, text-shadow .45s; }
+.qt-st small { display: block; margin-top: 7px; font-size: 10px; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qt-st.on { border-color: rgba(255, 46, 110, .7); background: linear-gradient(180deg, rgba(255, 46, 110, .18), rgba(255, 46, 110, .03)); box-shadow: 0 0 28px -6px rgba(255, 46, 110, .75); transform: translateY(-3px); }
+.qt-st.on b { color: #fff; text-shadow: 0 0 14px rgba(255, 46, 110, .95); }
+.qt-st.on small { color: var(--pink2); }
+.qt-comet { position: absolute; bottom: 0; left: calc(100% / 6 * (.5 + var(--p, 0) * 5)); width: 64px; height: 3px; margin-left: -32px; border-radius: 3px; z-index: 2;
+  background: linear-gradient(90deg, transparent, var(--pink), #fff 60%, var(--pink), transparent); box-shadow: 0 0 16px var(--pink); transition: left .85s var(--ease); }
+.qt-halt .qt-comet { background: linear-gradient(90deg, transparent, var(--red), #fff 60%, var(--red), transparent); box-shadow: 0 0 16px var(--red); }
+.qt-halt .qt-st.on { border-color: rgba(255, 77, 94, .8); background: linear-gradient(180deg, rgba(255, 77, 94, .18), rgba(255, 77, 94, .03)); box-shadow: 0 0 28px -6px rgba(255, 77, 94, .75); }
+.qt-halt .qt-st.on b { text-shadow: 0 0 14px rgba(255, 77, 94, .95); }
+
+/* ---------- training progress ---------- */
+.qt-prog { height: 3px; margin: 10px 16px 0; background: rgba(255, 255, 255, .07); border-radius: 3px; overflow: hidden; }
+.qt-prog i { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--violet), var(--pink)); box-shadow: 0 0 12px var(--pink); transition: width .25s linear; }
+
+/* ---------- robustness: 7 x 4 cells + ring ---------- */
+.qt-score { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); }
+.qt-score svg { width: 38px; height: 38px; transform: rotate(-90deg); }
+.qt-score circle { fill: none; stroke-width: 4; }
+.qt-ring-bg { stroke: rgba(255, 255, 255, .08); }
+.qt-ring { stroke: var(--green); stroke-linecap: round; stroke-dasharray: 113.1; stroke-dashoffset: 20; filter: drop-shadow(0 0 4px rgba(46, 230, 166, .8)); transition: stroke-dashoffset .6s var(--ease); }
+.qt-score b { font: 700 18px/1 var(--sans); }
+.qt-rbgrid { display: grid; grid-template-columns: 74px repeat(4, minmax(0, 1fr)); gap: 5px; padding: 12px 16px 0; font-size: 10px; font-variant-numeric: tabular-nums; }
+.qt-rbgrid > span { align-self: center; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qt-rbgrid > span.h { text-align: center; }
+.qt-rbgrid > b { display: grid; place-items: center; height: 34px; border-radius: 6px; font-weight: 700; color: #fff; text-shadow: 0 0 8px rgba(0, 0, 0, .55); transition: background-color .5s var(--ease); }
+
+/* ---------- monte carlo foot ---------- */
+.qt-mcfoot { display: flex; flex-wrap: wrap; gap: 8px 18px; padding: 10px 16px 0; font-size: 10px; letter-spacing: .08em; color: var(--mut); font-variant-numeric: tabular-nums; }
+
+@media (max-width: 699px) {
+  .qt-mktgrid { grid-template-columns: minmax(0, 1fr) 86px; }
+  .qt-kv { gap: 10px 12px; }
+}
+@media (max-width: 559px) {
+  .qt-stages { gap: 5px; }
+  .qt-st { padding: 9px 4px 8px; }
+  .qt-st i, .qt-st small { display: none; }
+  .qt-st b { font-size: 10px; margin-top: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .qt-rbgrid { grid-template-columns: 52px repeat(4, minmax(0, 1fr)); gap: 4px; }
+  .qt-rbgrid > b { height: 30px; font-size: 9px; }
+}
+
 </style>
 </head>
 <body>
@@ -2056,7 +2171,7 @@ body.killed .lab-gt-hz { display: block; }
     <div class="m hide-s"><label>Floor</label><b id="mFloor" class="num">0.85</b></div>
   </div>
   <nav class="nav" aria-label="Sections">
-    <a href="#hero"><i>01</i> decides</a><a href="#builds"><i>02</i> builds</a><a href="#hour"><i>03</i> hour</a><a href="#desk"><i>04</i> desk</a><a href="#lab"><i>05</i> lab</a>
+    <a href="#hero"><i>01</i> decides</a><a href="#builds"><i>02</i> builds</a><a href="#hour"><i>03</i> hour</a><a href="#desk"><i>04</i> desk</a><a href="#lab"><i>05</i> lab</a><a href="#quant"><i>06</i> quant</a>
   </nav>
   <button class="kill" id="killBtn" type="button" aria-pressed="false" aria-label="Kill switch" title="Kill switch: every order goes to human review, holds still skip"><i></i><span id="killTxt">ARMED</span></button>
   <i class="hud-scan" aria-hidden="true"></i>
@@ -3124,6 +3239,122 @@ def gate(answer):
       </div>
     </div>
     <div class="sr-only" id="lab-sr" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- 80-quant.html -->
+<section class="sec qt" id="quant" aria-labelledby="qt-h2">
+  <i class="qt-bgl" aria-hidden="true"></i>
+  <div class="wrap">
+
+    <header class="sec-head qt-head rv">
+      <div class="eb">06 <i>&middot;</i> the quant desk</div>
+      <h2 class="h2" id="qt-h2">One net, six stages, and <em>every</em> edge has to survive a stress test</h2>
+      <p class="lede">a simulated quant book: an 8-layer net scores the edge, seven gates filter it, a robustness grid and a monte carlo fan try to break the book before anything is allowed to size. every number is generated in your browser. no orders.</p>
+      <div class="qt-pills" role="list">
+        <span class="pill qt-pill" role="listitem"><i class="lamp"></i>walk-forward</span>
+        <span class="pill qt-pill" role="listitem">monte carlo &middot; 240 paths</span>
+        <span class="pill qt-pill" role="listitem">simulated &middot; no orders</span>
+      </div>
+    </header>
+
+    <div class="qt-grid">
+
+      <!-- A · candidate -->
+      <article class="card qt-card qt-hero rv" data-c="green" aria-labelledby="qt-hero-t">
+        <i class="qt-edge" aria-hidden="true"></i>
+        <div class="ph"><span id="qt-hero-t">best candidate</span><span class="pill" data-c="green"><i class="lamp"></i>walk-forward</span></div>
+        <div class="qt-big"><span class="qt-x" aria-hidden="true">&times;</span><b id="qtMult" class="num">0</b></div>
+        <p class="qt-sub">equity multiple &middot; simulated two-year sample</p>
+        <canvas class="qt-cv qt-cv-s" id="qtEq" aria-hidden="true"></canvas>
+        <div class="qt-kv">
+          <div><span>sharpe</span><b class="num">5.07</b></div>
+          <div><span>alpha</span><b class="num up">+2.4%</b></div>
+          <div><span>hold</span><b class="num">3m 23d</b></div>
+          <div><span>max dd</span><b class="num dn">-6.8%</b></div>
+        </div>
+      </article>
+
+      <!-- B · book -->
+      <article class="card qt-card qt-pnl rv" data-c="pink" aria-labelledby="qt-pnl-t">
+        <i class="qt-edge" aria-hidden="true"></i>
+        <div class="ph"><span id="qt-pnl-t">book &middot; all-time</span><span class="pill" data-c="gray">30-day window</span></div>
+        <div class="qt-big qt-big-pnl"><b id="qtPnl" class="num">+$78,940</b></div>
+        <p class="qt-sub">simulated pnl, net of a 4 bps cost model</p>
+        <canvas class="qt-cv qt-cv-b" id="qtBars" aria-hidden="true"></canvas>
+        <div class="qt-kv">
+          <div><span>trades</span><b id="qtTrades" class="num">73,020</b></div>
+          <div><span>win rate</span><b class="num">59.0%</b></div>
+          <div><span>avg r/r</span><b class="num">3.92</b></div>
+          <div><span>cost</span><b class="num">4 bps</b></div>
+        </div>
+      </article>
+
+      <!-- C · tape -->
+      <article class="card qt-card qt-mkt rv" data-c="cyan" aria-labelledby="qt-mkt-t">
+        <i class="qt-edge" aria-hidden="true"></i>
+        <div class="ph"><span id="qt-mkt-t">btc &middot; sim tape</span><span class="pill" data-c="cyan"><i class="lamp"></i>live</span></div>
+        <div class="qt-px"><b id="qtPrice" class="num">78,940</b><small>1m &middot; simulated</small></div>
+        <div class="qt-mktgrid">
+          <canvas class="qt-cv qt-cv-c" id="qtCandles" aria-hidden="true"></canvas>
+          <div class="qt-lad" id="qtLad" aria-hidden="true"></div>
+        </div>
+      </article>
+
+      <!-- D · execution rail -->
+      <article class="card qt-card qt-cycle rv" id="qtCycle" data-c="pink" aria-labelledby="qt-cy-t">
+        <i class="qt-edge" aria-hidden="true"></i>
+        <div class="ph"><span id="qt-cy-t">execution cycle &middot; <b id="qtCycN" class="num">#483</b></span><span>fill <b id="qtFill" class="num">0.66</b></span></div>
+        <div class="qt-rail">
+          <ol class="qt-stages">
+            <li class="qt-st on" data-s="scan"><i>01</i><b>scan</b><small>412 markets</small></li>
+            <li class="qt-st" data-s="detect"><i>02</i><b>detect</b><small>38 signals</small></li>
+            <li class="qt-st" data-s="validate"><i>03</i><b>validate</b><small>7 gates</small></li>
+            <li class="qt-st" data-s="size"><i>04</i><b>size</b><small>12 lots</small></li>
+            <li class="qt-st" data-s="fill"><i>05</i><b>fill</b><small>9 fills</small></li>
+            <li class="qt-st" data-s="settle"><i>06</i><b>settle</b><small>6 trades</small></li>
+          </ol>
+          <i class="qt-comet" aria-hidden="true"></i>
+        </div>
+      </article>
+
+      <!-- E · neural net -->
+      <article class="card qt-card qt-nn rv" data-c="violet" aria-labelledby="qt-nn-t">
+        <i class="qt-edge" aria-hidden="true"></i>
+        <div class="ph"><span id="qt-nn-t">neural net &middot; deep mlp &middot; 8 layers &middot; self-learn</span><span id="qtTrain" class="num">epoch 2 &middot; step 47/100 &middot; training</span></div>
+        <div class="qt-prog" aria-hidden="true"><i id="qtProg"></i></div>
+        <canvas class="qt-cv qt-cv-nn" id="qtNN" aria-hidden="true"></canvas>
+      </article>
+
+      <!-- F · quincunx -->
+      <article class="card qt-card qt-quin rv" data-c="orange" aria-labelledby="qt-q-t">
+        <i class="qt-edge" aria-hidden="true"></i>
+        <div class="ph"><span id="qt-q-t">quincunx &middot; 7 gates</span><span><b id="qtFloor" class="num">floor 0.85</b> &middot; <b id="qtQuinN" class="num">0</b> balls</span></div>
+        <canvas class="qt-cv qt-cv-q" id="qtQuin" aria-hidden="true"></canvas>
+      </article>
+
+      <!-- G · robustness -->
+      <article class="card qt-card qt-rb rv" id="qtRb-card" data-c="green" aria-labelledby="qt-rb-t">
+        <i class="qt-edge" aria-hidden="true"></i>
+        <div class="ph">
+          <span id="qt-rb-t">robustness &middot; 7 checks &middot; 4 stresses</span>
+          <span class="qt-score" aria-label="robustness score">
+            <svg viewBox="0 0 44 44" aria-hidden="true"><circle class="qt-ring-bg" cx="22" cy="22" r="18"/><circle class="qt-ring" id="qtRing" cx="22" cy="22" r="18"/></svg>
+            <b id="qtScore" class="num">82</b>
+          </span>
+        </div>
+        <div class="qt-rbgrid" id="qtRb"></div>
+      </article>
+
+      <!-- H · monte carlo -->
+      <article class="card qt-card qt-mc rv" data-c="blue" aria-labelledby="qt-mc-t">
+        <i class="qt-edge" aria-hidden="true"></i>
+        <div class="ph"><span id="qt-mc-t">monte carlo &middot; 240 paths &middot; 170 steps</span><span class="pill" data-c="blue">P &lt; 0.05</span></div>
+        <canvas class="qt-cv qt-cv-mc" id="qtMC" aria-hidden="true"></canvas>
+        <div class="qt-mcfoot"><span id="qtPct">simulated fan</span></div>
+      </article>
+
+    </div>
   </div>
 </section>
 
@@ -9500,6 +9731,433 @@ JEV.mod('lab', () => {
   // desktop: the controls column is sticky; if it is taller than the viewport, pin it by its bottom edge so STATE + hard rules + tape stay reachable
   const left = $('.lab-left');
   if (left) { const stick = () => { const h = left.offsetHeight; left.style.top = (h ? Math.min(76, innerHeight - h - 16) : 76) + 'px'; }; J.watch(left, stick); addEventListener('resize', stick, { passive: true }); }
+});
+
+</script>
+<script>/* ---- quant.js ---- */
+/* quant — a simulated quant desk: candles + ladder, a six-stage execution rail, an 8-layer MLP whose pulses fire forward, a quincunx of left/right gates,
+ * a robustness grid and a monte carlo fan with a live histogram. Everything is generated in the browser: no market data, no orders.
+ * The kill switch (bus 'kill') halts the rail; decisions (bus 'decision') count as trades; the floor (bus 'floor') is shown on the quincunx. */
+JEV.mod('quant', () => {
+  'use strict';
+  const J = JEV;
+  const root = J.$('#quant');
+  if (!root) return;
+  const $ = (s) => root.querySelector(s);
+  const $$ = (s) => Array.from(root.querySelectorAll(s));
+  const C = J.C, TAU = J.TAU, clamp = J.clamp, lerp = J.lerp, rgba = J.rgba;
+  const rnd = J.rnd, ri = J.ri, gauss = J.gauss, EXP = Math.exp;
+  const setTxt = (el, t) => { if (el && el.textContent !== t) el.textContent = t; };
+  const ease = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+  const pct = (x, d) => (x >= 0 ? '+' : '−') + Math.abs(x * 100).toFixed(d == null ? 1 : d) + '%';
+  const signed = (x, d) => (x >= 0 ? '+' : '') + x.toFixed(d);
+  let halted = false;
+
+  /* run fn(t) at most every `sec` seconds, only while el is on screen (J.task gating) */
+  const every = (el, sec, fn) => {
+    if (!el) return null;
+    let next = 0;
+    return J.task(el, (t) => { if (t >= next) { next = t + sec; fn(t); } });
+  };
+
+  /* canvas: J.fit() on every resize; draw code works in CSS px through s.g */
+  const cv = (sel, onsize, cap) => {
+    const c = $(sel);
+    if (!c) return null;
+    const s = { c, g: null, W: 0, H: 0 };
+    J.watch(c, () => {
+      const f = J.fit(c, cap);
+      s.g = f.g; s.W = f.W; s.H = f.H;
+      if (onsize) onsize(s);
+    });
+    return s;
+  };
+
+  /* soft glow sprites: drawImage is far cheaper per frame than a radial gradient or shadowBlur */
+  const sprite = (hex) => {
+    const n = 64, c = document.createElement('canvas');
+    c.width = c.height = n;
+    const g = c.getContext('2d'), gr = g.createRadialGradient(n / 2, n / 2, 0, n / 2, n / 2, n / 2);
+    gr.addColorStop(0, '#ffffff'); gr.addColorStop(0.16, hex); gr.addColorStop(0.42, rgba(hex, 0.32)); gr.addColorStop(1, rgba(hex, 0));
+    g.fillStyle = gr; g.fillRect(0, 0, n, n);
+    return c;
+  };
+  const SP = { pink: sprite(C.pink), green: sprite(C.green), blue: sprite(C.blue), violet: sprite(C.violet), red: sprite(C.red) };
+  const glow = (g, sp, x, y, r, a) => { g.globalAlpha = a; g.drawImage(sp, x - r, y - r, r * 2, r * 2); g.globalAlpha = 1; };
+
+  /* a line with a soft area under it, normalised to the canvas */
+  const plot = (g, W, H, arr, hex, pad) => {
+    let lo = Infinity, hi = -Infinity;
+    for (const v of arr) { if (v < lo) lo = v; if (v > hi) hi = v; }
+    const span = hi - lo || 1, n = arr.length;
+    const X = (i) => (i / (n - 1)) * W, Y = (v) => H - pad - ((v - lo) / span) * (H - pad * 2);
+    const line = new Path2D();
+    arr.forEach((v, i) => (i ? line.lineTo(X(i), Y(v)) : line.moveTo(X(i), Y(v))));
+    const area = new Path2D(line); area.lineTo(W, H); area.lineTo(0, H); area.closePath();
+    const fill = g.createLinearGradient(0, 0, 0, H);
+    fill.addColorStop(0, rgba(hex, 0.3)); fill.addColorStop(1, rgba(hex, 0));
+    g.fillStyle = fill; g.fill(area);
+    g.lineWidth = 5; g.strokeStyle = rgba(hex, 0.16); g.stroke(line);
+    g.lineWidth = 1.6; g.strokeStyle = hex; g.stroke(line);
+    g.beginPath(); g.arc(X(n - 1), Y(arr[n - 1]), 3.2, 0, TAU); g.fillStyle = '#fff'; g.fill();
+  };
+
+  /* bus: kill halts the rail, decisions are trades, floor is shown on the quincunx */
+  const haltEl = root;
+  J.bus.on('kill', (on) => { halted = !!on; haltEl.classList.toggle('qt-halt', halted); });
+  const tradesEl = $('#qtTrades');
+  let trades = 73020;
+  J.bus.on('decision', () => { trades++; setTxt(tradesEl, J.fmt(trades, 0)); });
+  const floorEl = $('#qtFloor');
+  J.bus.on('floor', (v) => { if (isFinite(+v)) setTxt(floorEl, 'floor ' + (+v).toFixed(2)); });
+
+  /* ---------- 1 · candidate: a scrolling equity curve and a count-up multiple ---------- */
+  const eq = [];
+  let eqV = 1;
+  for (let i = 0; i < 120; i++) { eqV *= 1 + 0.011 + gauss() * 0.028; eq.push(eqV); }
+  const eqS = cv('#qtEq');
+  let eqNext = 0;
+  if (eqS) J.task(eqS.c, (t) => {
+    if (t >= eqNext) {
+      eqNext = t + 2.2;
+      eqV *= 1 + 0.011 + gauss() * 0.028;
+      eq.shift(); eq.push(eqV);
+    }
+    const { g, W, H } = eqS;
+    g.clearRect(0, 0, W, H);
+    plot(g, W, H, eq, C.green, 8);
+  });
+  const multEl = $('#qtMult'), heroEl = $('.qt-hero');
+  if (multEl && heroEl) J.onView(heroEl, () => J.countTo(multEl, 96, { dur: 1600 }), { threshold: 0.3 });
+
+  /* ---------- 2 · book: daily pnl bars and an all-time counter that drifts ---------- */
+  const days = Array.from({ length: 34 }, () => gauss() + 0.35);
+  const barS = cv('#qtBars');
+  let barNext = 0;
+  if (barS) J.task(barS.c, (t) => {
+    if (t >= barNext) { barNext = t + 1.2; days.shift(); days.push(gauss() + 0.35); }
+    const { g, W, H } = barS;
+    g.clearRect(0, 0, W, H);
+    let m = 0;
+    for (const d of days) m = Math.max(m, Math.abs(d));
+    m = m || 1;
+    const bw = W / days.length, mid = H / 2;
+    g.fillStyle = rgba(C.ink, 0.1); g.fillRect(0, mid, W, 1);
+    days.forEach((d, i) => {
+      const h = Math.max(1, (Math.abs(d) / m) * (H / 2 - 4));
+      g.fillStyle = d >= 0 ? rgba(C.green, 0.8) : rgba(C.red, 0.8);
+      g.fillRect(i * bw + bw * 0.22, d >= 0 ? mid - h : mid, bw * 0.56, h);
+    });
+  });
+  const pnlEl = $('#qtPnl');
+  let pnl = 78940;
+  every($('.qt-pnl'), 1.1, () => {
+    pnl += gauss() * 140 + 70;
+    setTxt(pnlEl, (pnl >= 0 ? '+' : '') + J.usd(pnl, 0));
+    setTxt(tradesEl, J.fmt(trades += ri(1, 3), 0));
+  });
+
+  /* ---------- 3 · tape: candles, a moving average, entry dots, a ladder that jitters ---------- */
+  const cand = [];
+  let px = 78940;
+  const newCandle = () => {
+    const o = px, c = o * (1 + gauss() * 0.0042 + 0.00015);
+    const h = Math.max(o, c) * (1 + Math.abs(gauss()) * 0.0016), l = Math.min(o, c) * (1 - Math.abs(gauss()) * 0.0016);
+    px = c;
+    cand.push({ o, c, h, l, mk: Math.random() < 0.08 });
+    if (cand.length > 56) cand.shift();
+  };
+  for (let i = 0; i < 56; i++) newCandle();
+
+  const drawCandles = (g, W, H) => {
+    let lo = Infinity, hi = -Infinity;
+    for (const k of cand) { if (k.l < lo) lo = k.l; if (k.h > hi) hi = k.h; }
+    const span = hi - lo || 1, n = cand.length, cw = W / n;
+    const Y = (v) => H - 10 - ((v - lo) / span) * (H - 20);
+    g.clearRect(0, 0, W, H);
+    // moving average first, so the candles sit on top of it
+    g.beginPath();
+    cand.forEach((k, i) => {
+      let s = 0, m = 0;
+      for (let j = Math.max(0, i - 9); j <= i; j++) { s += cand[j].c; m++; }
+      const x = i * cw + cw / 2, y = Y(s / m);
+      i ? g.lineTo(x, y) : g.moveTo(x, y);
+    });
+    g.lineWidth = 1.2; g.strokeStyle = rgba(C.pink, 0.75); g.stroke();
+    cand.forEach((k, i) => {
+      const x = i * cw + cw / 2, col = k.c >= k.o ? C.green : C.red;
+      g.strokeStyle = col; g.lineWidth = 1;
+      g.beginPath(); g.moveTo(x, Y(k.h)); g.lineTo(x, Y(k.l)); g.stroke();
+      const top = Y(Math.max(k.o, k.c)), bot = Y(Math.min(k.o, k.c));
+      g.fillStyle = col;
+      g.fillRect(x - cw * 0.32, top, cw * 0.64, Math.max(1.5, bot - top));
+      if (k.mk) { g.beginPath(); g.arc(x, Y(k.c), 2.8, 0, TAU); g.fillStyle = C.pink; g.fill(); }
+    });
+  };
+  const candS = cv('#qtCandles');
+  let candNext = 0;
+  if (candS) J.task(candS.c, (t) => {
+    if (t >= candNext) { candNext = t + 0.9; newCandle(); }
+    drawCandles(candS.g, candS.W, candS.H);
+  });
+
+  const priceEl = $('#qtPrice'), lad = $('#qtLad');
+  const rows = [];
+  if (lad) for (let i = 0; i < 10; i++) {
+    const r = document.createElement('div');
+    r.className = 'qt-lr ' + (i < 5 ? 'ask' : 'bid');
+    r.innerHTML = '<i></i><b></b><em></em>';
+    lad.appendChild(r); rows.push(r);
+  }
+  every($('.qt-mkt'), 0.3, () => {
+    const last = cand[cand.length - 1];
+    setTxt(priceEl, J.fmt(last.c, 0));
+    rows.forEach((r, i) => {
+      const ask = i < 5, k = ask ? 4 - i : i - 5;   // k = distance from mid, asks listed high to low
+      const price = last.c * (1 + (ask ? 1 : -1) * (0.0004 + k * 0.00065));
+      r.querySelector('i').style.transform = 'scaleX(' + rnd(0.2, 1).toFixed(2) + ')';
+      setTxt(r.querySelector('b'), J.fmt(price, 0));
+      setTxt(r.querySelector('em'), rnd(0.2, 4).toFixed(2));
+    });
+  });
+
+  /* ---------- 4 · execution rail: six stages, one comet, halts with the kill switch ---------- */
+  const cyc = $('#qtCycle'), rail = cyc && cyc.querySelector('.qt-rail');
+  const stages = $$('.qt-st');
+  const units = ['markets', 'signals', 'gates', 'lots', 'fills', 'trades'];
+  const cnt = [412, 38, 7, 12, 9, 6];
+  const fillEl = $('#qtFill'), cycEl = $('#qtCycN');
+  let si = 0, cycleN = 483, fill = 0.66, nextStage = 0;
+  if (cyc && stages.length) J.task(cyc, (t) => {
+    if (halted || t < nextStage) return;
+    nextStage = t + 0.95;
+    stages.forEach((s, i) => s.classList.toggle('on', i === si));
+    cnt[si] += ri(0, si === 0 ? 40 : 3);
+    setTxt(stages[si].querySelector('small'), cnt[si] + ' ' + units[si]);
+    if (si === 4) { fill = clamp(fill + gauss() * 0.03, 0.4, 0.99); setTxt(fillEl, fill.toFixed(2)); }
+    if (rail) rail.style.setProperty('--p', (si / (stages.length - 1)).toFixed(3));
+    si = (si + 1) % stages.length;
+    if (si === 0) { cycleN++; setTxt(cycEl, '#' + cycleN); }
+  });
+
+  /* ---------- 5 · deep mlp: 8 layers; a pulse fires along a weight, the node it reaches lights up ---------- */
+  const LAY = [6, 10, 10, 10, 10, 10, 10, 10, 3];
+  const act = LAY.map((n) => new Float32Array(n));
+  const edges = [];
+  for (let l = 0; l < LAY.length - 1; l++)
+    for (let i = 0; i < LAY[l]; i++)
+      for (let j = 0; j < LAY[l + 1]; j++) edges.push({ l, i, j, w: gauss() });
+  const pulses = [];
+  let NODES = [];
+  const layoutNN = ({ W, H }) => {
+    const px0 = 40, py0 = 26;
+    NODES = LAY.map((n, l) => Array.from({ length: n }, (_, i) => ({
+      x: px0 + (l * (W - px0 * 2)) / (LAY.length - 1),
+      y: n === 1 ? H / 2 : py0 + (i * (H - py0 * 2)) / (n - 1),
+    })));
+  };
+  const nnS = cv('#qtNN', layoutNN);
+  const trainEl = $('#qtTrain'), progEl = $('#qtProg');
+  let trainStep = 47, epoch = 2, nextTrain = 0;
+  if (nnS) J.task(nnS.c, (t, dt) => {
+    const { g, W, H } = nnS;
+    g.clearRect(0, 0, W, H);
+
+    // weights: two batched paths, pink = positive, blue = negative
+    g.lineWidth = 0.7;
+    for (const pos of [true, false]) {
+      g.strokeStyle = pos ? rgba(C.pink, 0.2) : rgba(C.blue, 0.16);
+      g.beginPath();
+      for (const e of edges) {
+        if ((e.w >= 0) !== pos) continue;
+        const a = NODES[e.l][e.i], b = NODES[e.l + 1][e.j];
+        g.moveTo(a.x, a.y); g.lineTo(b.x, b.y);
+      }
+      g.stroke();
+    }
+
+    // forward pulses
+    if (Math.random() < dt * 24 && pulses.length < 220) pulses.push({ e: edges[(Math.random() * edges.length) | 0], p: 0, sp: rnd(0.8, 1.7) });
+    g.globalCompositeOperation = 'lighter';
+    for (let k = pulses.length - 1; k >= 0; k--) {
+      const q = pulses[k];
+      q.p += dt * q.sp;
+      if (q.p >= 1) { act[q.e.l + 1][q.e.j] = 1; pulses.splice(k, 1); continue; }
+      const a = NODES[q.e.l][q.e.i], b = NODES[q.e.l + 1][q.e.j];
+      glow(g, q.e.w >= 0 ? SP.pink : SP.blue, lerp(a.x, b.x, q.p), lerp(a.y, b.y, q.p), 6, 0.95);
+    }
+
+    // nodes: activation decays, glow scales with it
+    const dec = EXP(-dt * 2.4);
+    NODES.forEach((layer, l) => layer.forEach((n, i) => {
+      act[l][i] *= dec;
+      const a = act[l][i];
+      glow(g, a > 0.25 ? SP.pink : SP.violet, n.x, n.y, 6 + 14 * a, 0.2 + 0.8 * a);
+    }));
+    g.globalCompositeOperation = 'source-over';
+    g.fillStyle = C.ink;
+    g.beginPath();
+    NODES.forEach((layer) => layer.forEach((n) => { g.moveTo(n.x + 2, n.y); g.arc(n.x, n.y, 2, 0, TAU); }));
+    g.fill();
+
+    if (t >= nextTrain) {
+      nextTrain = t + 0.22;
+      if (++trainStep > 100) { trainStep = 1; epoch++; }
+      const loss = Math.max(0.011, 0.9 * EXP(-epoch * 0.42)) * (0.92 + Math.random() * 0.16);
+      setTxt(trainEl, 'epoch ' + epoch + ' · step ' + trainStep + '/100 · loss ' + loss.toFixed(3));
+      if (progEl) progEl.style.width = trainStep + '%';
+    }
+  });
+
+  /* ---------- 6 · quincunx: each ball takes a left/right decision per gate and lands in a bin ---------- */
+  const R = 8, LT = 0.12;                       // gates, seconds per gate
+  const bins = new Float32Array(R + 1);
+  const balls = [];
+  const Q = { cx: 0, top: 0, rowH: 1, sx: 1, baseY: 0 };
+  const xAt = (L, k) => Q.cx + (k - L / 2) * Q.sx;
+  const yAt = (L) => Q.top + L * Q.rowH;
+  const quinS = cv('#qtQuin', ({ W, H }) => {
+    Q.cx = W / 2; Q.top = 16; Q.sx = W / (R + 3); Q.rowH = (H - 70) / (R + 1); Q.baseY = H - 14;
+  });
+  const quinN = $('#qtQuinN');
+  let qNext = 0, landed = 0;
+  if (quinS) J.task(quinS.c, (t) => {
+    const { g, W, H } = quinS;
+    if (t >= qNext && balls.length < 70) { qNext = t + 0.16; balls.push({ t0: t, path: Array.from({ length: R }, () => (Math.random() < 0.5 ? 0 : 1)) }); }
+    g.clearRect(0, 0, W, H);
+
+    // gates
+    g.fillStyle = rgba(C.ink, 0.26);
+    g.beginPath();
+    for (let L = 0; L < R; L++) for (let k = 0; k <= L; k++) { g.moveTo(xAt(L, k) + 1.6, yAt(L)); g.arc(xAt(L, k), yAt(L), 1.6, 0, TAU); }
+    g.fill();
+
+    // bins: the outcome histogram, left half red, right half green
+    let maxC = 1;
+    for (let b = 0; b <= R; b++) if (bins[b] > maxC) maxC = bins[b];
+    const bh = Q.baseY - (yAt(R) + 10);
+    for (let b = 0; b <= R; b++) {
+      const h = Math.max(1.5, (bins[b] / maxC) * bh);
+      g.fillStyle = b >= R / 2 ? rgba(C.green, 0.72) : rgba(C.red, 0.68);
+      g.fillRect(xAt(R, b) - Q.sx * 0.36, Q.baseY - h, Q.sx * 0.72, h);
+    }
+
+    // balls: move gate by gate, hop over each peg, land in a bin
+    g.globalCompositeOperation = 'lighter';
+    for (let q = balls.length - 1; q >= 0; q--) {
+      const b = balls[q], e = (t - b.t0) / LT, L = Math.floor(e);
+      if (L >= R) {
+        let k = 0;
+        for (const bit of b.path) k += bit;
+        bins[k] += 1; landed++;
+        balls.splice(q, 1);
+        continue;
+      }
+      let k = 0;
+      for (let i = 0; i < L; i++) k += b.path[i];
+      const f = ease(e - L), nk = k + b.path[L];
+      const x = lerp(xAt(L, k), xAt(L + 1, nk), f);
+      const y = lerp(yAt(L), yAt(L + 1), f) - Math.sin(f * Math.PI) * Q.rowH * 0.22;
+      glow(g, SP.pink, x, y, 6, 0.9);
+    }
+    g.globalCompositeOperation = 'source-over';
+
+    // keep the histogram readable: once it gets heavy, halve it
+    if (landed > 900) { for (let b = 0; b <= R; b++) bins[b] *= 0.5; landed *= 0.5; }
+  });
+  every($('.qt-quin'), 0.5, () => setTxt(quinN, J.fmt(Math.round(landed), 0)));
+
+  /* ---------- 7 · robustness: seven checks x four stress variants; cells breathe, the ring is the pass score ---------- */
+  const rbGrid = $('#qtRb');
+  const ROWS = ['return', 'sharpe', 'max dd', 'fill rate', 'latency', 'spread', 'regime'];
+  const COLS = ['base', 'vol +50%', 'lag 2 bars', 'thin book'];
+  const cells = [];
+  const cellBg = (v) => { const a = clamp(0.14 + Math.abs(v) * 0.22, 0.14, 0.8); return v >= 0 ? rgba(C.green, a) : rgba(C.red, a); };
+  if (rbGrid) {
+    rbGrid.appendChild(document.createElement('span'));
+    COLS.forEach((c) => { const h = document.createElement('span'); h.className = 'h'; h.textContent = c; rbGrid.appendChild(h); });
+    ROWS.forEach((name, i) => {
+      const lab = document.createElement('span'); lab.textContent = name; rbGrid.appendChild(lab);
+      const row = COLS.map((_, j) => {
+        const el = document.createElement('b');
+        rbGrid.appendChild(el);
+        const target = rnd(0.5, 1.7) - j * rnd(0, 0.9) - (i === 4 ? 0.2 : 0);
+        return { el, target, v: target };
+      });
+      cells.push(row);
+    });
+  }
+  const ringEl = $('#qtRing'), scoreEl = $('#qtScore');
+  every($('.qt-rb'), 0.35, () => {
+    let sum = 0, n = 0;
+    for (const row of cells) for (const c of row) {
+      c.target = clamp(c.target + gauss() * 0.12, -2, 2);
+      c.v = lerp(c.v, c.target, 0.4);
+      c.el.style.background = cellBg(c.v);
+      setTxt(c.el, signed(c.v, 1));
+      sum += c.v; n++;
+    }
+    const score = Math.round(clamp(60 + (n ? sum / n : 0) * 18, 0, 99));
+    setTxt(scoreEl, String(score));
+    if (ringEl) ringEl.style.strokeDashoffset = (113.1 * (1 - score / 100)).toFixed(1);
+  });
+
+  /* ---------- 8 · monte carlo: 240 paths fan out and fade; end values stack into the histogram on the right ---------- */
+  const MCN = 240, MCS = 170, HB = 28, HMIN = -0.4, HMAX = 0.4;
+  const hist = new Float32Array(HB);
+  let histTotal = 0, mcNext = 0;
+  const paths = Array.from({ length: MCN }, () => ({ s: ri(0, MCS - 1), v: gauss() * 0.02, px: 0, py: 0, fresh: true, sig: rnd(0.8, 1.35), mu: rnd(-0.0004, 0.0012) }));
+  const mcS = cv('#qtMC');
+  const pctEl = $('#qtPct');
+  const valAt = (b) => HMIN + ((b + 0.5) / HB) * (HMAX - HMIN);
+  const quantile = (f) => { let acc = 0; for (let b = 0; b < HB; b++) { acc += hist[b]; if (acc / histTotal >= f) return valAt(b); } return HMAX; };
+  if (mcS) J.task(mcS.c, (t) => {
+    const { g, W, H } = mcS;
+    const plotW = W * 0.7, midY = H / 2, sy = (H / 2 - 12) / 0.4;
+
+    // fade the previous frames: destination-out keeps the canvas transparent over the glass
+    g.globalCompositeOperation = 'destination-out';
+    g.fillStyle = 'rgba(0,0,0,0.012)';
+    g.fillRect(0, 0, W, H);
+
+    if (t >= mcNext) {
+      mcNext = t + 1 / 30;
+      g.globalCompositeOperation = 'lighter';
+      g.lineWidth = 1;
+      for (const p of paths) {
+        if (p.fresh) { p.fresh = false; p.px = (p.s / MCS) * plotW; p.py = midY - p.v * sy; }
+        p.s++;
+        p.v += p.mu + gauss() * 0.019 * p.sig;
+        const x = (p.s / MCS) * plotW, y = midY - p.v * sy;
+        g.strokeStyle = p.v >= 0 ? rgba(C.green, 0.55) : rgba(C.red, 0.5);
+        g.beginPath(); g.moveTo(p.px, p.py); g.lineTo(x, y); g.stroke();
+        p.px = x; p.py = y;
+        if (p.s >= MCS) {
+          hist[clamp(Math.floor(((p.v - HMIN) / (HMAX - HMIN)) * HB), 0, HB - 1)] += 1; histTotal++;
+          p.s = 0; p.v = 0; p.px = 0; p.py = midY;
+        }
+      }
+      if (histTotal > 6000) { for (let b = 0; b < HB; b++) hist[b] *= 0.5; histTotal *= 0.5; }
+    }
+
+    // zero line + histogram of end values (right third), drawn over the fade every frame
+    g.globalCompositeOperation = 'source-over';
+    g.fillStyle = rgba(C.ink, 0.1); g.fillRect(0, midY, plotW, 1);
+    const hx = W * 0.74, hw = W - hx - 6, base = H - 14, bw = hw / HB;
+    let maxH = 1;
+    for (let b = 0; b < HB; b++) if (hist[b] > maxH) maxH = hist[b];
+    for (let b = 0; b < HB; b++) {
+      const h = (hist[b] / maxH) * (H - 44);
+      g.fillStyle = valAt(b) >= 0 ? rgba(C.green, 0.72) : rgba(C.red, 0.68);
+      g.fillRect(hx + b * bw + 1, base - h, Math.max(1, bw - 2), h);
+    }
+  });
+  every($('.qt-mc'), 0.25, () => {
+    if (!histTotal) return;
+    let loss = 0;
+    for (let b = 0; b < HB; b++) if (valAt(b) < 0) loss += hist[b];
+    setTxt(pctEl, 'P5 ' + pct(quantile(0.05)) + '  ·  P50 ' + pct(quantile(0.5)) + '  ·  P95 ' + pct(quantile(0.95)) + '  ·  P(loss) ' + ((loss / histTotal) * 100).toFixed(0) + '%');
+  });
 });
 
 </script>

@@ -1,0 +1,114 @@
+<section class="sec qt" id="quant" aria-labelledby="qt-h2">
+  <i class="qt-bgl" aria-hidden="true"></i>
+  <div class="wrap">
+
+    <header class="sec-head qt-head rv">
+      <div class="eb">06 <i>&middot;</i> the quant desk</div>
+      <h2 class="h2" id="qt-h2">One net, six stages, and <em>every</em> edge has to survive a stress test</h2>
+      <p class="lede">a simulated quant book: an 8-layer net scores the edge, seven gates filter it, a robustness grid and a monte carlo fan try to break the book before anything is allowed to size. every number is generated in your browser. no orders.</p>
+      <div class="qt-pills" role="list">
+        <span class="pill qt-pill" role="listitem"><i class="lamp"></i>walk-forward</span>
+        <span class="pill qt-pill" role="listitem">monte carlo &middot; 240 paths</span>
+        <span class="pill qt-pill" role="listitem">simulated &middot; no orders</span>
+      </div>
+    </header>
+
+    <div class="qt-grid">
+
+      <!-- A · candidate -->
+      <article class="card qt-card qt-hero rv" data-c="green" aria-labelledby="qt-hero-t">
+        <i class="qt-edge" aria-hidden="true"></i>
+        <div class="ph"><span id="qt-hero-t">best candidate</span><span class="pill" data-c="green"><i class="lamp"></i>walk-forward</span></div>
+        <div class="qt-big"><span class="qt-x" aria-hidden="true">&times;</span><b id="qtMult" class="num">0</b></div>
+        <p class="qt-sub">equity multiple &middot; simulated two-year sample</p>
+        <canvas class="qt-cv qt-cv-s" id="qtEq" aria-hidden="true"></canvas>
+        <div class="qt-kv">
+          <div><span>sharpe</span><b class="num">5.07</b></div>
+          <div><span>alpha</span><b class="num up">+2.4%</b></div>
+          <div><span>hold</span><b class="num">3m 23d</b></div>
+          <div><span>max dd</span><b class="num dn">-6.8%</b></div>
+        </div>
+      </article>
+
+      <!-- B · book -->
+      <article class="card qt-card qt-pnl rv" data-c="pink" aria-labelledby="qt-pnl-t">
+        <i class="qt-edge" aria-hidden="true"></i>
+        <div class="ph"><span id="qt-pnl-t">book &middot; all-time</span><span class="pill" data-c="gray">30-day window</span></div>
+        <div class="qt-big qt-big-pnl"><b id="qtPnl" class="num">+$78,940</b></div>
+        <p class="qt-sub">simulated pnl, net of a 4 bps cost model</p>
+        <canvas class="qt-cv qt-cv-b" id="qtBars" aria-hidden="true"></canvas>
+        <div class="qt-kv">
+          <div><span>trades</span><b id="qtTrades" class="num">73,020</b></div>
+          <div><span>win rate</span><b class="num">59.0%</b></div>
+          <div><span>avg r/r</span><b class="num">3.92</b></div>
+          <div><span>cost</span><b class="num">4 bps</b></div>
+        </div>
+      </article>
+
+      <!-- C · tape -->
+      <article class="card qt-card qt-mkt rv" data-c="cyan" aria-labelledby="qt-mkt-t">
+        <i class="qt-edge" aria-hidden="true"></i>
+        <div class="ph"><span id="qt-mkt-t">btc &middot; sim tape</span><span class="pill" data-c="cyan"><i class="lamp"></i>live</span></div>
+        <div class="qt-px"><b id="qtPrice" class="num">78,940</b><small>1m &middot; simulated</small></div>
+        <div class="qt-mktgrid">
+          <canvas class="qt-cv qt-cv-c" id="qtCandles" aria-hidden="true"></canvas>
+          <div class="qt-lad" id="qtLad" aria-hidden="true"></div>
+        </div>
+      </article>
+
+      <!-- D · execution rail -->
+      <article class="card qt-card qt-cycle rv" id="qtCycle" data-c="pink" aria-labelledby="qt-cy-t">
+        <i class="qt-edge" aria-hidden="true"></i>
+        <div class="ph"><span id="qt-cy-t">execution cycle &middot; <b id="qtCycN" class="num">#483</b></span><span>fill <b id="qtFill" class="num">0.66</b></span></div>
+        <div class="qt-rail">
+          <ol class="qt-stages">
+            <li class="qt-st on" data-s="scan"><i>01</i><b>scan</b><small>412 markets</small></li>
+            <li class="qt-st" data-s="detect"><i>02</i><b>detect</b><small>38 signals</small></li>
+            <li class="qt-st" data-s="validate"><i>03</i><b>validate</b><small>7 gates</small></li>
+            <li class="qt-st" data-s="size"><i>04</i><b>size</b><small>12 lots</small></li>
+            <li class="qt-st" data-s="fill"><i>05</i><b>fill</b><small>9 fills</small></li>
+            <li class="qt-st" data-s="settle"><i>06</i><b>settle</b><small>6 trades</small></li>
+          </ol>
+          <i class="qt-comet" aria-hidden="true"></i>
+        </div>
+      </article>
+
+      <!-- E · neural net -->
+      <article class="card qt-card qt-nn rv" data-c="violet" aria-labelledby="qt-nn-t">
+        <i class="qt-edge" aria-hidden="true"></i>
+        <div class="ph"><span id="qt-nn-t">neural net &middot; deep mlp &middot; 8 layers &middot; self-learn</span><span id="qtTrain" class="num">epoch 2 &middot; step 47/100 &middot; training</span></div>
+        <div class="qt-prog" aria-hidden="true"><i id="qtProg"></i></div>
+        <canvas class="qt-cv qt-cv-nn" id="qtNN" aria-hidden="true"></canvas>
+      </article>
+
+      <!-- F · quincunx -->
+      <article class="card qt-card qt-quin rv" data-c="orange" aria-labelledby="qt-q-t">
+        <i class="qt-edge" aria-hidden="true"></i>
+        <div class="ph"><span id="qt-q-t">quincunx &middot; 7 gates</span><span><b id="qtFloor" class="num">floor 0.85</b> &middot; <b id="qtQuinN" class="num">0</b> balls</span></div>
+        <canvas class="qt-cv qt-cv-q" id="qtQuin" aria-hidden="true"></canvas>
+      </article>
+
+      <!-- G · robustness -->
+      <article class="card qt-card qt-rb rv" id="qtRb-card" data-c="green" aria-labelledby="qt-rb-t">
+        <i class="qt-edge" aria-hidden="true"></i>
+        <div class="ph">
+          <span id="qt-rb-t">robustness &middot; 7 checks &middot; 4 stresses</span>
+          <span class="qt-score" aria-label="robustness score">
+            <svg viewBox="0 0 44 44" aria-hidden="true"><circle class="qt-ring-bg" cx="22" cy="22" r="18"/><circle class="qt-ring" id="qtRing" cx="22" cy="22" r="18"/></svg>
+            <b id="qtScore" class="num">82</b>
+          </span>
+        </div>
+        <div class="qt-rbgrid" id="qtRb"></div>
+      </article>
+
+      <!-- H · monte carlo -->
+      <article class="card qt-card qt-mc rv" data-c="blue" aria-labelledby="qt-mc-t">
+        <i class="qt-edge" aria-hidden="true"></i>
+        <div class="ph"><span id="qt-mc-t">monte carlo &middot; 240 paths &middot; 170 steps</span><span class="pill" data-c="blue">P &lt; 0.05</span></div>
+        <canvas class="qt-cv qt-cv-mc" id="qtMC" aria-hidden="true"></canvas>
+        <div class="qt-mcfoot"><span id="qtPct">simulated fan</span></div>
+      </article>
+
+    </div>
+  </div>
+</section>
