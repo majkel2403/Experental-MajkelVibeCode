@@ -1,5 +1,10 @@
 # 04 — Jarvis MVP: kontrakty API, zadania, zdarzenia i dowody
 
+## Aktualizacja po audycie 11.10.2026
+
+> **Wynik rzeczywistej weryfikacji kodu (11.10.2026):** lokalny hook `post_llm_call` nadal emituje `task.completed` po niepustej odpowiedzi; kolejka ma limit 500 i może gubić komunikaty; Bridge używa `AGENT_LOG deque(maxlen=300)` oraz skróconej historii na dysku. **Nie należy utożsamiać `task.completed` z potwierdzonym skutkiem narzędzia.** Kontrakty poniżej nadal są proponowane. [Raport z wierszami kodu](02-AUDYT-WYNIKI-2026-10-11.md).
+
+
 > **Jarvis MVP / Superpowers — szablon roboczy, 2026-10-11.** Wypełniaj na podstawie dowodów. `[DO UZUPEŁNIENIA]` oznacza otwartą decyzję; `[NIEZWERYFIKOWANE]` nie znaczy „działa”. Te dokumenty NIE są zgodą na implementację, instalowanie, zmianę `main` ani ingerencję w działającego Hermesa.
 
 **Status:** CANDIDATE CONTRACT / NIE ZAMROŻONY. Nie kopiować poniższych nazw do runtime bez dopasowania do aktywnego Hermesa/Bridge. Celem jest jeden wspólny język między Core, narzędziami i interfejsem.
