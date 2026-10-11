@@ -83,7 +83,7 @@ Until verified, any event spec is a proposed compatibility contract; reviewer mu
 | Browser authorization | 06, 08, 12, 14 | **Aligned as rule** | inspect real auth topology before implementation |
 | L0–L3 semantics | 04, 11, 12, 14 | **Aligned as proposal** | UX reviewer checks screen-level examples |
 | Complete acceptance evidence | 10 plus 11–13 | **Test cases designed, NOT RUN** | future test suite and browser proof |
-| Old Master Spec's `GraphNode/core` and older plans | 2026-10-08 spec/plans | **Known conflict: not yet harmonized** | upon approval, documentation-only amendment first |
+| Old Master Spec's `GraphNode/core` and older plans | 2026-10-08 spec/plans | **Reconciled as documentation proposal, NOT ratified** | after review, freeze updated ontology and revise executable steps to match |
 
 **Important:** Adding design-review notes to documents 11–13 does not mean all previous design contracts are ratified. Approved ADR must become a new versioned source-of-truth, and earlier master spec should cite it.
 
