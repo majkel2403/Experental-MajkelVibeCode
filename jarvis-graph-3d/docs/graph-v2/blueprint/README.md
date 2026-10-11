@@ -27,6 +27,8 @@ Read **01**, **02**, **03** in order before implementation. The most important d
 | 14 | [Unified System Design Review](14-unified-system-design-review.md) | Wspólna architektura Mission/Brain/Director, łączenie zdarzeń z projekcją i eliminacja sprzeczności | P0 |
 | 15 | [Superpowers Design Review Gate](15-superpowers-design-review-gate.md) | 14 decyzji do zatwierdzenia, status zgodności i zasady przejścia wyłącznie do dokumentów planistycznych | P0 |
 | 16 | [Final Architecture Review](16-final-architecture-review.md) | Końcowy przegląd: wersje grafu wg uprawnień, pauza, transport, blokery i propozycja do akceptacji | P0 |
+| 17 | [GitHub Read-only Source Inventory](17-read-only-code-evidence-inventory.md) | Fakty z kodu Hermesa, Bridge, Event Busa, historii zadań i Graph DEMO — bez diagnozy lokalnego runtime | P0 |
+| 18 | [Evidence-driven Migration Design](18-evidence-driven-contract-migration.md) | Minimalny plan migracji i zgodne kontrakty bez dublowania działających modułów | P0 |
 
 ## Superpowers: trzy nowe plany wykonania (TYLKO DOKUMENTY)
 
@@ -46,11 +48,17 @@ Zaktualizowano także [Master Spec](../../superpowers/specs/2026-10-08-jarvis-gr
 
 [Doc 16 — Final Architecture Review](16-final-architecture-review.md) compares the canonical model, producer events, read-only lenses and motion contracts. **F1** viewer-scoped graph revisions/cursors, **F2** pause visual cues while data continues, and **F3** producer events versus derived connection status are concrete proposed resolutions **still requiring sign-off**. The previously annotated master spec and plans are not evidence of implementation. The next action is human design review, not code execution.
 
+## Source-first findings (GitHub code, not live machine)
+
+[Doc 17](17-read-only-code-evidence-inventory.md) is based on directly inspected source revisions. It confirms that the existing Hermes hook can drop events when Bridge is offline or the queue fills; it marks non-empty LLM replies as `task.completed`; Bridge retains only bounded in-memory full events while writing a limited 8-day task-summary JSONL; and Graph 3D still uses a 2.5-second synthetic demo. **Do not conclude the user's current laptop necessarily runs these exact revisions.**
+
+[Doc 18](18-evidence-driven-contract-migration.md) proposes preserving the original Jarvis desktop Event Bus, Bridge and task summaries while incrementally adding missing durable event semantics and viewer projections, without creating parallel competing services.
+
 ## Documentation gate — only plans, no implementation
 
-Files **08–16** are planning deliverables, not code. ADRs are **proposed**, source audits are **not executed**, and all test cases are **NOT RUN**. The project remains in documentation/review mode. No code changes, installation, service startup, deployment or Git merge are authorized by these documents.
+Files **08–18** are documentation/review deliverables, not code. ADRs are **proposed**, source audits are **not executed**, and all test cases are **NOT RUN**. The project remains in documentation/review mode. No code changes, installation, service startup, deployment or Git merge are authorized by these documents.
 
-Recommended review order: **08 (decisions)** → **09 (read-only evidence plan)** → **10 (acceptance cases)** → **11–13 (three new product-design specs)** → **14 (unified architecture)** → **15 (design sign-off checklist)** → **16 (final review and outstanding contract blockers)**. Documents 14–15 are **proposals pending owner sign-off**, not acceptance of their ADRs. Only after explicit review should the older master spec and detailed plans be harmonized in documentation; writing implementation plans follows approved design and still does not authorize coding. Do not start implementation without a separate, clear instruction.
+Recommended review order: **08 (decisions)** → **09 (read-only evidence plan)** → **10 (acceptance cases)** → **11–13 (three new product-design specs)** → **14 (unified architecture)** → **15 (design sign-off checklist)** → **16 (final review and outstanding contract blockers)** → **17 (verified source-code inventory)** → **18 (incremental migration proposal)**. Documents 14–15 are **proposals pending owner sign-off**, not acceptance of their ADRs. Only after explicit review should the older master spec and detailed plans be harmonized in documentation; writing implementation plans follows approved design and still does not authorize coding. Do not start implementation without a separate, clear instruction.
 
 ## What was directly inspected
 
