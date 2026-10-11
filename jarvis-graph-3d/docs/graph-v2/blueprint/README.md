@@ -5,6 +5,12 @@
 Prepared: **2026-10-09**; extended: **2026-10-11**. Current location: **`Experental-MajkelVibeCode/jarvis-graph-3d`**, docs branch **`docs/jarvis-graph-v2-mission-brain-motion`**. Former `Jarvis-` feature branch was moved into this experimental repository.  
 **Status: DRAFT / SPECIFICATIONS ONLY.** No runtime feature, live connection, test-suite implementation, security control or deployment is created by this documentation package. Do not merge to main without explicit authorization.
 
+## Jarvis OS — MVP-first decision (2026-10-11)
+
+**Product priority has shifted to a working Jarvis OS MVP before expanding Graph 3D.** See the separate proposed [Jarvis OS MVP Modular Design](../../superpowers/specs/2026-10-11-jarvis-os-mvp-modular-design.md). It defines a single real user command, Hermes + background-capable tool execution, persistent task/evidence/receipt state, one usable UI and an extensible local core. This design is **DRAFT**, not user-approved nor implemented.
+
+The 18 documents below describe the **future Graph 3D / Mission / Second Brain extension layer**. They do **not** constitute release blockers for a minimal Jarvis MVP unless the same core truthfulness/storage contract is needed. Ship the smallest independently provable command → execution → receipt → persisted history vertical slice before enlarging the galaxy or adding agent managers.
+
 ## Start here
 
 Read **01**, **02**, **03** in order before implementation. The most important distinction is a *real* event-driven knowledge graph versus a colorful but synthetic force-graph view.
