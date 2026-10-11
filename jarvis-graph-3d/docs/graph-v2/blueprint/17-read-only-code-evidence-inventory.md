@@ -17,7 +17,7 @@ We already have a functioning **conceptual route** from Hermes hooks to Bridge a
 |---|---|---|---|---|
 | Hermes event hook | `hermes/plugins/jarvis-events/__init__.py` | `5fb8763d8dd1d0316394376f12c09fed000068fd` | queue 500; enqueue and send failures can silently drop; `post_llm_call` maps non-empty response to `task.completed` | **CODE VERIFIED** |
 | Bridge handler & SSE | `bridge/jarvis_bridge.py` | `0f18ab6ffbca9ba219d975524270ec5467103bb8` | `/bridge/agent-event` cleans, appends in-memory deque and broadcasts to connected clients; no full source-level durable ACK/cursor implementation shown in handler | **CODE VERIFIED** |
-| Limited task history | `bridge/day_history.py` | inspected source in same branch | writes only `task.created` / `task.completed` / `task.failed` to JSONL, 8d/3000 row retention | **CODE VERIFIED** |
+| Limited task history | `bridge/day_history.py` | `19c69de81d1c6b804177b5feefe28531deb963ae` | writes only `task.created` / `task.completed` / `task.failed` to JSONL, 8d/3000 row retention | **CODE VERIFIED** |
 | Browser-local Event Bus | `js/events.js` | `c220588ef6705ddaca26ec82ad25da14bb7dd016` | sequential `evt_<n>` ID resets on process lifecycle; 400 events/task and 30 tasks capped in-memory; replay emits synthetic events through reducer | **CODE VERIFIED** |
 | Graph 3D demo | `graph-3d/src/App.tsx` | `dfae7a8d9c9cc2e898677a7382d4740b3df42a85` | `buildGalaxy(42,density)`, fixed `ROUTES`, timer advances every 2500 ms when playing; `LIVE` is a synthetic view | **CODE VERIFIED** |
 | Galaxy DTO | `graph-3d/src/galaxy/types.ts` | `99e647c5cbc3b45da67022b683b86687aa173208` | presentation kind `core/hub/traffic` mixed with semantic `agent/task/memory`; force-graph mutable source/target endpoints | **CODE VERIFIED** |
