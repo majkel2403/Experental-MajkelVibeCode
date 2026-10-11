@@ -1,6 +1,6 @@
 # 16 — Superpowers: finalny przegląd architektury (propozycja do zatwierdzenia)
 
-**Data:** 2026-10-11. **Status:** REVIEW COMPLETE AS DOCUMENTATION, **DESIGN NOT APPROVED**.  
+**Data:** 2026-10-11. **Status:** REVIEW COMPLETE AS DOCUMENTATION, **DESIGN NOT APPROVED**. Current GitHub code facts are now independently documented in [Doc 17](17-read-only-code-evidence-inventory.md); source-first migration proposal is [Doc 18](18-evidence-driven-contract-migration.md). Local running-service behavior remains unverified.  
 **Repo/branch:** `majkel2403/Experental-MajkelVibeCode` → `docs/jarvis-graph-v2-mission-brain-motion`.  
 **Scope:** Only design audit and written corrections. No code, runtime audit, new services, dependencies, deployment or merge.
 
