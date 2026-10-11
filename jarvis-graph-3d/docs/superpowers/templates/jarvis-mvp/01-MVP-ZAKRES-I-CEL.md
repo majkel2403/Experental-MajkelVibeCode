@@ -1,5 +1,10 @@
 # 01 — Jarvis MVP: cel, zakres i wymagania (PRD)
 
+## Aktualizacja po audycie 11.10.2026
+
+> **Status po audycie 11.10.2026:** rzeczywisty lokalny serwer Jarvisa, Bridge i proces Hermes zostały potwierdzone na portach 4000/8651/8642. **Działanie pełnego polecenia nie zostało jeszcze przetestowane.** Dowody: [02 — wyniki audytu](02-AUDYT-WYNIKI-2026-10-11.md); dalsze kroki: [07 — plan po audycie](07-PLAN-MVP-PO-AUDYCIE-2026-10-11.md).
+
+
 > **Jarvis MVP / Superpowers — szablon roboczy, 2026-10-11.** Wypełniaj na podstawie dowodów. `[DO UZUPEŁNIENIA]` oznacza otwartą decyzję; `[NIEZWERYFIKOWANE]` nie znaczy „działa”. Te dokumenty NIE są zgodą na implementację, instalowanie, zmianę `main` ani ingerencję w działającego Hermesa.
 
 **Status:** DRAFT · **Właściciel decyzji:** użytkownik · **Zależność:** istniejący projekt `Jarvis-`, Hermes, Bridge; Graph 3D jako przyszły moduł.
