@@ -2,7 +2,7 @@
 
 **Research-to-design package for Jarvis Graph OS v2.0.**
 
-Prepared: **2026-10-09**; extended: **2026-10-10**. Current location: **`Experental-MajkelVibeCode/jarvis-graph-3d`**, docs branch **`docs/jarvis-graph-v2-mission-brain-motion`**. Former `Jarvis-` feature branch was moved into this experimental repository.  
+Prepared: **2026-10-09**; extended: **2026-10-11**. Current location: **`Experental-MajkelVibeCode/jarvis-graph-3d`**, docs branch **`docs/jarvis-graph-v2-mission-brain-motion`**. Former `Jarvis-` feature branch was moved into this experimental repository.  
 **Status: DRAFT / SPECIFICATIONS ONLY.** No runtime feature, live connection, test-suite implementation, security control or deployment is created by this documentation package. Do not merge to main without explicit authorization.
 
 ## Start here
@@ -26,6 +26,7 @@ Read **01**, **02**, **03** in order before implementation. The most important d
 | 13 | [Cinematic Event Director](13-cinematic-event-director-design.md) | Reguły efektów, kamery i animacji wynikających z rzeczywistych eventów | P1 |
 | 14 | [Unified System Design Review](14-unified-system-design-review.md) | Wspólna architektura Mission/Brain/Director, łączenie zdarzeń z projekcją i eliminacja sprzeczności | P0 |
 | 15 | [Superpowers Design Review Gate](15-superpowers-design-review-gate.md) | 14 decyzji do zatwierdzenia, status zgodności i zasady przejścia wyłącznie do dokumentów planistycznych | P0 |
+| 16 | [Final Architecture Review](16-final-architecture-review.md) | Końcowy przegląd: wersje grafu wg uprawnień, pauza, transport, blokery i propozycja do akceptacji | P0 |
 
 ## Superpowers: trzy nowe plany wykonania (TYLKO DOKUMENTY)
 
@@ -41,11 +42,15 @@ Te plany opisują pracę **przyszłego** implementatora. Nie rozpoczęto żadneg
 
 Zaktualizowano także [Master Spec](../../superpowers/specs/2026-10-08-jarvis-graph-v2-master-design.md) i [Execution Roadmap](../../superpowers/plans/2026-10-08-jarvis-graph-v2-execution-roadmap.md). Starsze plany A/B/C/D zawierają ostrzeżenia o potencjalnie nieaktualnych nazwach i założeniach — nie wykonuj ich bez review.
 
+## Final Superpowers review status
+
+[Doc 16 — Final Architecture Review](16-final-architecture-review.md) compares the canonical model, producer events, read-only lenses and motion contracts. **F1** viewer-scoped graph revisions/cursors, **F2** pause visual cues while data continues, and **F3** producer events versus derived connection status are concrete proposed resolutions **still requiring sign-off**. The previously annotated master spec and plans are not evidence of implementation. The next action is human design review, not code execution.
+
 ## Documentation gate — only plans, no implementation
 
-Files **08–15** are planning deliverables, not code. ADRs are **proposed**, source audits are **not executed**, and all test cases are **NOT RUN**. The project remains in documentation/review mode. No code changes, installation, service startup, deployment or Git merge are authorized by these documents.
+Files **08–16** are planning deliverables, not code. ADRs are **proposed**, source audits are **not executed**, and all test cases are **NOT RUN**. The project remains in documentation/review mode. No code changes, installation, service startup, deployment or Git merge are authorized by these documents.
 
-Recommended review order: **08 (decisions)** → **09 (read-only evidence plan)** → **10 (acceptance cases)** → **11–13 (three new product-design specs)** → **14 (unified architecture)** → **15 (design sign-off checklist)**. Documents 14–15 are **proposals pending owner sign-off**, not acceptance of their ADRs. Only after explicit review should the older master spec and detailed plans be harmonized in documentation; writing implementation plans follows approved design and still does not authorize coding. Do not start implementation without a separate, clear instruction.
+Recommended review order: **08 (decisions)** → **09 (read-only evidence plan)** → **10 (acceptance cases)** → **11–13 (three new product-design specs)** → **14 (unified architecture)** → **15 (design sign-off checklist)** → **16 (final review and outstanding contract blockers)**. Documents 14–15 are **proposals pending owner sign-off**, not acceptance of their ADRs. Only after explicit review should the older master spec and detailed plans be harmonized in documentation; writing implementation plans follows approved design and still does not authorize coding. Do not start implementation without a separate, clear instruction.
 
 ## What was directly inspected
 
