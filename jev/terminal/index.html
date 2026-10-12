@@ -1,0 +1,904 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>JEV · quant terminal</title>
+<style>
+/* ============ tokens ============ */
+:root{
+  --bg:#05060a; --p1:#0a0c12; --p2:#0e1119; --p3:#131724;
+  --line:#1a2030; --line2:#252d42;
+  --ink:#e9edf6; --mut:#7f889e; --dim:#4f5971;
+  --up:#22e08c; --up-d:rgba(34,224,140,.14); --dn:#ff4d6a; --dn-d:rgba(255,77,106,.14);
+  --blue:#4d8dff; --amber:#ffb84d; --violet:#a66bff; --cyan:#3be0ff; --pink:#ff2e6e;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font:500 11.5px/1.45 var(--mono);overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+canvas{display:block;width:100%;height:100%}
+.num{font-variant-numeric:tabular-nums}
+.up{color:var(--up)} .dn{color:var(--dn)} .mut{color:var(--mut)} .dim{color:var(--dim)}
+
+/* ============ shell ============ */
+.app{height:100%;display:grid;grid-template-rows:auto auto 1fr;min-height:0}
+.hdr{display:flex;align-items:center;gap:18px;height:50px;padding:0 14px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#0c0f17,#080a10);position:relative;z-index:5}
+.brand{display:flex;align-items:center;gap:9px;font:700 13px/1 var(--sans);letter-spacing:.06em;white-space:nowrap}
+.brand b{display:grid;place-items:center;width:26px;height:26px;border-radius:7px;background:linear-gradient(145deg,#ff4f8d,#d8145a);color:#fff;box-shadow:0 0 18px rgba(255,46,110,.45)}
+.brand small{color:var(--mut);font:500 9.5px var(--mono);letter-spacing:.16em;margin-left:2px}
+.kpis{display:flex;gap:22px;align-items:center;min-width:0;flex:1;overflow:hidden}
+.kpi{display:flex;flex-direction:column;gap:3px;white-space:nowrap}
+.kpi label{font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.kpi b{font:700 14px/1 var(--sans);font-variant-numeric:tabular-nums}
+.kpi.flash-up b{animation:flUp .6s var(--ease)}
+.kpi.flash-dn b{animation:flDn .6s var(--ease)}
+@keyframes flUp{0%{text-shadow:0 0 14px var(--up)}100%{text-shadow:0 0 0 transparent}}
+@keyframes flDn{0%{text-shadow:0 0 14px var(--dn)}100%{text-shadow:0 0 0 transparent}}
+.live{display:inline-flex;align-items:center;gap:7px;padding:5px 10px;border-radius:99px;border:1px solid rgba(34,224,140,.35);color:var(--up);font-size:9.5px;letter-spacing:.14em;background:var(--up-d)}
+.live i{width:6px;height:6px;border-radius:50%;background:var(--up);box-shadow:0 0 8px var(--up);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.3;transform:scale(.8)}}
+.clock{font:700 13px/1 var(--mono);letter-spacing:.04em;white-space:nowrap}
+.kill{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:8px;border:1px solid rgba(34,224,140,.5);color:var(--up);font:700 10px var(--mono);letter-spacing:.16em;transition:all .3s}
+.kill i{width:7px;height:7px;border-radius:50%;background:var(--up);box-shadow:0 0 8px var(--up)}
+.kill:hover{background:var(--up-d)}
+.halted .kill{border-color:var(--dn);color:var(--dn);background:var(--dn-d)}
+.halted .kill i{background:var(--dn);box-shadow:0 0 10px var(--dn);animation:pulse .5s infinite}
+.halted::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:50;box-shadow:inset 0 0 160px rgba(255,60,80,.45);animation:halt 1.4s ease-in-out infinite}
+@keyframes halt{50%{opacity:.5}}
+
+.tape{height:26px;border-bottom:1px solid var(--line);overflow:hidden;background:#07080d;position:relative;display:flex;align-items:center}
+.tape-track{display:flex;gap:30px;white-space:nowrap;padding-left:20px;animation:marq 60s linear infinite;will-change:transform}
+.tape-track span{font-size:10.5px;color:var(--mut)} .tape-track b{color:var(--ink);font-weight:700;margin-right:6px}
+@keyframes marq{to{transform:translateX(-50%)}}
+.tape::before,.tape::after{content:'';position:absolute;top:0;bottom:0;width:60px;z-index:2;pointer-events:none}
+.tape::before{left:0;background:linear-gradient(90deg,#07080d,transparent)}
+.tape::after{right:0;background:linear-gradient(-90deg,#07080d,transparent)}
+
+/* ============ main grid ============ */
+.main{display:grid;grid-template-columns:248px minmax(0,1fr) 300px;min-height:0}
+.col{display:flex;flex-direction:column;min-height:0;border-right:1px solid var(--line);background:var(--p1)}
+.col.r{border-right:0;border-left:1px solid var(--line)}
+.panel{position:relative;display:flex;flex-direction:column;min-height:0;border-bottom:1px solid var(--line);background:var(--p1)}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;height:30px;padding:0 12px;border-bottom:1px solid var(--line);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut);background:rgba(255,255,255,.012);flex:none}
+.ph b{color:var(--ink);font-weight:700}
+.tag{padding:2px 7px;border-radius:5px;border:1px solid var(--line2);font-size:8.5px;letter-spacing:.12em;color:var(--mut)}
+.tag.up{color:var(--up);border-color:rgba(34,224,140,.35);background:var(--up-d)}
+.tag.dn{color:var(--dn);border-color:rgba(255,77,106,.35);background:var(--dn-d)}
+
+/* watchlist */
+.wl{overflow:auto;flex:1;min-height:0;scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
+.wl-row{display:grid;grid-template-columns:1fr 62px 56px;align-items:center;gap:6px;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.03);cursor:pointer;transition:background .25s;position:relative}
+.wl-row:hover{background:rgba(255,255,255,.025)}
+.wl-row.sel{background:linear-gradient(90deg,rgba(77,141,255,.14),transparent);box-shadow:inset 2px 0 0 var(--blue)}
+.wl-sym b{display:block;font:700 11.5px/1.1 var(--sans)}
+.wl-sym small{color:var(--dim);font-size:9px;letter-spacing:.08em}
+.wl-px{text-align:right;font-variant-numeric:tabular-nums;font-size:11px}
+.wl-chg{text-align:right;font-weight:700;font-size:10.5px}
+.wl-spark{grid-column:1/-1;height:18px;width:100%}
+.wl-row.tick-up{animation:rowUp .7s var(--ease)} .wl-row.tick-dn{animation:rowDn .7s var(--ease)}
+@keyframes rowUp{0%{background:var(--up-d)}100%{background:transparent}}
+@keyframes rowDn{0%{background:var(--dn-d)}100%{background:transparent}}
+
+/* chart */
+.chartbar{display:flex;align-items:center;gap:18px;padding:8px 14px;border-bottom:1px solid var(--line);flex:none;flex-wrap:wrap;background:var(--p2)}
+.sym{font:700 15px/1 var(--sans)} .sym small{color:var(--mut);font:500 10px var(--mono);margin-left:6px}
+.bigpx{font:700 22px/1 var(--sans);font-variant-numeric:tabular-nums;transition:color .3s}
+.ohlc{display:flex;gap:12px;color:var(--mut);font-size:10.5px;font-variant-numeric:tabular-nums}
+.ohlc b{color:var(--ink);font-weight:600;margin-left:3px}
+.chart{position:relative;flex:1;min-height:260px;background:radial-gradient(60% 60% at 50% 40%,rgba(77,141,255,.05),transparent 70%)}
+.chart canvas{position:absolute;inset:0}
+.tf{display:flex;gap:4px;margin-left:auto}
+.tf button{padding:4px 8px;border-radius:5px;font-size:10px;color:var(--mut);border:1px solid transparent;transition:all .2s}
+.tf button:hover{color:var(--ink)}
+.tf button.on{color:var(--cyan);border-color:rgba(59,224,255,.35);background:rgba(59,224,255,.08)}
+
+/* bottom row in center */
+.bottom{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr) minmax(0,.9fr);gap:0;border-top:1px solid var(--line);height:270px;flex:none}
+.bottom .panel{border-bottom:0;border-right:1px solid var(--line)}
+.bottom .panel:last-child{border-right:0}
+.pcv{position:relative;flex:1;min-height:0}
+.pcv canvas{position:absolute;inset:0}
+
+/* stage rail */
+.rail{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:12px;position:relative;flex:1;align-content:center}
+.rail .comet{display:none}
+.st{padding:9px 8px;border:1px solid var(--line2);border-radius:8px;background:rgba(255,255,255,.015);transition:all .45s var(--ease);position:relative;overflow:hidden}
+.st i{display:block;font-style:normal;font-size:8.5px;color:var(--dim);letter-spacing:.14em}
+.st b{display:block;margin-top:4px;font:700 11.5px var(--sans)}
+.st small{display:block;margin-top:3px;color:var(--mut);font-size:9.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st.on{border-color:rgba(77,141,255,.8);background:linear-gradient(180deg,rgba(77,141,255,.2),rgba(77,141,255,.03));box-shadow:0 0 22px -6px rgba(77,141,255,.8);transform:translateY(-2px)}
+.st.on b{color:#fff}
+.st.on::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent);animation:scan 1s linear infinite}
+@keyframes scan{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.halted .st.on{border-color:rgba(255,77,106,.85);background:linear-gradient(180deg,rgba(255,77,106,.2),rgba(255,77,106,.03));box-shadow:0 0 22px -6px rgba(255,77,106,.8)}
+.halted .st.on::after{background:linear-gradient(90deg,transparent,var(--dn),transparent)}
+.comet{position:absolute;bottom:6px;height:2px;width:60px;margin-left:-30px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--blue),#fff 60%,var(--blue),transparent);box-shadow:0 0 14px var(--blue);transition:left .8s var(--ease);left:calc(12px + (100% - 24px) / 6 * (.5 + var(--p,0) * 5))}
+
+/* robustness */
+.rb{display:grid;grid-template-columns:70px repeat(4,minmax(0,1fr));gap:4px;padding:10px 12px;font-size:10px;align-content:center;flex:1}
+.rb span{color:var(--dim);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;align-self:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rb .h{text-align:center}
+.rb b{display:grid;place-items:center;height:27px;border-radius:5px;font-weight:700;color:#fff;text-shadow:0 0 6px rgba(0,0,0,.6);transition:background-color .6s var(--ease);font-variant-numeric:tabular-nums}
+.score{display:flex;align-items:center;gap:8px}
+.score svg{width:30px;height:30px;transform:rotate(-90deg)}
+.score circle{fill:none;stroke-width:3.5}
+.score .bg{stroke:rgba(255,255,255,.07)}
+.score .fg{stroke:var(--up);stroke-linecap:round;stroke-dasharray:81.7;transition:stroke-dashoffset .8s var(--ease);filter:drop-shadow(0 0 4px rgba(34,224,140,.7))}
+.score b{font:700 15px var(--sans)}
+
+/* right column */
+.ob{display:grid;grid-template-columns:1fr auto 1fr;gap:6px;padding:6px 10px 2px;font-size:9px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
+.ob-body{display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden;padding:0 4px}
+.ob-r{position:relative;display:grid;grid-template-columns:1fr auto;gap:8px;padding:2px 8px;font-size:10.5px;font-variant-numeric:tabular-nums;line-height:1.6;flex:1;align-items:center}
+.ob-r i{position:absolute;top:1px;bottom:1px;right:0;transform-origin:right;transition:transform .45s var(--ease);opacity:.9;border-radius:2px}
+.ob-r.ask i{background:linear-gradient(270deg,rgba(255,77,106,.36),rgba(255,77,106,.04))}
+.ob-r.bid i{background:linear-gradient(270deg,rgba(34,224,140,.34),rgba(34,224,140,.03))}
+.ob-r b,.ob-r em{position:relative;font-style:normal;font-weight:500}
+.ob-r.ask b{color:#ff8fa2} .ob-r.bid b{color:#7ff2bd}
+.ob-r em{color:var(--mut);text-align:right}
+.spread{padding:6px 10px;border-block:1px solid var(--line);display:flex;justify-content:space-between;font-size:10px;color:var(--mut);flex:none}
+.spread b{color:var(--ink)}
+.tb{display:grid;grid-template-columns:1fr 1fr 1fr;padding:6px 12px;font-size:9px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;flex:none}
+.tb span:nth-child(2){text-align:right} .tb span:nth-child(3){text-align:right}
+.tape-l{overflow:hidden;flex:1;min-height:0;position:relative;padding:0 6px}
+.tr{display:grid;grid-template-columns:1fr 1fr 1fr;padding:2px 6px;font-size:10.5px;font-variant-numeric:tabular-nums;animation:trIn .5s var(--ease)}
+.tr span:nth-child(2){text-align:right} .tr span:nth-child(3){text-align:right;color:var(--mut)}
+.tr.b span:first-child{color:var(--up)} .tr.s span:first-child{color:var(--dn)}
+@keyframes trIn{from{opacity:0;transform:translateX(8px);background:rgba(255,255,255,.04)}to{opacity:1;transform:none;background:transparent}}
+
+/* positions table */
+.pos{width:100%;border-collapse:collapse;font-size:10.5px;font-variant-numeric:tabular-nums}
+.pos th{font-weight:500;font-size:8.5px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase;text-align:right;padding:6px 10px;border-bottom:1px solid var(--line)}
+.pos th:first-child,.pos td:first-child{text-align:left}
+.pos td{padding:7px 10px;text-align:right;border-bottom:1px solid rgba(255,255,255,.03);transition:background .4s}
+.pos td:first-child{font-weight:700;font-family:var(--sans)}
+.pos tr.fu td{animation:cellUp .6s var(--ease)} .pos tr.fd td{animation:cellDn .6s var(--ease)}
+@keyframes cellUp{0%{background:var(--up-d)}100%{background:transparent}}
+@keyframes cellDn{0%{background:var(--dn-d)}100%{background:transparent}}
+.pl-bar{display:inline-block;width:48px;height:4px;border-radius:3px;background:rgba(255,255,255,.07);vertical-align:middle;overflow:hidden;margin-left:6px}
+.pl-bar u{display:block;height:100%;text-decoration:none;transition:width .6s var(--ease)}
+
+/* scrollbars */
+::-webkit-scrollbar{width:6px;height:6px} ::-webkit-scrollbar-thumb{background:var(--line2);border-radius:6px}
+
+/* responsive: stack on narrow screens */
+@media (max-width:1180px){
+  body{overflow:auto}
+  .app{height:auto;min-height:100%}
+  .main{grid-template-columns:minmax(0,1fr)}
+  .col{border:0} .col.l{order:2}
+  .col.r{border-left:0;border-top:1px solid var(--line)}
+  .chart{height:420px;flex:none}
+  .wl{max-height:none}
+  .kpis{overflow-x:auto}
+}
+@media (max-width:640px){
+  .bottom{grid-template-columns:1fr;height:auto}
+  .bottom .panel{height:240px;border-right:0;border-bottom:1px solid var(--line)}
+  .hdr{flex-wrap:wrap;height:auto;padding:10px 12px;gap:10px}
+  .kpi b{font-size:12px}
+  .chart{height:340px}
+  .tf{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- header -->
+  <header class="hdr">
+    <div class="brand"><b>J</b>JEV<small>QUANT TERMINAL</small></div>
+    <div class="kpis" id="kpis">
+      <div class="kpi" id="kEq"><label>equity</label><b class="num">$1,284,930</b></div>
+      <div class="kpi" id="kPnl"><label>day pnl</label><b class="num up">+$8,412</b></div>
+      <div class="kpi"><label>sharpe</label><b class="num">5.07</b></div>
+      <div class="kpi"><label>max dd</label><b class="num dn">-6.8%</b></div>
+      <div class="kpi"><label>exposure</label><b class="num" id="kExp">2.4%</b></div>
+      <div class="kpi"><label>latency</label><b class="num" id="kLat">3.4 ms</b></div>
+    </div>
+    <span class="live"><i></i>SIMULATED</span>
+    <span class="clock num" id="clock">--:--:--</span>
+    <button class="kill" id="killBtn" aria-pressed="false" title="Kill switch: halts the execution rail and freezes new orders (simulation)"><i></i><span id="killTxt">ARMED</span></button>
+  </header>
+
+  <div class="tape" aria-hidden="true"><div class="tape-track" id="tapeTrack"></div></div>
+
+  <div class="main">
+
+    <!-- left: watchlist -->
+    <aside class="col l">
+      <div class="panel" style="flex:1;min-height:0">
+        <div class="ph"><span>watchlist</span><span class="tag">perp · sim</span></div>
+        <div class="wl" id="wl"></div>
+      </div>
+    </aside>
+
+    <!-- center -->
+    <section class="col" style="min-width:0">
+      <div class="panel" style="flex:1;min-height:0">
+        <div class="chartbar">
+          <div class="sym" id="symName">BTC-PERP<small>1m · sim</small></div>
+          <div class="bigpx num" id="bigPx">78,940.0</div>
+          <div class="num" id="bigChg" style="font-weight:700">+0.00%</div>
+          <div class="ohlc" id="ohlc"><span>O <b>--</b></span><span>H <b>--</b></span><span>L <b>--</b></span><span>C <b>--</b></span><span>V <b>--</b></span></div>
+          <div class="tf" id="tf">
+            <button data-n="60">1m</button><button data-n="120" class="on">5m</button><button data-n="180">15m</button><button data-n="240">1h</button>
+          </div>
+        </div>
+        <div class="chart" id="chart"><canvas id="cCandle"></canvas></div>
+      </div>
+
+      <div class="bottom" id="bottom">
+        <div class="panel" id="nnPanel">
+          <div class="ph"><span>neural net · mlp 8L</span><span class="num" id="trainTxt">ep 2 · 47/100</span></div>
+          <div class="pcv"><canvas id="cNN"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="ph"><span>monte carlo · 240</span><span class="tag up" id="pctTag">P &lt; 0.05</span></div>
+          <div class="pcv"><canvas id="cMC"></canvas></div>
+        </div>
+        <div class="panel" id="cyclePanel">
+          <div class="ph"><span>execution · <b id="cycN">#483</b></span><span>fill <b class="num" id="fillTxt">0.66</b></span></div>
+          <div class="rail" id="rail">
+            <div class="st on"><i>01</i><b>scan</b><small id="s0">412 markets</small></div>
+            <div class="st"><i>02</i><b>detect</b><small id="s1">38 signals</small></div>
+            <div class="st"><i>03</i><b>validate</b><small id="s2">7 gates</small></div>
+            <div class="st"><i>04</i><b>size</b><small id="s3">12 lots</small></div>
+            <div class="st"><i>05</i><b>fill</b><small id="s4">9 fills</small></div>
+            <div class="st"><i>06</i><b>settle</b><small id="s5">6 trades</small></div>
+            <i class="comet" id="comet"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- right: book, tape, positions -->
+    <aside class="col r">
+      <div class="panel" style="flex:1.1;min-height:0">
+        <div class="ph"><span>order book</span><span class="tag" id="obSym">BTC</span></div>
+        <div class="ob"><span>price</span><span>size</span><span style="text-align:right">total</span></div>
+        <div class="ob-body" id="obAsks"></div>
+        <div class="spread"><span>mid <b class="num" id="obMid">78,940</b></span><span>spread <b class="num" id="obSpr">0.8</b></span></div>
+        <div class="ob-body" id="obBids"></div>
+      </div>
+      <div class="panel" style="flex:.9;min-height:0">
+        <div class="ph"><span>trades</span><span class="tag">tape</span></div>
+        <div class="tb"><span>price</span><span>size</span><span>time</span></div>
+        <div class="tape-l" id="tradeTape"></div>
+      </div>
+      <div class="panel" style="flex:none">
+        <div class="ph"><span>positions</span><span class="num" id="posTot">+$0</span></div>
+        <table class="pos" id="posTbl">
+          <thead><tr><th>sym</th><th>size</th><th>pnl</th><th>r/r</th></tr></thead>
+          <tbody id="posBody"></tbody>
+        </table>
+      </div>
+      <div class="panel" style="flex:none">
+        <div class="ph"><span>robustness · t+3</span>
+          <span class="score"><svg viewBox="0 0 36 36"><circle class="bg" cx="18" cy="18" r="13"/><circle class="fg" id="scoreRing" cx="18" cy="18" r="13"/></svg><b id="scoreTxt">82</b></span>
+        </div>
+        <div class="rb" id="rb"></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+/* ================= utilities ================= */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const TAU = Math.PI * 2;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const rnd = (a = 0, b = 1) => a + Math.random() * (b - a);
+const ri = (a, b) => Math.floor(rnd(a, b + 1));
+const gauss = () => { let u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(TAU * v); };
+const fmt = (n, d = 0) => n.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+const usd = (n, d = 0) => (n < 0 ? '-$' : '$') + fmt(Math.abs(n), d);
+const sgnPct = (x, d = 2) => (x >= 0 ? '+' : '−') + Math.abs(x).toFixed(d) + '%';
+const setTxt = (el, t) => { if (el && el.textContent !== t) el.textContent = t; };
+const rgba = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
+const ease = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* canvas with DPR, resize-aware */
+function sizeCanvas(c) {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const r = c.getBoundingClientRect();
+  const W = Math.max(1, Math.round(r.width)), H = Math.max(1, Math.round(r.height));
+  if (c.width !== Math.round(W * dpr) || c.height !== Math.round(H * dpr)) { c.width = Math.round(W * dpr); c.height = Math.round(H * dpr); }
+  const g = c.getContext('2d');
+  g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { g, W, H };
+}
+
+/* glow sprites */
+function sprite(hex) {
+  const n = 64, c = document.createElement('canvas'); c.width = c.height = n;
+  const g = c.getContext('2d'), gr = g.createRadialGradient(n / 2, n / 2, 0, n / 2, n / 2, n / 2);
+  gr.addColorStop(0, '#fff'); gr.addColorStop(0.16, hex); gr.addColorStop(0.42, rgba(hex, 0.3)); gr.addColorStop(1, rgba(hex, 0));
+  g.fillStyle = gr; g.fillRect(0, 0, n, n); return c;
+}
+const SP = { blue: sprite('#4d8dff'), up: sprite('#22e08c'), dn: sprite('#ff4d6a'), violet: sprite('#a66bff'), amber: sprite('#ffb84d') };
+const glow = (g, sp, x, y, r, a) => { g.globalAlpha = a; g.drawImage(sp, x - r, y - r, r * 2, r * 2); g.globalAlpha = 1; };
+
+/* ================= market simulation ================= */
+const SYMS = [
+  { s: 'BTC-PERP', p: 78940, v: 0.0042, base: 78940 },
+  { s: 'ETH-PERP', p: 3128.4, v: 0.0051, base: 3128.4 },
+  { s: 'SOL-PERP', p: 168.2, v: 0.0068, base: 168.2 },
+  { s: 'BNB-PERP', p: 612.7, v: 0.0045, base: 612.7 },
+  { s: 'XRP-PERP', p: 0.5834, v: 0.0072, base: 0.5834 },
+  { s: 'DOGE-PERP', p: 0.1462, v: 0.0085, base: 0.1462 },
+  { s: 'ADA-PERP', p: 0.4215, v: 0.0070, base: 0.4215 },
+  { s: 'AVAX-PERP', p: 36.91, v: 0.0076, base: 36.91 },
+];
+const dp = (p) => (p > 1000 ? 1 : p > 10 ? 2 : p > 1 ? 3 : 4);
+const safe = (n) => (Number.isFinite(n) ? n : 0);
+const CANDLE_MS = 4000;
+
+SYMS.forEach((m) => {
+  m.candles = [];
+  let p = m.p * (1 - 0.02);
+  for (let i = 0; i < 260; i++) {
+    const o = p, c = o * (1 + gauss() * m.v * 2.2);
+    const h = Math.max(o, c) * (1 + Math.abs(gauss()) * m.v), l = Math.min(o, c) * (1 - Math.abs(gauss()) * m.v);
+    m.candles.push({ o, h, l, c, v: rnd(0.4, 1.6) * (1 + Math.abs(c - o) / o * 60) });
+    p = c;
+  }
+  m.p = p; m.open24 = m.candles[0].o;
+  m.spark = m.candles.slice(-40).map((k) => k.c);
+  m.lastCandleT = performance.now();
+  m.flash = 0;
+});
+
+let sel = 1; // ETH default? keep BTC on first pick below
+sel = 0;
+const cur = () => SYMS[sel];
+
+function tickMarket(dt) {
+  for (const m of SYMS) {
+    const k = m.candles[m.candles.length - 1];
+    const step = gauss() * m.v * Math.sqrt(Math.max(0, dt) / 1000) * 0.06;
+    const newP = Math.max(1e-6, m.p * (1 + step));
+    m.dir = Math.sign(newP - m.p);
+    m.p = newP;
+    k.c = m.p; k.h = Math.max(k.h, m.p); k.l = Math.min(k.l, m.p);
+    k.v += rnd(0.02, 0.12) * dt / 1000 * 60;
+  }
+}
+function rollCandles(now) {
+  for (const m of SYMS) {
+    if (now - m.lastCandleT > CANDLE_MS) {
+      m.lastCandleT = now;
+      const o = m.p;
+      m.candles.push({ o, h: o, l: o, c: o, v: rnd(0.4, 1.6) });
+      if (m.candles.length > 400) m.candles.shift();
+      m.spark.push(m.p); if (m.spark.length > 40) m.spark.shift();
+    }
+  }
+}
+
+/* ================= header ================= */
+const kEq = $('#kEq b'), kPnl = $('#kPnl b'), kExp = $('#kExp'), kLat = $('#kLat');
+let eqShown = 1284930, eqTarget = 1284930, pnlShown = 8412;
+let killed = false;
+const app = $('#app');
+$('#killBtn').addEventListener('click', () => {
+  killed = !killed;
+  app.classList.toggle('halted', killed);
+  $('#killBtn').setAttribute('aria-pressed', killed);
+  setTxt($('#killTxt'), killed ? 'HALTED' : 'ARMED');
+});
+
+/* ticker tape: duplicated for a seamless loop */
+function buildTape() {
+  const track = $('#tapeTrack');
+  const html = SYMS.map((m, i) => `<span><b>${m.s.replace('-PERP', '')}</b><span class="num" data-t="${i}">${fmt(m.p, dp(m.p))}</span> <span data-c="${i}" class="num">+0.00%</span></span>`).join('');
+  track.innerHTML = html + html;
+}
+buildTape();
+
+/* ================= watchlist ================= */
+const wl = $('#wl');
+const wlRows = SYMS.map((m, i) => {
+  const row = document.createElement('div');
+  row.className = 'wl-row' + (i === sel ? ' sel' : '');
+  row.innerHTML = `<div class="wl-sym"><b>${m.s.replace('-PERP', '')}</b><small>PERP · 8x</small></div>
+    <div class="wl-px num" data-p></div><div class="wl-chg num" data-c></div>
+    <canvas class="wl-spark" data-s></canvas>`;
+  row.addEventListener('click', () => select(i));
+  wl.appendChild(row);
+  return row;
+});
+function select(i) {
+  if (i === sel) return;
+  wlRows[sel].classList.remove('sel');
+  sel = i;
+  wlRows[sel].classList.add('sel');
+  setTxt($('#obSym'), SYMS[sel].s.replace('-PERP', ''));
+  setTxt($('#symName').firstChild, SYMS[sel].s + ' ');
+  book.levels = null;
+}
+function drawSpark(cv, arr, up) {
+  const { g, W, H } = sizeCanvas(cv);
+  g.clearRect(0, 0, W, H);
+  let lo = Infinity, hi = -Infinity;
+  for (const v of arr) { if (v < lo) lo = v; if (v > hi) hi = v; }
+  const span = hi - lo || 1, col = up ? '#22e08c' : '#ff4d6a';
+  g.beginPath();
+  arr.forEach((v, i) => { const x = (i / (arr.length - 1)) * W, y = H - 2 - ((v - lo) / span) * (H - 4); i ? g.lineTo(x, y) : g.moveTo(x, y); });
+  g.lineWidth = 1.2; g.strokeStyle = col; g.stroke();
+}
+
+/* ================= chart ================= */
+const chartEl = $('#chart'), cCandle = $('#cCandle');
+let chartView = { n: 120 };
+let hover = null; // {x,y}
+const tfBtns = $$('#tf button');
+tfBtns.forEach((b) => b.addEventListener('click', () => {
+  tfBtns.forEach((x) => x.classList.toggle('on', x === b));
+  chartView.n = +b.dataset.n;
+}));
+cCandle.addEventListener('pointermove', (e) => { const r = cCandle.getBoundingClientRect(); hover = { x: e.clientX - r.left, y: e.clientY - r.top }; });
+cCandle.addEventListener('pointerleave', () => { hover = null; updateOhlc(null); });
+
+function updateOhlc(k) {
+  const el = $('#ohlc');
+  if (!k) { const last = cur().candles[cur().candles.length - 1]; k = last; }
+  const d = dp(cur().p);
+  const spans = el.querySelectorAll('span');
+  spans[0].innerHTML = `O <b>${fmt(k.o, d)}</b>`;
+  spans[1].innerHTML = `H <b>${fmt(k.h, d)}</b>`;
+  spans[2].innerHTML = `L <b>${fmt(k.l, d)}</b>`;
+  spans[3].innerHTML = `C <b>${fmt(k.c, d)}</b>`;
+  spans[4].innerHTML = `V <b>${fmt(k.v, 1)}</b>`;
+}
+
+const ma = (arr, i, n) => { let s = 0, c = 0; for (let j = Math.max(0, i - n + 1); j <= i; j++) { s += arr[j]; c++; } return s / c; };
+
+function drawChart(t) {
+  const m = cur();
+  const { g, W, H } = sizeCanvas(cCandle);
+  g.clearRect(0, 0, W, H);
+  const padR = 74, padB = 24, padT = 14, volH = Math.round((H - padB) * 0.16);
+  const plotW = W - padR, plotH = H - padB - padT - volH - 6;
+  const N = Math.min(chartView.n, m.candles.length);
+  const vis = m.candles.slice(-N);
+  let lo = Infinity, hi = -Infinity, vmax = 0;
+  for (const k of vis) { if (k.l < lo) lo = k.l; if (k.h > hi) hi = k.h; if (k.v > vmax) vmax = k.v; }
+  const pad = (hi - lo) * 0.08 || hi * 0.001; lo -= pad; hi += pad;
+  const Y = (v) => padT + (1 - (v - lo) / (hi - lo)) * plotH;
+  const cw = plotW / N, bodyW = Math.max(2, cw * 0.66);
+  const X = (i) => i * cw + cw / 2;
+
+  // grid + price axis
+  g.font = '500 10px ' + getComputedStyle(document.body).fontFamily;
+  g.textBaseline = 'middle';
+  for (let i = 0; i <= 6; i++) {
+    const v = lo + (hi - lo) * (i / 6), y = Y(v);
+    g.strokeStyle = 'rgba(255,255,255,.045)'; g.lineWidth = 1;
+    g.beginPath(); g.moveTo(0, Math.round(y) + .5); g.lineTo(plotW, Math.round(y) + .5); g.stroke();
+    g.fillStyle = '#6b7389'; g.fillText(fmt(v, dp(m.p)), plotW + 8, y);
+  }
+  for (let i = 0; i <= 8; i++) {
+    const x = Math.round(i * plotW / 8) + .5;
+    g.strokeStyle = 'rgba(255,255,255,.03)'; g.beginPath(); g.moveTo(x, padT); g.lineTo(x, H - padB); g.stroke();
+  }
+
+  // volume
+  const vTop = H - padB - volH;
+  vis.forEach((k, i) => {
+    const up = k.c >= k.o, h = (k.v / vmax) * volH * 0.95;
+    g.fillStyle = up ? 'rgba(34,224,140,.22)' : 'rgba(255,77,106,.22)';
+    g.fillRect(X(i) - bodyW / 2, H - padB - h, bodyW, h);
+  });
+
+  // MA lines (20 / 50)
+  const closes = m.candles.map((k) => k.c), off = m.candles.length - N;
+  [[20, '#ffb84d', 1.2], [50, '#a66bff', 1]].forEach(([n, col, w]) => {
+    g.beginPath();
+    vis.forEach((k, i) => { const v = ma(closes, off + i, n); i ? g.lineTo(X(i), Y(v)) : g.moveTo(X(i), Y(v)); });
+    g.strokeStyle = rgba(col.length === 7 ? col : '#ffffff', 0.85); g.lineWidth = w; g.stroke();
+  });
+
+  // candles
+  vis.forEach((k, i) => {
+    const up = k.c >= k.o, col = up ? '#22e08c' : '#ff4d6a', x = X(i);
+    g.strokeStyle = col; g.lineWidth = 1;
+    g.beginPath(); g.moveTo(Math.round(x) + .5, Y(k.h)); g.lineTo(Math.round(x) + .5, Y(k.l)); g.stroke();
+    const yt = Y(Math.max(k.o, k.c)), yb = Y(Math.min(k.o, k.c));
+    g.fillStyle = col;
+    g.fillRect(x - bodyW / 2, yt, bodyW, Math.max(1, yb - yt));
+  });
+
+  // last price line + pulse
+  const last = vis[vis.length - 1], yL = Y(last.c), up = last.c >= last.o;
+  const lc = up ? '#22e08c' : '#ff4d6a';
+  g.setLineDash([3, 4]); g.strokeStyle = rgba(up ? '#22e08c' : '#ff4d6a', 0.55); g.beginPath(); g.moveTo(0, yL); g.lineTo(plotW, yL); g.stroke(); g.setLineDash([]);
+  const pulse = (t % 1600) / 1600;
+  g.globalCompositeOperation = 'lighter';
+  glow(g, SP[up ? 'up' : 'dn'], X(N - 1), yL, 6 + pulse * 18, 0.7 * (1 - pulse));
+  g.globalCompositeOperation = 'source-over';
+  g.fillStyle = lc; g.beginPath(); g.arc(X(N - 1), yL, 2.6, 0, TAU); g.fill();
+  // price tag on axis
+  g.fillStyle = lc; roundRect(g, plotW + 2, yL - 9, padR - 4, 18, 4); g.fill();
+  g.fillStyle = '#05060a'; g.font = '700 10px ' + getComputedStyle(document.body).fontFamily;
+  g.fillText(fmt(last.c, dp(m.p)), plotW + 8, yL);
+
+  // crosshair
+  if (hover && hover.x < plotW && hover.y > padT && hover.y < H - padB) {
+    const idx = clamp(Math.floor(hover.x / cw), 0, N - 1), k = vis[idx], xs = X(idx);
+    g.strokeStyle = 'rgba(232,237,246,.28)'; g.setLineDash([4, 4]);
+    g.beginPath(); g.moveTo(xs, padT); g.lineTo(xs, H - padB); g.moveTo(0, hover.y); g.lineTo(plotW, hover.y); g.stroke();
+    g.setLineDash([]);
+    const pv = lo + (1 - (hover.y - padT) / plotH) * (hi - lo);
+    g.fillStyle = '#1b2233'; roundRect(g, plotW + 2, hover.y - 9, padR - 4, 18, 4); g.fill();
+    g.fillStyle = '#e9edf6'; g.fillText(fmt(pv, dp(m.p)), plotW + 8, hover.y);
+    g.fillStyle = '#1b2233'; const tw = 84; roundRect(g, clamp(xs - tw / 2, 4, plotW - tw - 4), H - padB + 3, tw, 17, 4); g.fill();
+    g.fillStyle = '#c7cedd'; g.textAlign = 'center'; g.fillText(`#${m.candles.length - N + idx}`, clamp(xs, tw / 2 + 4, plotW - tw / 2 - 4), H - padB + 12); g.textAlign = 'left';
+    updateOhlc(k);
+  } else {
+    updateOhlc(null);
+  }
+  // time labels
+  g.fillStyle = '#4f5971';
+  for (let i = 0; i <= 4; i++) {
+    const idx = Math.min(N - 1, Math.round(i * (N - 1) / 4));
+    const mins = (m.candles.length - N + idx) * CANDLE_MS / 60000;
+    g.fillText(`-${Math.round((N - 1 - idx) * CANDLE_MS / 60000)}m`, X(idx) - 10, H - 8);
+  }
+}
+function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+
+/* header price text */
+function updateHeader() {
+  const m = cur(), d = dp(m.p);
+  setTxt($('#bigPx'), fmt(m.p, d));
+  const chg = (m.p / m.open24 - 1) * 100;
+  const el = $('#bigChg');
+  setTxt(el, sgnPct(chg));
+  el.className = 'num ' + (chg >= 0 ? 'up' : 'dn');
+  $('#bigPx').style.color = chg >= 0 ? 'var(--up)' : 'var(--dn)';
+}
+
+/* ================= order book + tape ================= */
+const obAsks = $('#obAsks'), obBids = $('#obBids');
+const book = { levels: null, asks: [], bids: [] };
+const LV = 8;
+function buildBook() {
+  obAsks.innerHTML = ''; obBids.innerHTML = '';
+  book.asks = []; book.bids = [];
+  for (let i = 0; i < LV; i++) {
+    const a = document.createElement('div'); a.className = 'ob-r ask';
+    a.innerHTML = '<i></i><b></b><em></em>'; obAsks.appendChild(a); book.asks.push(a);
+    const b = document.createElement('div'); b.className = 'ob-r bid';
+    b.innerHTML = '<i></i><b></b><em></em>'; obBids.appendChild(b); book.bids.push(b);
+  }
+  // asks: highest on top
+  obAsks.style.justifyContent = 'flex-end';
+}
+buildBook();
+const sizes = Array.from({ length: LV * 2 }, () => rnd(0.2, 4));
+function updateBook(now) {
+  const m = cur(), d = dp(m.p);
+  const tick = m.p * 0.00025 * (m.v > 0.006 ? 2 : 1);
+  setTxt($('#obMid'), fmt(m.p, d));
+  setTxt($('#obSpr'), fmt(tick * 3.2, d));
+  let aCum = 0, bCum = 0;
+  const aArr = [], bArr = [];
+  for (let i = 0; i < LV; i++) {
+    sizes[i] = clamp(sizes[i] * (1 + gauss() * 0.08) + (Math.random() < 0.05 ? rnd(-0.3, 0.3) : 0), 0.05, 6);
+    sizes[LV + i] = clamp(sizes[LV + i] * (1 + gauss() * 0.08), 0.05, 6);
+  }
+  for (let i = 0; i < LV; i++) { aCum += sizes[LV - 1 - i]; aArr.push({ p: m.p + tick * (i + 1) * 1.4, s: sizes[LV - 1 - i], c: aCum }); }
+  for (let i = 0; i < LV; i++) { bCum += sizes[LV + i]; bArr.push({ p: m.p - tick * (i + 1) * 1.4, s: sizes[LV + i], c: bCum }); }
+  const maxC = Math.max(aCum, bCum);
+  // asks are rendered high → low so the best ask sits next to the mid
+  aArr.slice().reverse().forEach((o, i) => renderLevel(book.asks[i], o, maxC, d));
+  bArr.forEach((o, i) => renderLevel(book.bids[i], o, maxC, d));
+}
+function renderLevel(el, o, maxC, d) {
+  el.firstElementChild.style.transform = `scaleX(${clamp(o.c / maxC, 0.02, 1)})`;
+  setTxt(el.children[1], fmt(o.p, d));
+  setTxt(el.children[2], o.s.toFixed(3));
+}
+
+const tapeEl = $('#tradeTape');
+let lastTrade = 0, tradeSeq = 0;
+function pushTrade(now) {
+  const m = cur(), d = dp(m.p);
+  const side = Math.random() < 0.5 ? 'b' : 's';
+  const row = document.createElement('div');
+  row.className = 'tr ' + side;
+  const t = new Date();
+  const ts = `${String(t.getHours()).padStart(2, '0')}:${String(t.getMinutes()).padStart(2, '0')}:${String(t.getSeconds()).padStart(2, '0')}`;
+  row.innerHTML = `<span>${fmt(m.p + rnd(-1, 1) * m.p * 0.00008, d)}</span><span>${(Math.random() * 1.8 + 0.01).toFixed(3)}</span><span>${ts}</span>`;
+  tapeEl.insertBefore(row, tapeEl.firstChild);
+  while (tapeEl.children.length > 34) tapeEl.removeChild(tapeEl.lastChild);
+  tradeSeq++;
+}
+
+/* ================= watchlist update ================= */
+let wlNext = 0;
+function updateWatch(now) {
+  if (now < wlNext) return; wlNext = now + 220;
+  SYMS.forEach((m, i) => {
+    const row = wlRows[i];
+    const chg = (m.p / m.open24 - 1) * 100;
+    setTxt(row.querySelector('[data-p]'), fmt(m.p, dp(m.p)));
+    const cEl = row.querySelector('[data-c]');
+    setTxt(cEl, sgnPct(chg));
+    cEl.style.color = chg >= 0 ? 'var(--up)' : 'var(--dn)';
+    const tEl = $(`#tapeTrack [data-t="${i}"]`);
+    if (tEl) { setTxt(tEl, fmt(m.p, dp(m.p))); }
+    const tc = $(`#tapeTrack [data-c="${i}"]`);
+    if (tc) { setTxt(tc, sgnPct(chg)); tc.style.color = chg >= 0 ? 'var(--up)' : 'var(--dn)'; }
+  });
+}
+let sparkNext = 0;
+function updateSparks(now) {
+  if (now < sparkNext) return; sparkNext = now + 1000;
+  SYMS.forEach((m, i) => drawSpark(wlRows[i].querySelector('[data-s]'), m.spark.concat([m.p]).slice(-40), m.p >= m.open24));
+}
+
+/* ================= positions ================= */
+const POS = [
+  { s: 'BTC', size: '+2.40', pnl: 4120, rr: 3.92, base: 4120 },
+  { s: 'ETH', size: '-14.0', pnl: 1984, rr: 2.61, base: 1984 },
+  { s: 'SOL', size: '+310', pnl: -612, rr: 1.18, base: -612 },
+  { s: 'AVAX', size: '+88', pnl: 912, rr: 2.07, base: 912 },
+];
+const posBody = $('#posBody');
+POS.forEach((p) => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${p.s}</td><td class="num">${p.size}</td><td class="num"><span class="pl-num"></span><span class="pl-bar"><u></u></span></td><td class="num">${p.rr.toFixed(2)}</td>`;
+  posBody.appendChild(tr); p.row = tr;
+});
+let posNext = 0;
+function updatePos(now) {
+  if (now < posNext) return; posNext = now + 700;
+  let tot = 0;
+  POS.forEach((p) => {
+    const drift = gauss() * 42;
+    const prev = p.pnl;
+    p.pnl = lerp(p.pnl, p.base + drift * 3, 0.3);
+    p.base += gauss() * 14;
+    tot += p.pnl;
+    const numEl = p.row.querySelector('.pl-num');
+    setTxt(numEl, (p.pnl >= 0 ? '+' : '') + usd(p.pnl, 0));
+    numEl.style.color = p.pnl >= 0 ? 'var(--up)' : 'var(--dn)';
+    const u = p.row.querySelector('u');
+    u.style.width = clamp(Math.abs(p.pnl) / 50, 2, 100) + '%';
+    u.style.background = p.pnl >= 0 ? '#22e08c' : '#ff4d6a';
+    if (Math.abs(p.pnl - prev) > 1) { p.row.classList.remove('fu', 'fd'); void p.row.offsetWidth; p.row.classList.add(p.pnl >= prev ? 'fu' : 'fd'); }
+  });
+  setTxt($('#posTot'), (tot >= 0 ? '+' : '') + usd(tot, 0));
+  $('#posTot').className = 'num ' + (tot >= 0 ? 'up' : 'dn');
+  pnlShown = 8412 + tot;
+}
+
+/* ================= KPIs ================= */
+let kpiNext = 0;
+function updateKpis(now) {
+  eqTarget = 1284930 + (pnlShown - 8412) * 4;
+  eqShown = lerp(eqShown, eqTarget, 0.06);
+  setTxt(kEq, usd(eqShown, 0));
+  const pnl = pnlShown;
+  setTxt(kPnl, (pnl >= 0 ? '+' : '') + usd(pnl, 0));
+  kPnl.style.color = pnl >= 0 ? 'var(--up)' : 'var(--dn)';
+  if (now < kpiNext) return; kpiNext = now + 900;
+  setTxt(kExp, (2.2 + Math.abs(gauss()) * 0.4).toFixed(1) + '%');
+  setTxt(kLat, (3 + Math.abs(gauss()) * 1.2).toFixed(1) + ' ms');
+}
+
+/* ================= execution rail ================= */
+const stages = $$('#rail .st');
+const stageSmall = ['412 markets', '38 signals', '7 gates', '12 lots', '9 fills', '6 trades'];
+const stageUnit = ['markets', 'signals', 'gates', 'lots', 'fills', 'trades'];
+const stageCnt = [412, 38, 7, 12, 9, 6];
+const comet = $('#comet');
+let railSi = 0, railNext = 0, cycleN = 483, fill = 0.66;
+function updateRail(now) {
+  if (killed || now < railNext) return;
+  railNext = now + 900;
+  stages.forEach((s, i) => s.classList.toggle('on', i === railSi));
+  stageCnt[railSi] += ri(0, railSi === 0 ? 40 : 3);
+  setTxt($('#s' + railSi), stageCnt[railSi] + ' ' + stageUnit[railSi]);
+  if (railSi === 4) { fill = clamp(fill + gauss() * 0.03, 0.4, 0.99); setTxt($('#fillTxt'), fill.toFixed(2)); }
+  comet.style.setProperty('--p', (railSi / 5).toFixed(3));
+  railSi = (railSi + 1) % 6;
+  if (railSi === 0) { cycleN++; setTxt($('#cycN'), '#' + cycleN); }
+}
+
+/* ================= robustness heatmap ================= */
+const rbEl = $('#rb');
+const ROWS = ['return', 'sharpe', 'max dd', 'fill rate', 'latency', 'spread'];
+const COLS = ['base', 'vol +50%', 'lag 2', 'thin'];
+const rbCells = [];
+const cellBg = (v) => { const a = clamp(0.16 + Math.abs(v) * 0.2, 0.16, 0.85); return v >= 0 ? `rgba(34,224,140,${a})` : `rgba(255,77,106,${a})`; };
+rbEl.appendChild(Object.assign(document.createElement('span'), { textContent: '' }));
+COLS.forEach((c) => rbEl.appendChild(Object.assign(document.createElement('span'), { className: 'h', textContent: c })));
+ROWS.forEach((name, i) => {
+  rbEl.appendChild(Object.assign(document.createElement('span'), { textContent: name }));
+  rbCells.push(COLS.map((_, j) => {
+    const el = document.createElement('b'); rbEl.appendChild(el);
+    const target = rnd(0.5, 1.7) - j * rnd(0, 0.9) - (i === 4 ? 0.2 : 0);
+    return { el, target, v: target };
+  }));
+});
+const ringEl = $('#scoreRing'), scoreEl = $('#scoreTxt');
+let rbNext = 0;
+function updateRb(now) {
+  if (now < rbNext) return; rbNext = now + 500;
+  let sum = 0, n = 0;
+  for (const row of rbCells) for (const c of row) {
+    c.target = clamp(c.target + gauss() * 0.14, -2, 2);
+    c.v = lerp(c.v, c.target, 0.45);
+    c.el.style.background = cellBg(c.v);
+    setTxt(c.el, (c.v >= 0 ? '+' : '') + c.v.toFixed(1));
+    sum += c.v; n++;
+  }
+  const score = Math.round(clamp(60 + (sum / n) * 18, 0, 99));
+  setTxt(scoreEl, String(score));
+  ringEl.style.strokeDashoffset = (81.7 * (1 - score / 100)).toFixed(1);
+}
+
+/* ================= neural net ================= */
+const LAY = [6, 10, 10, 10, 10, 10, 10, 10, 3];
+const act = LAY.map((n) => new Float32Array(n));
+const edges = [];
+for (let l = 0; l < LAY.length - 1; l++) for (let i = 0; i < LAY[l]; i++) for (let j = 0; j < LAY[l + 1]; j++) edges.push({ l, i, j, w: gauss() });
+const pulses = [];
+let NODES = [];
+const cNN = $('#cNN');
+let trainStep = 47, epoch = 2, nnNextTrain = 0;
+function layoutNN(W, H) {
+  const px = 34, py = 22;
+  NODES = LAY.map((n, l) => Array.from({ length: n }, (_, i) => ({
+    x: px + (l * (W - px * 2)) / (LAY.length - 1),
+    y: n === 1 ? H / 2 : py + (i * (H - py * 2)) / (n - 1),
+  })));
+}
+function drawNN(t, dt) {
+  const { g, W, H } = sizeCanvas(cNN);
+  if (!NODES.length || NODES[0][0].x === undefined) layoutNN(W, H);
+  if (cNN._W !== W || cNN._H !== H) { layoutNN(W, H); cNN._W = W; cNN._H = H; }
+  g.clearRect(0, 0, W, H);
+  g.lineWidth = 0.6;
+  for (const pos of [true, false]) {
+    g.strokeStyle = pos ? 'rgba(255,77,106,.22)' : 'rgba(77,141,255,.2)';
+    g.beginPath();
+    for (const e of edges) { if ((e.w >= 0) !== pos) continue; const a = NODES[e.l][e.i], b = NODES[e.l + 1][e.j]; g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); }
+    g.stroke();
+  }
+  if (!reduce && Math.random() < dt * 26 && pulses.length < 240) pulses.push({ e: edges[(Math.random() * edges.length) | 0], p: 0, sp: rnd(0.8, 1.8) });
+  g.globalCompositeOperation = 'lighter';
+  for (let k = pulses.length - 1; k >= 0; k--) {
+    const q = pulses[k];
+    q.p += dt * q.sp;
+    if (q.p >= 1) { act[q.e.l + 1][q.e.j] = 1; pulses.splice(k, 1); continue; }
+    const a = NODES[q.e.l][q.e.i], b = NODES[q.e.l + 1][q.e.j];
+    glow(g, q.e.w >= 0 ? SP.dn : SP.blue, lerp(a.x, b.x, q.p), lerp(a.y, b.y, q.p), 6, 0.95);
+  }
+  const dec = Math.exp(-dt * 2.4);
+  NODES.forEach((layer, l) => layer.forEach((n, i) => {
+    act[l][i] *= dec; const a = act[l][i];
+    glow(g, a > 0.25 ? SP.dn : SP.violet, n.x, n.y, 6 + 14 * a, 0.2 + 0.8 * a);
+  }));
+  g.globalCompositeOperation = 'source-over';
+  g.fillStyle = '#e9edf6'; g.beginPath();
+  NODES.forEach((layer) => layer.forEach((n) => { g.moveTo(n.x + 2, n.y); g.arc(n.x, n.y, 1.8, 0, TAU); }));
+  g.fill();
+  if (t >= nnNextTrain) {
+    nnNextTrain = t + 0.22;
+    if (++trainStep > 100) { trainStep = 1; epoch++; }
+    const loss = Math.max(0.011, 0.9 * Math.exp(-epoch * 0.42)) * (0.92 + Math.random() * 0.16);
+    setTxt($('#trainTxt'), `ep ${epoch} · ${trainStep}/100 · loss ${loss.toFixed(3)}`);
+  }
+}
+
+/* ================= monte carlo ================= */
+const MCN = 220, MCS = 170, HB = 28, HMIN = -0.4, HMAX = 0.4;
+const hist = new Float32Array(HB);
+let histTotal = 0, mcNext = 0;
+const paths = Array.from({ length: MCN }, () => ({ s: ri(0, MCS - 1), v: gauss() * 0.02, px: 0, py: 0, fresh: true, sig: rnd(0.8, 1.35), mu: rnd(-0.0004, 0.0012) }));
+const cMC = $('#cMC');
+const valAt = (b) => HMIN + ((b + 0.5) / HB) * (HMAX - HMIN);
+function drawMC(t) {
+  const { g, W, H } = sizeCanvas(cMC);
+  const plotW = W * 0.7, midY = H / 2, sy = (H / 2 - 10) / 0.4;
+  g.globalCompositeOperation = 'destination-out';
+  g.fillStyle = 'rgba(0,0,0,0.014)'; g.fillRect(0, 0, W, H);
+  if (t >= mcNext) {
+    mcNext = t + 1 / 30;
+    g.globalCompositeOperation = 'lighter'; g.lineWidth = 1;
+    for (const p of paths) {
+      if (p.fresh) { p.fresh = false; p.px = (p.s / MCS) * plotW; p.py = midY - p.v * sy; }
+      p.s++;
+      p.v += p.mu + gauss() * 0.019 * p.sig;
+      const x = (p.s / MCS) * plotW, y = midY - p.v * sy;
+      g.strokeStyle = p.v >= 0 ? 'rgba(34,224,140,.5)' : 'rgba(255,77,106,.45)';
+      g.beginPath(); g.moveTo(p.px, p.py); g.lineTo(x, y); g.stroke();
+      p.px = x; p.py = y;
+      if (p.s >= MCS) {
+        hist[clamp(Math.floor(((p.v - HMIN) / (HMAX - HMIN)) * HB), 0, HB - 1)] += 1; histTotal++;
+        p.s = 0; p.v = 0; p.px = 0; p.py = midY;
+      }
+    }
+    if (histTotal > 6000) { for (let b = 0; b < HB; b++) hist[b] *= 0.5; histTotal *= 0.5; }
+  }
+  g.globalCompositeOperation = 'source-over';
+  g.fillStyle = 'rgba(232,237,246,.08)'; g.fillRect(0, midY, plotW, 1);
+  const hx = W * 0.74, hw = W - hx - 6, base = H - 12, bw = hw / HB;
+  let maxH = 1; for (let b = 0; b < HB; b++) if (hist[b] > maxH) maxH = hist[b];
+  for (let b = 0; b < HB; b++) {
+    const h = (hist[b] / maxH) * (H - 34), v = valAt(b);
+    g.fillStyle = v < -0.12 ? 'rgba(255,77,106,.8)' : v > 0.12 ? 'rgba(34,224,140,.8)' : 'rgba(170,178,196,.45)';
+    g.fillRect(hx + b * bw + 1, base - h, Math.max(1, bw - 2), h);
+  }
+}
+let mcTxtNext = 0;
+function updateMCText(now) {
+  if (now < mcTxtNext || !histTotal) return; mcTxtNext = now + 400;
+  const q = (f) => { let acc = 0; for (let b = 0; b < HB; b++) { acc += hist[b]; if (acc / histTotal >= f) return valAt(b); } return HMAX; };
+  let loss = 0; for (let b = 0; b < HB; b++) if (valAt(b) < 0) loss += hist[b];
+  $('#pctTag').textContent = `P(loss) ${Math.round(loss / histTotal * 100)}%`;
+}
+
+/* ================= clock ================= */
+let clockNext = 0;
+function updateClock(now) {
+  if (now < clockNext) return; clockNext = now + 1000;
+  const d = new Date();
+  setTxt($('#clock'), `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`);
+}
+
+/* ================= canvas sizing on layout change ================= */
+let needResize = true;
+new ResizeObserver(() => { needResize = true; }).observe(document.body);
+
+/* ================= frame loop ================= */
+let last = performance.now(), tradeNext = 0;
+function frame(now) {
+  const dt = clamp(now - last, 0, 50); last = now;
+  if (!document.hidden) {
+    tickMarket(dt);
+    rollCandles(now);
+    if (now >= tradeNext) { tradeNext = now + rnd(90, 240); pushTrade(now); }
+    updateHeader();
+    drawChart(now);
+    updateBook(now);
+    updateWatch(now);
+    updateSparks(now);
+    updatePos(now);
+    updateKpis(now);
+    updateRail(now);
+    updateRb(now);
+    updateClock(now);
+    drawNN(now / 1000, dt / 1000);
+    drawMC(now / 1000);
+    updateMCText(now);
+  }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+// initial headline state
+setTxt($('#obSym'), SYMS[0].s.replace('-PERP', ''));
+setTxt($('#symName').firstChild, SYMS[0].s + ' ');
+for (let i = 0; i < 16; i++) pushTrade(0);
+window.JEVTerminal = { select, toggleKill: () => $('#killBtn').click(), get symbol() { return cur().s; } };
+})();
+</script>
+</body>
+</html>
